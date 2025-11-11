@@ -454,47 +454,65 @@
             <div class="section">
                 <div class="section-title">🏗️ 整體架構流程</div>
 
-                <div class="flow">
+                <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 20px;">
                     <div class="box info">
                         <div class="box-title">🌐 Web App</div>
                         <div class="box-desc">前端應用</div>
                     </div>
-                    <span class="arrow">→</span>
                     <div class="box warning">
                         <div class="box-title">🏪 商家後台</div>
-                        <div class="box-desc">管理介面</div>
-                    </div>
-                    <span class="arrow">→</span>
-                    <div class="box primary">
-                        <div class="box-title">Laravel API</div>
-                        <div class="box-desc">myanLife 後端</div>
+                        <div class="box-desc">前端管理介面</div>
                     </div>
                 </div>
 
-                <div class="divider">↓</div>
+                <div class="divider">↓ API 請求</div>
+
+                <div class="flow" style="justify-content: center;">
+                    <div class="box primary" style="min-width: 280px;">
+                        <div class="box-title">Laravel API</div>
+                        <div class="box-desc">myanLife 後端 API</div>
+                    </div>
+                </div>
+
+                <div class="divider">↓ 連接資料庫</div>
 
                 <div class="grid-layout">
                     <div class="country-container">
-                        <div class="country-title">🇲🇲 緬甸</div>
-                        <div class="box">
-                            <div class="box-title">🗄️ 緬甸 DB</div>
-                            <div class="box-desc">獨立商家資料<br>獨立管理團隊</div>
+                        <div class="country-title">🇲🇲 緬甸部署</div>
+                        <div class="box primary" style="margin-bottom: 15px;">
+                            <div class="box-title">🐳 Container</div>
+                            <div class="box-desc">Docker 容器<br>Laravel API</div>
+                        </div>
+                        <div class="divider" style="font-size: 1.2rem; margin: 10px 0;">↓</div>
+                        <div class="box success">
+                            <div class="box-title">🗄️ AWS RDS</div>
+                            <div class="box-desc">緬甸資料庫<br>獨立商家資料</div>
                         </div>
                     </div>
 
                     <div class="country-container">
-                        <div class="country-title">🇹🇼 台灣</div>
-                        <div class="box">
-                            <div class="box-title">🗄️ 台灣 DB</div>
-                            <div class="box-desc">獨立商家資料<br>獨立管理團隊</div>
+                        <div class="country-title">🇹🇼 台灣部署</div>
+                        <div class="box primary" style="margin-bottom: 15px;">
+                            <div class="box-title">🐳 Container</div>
+                            <div class="box-desc">Docker 容器<br>Laravel API</div>
+                        </div>
+                        <div class="divider" style="font-size: 1.2rem; margin: 10px 0;">↓</div>
+                        <div class="box info">
+                            <div class="box-title">🗄️ AWS RDS</div>
+                            <div class="box-desc">台灣資料庫<br>獨立商家資料</div>
                         </div>
                     </div>
 
                     <div class="country-container">
                         <div class="country-title">🌏 其他國家</div>
-                        <div class="box">
-                            <div class="box-title">🗄️ 其他 DB</div>
-                            <div class="box-desc">易於擴展<br>新增國家</div>
+                        <div class="box primary" style="margin-bottom: 15px;">
+                            <div class="box-title">🐳 Container</div>
+                            <div class="box-desc">Docker 容器<br>Laravel API</div>
+                        </div>
+                        <div class="divider" style="font-size: 1.2rem; margin: 10px 0;">↓</div>
+                        <div class="box warning">
+                            <div class="box-title">🗄️ AWS RDS</div>
+                            <div class="box-desc">其他國資料庫<br>易於擴展</div>
                         </div>
                     </div>
                 </div>
@@ -514,7 +532,19 @@
         <!-- CI/CD 流程 -->
         <div id="cicd" class="tab-content">
             <div class="section">
-                <div class="section-title">📦 CI/CD 自動化流程 (GitLab Runner)</div>
+                <div class="section-title">📦 CI/CD 自動化流程</div>
+
+                <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 30px;">
+                    <div class="box info" style="min-width: 200px;">
+                        <div class="box-title">🖥️ GitLab Server</div>
+                        <div class="box-desc">自建 GitLab<br>代碼儲存庫</div>
+                    </div>
+                    <span class="arrow">→</span>
+                    <div class="box primary" style="min-width: 200px;">
+                        <div class="box-title">🏃 GitLab Runner</div>
+                        <div class="box-desc">另一台 Server<br>執行 CI/CD</div>
+                    </div>
+                </div>
 
                 <div class="cicd-flow">
                     <div class="branch-box">
@@ -533,7 +563,8 @@
                         <div class="branch-title">🏷️ main 分支 (Tag)</div>
                         <p>發佈 Tag → 部署正式服</p>
                         <ul class="branch-steps">
-                            <li>✓ 執行完整測試套件</li>
+                            <li>✓ 執行單元測試</li>
+                            <li>✓ 執行整合測試</li>
                             <li>✓ 代碼品質檢查</li>
                             <li>✓ Build Production Image</li>
                             <li>✓ 推送到 AWS ECR</li>
@@ -584,17 +615,20 @@
             <div class="section">
                 <div class="section-title">🧪 測試環境架構 (Linode Server)</div>
 
-                <div class="flow">
+                <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 20px;">
                     <div class="box info">
                         <div class="box-title">🌐 Web App</div>
-                        <div class="box-desc">用戶介面</div>
+                        <div class="box-desc">前端用戶介面</div>
                     </div>
-                    <span class="arrow">→</span>
                     <div class="box warning">
                         <div class="box-title">🏪 商家後台</div>
-                        <div class="box-desc">管理介面</div>
+                        <div class="box-desc">前端管理介面</div>
                     </div>
-                    <span class="arrow">→</span>
+                </div>
+
+                <div class="divider">↓ API 請求</div>
+
+                <div class="flow" style="justify-content: center;">
                     <div class="box primary" style="min-width: 200px;">
                         <div class="box-title">Nginx</div>
                         <div class="box-desc">子網域轉發</div>
@@ -657,19 +691,18 @@
             <div class="section">
                 <div class="section-title">🚀 正式環境架構 (AWS)</div>
 
-                <div class="flow">
+                <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 20px;">
                     <div class="box info">
                         <div class="box-title">🌐 Web App</div>
-                        <div class="box-desc">前端應用</div>
+                        <div class="box-desc">前端用戶介面</div>
                     </div>
-                    <span class="arrow">→</span>
                     <div class="box warning">
                         <div class="box-title">🏪 商家後台</div>
-                        <div class="box-desc">管理介面</div>
+                        <div class="box-desc">前端管理介面</div>
                     </div>
                 </div>
 
-                <div class="divider">↓</div>
+                <div class="divider">↓ API 請求</div>
 
                 <div class="flow" style="flex-direction: column; align-items: center;">
                     <div class="box danger" style="min-width: 350px;">
@@ -758,55 +791,28 @@
             <div class="section">
                 <div class="section-title">🔗 中央後台系統</div>
 
-                <div class="flow">
-                    <div class="box info">
-                        <div class="box-title">👥 集團管理層</div>
-                        <div class="box-desc">高層決策</div>
-                    </div>
-                    <span class="arrow">→</span>
-                    <div class="box warning">
-                        <div class="box-title">💰 財務部門</div>
-                        <div class="box-desc">財務報表</div>
-                    </div>
-                    <span class="arrow">→</span>
-                    <div class="box success">
-                        <div class="box-title">📊 數據團隊</div>
-                        <div class="box-desc">數據分析</div>
+                <div class="flow" style="justify-content: center;">
+                    <div class="box info" style="min-width: 200px;">
+                        <div class="box-title">👥 管理團隊</div>
+                        <div class="box-desc">集團管理<br>數據分析<br>最高權限</div>
                     </div>
                 </div>
 
-                <div class="divider">↓</div>
+                <div class="divider">↓ 使用</div>
 
                 <div class="flow" style="justify-content: center;">
                     <div class="box primary" style="min-width: 300px;">
-                        <div class="box-title">🏢 中央後台 API</div>
-                        <div class="box-desc">Laravel Backend<br>跨國資料整合<br>最高權限管理</div>
+                        <div class="box-title">🏢 中央後台</div>
+                        <div class="box-desc">Laravel 後端系統<br>跨國資料整合<br>報表與管理功能</div>
                     </div>
                 </div>
 
-                <div class="divider">↓</div>
-
-                <div class="info-cards">
-                    <div class="info-card">
-                        <h4>📊 管理儀表板</h4>
-                        <p>即時監控各國營運狀況，圖表化呈現關鍵指標</p>
-                    </div>
-                    <div class="info-card">
-                        <h4>📈 報表產製</h4>
-                        <p>自動產製跨國營收、使用者、商家等綜合報表</p>
-                    </div>
-                    <div class="info-card">
-                        <h4>🔍 數據分析</h4>
-                        <p>深度分析各國數據，提供商業決策依據</p>
-                    </div>
-                </div>
-
-                <div class="divider">↓ Read Only</div>
+                <div class="divider">↓ 連接資料庫</div>
 
                 <div class="grid-layout">
                     <div class="country-container">
                         <div class="country-title">🇲🇲 緬甸資料</div>
-                        <div class="box">
+                        <div class="box success">
                             <div class="box-title">🗄️ 緬甸 DB</div>
                             <div class="box-desc">商家資料<br>優惠券資料<br>訂單資料</div>
                         </div>
@@ -814,7 +820,7 @@
 
                     <div class="country-container">
                         <div class="country-title">🇹🇼 台灣資料</div>
-                        <div class="box">
+                        <div class="box info">
                             <div class="box-title">🗄️ 台灣 DB</div>
                             <div class="box-desc">商家資料<br>優惠券資料<br>訂單資料</div>
                         </div>
@@ -822,7 +828,7 @@
 
                     <div class="country-container">
                         <div class="country-title">🌏 其他國家</div>
-                        <div class="box">
+                        <div class="box warning">
                             <div class="box-title">🗄️ 其他 DB</div>
                             <div class="box-desc">商家資料<br>優惠券資料<br>訂單資料</div>
                         </div>
@@ -833,8 +839,8 @@
                     <div class="note-title">💡 中央後台系統說明</div>
                     <ul>
                         <li><strong>獨立專案:</strong> 中央後台是另一個 Laravel 專案，獨立於 myanLife API</li>
-                        <li><strong>唯讀存取:</strong> 只讀取各國 DB 資料，不直接修改業務資料</li>
-                        <li><strong>跨國整合:</strong> 匯總所有國家的數據，產製綜合報表</li>
+                        <li><strong>資料整合:</strong> 直接連接各國 DB，抓取資料產生報表</li>
+                        <li><strong>管理功能:</strong> 提供跨國資料分析、報表產製、監控等功能</li>
                         <li><strong>最高權限:</strong> 集團層級的管理與監控功能</li>
                     </ul>
                 </div>
@@ -849,11 +855,11 @@
                     </div>
                     <div class="info-card">
                         <h4>🏛️ 中央後台</h4>
-                        <p>面向管理層的統一平台，跨國資料分析與報表產製</p>
+                        <p>面向管理層的統一平台，跨國資料整合與報表功能</p>
                     </div>
                     <div class="info-card">
-                        <h4>🔄 資料流向</h4>
-                        <p>中央後台僅讀取各國 DB，不影響業務系統正常運作</p>
+                        <h4>🔄 資料連接</h4>
+                        <p>中央後台直接連接各國 DB，抓取資料進行分析</p>
                     </div>
                     <div class="info-card">
                         <h4>🚀 擴展性</h4>
