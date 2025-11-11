@@ -478,14 +478,14 @@
                     </div>
                 </div>
 
-                <div class="divider">↓ 各國獨立部署</div>
+                <div class="divider">↓ 多國容器部署（同個 Image）</div>
 
                 <div class="grid-layout">
                     <div class="country-container">
                         <div class="country-title">🇲🇲 緬甸部署</div>
                         <div class="box primary" style="margin-bottom: 15px;">
                             <div class="box-title">🐳 Container</div>
-                            <div class="box-desc">Docker 容器<br>Laravel API</div>
+                            <div class="box-desc">Docker 容器<br>Laravel API<br>（共用 Image）</div>
                         </div>
                         <div class="divider" style="font-size: 1.2rem; margin: 10px 0;">↓</div>
                         <div class="box success">
@@ -498,7 +498,7 @@
                         <div class="country-title">🇹🇼 台灣部署</div>
                         <div class="box primary" style="margin-bottom: 15px;">
                             <div class="box-title">🐳 Container</div>
-                            <div class="box-desc">Docker 容器<br>Laravel API</div>
+                            <div class="box-desc">Docker 容器<br>Laravel API<br>（共用 Image）</div>
                         </div>
                         <div class="divider" style="font-size: 1.2rem; margin: 10px 0;">↓</div>
                         <div class="box info">
@@ -511,7 +511,7 @@
                         <div class="country-title">🌏 其他國家</div>
                         <div class="box primary" style="margin-bottom: 15px;">
                             <div class="box-title">🐳 Container</div>
-                            <div class="box-desc">Docker 容器<br>Laravel API</div>
+                            <div class="box-desc">Docker 容器<br>Laravel API<br>（共用 Image）</div>
                         </div>
                         <div class="divider" style="font-size: 1.2rem; margin: 10px 0;">↓</div>
                         <div class="box warning">
@@ -524,6 +524,7 @@
                 <div class="note info">
                     <div class="note-title">💡 核心設計理念</div>
                     <ul>
+                        <li><strong>共用 Image，同步部署：</strong>所有國家使用同一個 Docker Image，CI/CD 會同時部署到所有容器</li>
                         <li><strong>相同 API，不同資料：</strong>所有國家使用同一套 API 程式碼</li>
                         <li><strong>環境變數切換：</strong>透過 .env 設定連接不同國家的資料庫</li>
                         <li><strong>資料完全隔離：</strong>每個國家的商家資料互不影響</li>
@@ -772,7 +773,8 @@
                     <ul>
                         <li><strong>高可用性:</strong> NLB + ALB 雙層負載均衡，自動故障轉移</li>
                         <li><strong>自動擴展:</strong> ECS Auto Scaling 根據 CPU/Memory 自動調整容器數量</li>
-                        <li><strong>零停機部署:</strong> 滾動更新機制，部署時不影響服務</li>
+                        <li><strong>零停機部署:</strong> ECS 藍綠部署（Blue-Green Deployment），新舊版本無縫切換</li>
+                        <li><strong>同步更新:</strong> CI/CD 觸發時，所有國家容器使用同個 Image 同步更新</li>
                         <li><strong>資料庫高可用:</strong> RDS Multi-AZ 跨可用區部署，自動備份與恢復</li>
                         <li><strong>監控告警:</strong> CloudWatch 整合監控，即時掌握系統狀態</li>
                     </ul>
@@ -791,8 +793,12 @@
                         <p>ECS Auto Scaling 根據 CPU/Memory 使用率自動調整容器數量，應對流量高峰</p>
                     </div>
                     <div class="info-card">
-                        <h4>🌍 未來擴展</h4>
-                        <p>新增國家只需增加 ECS Service 與 RDS，或特殊需求可獨立拆分專案</p>
+                        <h4>🔵🟢 藍綠部署</h4>
+                        <p>ECS 藍綠部署機制，先啟動新版本（綠），測試通過後切換流量，舊版本（藍）保留以便快速回滾</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>🌍 同步更新</h4>
+                        <p>所有國家使用同個 Image，CI/CD 會同時部署到所有容器，確保版本一致性</p>
                     </div>
                 </div>
             </div>
