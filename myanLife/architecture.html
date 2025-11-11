@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>myanLife 專案架構圖</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .tech-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s;
+        }
+
+        .tech-badge:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .tabs {
+            display: flex;
+            background: #f5f5f5;
+            border-bottom: 2px solid #e0e0e0;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 20px 30px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            background: #e8e8e8;
+            color: #333;
+        }
+
+        .tab.active {
+            color: #667eea;
+            background: white;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .info-box li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-size: 1.2em;
+        }
+
+        .mermaid-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .arch-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .arch-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .arch-card h4 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .arch-card p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #856404;
+        }
+
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .tab {
+                padding: 15px 20px;
+                font-size: 1em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏢 myanLife 專案架構</h1>
+            <p class="subtitle">多國優惠券與商家預訂系統</p>
+            <div class="tech-stack">
+                <span class="tech-badge">Laravel 12</span>
+                <span class="tech-badge">Octane</span>
+                <span class="tech-badge">Swoole</span>
+                <span class="tech-badge">Docker</span>
+                <span class="tech-badge">AWS</span>
+                <span class="tech-badge">GitLab CI/CD</span>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">📋 總覽</button>
+            <button class="tab" onclick="showTab('cicd')">🔄 CI/CD 流程</button>
+            <button class="tab" onclick="showTab('staging')">🧪 測試服架構</button>
+            <button class="tab" onclick="showTab('production')">🚀 正式服架構</button>
+            <button class="tab" onclick="showTab('related')">🔗 關聯專案</button>
+        </div>
+
+        <div class="content">
+            <!-- 總覽 -->
+            <div id="overview" class="tab-content active">
+                <div class="info-box">
+                    <h3>🎯 專案定位</h3>
+                    <ul>
+                        <li><strong>純後端 API 專案</strong>：提供 RESTful API 服務</li>
+                        <li><strong>多國部署</strong>：支援不同國家獨立 DB，共用 API 邏輯</li>
+                        <li><strong>服務對象</strong>：Web App 前端、商家後台</li>
+                        <li><strong>業務範圍</strong>：優惠券系統、商家預訂管理</li>
+                    </ul>
+                </div>
+
+                <div class="architecture-grid">
+                    <div class="arch-card">
+                        <h4>🌏 多國架構設計</h4>
+                        <p>各國獨立 DB 與管理團隊，共用同一套 API codebase，透過環境變數區分國家配置</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>🔧 技術棧</h4>
+                        <p>Laravel 12 + Octane + Swoole 提供高效能 API 服務，支援協程與常駐記憶體</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>📦 容器化部署</h4>
+                        <p>Docker 容器化，測試服用 Docker Compose，正式服用 AWS ECS</p>
+                    </div>
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+graph TB
+    subgraph "前端應用"
+        WebApp[Web App 前端]
+        MerchantPortal[商家後台]
+    end
+
+    subgraph "myanLife API 後端"
+        API[Laravel 12 + Octane + Swoole<br/>純後端 API]
+    end
+
+    subgraph "多國資料庫"
+        DB_MM[(緬甸 DB)]
+        DB_TW[(台灣 DB)]
+        DB_OTHER[(其他國家 DB)]
+    end
+
+    subgraph "中央管理"
+        CentralAPI[中央後台 API<br/>Laravel]
+        Reports[報表系統]
+    end
+
+    WebApp --> API
+    MerchantPortal --> API
+
+    API --> DB_MM
+    API --> DB_TW
+    API --> DB_OTHER
+
+    CentralAPI --> DB_MM
+    CentralAPI --> DB_TW
+    CentralAPI --> DB_OTHER
+    CentralAPI --> Reports
+
+    style API fill:#667eea,stroke:#764ba2,stroke-width:3px,color:#fff
+    style CentralAPI fill:#f093fb,stroke:#f5576c,stroke-width:2px,color:#fff
+    style DB_MM fill:#4facfe,stroke:#00f2fe,stroke-width:2px,color:#fff
+    style DB_TW fill:#43e97b,stroke:#38f9d7,stroke-width:2px,color:#fff
+    style DB_OTHER fill:#fa709a,stroke:#fee140,stroke-width:2px,color:#fff
+                    </div>
+                </div>
+            </div>
+
+            <!-- CI/CD 流程 -->
+            <div id="cicd" class="tab-content">
+                <div class="info-box">
+                    <h3>🔄 自動化部署流程</h3>
+                    <ul>
+                        <li><strong>GitLab Runner CI</strong>：自動化測試與建置</li>
+                        <li><strong>dev 分支</strong>：自動觸發測試服部署</li>
+                        <li><strong>main 分支 + tag</strong>：發佈到正式服</li>
+                        <li><strong>Image Registry</strong>：AWS ECR 儲存 Docker images</li>
+                    </ul>
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+graph LR
+    subgraph "Git Repository"
+        Dev[dev 分支]
+        Main[main 分支]
+        Tag[發佈 tag]
+    end
+
+    subgraph "GitLab CI Pipeline"
+        Test[🧪 執行測試<br/>Unit Tests<br/>Integration Tests]
+        Build[🔨 Build Docker Image]
+        Push[📤 Push to AWS ECR]
+    end
+
+    subgraph "AWS ECR"
+        ECR[(Docker Images)]
+    end
+
+    subgraph "測試環境"
+        StagingDeploy[🧪 測試服部署<br/>Linode + Docker Compose]
+    end
+
+    subgraph "正式環境"
+        ProdDeploy[🚀 正式服部署<br/>AWS ECS]
+    end
+
+    Dev --> Test
+    Main --> Test
+    Tag --> Test
+
+    Test -->|✅ Pass| Build
+    Build --> Push
+    Push --> ECR
+
+    ECR -->|dev 分支| StagingDeploy
+    ECR -->|tag 到 main| ProdDeploy
+
+    style Test fill:#ffeaa7,stroke:#fdcb6e,stroke-width:2px
+    style Build fill:#74b9ff,stroke:#0984e3,stroke-width:2px
+    style ECR fill:#a29bfe,stroke:#6c5ce7,stroke-width:2px
+    style StagingDeploy fill:#55efc4,stroke:#00b894,stroke-width:2px
+    style ProdDeploy fill:#fd79a8,stroke:#e84393,stroke-width:2px
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3>⚙️ Pipeline 階段</h3>
+                    <ul>
+                        <li><strong>Stage 1: Test</strong> - 執行 PHPUnit、Pest 測試，檢查代碼品質</li>
+                        <li><strong>Stage 2: Build</strong> - 建置 Docker image，包含 Laravel + Octane + Swoole</li>
+                        <li><strong>Stage 3: Push</strong> - 推送 image 到 AWS ECR repository</li>
+                        <li><strong>Stage 4: Deploy</strong> - 根據分支/tag 自動部署到對應環境</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 測試服架構 -->
+            <div id="staging" class="tab-content">
+                <div class="info-box">
+                    <h3>🧪 測試環境配置</h3>
+                    <ul>
+                        <li><strong>主機</strong>：Linode Server</li>
+                        <li><strong>反向代理</strong>：Nginx（子網域路由）</li>
+                        <li><strong>容器編排</strong>：Docker Compose</li>
+                        <li><strong>資料庫</strong>：AWS RDS（各國獨立 DB）</li>
+                    </ul>
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+graph TB
+    Internet[🌐 Internet]
+
+    subgraph "Linode Server"
+        Nginx[Nginx<br/>反向代理]
+
+        subgraph "Docker Compose"
+            MM_Container[🇲🇲 緬甸 Container<br/>mm.xxx.com<br/>ENV: MM]
+            TW_Container[🇹🇼 台灣 Container<br/>tw.xxx.com<br/>ENV: TW]
+        end
+    end
+
+    subgraph "AWS RDS"
+        MM_DB[(🇲🇲 緬甸 DB)]
+        TW_DB[(🇹🇼 台灣 DB)]
+    end
+
+    subgraph "AWS ECR"
+        Image[Same Docker Image<br/>myanlife-api:latest]
+    end
+
+    Internet --> Nginx
+    Nginx -->|mm.xxx.com| MM_Container
+    Nginx -->|tw.xxx.com| TW_Container
+
+    Image -.->|Pull| MM_Container
+    Image -.->|Pull| TW_Container
+
+    MM_Container -->|Connect| MM_DB
+    TW_Container -->|Connect| TW_DB
+
+    style Nginx fill:#00b894,stroke:#00cec9,stroke-width:3px,color:#fff
+    style MM_Container fill:#fdcb6e,stroke:#e17055,stroke-width:2px
+    style TW_Container fill:#74b9ff,stroke:#0984e3,stroke-width:2px
+    style Image fill:#a29bfe,stroke:#6c5ce7,stroke-width:2px
+    style MM_DB fill:#fd79a8,stroke:#e84393,stroke-width:2px,color:#fff
+    style TW_DB fill:#55efc4,stroke:#00b894,stroke-width:2px
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3>🔑 關鍵設計</h3>
+                    <ul>
+                        <li><span class="highlight">同一 Image</span>：所有國家使用相同的 Docker image</li>
+                        <li><span class="highlight">環境變數區分</span>：透過 .env 檔案設定國家代碼與 DB 連線</li>
+                        <li><span class="highlight">Nginx 路由</span>：依子網域轉發請求到對應 container</li>
+                        <li><span class="highlight">獨立 DB</span>：各國資料完全隔離，符合數據主權要求</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 正式服架構 -->
+            <div id="production" class="tab-content">
+                <div class="info-box">
+                    <h3>🚀 正式環境架構</h3>
+                    <ul>
+                        <li><strong>負載均衡</strong>：NLB (Network Load Balancer) + ALB (Application Load Balancer)</li>
+                        <li><strong>容器服務</strong>：AWS ECS (Elastic Container Service)</li>
+                        <li><strong>資料庫</strong>：AWS RDS Multi-AZ 高可用</li>
+                        <li><strong>擴展性</strong>：Auto Scaling 根據負載自動調整</li>
+                    </ul>
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+graph TB
+    Internet[🌐 Internet]
+
+    subgraph "AWS Load Balancing"
+        NLB[NLB<br/>Network Load Balancer<br/>Layer 4]
+        ALB[ALB<br/>Application Load Balancer<br/>Layer 7]
+    end
+
+    subgraph "AWS ECS Cluster"
+        subgraph "緬甸服務"
+            ECS_MM_1[ECS Task 1<br/>🇲🇲 MM Service]
+            ECS_MM_2[ECS Task 2<br/>🇲🇲 MM Service]
+        end
+
+        subgraph "台灣服務"
+            ECS_TW_1[ECS Task 1<br/>🇹🇼 TW Service]
+            ECS_TW_2[ECS Task 2<br/>🇹🇼 TW Service]
+        end
+
+        AutoScaling[Auto Scaling]
+    end
+
+    subgraph "AWS RDS"
+        RDS_MM[(🇲🇲 緬甸 RDS<br/>Multi-AZ)]
+        RDS_TW[(🇹🇼 台灣 RDS<br/>Multi-AZ)]
+    end
+
+    subgraph "AWS ECR"
+        ECR_Prod[Production Image<br/>myanlife-api:v1.0.0]
+    end
+
+    Internet --> NLB
+    NLB --> ALB
+    ALB -->|mm.domain.com| ECS_MM_1
+    ALB -->|mm.domain.com| ECS_MM_2
+    ALB -->|tw.domain.com| ECS_TW_1
+    ALB -->|tw.domain.com| ECS_TW_2
+
+    AutoScaling -.->|Scale| ECS_MM_1
+    AutoScaling -.->|Scale| ECS_MM_2
+    AutoScaling -.->|Scale| ECS_TW_1
+    AutoScaling -.->|Scale| ECS_TW_2
+
+    ECR_Prod -.->|Pull| ECS_MM_1
+    ECR_Prod -.->|Pull| ECS_MM_2
+    ECR_Prod -.->|Pull| ECS_TW_1
+    ECR_Prod -.->|Pull| ECS_TW_2
+
+    ECS_MM_1 --> RDS_MM
+    ECS_MM_2 --> RDS_MM
+    ECS_TW_1 --> RDS_TW
+    ECS_TW_2 --> RDS_TW
+
+    style NLB fill:#00b894,stroke:#00cec9,stroke-width:3px,color:#fff
+    style ALB fill:#0984e3,stroke:#74b9ff,stroke-width:3px,color:#fff
+    style ECS_MM_1 fill:#fdcb6e,stroke:#e17055,stroke-width:2px
+    style ECS_MM_2 fill:#fdcb6e,stroke:#e17055,stroke-width:2px
+    style ECS_TW_1 fill:#74b9ff,stroke:#0984e3,stroke-width:2px
+    style ECS_TW_2 fill:#74b9ff,stroke:#0984e3,stroke-width:2px
+    style AutoScaling fill:#55efc4,stroke:#00b894,stroke-width:2px
+    style RDS_MM fill:#fd79a8,stroke:#e84393,stroke-width:2px,color:#fff
+    style RDS_TW fill:#a29bfe,stroke:#6c5ce7,stroke-width:2px,color:#fff
+                    </div>
+                </div>
+
+                <div class="architecture-grid">
+                    <div class="arch-card">
+                        <h4>🔄 高可用性</h4>
+                        <p>NLB + ALB 雙層負載均衡，RDS Multi-AZ 自動故障轉移，確保服務穩定</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>📈 彈性擴展</h4>
+                        <p>ECS Auto Scaling 根據 CPU/Memory 使用率自動調整容器數量</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>🌍 未來擴展</h4>
+                        <p>新增國家只需增加 ECS Service 與 RDS，或獨立成新專案</p>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3>🎯 正式服特色</h3>
+                    <ul>
+                        <li><strong>NLB</strong>：處理 TCP/UDP 流量，提供超低延遲與極高吞吐量</li>
+                        <li><strong>ALB</strong>：HTTP/HTTPS 路由，支援路徑與主機名稱路由</li>
+                        <li><strong>ECS</strong>：全託管容器服務，無需管理伺服器</li>
+                        <li><strong>RDS Multi-AZ</strong>：跨可用區部署，自動備份與故障轉移</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 關聯專案 -->
+            <div id="related" class="tab-content">
+                <div class="info-box">
+                    <h3>🔗 中央後台系統</h3>
+                    <ul>
+                        <li><strong>技術棧</strong>：Laravel API 後端</li>
+                        <li><strong>功能</strong>：跨國資料整合、報表產製、最高權限管理</li>
+                        <li><strong>資料來源</strong>：讀取所有國家的 RDS 資料庫</li>
+                        <li><strong>使用者</strong>：集團管理層、財務部門、數據分析團隊</li>
+                    </ul>
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+graph TB
+    subgraph "中央後台系統"
+        CentralAPI[中央後台 API<br/>Laravel Backend]
+        Dashboard[管理儀表板]
+        Reports[報表產製系統]
+        Analytics[數據分析]
+    end
+
+    subgraph "myanLife API 系統"
+        MM_API[🇲🇲 緬甸 API]
+        TW_API[🇹🇼 台灣 API]
+        OTHER_API[🌏 其他國家 API]
+    end
+
+    subgraph "各國資料庫"
+        MM_DB[(🇲🇲 緬甸 DB<br/>商家、優惠券、訂單)]
+        TW_DB[(🇹🇼 台灣 DB<br/>商家、優惠券、訂單)]
+        OTHER_DB[(🌏 其他 DB<br/>商家、優惠券、訂單)]
+    end
+
+    subgraph "使用者"
+        Admins[👥 集團管理層]
+        Finance[💰 財務部門]
+        DataTeam[📊 數據分析團隊]
+    end
+
+    CentralAPI --> Dashboard
+    CentralAPI --> Reports
+    CentralAPI --> Analytics
+
+    CentralAPI -->|Read Only| MM_DB
+    CentralAPI -->|Read Only| TW_DB
+    CentralAPI -->|Read Only| OTHER_DB
+
+    MM_API -.->|管理| MM_DB
+    TW_API -.->|管理| TW_DB
+    OTHER_API -.->|管理| OTHER_DB
+
+    Admins --> Dashboard
+    Finance --> Reports
+    DataTeam --> Analytics
+
+    style CentralAPI fill:#f093fb,stroke:#f5576c,stroke-width:3px,color:#fff
+    style Dashboard fill:#4facfe,stroke:#00f2fe,stroke-width:2px
+    style Reports fill:#43e97b,stroke:#38f9d7,stroke-width:2px
+    style Analytics fill:#fa709a,stroke:#fee140,stroke-width:2px
+    style MM_DB fill:#a29bfe,stroke:#6c5ce7,stroke-width:2px,color:#fff
+    style TW_DB fill:#fd79a8,stroke:#e84393,stroke-width:2px,color:#fff
+    style OTHER_DB fill:#ffeaa7,stroke:#fdcb6e,stroke-width:2px
+                    </div>
+                </div>
+
+                <div class="architecture-grid">
+                    <div class="arch-card">
+                        <h4>📊 跨國報表</h4>
+                        <p>整合所有國家數據，產製營收、使用者、商家等綜合報表</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>🔐 權限管理</h4>
+                        <p>最高權限管理所有國家資料，支援細粒度權限控制</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>📈 數據分析</h4>
+                        <p>即時監控各國營運指標，提供決策支援</p>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3>💡 系統關係</h3>
+                    <ul>
+                        <li><span class="highlight">myanLife API</span>：面向用戶的業務系統，各國獨立運作</li>
+                        <li><span class="highlight">中央後台</span>：面向管理層的統一管理平台</li>
+                        <li><span class="highlight">資料流向</span>：中央後台僅讀取各國 DB，不直接修改業務資料</li>
+                        <li><span class="highlight">擴展性</span>：特定國家需要特殊功能可獨立拆分專案</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>📅 最後更新：2025-11-11 | 🏢 myanLife 專案架構文件</p>
+            <p>💡 點擊上方標籤查看不同架構視圖</p>
+        </footer>
+    </div>
+
+    <script>
+        // 初始化 Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#667eea',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#764ba2',
+                lineColor: '#667eea',
+                secondaryColor: '#764ba2',
+                tertiaryColor: '#f5f5f5'
+            },
+            flowchart: {
+                curve: 'basis',
+                padding: 20
+            }
+        });
+
+        // 標籤切換功能
+        function showTab(tabName) {
+            // 隱藏所有內容
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // 移除所有標籤的 active 狀態
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // 顯示選中的內容
+            document.getElementById(tabName).classList.add('active');
+
+            // 設置選中標籤的 active 狀態
+            event.target.classList.add('active');
+
+            // 滾動到頂部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 添加卡片點擊效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.arch-card');
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.02)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
