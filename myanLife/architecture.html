@@ -286,26 +286,26 @@
                 </div>
 
                 <div class="mermaid-container">
-                    <div class="mermaid">
+                    <pre class="mermaid">
 graph TB
-    subgraph "前端應用"
-        WebApp[Web App 前端]
-        MerchantPortal[商家後台]
+    subgraph Frontend["前端應用"]
+        WebApp["Web App 前端"]
+        MerchantPortal["商家後台"]
     end
 
-    subgraph "myanLife API 後端"
-        API[Laravel 12 + Octane + Swoole<br/>純後端 API]
+    subgraph Backend["myanLife API 後端"]
+        API["Laravel 12 + Octane + Swoole"]
     end
 
-    subgraph "多國資料庫"
-        DB_MM[(緬甸 DB)]
-        DB_TW[(台灣 DB)]
-        DB_OTHER[(其他國家 DB)]
+    subgraph Databases["多國資料庫"]
+        DB_MM[("緬甸 DB")]
+        DB_TW[("台灣 DB")]
+        DB_OTHER[("其他國家 DB")]
     end
 
-    subgraph "中央管理"
-        CentralAPI[中央後台 API<br/>Laravel]
-        Reports[報表系統]
+    subgraph Central["中央管理"]
+        CentralAPI["中央後台 API"]
+        Reports["報表系統"]
     end
 
     WebApp --> API
@@ -325,7 +325,7 @@ graph TB
     style DB_MM fill:#4facfe,stroke:#00f2fe,stroke-width:2px,color:#fff
     style DB_TW fill:#43e97b,stroke:#38f9d7,stroke-width:2px,color:#fff
     style DB_OTHER fill:#fa709a,stroke:#fee140,stroke-width:2px,color:#fff
-                    </div>
+                    </pre>
                 </div>
             </div>
 
@@ -342,49 +342,49 @@ graph TB
                 </div>
 
                 <div class="mermaid-container">
-                    <div class="mermaid">
+                    <pre class="mermaid">
 graph LR
-    subgraph "Git Repository"
-        Dev[dev 分支]
-        Main[main 分支]
-        Tag[發佈 tag]
+    subgraph GitRepo["Git Repository"]
+        Dev["dev 分支"]
+        Main["main 分支"]
+        Tag["發佈 tag"]
     end
 
-    subgraph "GitLab CI Pipeline"
-        Test[🧪 執行測試<br/>Unit Tests<br/>Integration Tests]
-        Build[🔨 Build Docker Image]
-        Push[📤 Push to AWS ECR]
+    subgraph Pipeline["GitLab CI Pipeline"]
+        Test["執行測試"]
+        Build["Build Image"]
+        Push["Push to ECR"]
     end
 
-    subgraph "AWS ECR"
-        ECR[(Docker Images)]
+    subgraph ECRRepo["AWS ECR"]
+        ECR[("Docker Images")]
     end
 
-    subgraph "測試環境"
-        StagingDeploy[🧪 測試服部署<br/>Linode + Docker Compose]
+    subgraph Staging["測試環境"]
+        StagingDeploy["測試服部署"]
     end
 
-    subgraph "正式環境"
-        ProdDeploy[🚀 正式服部署<br/>AWS ECS]
+    subgraph Production["正式環境"]
+        ProdDeploy["正式服部署"]
     end
 
     Dev --> Test
     Main --> Test
     Tag --> Test
 
-    Test -->|✅ Pass| Build
+    Test -->|Pass| Build
     Build --> Push
     Push --> ECR
 
-    ECR -->|dev 分支| StagingDeploy
-    ECR -->|tag 到 main| ProdDeploy
+    ECR -->|dev branch| StagingDeploy
+    ECR -->|tag to main| ProdDeploy
 
     style Test fill:#ffeaa7,stroke:#fdcb6e,stroke-width:2px
     style Build fill:#74b9ff,stroke:#0984e3,stroke-width:2px
     style ECR fill:#a29bfe,stroke:#6c5ce7,stroke-width:2px
     style StagingDeploy fill:#55efc4,stroke:#00b894,stroke-width:2px
     style ProdDeploy fill:#fd79a8,stroke:#e84393,stroke-width:2px
-                    </div>
+                    </pre>
                 </div>
 
                 <div class="info-box">
@@ -411,26 +411,26 @@ graph LR
                 </div>
 
                 <div class="mermaid-container">
-                    <div class="mermaid">
+                    <pre class="mermaid">
 graph TB
-    Internet[🌐 Internet]
+    Internet["Internet"]
 
-    subgraph "Linode Server"
-        Nginx[Nginx<br/>反向代理]
+    subgraph LinodeServer["Linode Server"]
+        Nginx["Nginx 反向代理"]
 
-        subgraph "Docker Compose"
-            MM_Container[🇲🇲 緬甸 Container<br/>mm.xxx.com<br/>ENV: MM]
-            TW_Container[🇹🇼 台灣 Container<br/>tw.xxx.com<br/>ENV: TW]
+        subgraph DockerCompose["Docker Compose"]
+            MM_Container["緬甸 Container<br/>mm.xxx.com"]
+            TW_Container["台灣 Container<br/>tw.xxx.com"]
         end
     end
 
-    subgraph "AWS RDS"
-        MM_DB[(🇲🇲 緬甸 DB)]
-        TW_DB[(🇹🇼 台灣 DB)]
+    subgraph AWSRDS["AWS RDS"]
+        MM_DB[("緬甸 DB")]
+        TW_DB[("台灣 DB")]
     end
 
-    subgraph "AWS ECR"
-        Image[Same Docker Image<br/>myanlife-api:latest]
+    subgraph AWSECR["AWS ECR"]
+        Image["Same Image<br/>myanlife-api"]
     end
 
     Internet --> Nginx
@@ -449,7 +449,7 @@ graph TB
     style Image fill:#a29bfe,stroke:#6c5ce7,stroke-width:2px
     style MM_DB fill:#fd79a8,stroke:#e84393,stroke-width:2px,color:#fff
     style TW_DB fill:#55efc4,stroke:#00b894,stroke-width:2px
-                    </div>
+                    </pre>
                 </div>
 
                 <div class="info-box">
@@ -476,36 +476,36 @@ graph TB
                 </div>
 
                 <div class="mermaid-container">
-                    <div class="mermaid">
+                    <pre class="mermaid">
 graph TB
-    Internet[🌐 Internet]
+    Internet["Internet"]
 
-    subgraph "AWS Load Balancing"
-        NLB[NLB<br/>Network Load Balancer<br/>Layer 4]
-        ALB[ALB<br/>Application Load Balancer<br/>Layer 7]
+    subgraph LoadBalancing["AWS Load Balancing"]
+        NLB["NLB<br/>Layer 4"]
+        ALB["ALB<br/>Layer 7"]
     end
 
-    subgraph "AWS ECS Cluster"
-        subgraph "緬甸服務"
-            ECS_MM_1[ECS Task 1<br/>🇲🇲 MM Service]
-            ECS_MM_2[ECS Task 2<br/>🇲🇲 MM Service]
+    subgraph ECSCluster["AWS ECS Cluster"]
+        subgraph MMService["緬甸服務"]
+            ECS_MM_1["ECS Task 1"]
+            ECS_MM_2["ECS Task 2"]
         end
 
-        subgraph "台灣服務"
-            ECS_TW_1[ECS Task 1<br/>🇹🇼 TW Service]
-            ECS_TW_2[ECS Task 2<br/>🇹🇼 TW Service]
+        subgraph TWService["台灣服務"]
+            ECS_TW_1["ECS Task 1"]
+            ECS_TW_2["ECS Task 2"]
         end
 
-        AutoScaling[Auto Scaling]
+        AutoScaling["Auto Scaling"]
     end
 
-    subgraph "AWS RDS"
-        RDS_MM[(🇲🇲 緬甸 RDS<br/>Multi-AZ)]
-        RDS_TW[(🇹🇼 台灣 RDS<br/>Multi-AZ)]
+    subgraph AWSRDS["AWS RDS"]
+        RDS_MM[("緬甸 RDS<br/>Multi-AZ")]
+        RDS_TW[("台灣 RDS<br/>Multi-AZ")]
     end
 
-    subgraph "AWS ECR"
-        ECR_Prod[Production Image<br/>myanlife-api:v1.0.0]
+    subgraph AWSECR["AWS ECR"]
+        ECR_Prod["Production Image"]
     end
 
     Internet --> NLB
@@ -539,7 +539,7 @@ graph TB
     style AutoScaling fill:#55efc4,stroke:#00b894,stroke-width:2px
     style RDS_MM fill:#fd79a8,stroke:#e84393,stroke-width:2px,color:#fff
     style RDS_TW fill:#a29bfe,stroke:#6c5ce7,stroke-width:2px,color:#fff
-                    </div>
+                    </pre>
                 </div>
 
                 <div class="architecture-grid">
@@ -581,31 +581,31 @@ graph TB
                 </div>
 
                 <div class="mermaid-container">
-                    <div class="mermaid">
+                    <pre class="mermaid">
 graph TB
-    subgraph "中央後台系統"
-        CentralAPI[中央後台 API<br/>Laravel Backend]
-        Dashboard[管理儀表板]
-        Reports[報表產製系統]
-        Analytics[數據分析]
+    subgraph CentralSystem["中央後台系統"]
+        CentralAPI["中央後台 API"]
+        Dashboard["管理儀表板"]
+        Reports["報表產製系統"]
+        Analytics["數據分析"]
     end
 
-    subgraph "myanLife API 系統"
-        MM_API[🇲🇲 緬甸 API]
-        TW_API[🇹🇼 台灣 API]
-        OTHER_API[🌏 其他國家 API]
+    subgraph myanLifeAPI["myanLife API 系統"]
+        MM_API["緬甸 API"]
+        TW_API["台灣 API"]
+        OTHER_API["其他國家 API"]
     end
 
-    subgraph "各國資料庫"
-        MM_DB[(🇲🇲 緬甸 DB<br/>商家、優惠券、訂單)]
-        TW_DB[(🇹🇼 台灣 DB<br/>商家、優惠券、訂單)]
-        OTHER_DB[(🌏 其他 DB<br/>商家、優惠券、訂單)]
+    subgraph CountryDB["各國資料庫"]
+        MM_DB[("緬甸 DB")]
+        TW_DB[("台灣 DB")]
+        OTHER_DB[("其他國家 DB")]
     end
 
-    subgraph "使用者"
-        Admins[👥 集團管理層]
-        Finance[💰 財務部門]
-        DataTeam[📊 數據分析團隊]
+    subgraph Users["使用者"]
+        Admins["集團管理層"]
+        Finance["財務部門"]
+        DataTeam["數據分析團隊"]
     end
 
     CentralAPI --> Dashboard
@@ -631,7 +631,7 @@ graph TB
     style MM_DB fill:#a29bfe,stroke:#6c5ce7,stroke-width:2px,color:#fff
     style TW_DB fill:#fd79a8,stroke:#e84393,stroke-width:2px,color:#fff
     style OTHER_DB fill:#ffeaa7,stroke:#fdcb6e,stroke-width:2px
-                    </div>
+                    </pre>
                 </div>
 
                 <div class="architecture-grid">
