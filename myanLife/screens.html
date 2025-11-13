@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>myanLife 系統畫面模擬 - UI Mockups</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-5px);
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid transparent;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+            border-color: white;
+        }
+
+        .mockup-container {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            min-height: 600px;
+        }
+
+        .mockup-container.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .mockup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #f0f0f0;
+        }
+
+        .mockup-title {
+            font-size: 2em;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mockup-nav {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-item {
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            color: #666;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-item:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-item.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border-radius: 20px;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+        }
+
+        .card-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .card-desc {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85em;
+            color: #999;
+        }
+
+        .card-price {
+            color: #f44336;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .card-button {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .card-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-card.success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .stat-card.warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .stat-card.info {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .data-table thead {
+            background: #f8f9fa;
+        }
+
+        .data-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #666;
+        }
+
+        .data-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-badge.active {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-badge.pending {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .status-badge.rejected {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.3s;
+        }
+
+        .action-btn.approve {
+            background: #4caf50;
+            color: white;
+        }
+
+        .action-btn.reject {
+            background: #f44336;
+            color: white;
+        }
+
+        .action-btn.edit {
+            background: #2196f3;
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .dashboard-card-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chart-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .country-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .country-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .country-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .country-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .quick-action-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quick-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .info-note {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+            color: #1976d2;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .mockup-container {
+                padding: 20px;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mockup-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .tabs {
+                gap: 5px;
+            }
+
+            .tab {
+                padding: 10px 16px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="architecture.html" class="back-link">← 返回架構圖</a>
+            <h1>🖥️ myanLife 系統畫面模擬</h1>
+            <p class="subtitle">互動式 UI Mockups - 四大系統介面展示</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('webapp')">🌐 Web App</button>
+            <button class="tab" onclick="switchTab('merchant')">🏪 商家後台</button>
+            <button class="tab" onclick="switchTab('operation')">👥 運營後台</button>
+            <button class="tab" onclick="switchTab('central')">🏛️ 中央後台</button>
+        </div>
+
+        <!-- Web App 用戶介面 -->
+        <div id="webapp" class="mockup-container active">
+            <div class="mockup-header">
+                <div class="mockup-title">
+                    <span>🌐</span>
+                    <span>myanLife Web App</span>
+                </div>
+                <div class="mockup-nav">
+                    <div class="nav-item active">首頁</div>
+                    <div class="nav-item">優惠券</div>
+                    <div class="nav-item">商家</div>
+                    <div class="nav-item">我的訂單</div>
+                    <div class="user-info">
+                        <div class="avatar">U</div>
+                        <span>User</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-number">126</div>
+                    <div class="stat-label">可用優惠券</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-number">45</div>
+                    <div class="stat-label">合作商家</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">即將到期</div>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 15px; color: #333;">🔥 熱門優惠券</h3>
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-image">🍕</div>
+                    <div class="card-title">美味披薩 8折優惠</div>
+                    <div class="card-desc">Pizza Hut 全品項享8折，限量100張</div>
+                    <div class="card-meta">
+                        <span class="card-price">$12</span>
+                        <button class="card-button">立即購買</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">☕</div>
+                    <div class="card-title">咖啡買一送一</div>
+                    <div class="card-desc">Starbucks 中杯以上飲品適用</div>
+                    <div class="card-meta">
+                        <span class="card-price">$8</span>
+                        <button class="card-button">立即購買</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">🎬</div>
+                    <div class="card-title">電影票優惠</div>
+                    <div class="card-desc">威秀影城 平日票券特價</div>
+                    <div class="card-meta">
+                        <span class="card-price">$15</span>
+                        <button class="card-button">立即購買</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">🍔</div>
+                    <div class="card-title">漢堡套餐優惠</div>
+                    <div class="card-desc">McDonald's 超值套餐特價</div>
+                    <div class="card-meta">
+                        <span class="card-price">$10</span>
+                        <button class="card-button">立即購買</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">💆</div>
+                    <div class="card-title">SPA 按摩體驗</div>
+                    <div class="card-desc">60分鐘全身按摩放鬆療程</div>
+                    <div class="card-meta">
+                        <span class="card-price">$35</span>
+                        <button class="card-button">立即購買</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">🏋️</div>
+                    <div class="card-title">健身房月票</div>
+                    <div class="card-desc">World Gym 單月使用券</div>
+                    <div class="card-meta">
+                        <span class="card-price">$45</span>
+                        <button class="card-button">立即購買</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-note">
+                <strong>💡 用戶功能：</strong>瀏覽優惠券、購買優惠券、查看商家資訊、預訂服務、管理訂單、評價商家
+            </div>
+        </div>
+
+        <!-- 商家後台 -->
+        <div id="merchant" class="mockup-container">
+            <div class="mockup-header">
+                <div class="mockup-title">
+                    <span>🏪</span>
+                    <span>商家管理後台</span>
+                </div>
+                <div class="mockup-nav">
+                    <div class="nav-item active">儀表板</div>
+                    <div class="nav-item">優惠券</div>
+                    <div class="nav-item">訂單</div>
+                    <div class="nav-item">設定</div>
+                    <div class="user-info">
+                        <div class="avatar">M</div>
+                        <span>Pizza Hut</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-number">328</div>
+                    <div class="stat-label">本月訂單</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-number">$12,450</div>
+                    <div class="stat-label">本月營收</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">待處理訂單</div>
+                </div>
+                <div class="stat-card info">
+                    <div class="stat-number">4.8</div>
+                    <div class="stat-label">平均評分</div>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 15px; color: #333;">🎫 我的優惠券</h3>
+            <div class="quick-actions">
+                <button class="quick-action-btn">➕ 新增優惠券</button>
+                <button class="quick-action-btn">📊 查看統計</button>
+                <button class="quick-action-btn">⚙️ 商家設定</button>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>優惠券名稱</th>
+                        <th>價格</th>
+                        <th>已售/庫存</th>
+                        <th>狀態</th>
+                        <th>有效期限</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>美味披薩 8折優惠</td>
+                        <td>$12</td>
+                        <td>45/100</td>
+                        <td><span class="status-badge active">上架中</span></td>
+                        <td>2025-12-31</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn edit">編輯</button>
+                                <button class="action-btn reject">下架</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>外帶優惠套餐</td>
+                        <td>$18</td>
+                        <td>12/50</td>
+                        <td><span class="status-badge active">上架中</span></td>
+                        <td>2025-11-30</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn edit">編輯</button>
+                                <button class="action-btn reject">下架</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>週末下午茶優惠</td>
+                        <td>$25</td>
+                        <td>89/100</td>
+                        <td><span class="status-badge active">上架中</span></td>
+                        <td>2025-12-15</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn edit">編輯</button>
+                                <button class="action-btn reject">下架</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>學生專屬優惠</td>
+                        <td>$10</td>
+                        <td>0/50</td>
+                        <td><span class="status-badge pending">審核中</span></td>
+                        <td>2025-12-31</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn edit">編輯</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-note">
+                <strong>💡 商家功能：</strong>管理優惠券、處理訂單、查看營收統計、編輯商家資訊、回覆評價、上下架商品
+            </div>
+        </div>
+
+        <!-- 運營後台 -->
+        <div id="operation" class="mockup-container">
+            <div class="mockup-header">
+                <div class="mockup-title">
+                    <span>👥</span>
+                    <span>運營管理後台 - 台灣</span>
+                </div>
+                <div class="mockup-nav">
+                    <div class="nav-item active">儀表板</div>
+                    <div class="nav-item">商家管理</div>
+                    <div class="nav-item">優惠券審核</div>
+                    <div class="nav-item">用戶管理</div>
+                    <div class="user-info">
+                        <div class="avatar">S</div>
+                        <span>Super Admin</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-number">1,245</div>
+                    <div class="stat-label">註冊用戶</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-number">89</div>
+                    <div class="stat-label">合作商家</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">待審核商家</div>
+                </div>
+                <div class="stat-card info">
+                    <div class="stat-number">$45,678</div>
+                    <div class="stat-label">本月營收</div>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 15px; color: #333;">🔍 待審核商家</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>商家名稱</th>
+                        <th>類別</th>
+                        <th>聯絡人</th>
+                        <th>申請時間</th>
+                        <th>狀態</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>珍珠奶茶專賣店</td>
+                        <td>餐飲</td>
+                        <td>張小姐 / 0912-345-678</td>
+                        <td>2025-11-10</td>
+                        <td><span class="status-badge pending">待審核</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn approve">通過</button>
+                                <button class="action-btn reject">拒絕</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>健康養生館</td>
+                        <td>美容</td>
+                        <td>李先生 / 0923-456-789</td>
+                        <td>2025-11-11</td>
+                        <td><span class="status-badge pending">待審核</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn approve">通過</button>
+                                <button class="action-btn reject">拒絕</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>時尚髮廊</td>
+                        <td>美容</td>
+                        <td>王小姐 / 0934-567-890</td>
+                        <td>2025-11-12</td>
+                        <td><span class="status-badge pending">待審核</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn approve">通過</button>
+                                <button class="action-btn reject">拒絕</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-bottom: 15px; margin-top: 40px; color: #333;">🎫 待審核優惠券</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>優惠券名稱</th>
+                        <th>商家</th>
+                        <th>價格</th>
+                        <th>數量</th>
+                        <th>提交時間</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>新店開幕優惠</td>
+                        <td>珍珠奶茶專賣店</td>
+                        <td>$5</td>
+                        <td>200</td>
+                        <td>2025-11-13</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn approve">通過</button>
+                                <button class="action-btn reject">拒絕</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>週年慶特惠</td>
+                        <td>Pizza Hut</td>
+                        <td>$20</td>
+                        <td>100</td>
+                        <td>2025-11-13</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn approve">通過</button>
+                                <button class="action-btn reject">拒絕</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-note">
+                <strong>💡 運營功能：</strong>審核商家申請、審核優惠券、管理用戶、查看該國數據統計、處理客訴、生成營運報表。各國運營後台由代理商或合作夥伴管理，擁有該國 Super 權限。
+            </div>
+        </div>
+
+        <!-- 中央後台 -->
+        <div id="central" class="mockup-container">
+            <div class="mockup-header">
+                <div class="mockup-title">
+                    <span>🏛️</span>
+                    <span>中央後台系統</span>
+                </div>
+                <div class="mockup-nav">
+                    <div class="nav-item active">跨國儀表板</div>
+                    <div class="nav-item">營收報表</div>
+                    <div class="nav-item">數據分析</div>
+                    <div class="nav-item">系統監控</div>
+                    <div class="user-info">
+                        <div class="avatar">C</div>
+                        <span>Central Admin</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="country-selector">
+                <button class="country-btn active">🌍 全部國家</button>
+                <button class="country-btn">🇹🇼 台灣</button>
+                <button class="country-btn">🇲🇲 緬甸</button>
+                <button class="country-btn">🇹🇭 泰國</button>
+                <button class="country-btn">🇻🇳 越南</button>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-number">15,847</div>
+                    <div class="stat-label">總用戶數</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-number">342</div>
+                    <div class="stat-label">總商家數</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-number">8,456</div>
+                    <div class="stat-label">本月訂單</div>
+                </div>
+                <div class="stat-card info">
+                    <div class="stat-number">$285,420</div>
+                    <div class="stat-label">本月總營收</div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="dashboard-card-title">
+                        <span>📊</span>
+                        <span>各國營收對比</span>
+                    </div>
+                    <div class="chart-placeholder">📈 營收趨勢圖表</div>
+                    <table class="data-table" style="margin-top: 15px;">
+                        <thead>
+                            <tr>
+                                <th>國家</th>
+                                <th>本月營收</th>
+                                <th>成長率</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>🇹🇼 台灣</td>
+                                <td>$125,000</td>
+                                <td style="color: #4caf50;">↑ 15%</td>
+                            </tr>
+                            <tr>
+                                <td>🇲🇲 緬甸</td>
+                                <td>$85,420</td>
+                                <td style="color: #4caf50;">↑ 22%</td>
+                            </tr>
+                            <tr>
+                                <td>🇹🇭 泰國</td>
+                                <td>$45,000</td>
+                                <td style="color: #f44336;">↓ 5%</td>
+                            </tr>
+                            <tr>
+                                <td>🇻🇳 越南</td>
+                                <td>$30,000</td>
+                                <td style="color: #4caf50;">↑ 8%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="dashboard-card-title">
+                        <span>👥</span>
+                        <span>用戶分佈統計</span>
+                    </div>
+                    <div class="chart-placeholder">🥧 用戶分佈圓餅圖</div>
+                    <table class="data-table" style="margin-top: 15px;">
+                        <thead>
+                            <tr>
+                                <th>國家</th>
+                                <th>用戶數</th>
+                                <th>活躍率</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>🇹🇼 台灣</td>
+                                <td>6,500</td>
+                                <td>78%</td>
+                            </tr>
+                            <tr>
+                                <td>🇲🇲 緬甸</td>
+                                <td>5,200</td>
+                                <td>82%</td>
+                            </tr>
+                            <tr>
+                                <td>🇹🇭 泰國</td>
+                                <td>2,847</td>
+                                <td>65%</td>
+                            </tr>
+                            <tr>
+                                <td>🇻🇳 越南</td>
+                                <td>1,300</td>
+                                <td>71%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="dashboard-card" style="margin-top: 25px;">
+                <div class="dashboard-card-title">
+                    <span>🔗</span>
+                    <span>快速連結到各國運營後台</span>
+                </div>
+                <p style="color: #666; margin-bottom: 15px;">點擊按鈕可使用 Super 帳號自動登入該國運營後台進行資料修改</p>
+                <div class="quick-actions">
+                    <button class="quick-action-btn">🇹🇼 登入台灣運營後台</button>
+                    <button class="quick-action-btn">🇲🇲 登入緬甸運營後台</button>
+                    <button class="quick-action-btn">🇹🇭 登入泰國運營後台</button>
+                    <button class="quick-action-btn">🇻🇳 登入越南運營後台</button>
+                </div>
+            </div>
+
+            <div class="info-note">
+                <strong>💡 中央後台功能：</strong>跨國數據整合、統一報表產製、各國營收對比、用戶分析、商家統計、系統監控。<strong>主要為只讀查看</strong>，如需修改資料，透過快速連結自動登入各國運營後台操作。權限層級：中央後台 > 各國 Super 帳號 > 各國一般帳號。
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // 移除所有 active class
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.mockup-container').forEach(container => {
+                container.classList.remove('active');
+            });
+
+            // 添加 active class 到選中的標籤和內容
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // 添加頁面載入動畫
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach((tab, index) => {
+                tab.style.opacity = '0';
+                tab.style.transform = 'translateY(-20px)';
+                setTimeout(() => {
+                    tab.style.transition = 'all 0.5s ease';
+                    tab.style.opacity = '1';
+                    tab.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
