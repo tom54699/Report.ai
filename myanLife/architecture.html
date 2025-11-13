@@ -424,7 +424,7 @@
             <button class="tab" onclick="switchTab('cicd')">🔄 CI/CD 流程</button>
             <button class="tab" onclick="switchTab('staging')">🧪 測試服架構</button>
             <button class="tab" onclick="switchTab('production')">🚀 正式服架構</button>
-            <button class="tab" onclick="switchTab('related')">🔗 關聯專案</button>
+            <button class="tab" onclick="switchTab('central')">🏛️ 中央後台詳解</button>
         </div>
 
         <!-- 總覽 -->
@@ -438,7 +438,7 @@
                     </div>
                     <div class="info-card">
                         <h4>🔧 純後端 API</h4>
-                        <p>提供 RESTful API 給 Web App、商家後台、運營後台使用</p>
+                        <p>提供 RESTful API 給 Web App、商家後台、運營後台（各國代理商/合作夥伴）使用</p>
                     </div>
                     <div class="info-card">
                         <h4>🎫 業務範圍</h4>
@@ -465,7 +465,7 @@
                     </div>
                     <div class="box success">
                         <div class="box-title">👥 運營後台</div>
-                        <div class="box-desc">前端團隊管理</div>
+                        <div class="box-desc">各國運營管理<br>（代理商/合作夥伴）</div>
                     </div>
                 </div>
 
@@ -596,7 +596,7 @@
                     <ul>
                         <li><strong>獨立專案：</strong>與 myanLife API 分離，專注於管理與分析</li>
                         <li><strong>跨國整合：</strong>直接連接所有國家資料庫，統一管理</li>
-                        <li><strong>權限控管：</strong>多層級權限系統，控制各國資料存取</li>
+                        <li><strong>權限分級：</strong>運營後台有 Super 帳號（各國最高權限），中央後台有更高層級權限</li>
                         <li><strong>報表產製：</strong>自動產製營收、用戶、商家等綜合報表</li>
                     </ul>
                 </div>
@@ -700,7 +700,7 @@
                     </div>
                     <div class="box success">
                         <div class="box-title">👥 運營後台</div>
-                        <div class="box-desc">前端團隊管理</div>
+                        <div class="box-desc">各國運營管理<br>（代理商/合作夥伴）</div>
                     </div>
                 </div>
 
@@ -780,7 +780,7 @@
                     </div>
                     <div class="box success">
                         <div class="box-title">👥 運營後台</div>
-                        <div class="box-desc">前端團隊管理</div>
+                        <div class="box-desc">各國運營管理<br>（代理商/合作夥伴）</div>
                     </div>
                 </div>
 
@@ -874,10 +874,10 @@
             </div>
         </div>
 
-        <!-- 關聯專案 -->
-        <div id="related" class="tab-content">
+        <!-- 中央後台詳解 -->
+        <div id="central" class="tab-content">
             <div class="section">
-                <div class="section-title">🔗 中央後台系統</div>
+                <div class="section-title">🏛️ 中央後台系統架構</div>
 
                 <div class="flow" style="justify-content: center;">
                     <div class="box info" style="min-width: 200px;">
@@ -934,11 +934,19 @@
                 </div>
 
                 <div class="note info">
-                    <div class="note-title">💡 中央後台系統說明</div>
+                    <div class="note-title">💡 權限架構說明</div>
+                    <ul>
+                        <li><strong>運營後台 Super 帳號：</strong>每個國家運營後台有 Super 帳號，擁有該國最高權限（運營團隊可能是代理商或合作夥伴）</li>
+                        <li><strong>中央後台權限：</strong>集團層級的最高權限，可跨國管理、查看所有國家資料</li>
+                        <li><strong>權限分級：</strong>中央後台 > 各國 Super 帳號 > 各國一般帳號</li>
+                    </ul>
+                </div>
+
+                <div class="note success">
+                    <div class="note-title">✨ 中央後台功能</div>
                     <ul>
                         <li><strong>獨立專案:</strong> 中央後台是另一個 Laravel 專案，獨立於 myanLife API</li>
                         <li><strong>資料整合:</strong> 直接連接各國 DB，抓取資料產生報表</li>
-                        <li><strong>權限控管:</strong> 提供多層級權限管理，控制各國資料存取權限</li>
                         <li><strong>報表產製:</strong> 自動產製跨國營收、使用者、商家等綜合報表</li>
                         <li><strong>監控管理:</strong> 即時監控各國營運指標，提供決策支援</li>
                     </ul>
