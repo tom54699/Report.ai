@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SSO 正統做法 vs 過渡方案 ─ 會員中央系統架構對比</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .back-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      text-decoration: none;
+      border-radius: 20px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin: 0 0 10px;
+      color: #2d3748;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: normal;
+      color: #718096;
+      margin: 0 0 30px;
+    }
+
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      font-size: 0.95rem;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 25px;
+      background: #f7fafc;
+      color: #2d3748;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .legend-tag {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .legend-sso {
+      background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+    }
+
+    .legend-transition {
+      background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+    }
+
+    .layout {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .column {
+      flex: 1 1 calc(50% - 13px);
+      min-width: 360px;
+      background: #f7fafc;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      padding: 25px;
+      transition: all 0.3s;
+    }
+
+    .column:hover {
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+      transform: translateY(-2px);
+    }
+
+    .column-header {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: #2d3748;
+    }
+
+    .column-subtitle {
+      font-size: 0.95rem;
+      color: #718096;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .badge {
+      font-size: 0.85rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .badge-sso {
+      background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+      color: white;
+    }
+
+    .badge-transition {
+      background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+      color: white;
+    }
+
+    .section-title {
+      margin-top: 20px;
+      margin-bottom: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #667eea;
+    }
+
+    .diagram {
+      border-radius: 12px;
+      border: 2px dashed #cbd5e0;
+      padding: 20px;
+      margin-bottom: 20px;
+      background: white;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .box {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      min-width: 200px;
+      max-width: 320px;
+      border: 2px solid #e2e8f0;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: all 0.3s;
+    }
+
+    .box:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      border-color: #667eea;
+    }
+
+    .box-header {
+      font-weight: 700;
+      margin-bottom: 6px;
+      font-size: 1.05rem;
+      color: #2d3748;
+    }
+
+    .box-subtitle {
+      font-size: 0.85rem;
+      color: #718096;
+      margin-bottom: 10px;
+    }
+
+    .db-box {
+      margin-top: 8px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 2px dashed #cbd5e0;
+      background: #f7fafc;
+      font-size: 0.85rem;
+      color: #2d3748;
+      line-height: 1.6;
+    }
+
+    .tags {
+      margin-bottom: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      font-weight: 600;
+    }
+
+    .tag-soft {
+      background: #e2e8f0;
+      color: #2d3748;
+    }
+
+    .tag-warn {
+      background: linear-gradient(135deg, #f56565 0%, #c53030 100%);
+      color: white;
+    }
+
+    .arrow-row {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #4a5568;
+      margin: 10px 0;
+      font-weight: 600;
+    }
+
+    .arrow {
+      margin: 5px 0;
+      color: #667eea;
+    }
+
+    .flow {
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+      padding: 20px;
+      background: white;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .flow-title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 15px;
+      color: #2d3748;
+    }
+
+    .flow-steps {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      counter-reset: step-counter;
+    }
+
+    .flow-steps li {
+      margin: 0 0 12px 0;
+      padding-left: 30px;
+      position: relative;
+      line-height: 1.6;
+      color: #4a5568;
+    }
+
+    .flow-steps li::before {
+      counter-increment: step-counter;
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .flow-note {
+      margin-top: 15px;
+      font-size: 0.85rem;
+      color: #718096;
+      padding: 12px;
+      background: #f7fafc;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+      line-height: 1.6;
+    }
+
+    .divider {
+      border-top: 2px dashed #cbd5e0;
+      margin: 20px 0;
+    }
+
+    .highlight-diff {
+      font-size: 0.9rem;
+      color: #2d3748;
+      padding: 20px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 2px solid #f59e0b;
+      margin-top: 20px;
+      line-height: 1.7;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+    }
+
+    .highlight-diff b {
+      color: #92400e;
+    }
+
+    @media (max-width: 900px) {
+      .column {
+        flex: 1 1 100%;
+        min-width: auto;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .page {
+        padding: 25px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+
+      .page {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+      }
+
+      .box {
+        min-width: auto;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <a href="architecture.html" class="back-btn">← 返回 myanLife 專案架構</a>
+
+    <h1>SSO 正統做法 vs 過渡方案</h1>
+    <h2>Central Identity Provider 與「中央會員 + 各系統本地帳號 / JIT 開帳」對照</h2>
+
+    <div class="legend">
+      <span><span class="legend-tag legend-sso"></span> 正統 SSO / IdP 模式</span>
+      <span><span class="legend-tag legend-transition"></span> 現在的中央會員過渡模式</span>
+    </div>
+
+    <div class="layout">
+      <!-- 左：正統 SSO -->
+      <div class="column">
+        <div class="column-header">
+          <span>正統 SSO / IdP 模式</span>
+          <span class="badge badge-sso">Single Sign-On</span>
+        </div>
+        <div class="column-subtitle">
+          登入入口完全集中在 Identity Provider，三個產品只信任 IdP 簽發的 token，不再自己維護密碼登入。
+        </div>
+
+        <!-- 架構圖 -->
+        <div class="section-title">架構圖（Architecture）</div>
+        <div class="diagram">
+          <!-- Client -->
+          <div class="row">
+            <div class="box">
+              <div class="box-header">使用者 / Client</div>
+              <div class="box-subtitle">Browser / App</div>
+              <div class="db-box">
+                透過產品 A/B/C Web 或 App 存取服務，<br>
+                但登入 UI 會統一導到中央 IdP。
+              </div>
+            </div>
+          </div>
+
+          <div class="arrow-row">
+            <div class="arrow">▼ HTTP Redirect / OIDC / OAuth2 Flow</div>
+          </div>
+
+          <!-- IdP -->
+          <div class="row">
+            <div class="box" style="border-color:#4299e1;background:#ebf8ff;">
+              <div class="box-header">Identity Provider (IdP)</div>
+              <div class="box-subtitle">中央身份服務 ─ Login UI + Token Service</div>
+              <div class="tags">
+                <span class="tag">OIDC / OAuth2</span>
+                <span class="tag">JWT / Access Token</span>
+                <span class="tag">Refresh Token</span>
+              </div>
+              <div class="db-box">
+                <b>members（中央帳號）</b><br>
+                ・id (member_id / sub)<br>
+                ・login / password_hash<br>
+                ・phone / email（唯一）<br>
+                ・2FA / 安全設定<br>
+                ・全域狀態（鎖定 / 黑名單）
+              </div>
+            </div>
+          </div>
+
+          <div class="arrow-row">
+            <div class="arrow">▼ IdP 簽發 <b>Access Token / ID Token（JWT）</b></div>
+          </div>
+
+          <!-- Product Services -->
+          <div class="row">
+            <div class="box">
+              <div class="box-header">產品 A 服務</div>
+              <div class="box-subtitle">不收密碼，只驗 IdP token</div>
+              <div class="tags">
+                <span class="tag tag-soft">Laravel / API</span>
+              </div>
+              <div class="db-box">
+                <b>users_A（Domain User）</b><br>
+                ・id (user_id_A)<br>
+                ・member_id（對應 IdP sub）<br>
+                ・產品 A 專屬欄位（角色、點數、習慣）<br>
+                <br>
+                ※ 不再保存密碼，身份以 member_id 為準。
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="box">
+              <div class="box-header">產品 B 服務</div>
+              <div class="box-subtitle">只信任中央 IdP token</div>
+              <div class="tags">
+                <span class="tag tag-soft">Laravel / API</span>
+              </div>
+              <div class="db-box">
+                <b>users_B</b><br>
+                ・id (user_id_B)<br>
+                ・member_id<br>
+                ・產品 B 專屬欄位
+              </div>
+            </div>
+
+            <div class="box">
+              <div class="box-header">產品 C 服務</div>
+              <div class="box-subtitle">只做授權 / Domain 邏輯</div>
+              <div class="tags">
+                <span class="tag tag-soft">Laravel / 其他技術棧</span>
+              </div>
+              <div class="db-box">
+                <b>users_C</b><br>
+                ・id (user_id_C)<br>
+                ・member_id<br>
+                ・產品 C 專屬欄位
+              </div>
+            </div>
+          </div>
+
+          <div class="arrow-row">
+            <div class="arrow"><b>Authorization: Bearer &lt;Access Token&gt;</b> → 各產品後端本地驗 JWT</div>
+          </div>
+        </div>
+
+        <!-- 流程圖 -->
+        <div class="section-title">登入流程圖（Flow）</div>
+        <div class="flow">
+          <div class="flow-title">正統 SSO 登入流程（以產品 A 為例）</div>
+          <ol class="flow-steps">
+            <li>使用者打開「產品 A」前端，點擊登入。</li>
+            <li>產品 A 將使用者 <b>redirect 到 IdP 的 /authorize</b>（帶上 client_id, redirect_uri 等）。</li>
+            <li>使用者在 IdP 頁面輸入帳號 / 密碼、OTP 等，<b>所有認證只在 IdP 發生</b>。</li>
+            <li>驗證通過後，IdP 產生授權碼 / token，將瀏覽器導回產品 A 的 redirect_uri。</li>
+            <li>產品 A 透過後端向 IdP 的 Token Endpoint 換取 <b>Access Token / ID Token（JWT）</b>。</li>
+            <li>產品 A 後端驗證 JWT（簽章、exp、aud、scope），建立本地 session，並查/創建 users_A 內對應的 member_id 記錄。</li>
+            <li>之後前端呼叫產品 A / B / C API 都帶上 <b>Authorization: Bearer &lt;Access Token&gt;</b>，各產品只做 JWT 驗證與授權，不處理密碼。</li>
+          </ol>
+          <div class="flow-note">
+            ・安全規則、鎖帳號、2FA 等集中在 IdP。<br>
+            ・產品只維護「Domain 資料」與「與 member_id 的關聯」。
+          </div>
+        </div>
+      </div>
+
+      <!-- 右：過渡 / 替代方案 -->
+      <div class="column">
+        <div class="column-header">
+          <span>中央會員 + 本地帳號過渡方案</span>
+          <span class="badge badge-transition">Central Member + Local Users</span>
+        </div>
+        <div class="column-subtitle">
+          三個產品維持原本 user 表與登入流程，新建中央會員只存共用資料。登入成功後再「對中央對帳」，必要時自動註冊＋自動登入。
+        </div>
+
+        <!-- 架構圖 -->
+        <div class="section-title">架構圖（Architecture）</div>
+        <div class="diagram">
+          <!-- Client -->
+          <div class="row">
+            <div class="box">
+              <div class="box-header">使用者 / Client</div>
+              <div class="box-subtitle">Browser / App</div>
+              <div class="db-box">
+                直接在各產品的登入頁輸入手機 / 密碼 / OTP。<br>
+                登入入口仍然是「產品自己」。
+              </div>
+            </div>
+          </div>
+
+          <div class="arrow-row">
+            <div class="arrow">▼ HTTP POST /login（Product A/B/C 各自實作）</div>
+          </div>
+
+          <!-- Central Member -->
+          <div class="row">
+            <div class="box" style="border-color:#ed8936;background:#fff7ed;">
+              <div class="box-header">中央會員服務（Central Member Service）</div>
+              <div class="box-subtitle">只存共用基礎資料與全域標記</div>
+              <div class="tags">
+                <span class="tag">REST API</span>
+                <span class="tag">查詢 by phone/email</span>
+              </div>
+              <div class="db-box">
+                <b>central_members</b><br>
+                ・id (global_member_id)<br>
+                ・phone（唯一）<br>
+                ・email（可唯一）<br>
+                ・status（正常 / 黑名單）<br>
+                ・created_at, updated_at
+              </div>
+              <div class="db-box">
+                <b>選擇性表</b><br>
+                ・member_blacklist<br>
+                ・member_risk_flags<br>
+                ・member_profile（共用欄位）
+              </div>
+            </div>
+          </div>
+
+          <div class="arrow-row">
+            <div class="arrow">▼ 產品登入成功後 → 呼叫 <b>中央會員查詢 / 建立</b></div>
+          </div>
+
+          <!-- Products -->
+          <div class="row">
+            <div class="box">
+              <div class="box-header">產品 A 服務</div>
+              <div class="box-subtitle">維持原本 auth（user 表含密碼）</div>
+              <div class="tags">
+                <span class="tag tag-soft">Laravel</span>
+                <span class="tag tag-soft">Legacy Auth</span>
+              </div>
+              <div class="db-box">
+                <b>users_A</b><br>
+                ・id (user_id_A)<br>
+                ・central_member_id（可為 NULL）<br>
+                ・phone / email（歷史資料為主）<br>
+                ・password_hash（產品 A 自己的）<br>
+                ・產品 A 專屬欄位
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="box">
+              <div class="box-header">產品 B 服務</div>
+              <div class="box-subtitle">支援自動註冊＋自動綁定中央會員</div>
+              <div class="tags">
+                <span class="tag tag-soft">Laravel</span>
+                <span class="tag">JIT Provisioning</span>
+              </div>
+              <div class="db-box">
+                <b>users_B</b><br>
+                ・id (user_id_B)<br>
+                ・central_member_id<br>
+                ・phone / email（盡量與中央對齊）<br>
+                ・password_hash（產品 B 自己的）<br>
+                ・產品 B 專屬欄位
+              </div>
+            </div>
+
+            <div class="box">
+              <div class="box-header">產品 C 服務</div>
+              <div class="box-subtitle">逐步導入 central_member_id</div>
+              <div class="tags">
+                <span class="tag tag-soft">Laravel / 其他技術棧</span>
+                <span class="tag tag-soft">Mapping / 綁定流程</span>
+              </div>
+              <div class="db-box">
+                <b>users_C</b><br>
+                ・id (user_id_C)<br>
+                ・central_member_id（漸進導入）<br>
+                ・phone / email<br>
+                ・password_hash<br>
+                ・產品 C 專屬欄位
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 流程圖 -->
+        <div class="section-title">登入流程圖（Flow）</div>
+        <div class="flow">
+          <div class="flow-title">過渡方案：產品 B 登入 + 自動註冊 / 綁定範例</div>
+          <ol class="flow-steps">
+            <li>使用者在「產品 B」登入頁輸入 <b>手機 + 密碼 / OTP</b>，請求送到產品 B Backend。</li>
+            <li>產品 B Backend 依照既有邏輯，用自己的 <b>users_B + password_hash</b> 做驗證。</li>
+            <li>登入成功後，產品 B 以手機（或 email）呼叫 <b>中央會員 API</b>：<br>
+              ・若查到 central_members 記錄 → 取得 global_member_id。<br>
+              ・若查不到 → 在中央建立一筆 member，產生新的 global_member_id。
+            </li>
+            <li>產品 B 將這個 global_member_id 寫入自己的 <b>users_B.central_member_id</b>，建立關聯。</li>
+            <li>之後同一個人再用同一支手機登入「產品 A / C」時：<br>
+              ・產品 A / C 先用各自的 users 表驗證登入。<br>
+              ・登入成功後，同樣呼叫中央會員查詢手機 → 若有對應 global_member_id，<br>
+              &nbsp;&nbsp;&nbsp;則在本地 users_A / users_C 中寫入 central_member_id（必要時自動開帳）。</li>
+            <li>當所有產品都掛上 central_member_id 之後，後續報表 / 風控 / 營銷就可以在中央會員層做「全產品視角」分析。</li>
+          </ol>
+          <div class="flow-note">
+            ・登入仍由各產品自己處理，<b>密碼規則 / 2FA 可能不一致</b>。<br>
+            ・中央會員暫時只做「索引 + 共用資料」，未必掌控真正的登入流程。<br>
+            ・未來若要升級到真正 SSO，可以讓中央會員再長成 IdP，並讓新產品改用 IdP 登入。
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 差異摘要 -->
+        <div class="highlight-diff">
+          <b>🔑 關鍵差異對比：</b><br><br>
+          ・<b>正統 SSO：</b>所有登入都在 IdP 發生，產品只信任 token，不保存密碼。<br><br>
+          ・<b>過渡方案：</b>登入仍在各產品，中央會員只做「對帳 + ID 對齊」，透過 central_member_id 串起三個產品。<br><br>
+          ・<b>實務上常見做法：</b>先採用過渡方案收斂資料，再視時機導入真正 SSO。
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; padding: 20px; background: #f7fafc; border-radius: 12px;">
+      <p style="color: #718096; font-size: 0.95rem;">📅 最後更新：2025-11-14 | 🏢 myanLife 會員系統架構文件</p>
+      <p style="color: #718096; font-size: 0.9rem; margin-top: 10px;">💡 本文件說明 SSO 正統做法與現階段中央會員過渡方案的架構差異</p>
+    </div>
+  </div>
+</body>
+</html>
