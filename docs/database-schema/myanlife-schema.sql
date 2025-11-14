@@ -148,3 +148,73 @@ CREATE TABLE vacancies (
     KEY idx_department (department) COMMENT '部門索引',
     KEY idx_region (region) COMMENT '地區索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='職缺表';
+
+-- 會員任務表
+CREATE TABLE member_tasks (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主鍵',
+    name VARCHAR(255) NOT NULL COMMENT '任務名稱',
+    description VARCHAR(500) COMMENT '任務描述',
+    task_type VARCHAR(50) NOT NULL COMMENT '任務類型',
+    reward_points INT UNSIGNED DEFAULT 0 COMMENT '獎勵金幣數量',
+    reward_special VARCHAR(100) COMMENT '特別獎勵',
+    limit_per_user INT UNSIGNED DEFAULT 1 COMMENT '每位會員可完成次數',
+    is_active TINYINT(1) DEFAULT 1 COMMENT '是否啟用(0:否 1:是)',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
+
+    KEY idx_is_active (is_active) COMMENT '啟用狀態索引',
+    KEY idx_task_type (task_type) COMMENT '任務類型索引'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='會員任務表';
+
+-- 商家任務表
+CREATE TABLE merchant_tasks (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主鍵',
+    name VARCHAR(255) NOT NULL COMMENT '任務名稱',
+    description VARCHAR(500) COMMENT '任務描述',
+    task_type VARCHAR(50) NOT NULL COMMENT '任務類型',
+    reward_points INT UNSIGNED DEFAULT 0 COMMENT '獎勵金幣數量',
+    reward_special VARCHAR(100) COMMENT '特別獎勵',
+    limit_per_merchant INT UNSIGNED DEFAULT 1 COMMENT '每位商家可完成次數',
+    is_active TINYINT(1) DEFAULT 1 COMMENT '是否啟用(0:否 1:是)',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
+
+    KEY idx_is_active (is_active) COMMENT '啟用狀態索引',
+    KEY idx_task_type (task_type) COMMENT '任務類型索引'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商家任務表';
+
+-- 會員任務記錄表
+CREATE TABLE member_task_logs (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主鍵',
+    task_id BIGINT UNSIGNED NOT NULL COMMENT '任務ID',
+    member_id BIGINT UNSIGNED NOT NULL COMMENT '會員ID',
+    completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '完成時間',
+    reward_points INT UNSIGNED DEFAULT 0 COMMENT '實際獲得金幣',
+    reward_special VARCHAR(100) COMMENT '實際獲得特別獎勵',
+
+    KEY idx_task_id (task_id) COMMENT '任務索引',
+    KEY idx_member_id (member_id) COMMENT '會員索引',
+    KEY idx_completed_at (completed_at) COMMENT '完成時間索引',
+    KEY idx_member_task (member_id, task_id) COMMENT '會員任務複合索引',
+
+    CONSTRAINT fk_member_task FOREIGN KEY (task_id) REFERENCES member_tasks(id)
+    -- CONSTRAINT fk_member FOREIGN KEY (member_id) REFERENCES members(id) -- 待 members 表建立後啟用
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='會員任務記錄表';
+
+-- 商家任務記錄表
+CREATE TABLE merchant_task_logs (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主鍵',
+    task_id BIGINT UNSIGNED NOT NULL COMMENT '任務ID',
+    merchant_id BIGINT UNSIGNED NOT NULL COMMENT '商家ID',
+    completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '完成時間',
+    reward_points INT UNSIGNED DEFAULT 0 COMMENT '實際獲得金幣',
+    reward_special VARCHAR(100) COMMENT '實際獲得特別獎勵',
+
+    KEY idx_task_id (task_id) COMMENT '任務索引',
+    KEY idx_merchant_id (merchant_id) COMMENT '商家索引',
+    KEY idx_completed_at (completed_at) COMMENT '完成時間索引',
+    KEY idx_merchant_task (merchant_id, task_id) COMMENT '商家任務複合索引',
+
+    CONSTRAINT fk_merchant_task FOREIGN KEY (task_id) REFERENCES merchant_tasks(id)
+    -- CONSTRAINT fk_merchant FOREIGN KEY (merchant_id) REFERENCES merchants(id) -- 待 merchants 表建立後啟用
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商家任務記錄表';
