@@ -198,7 +198,7 @@ CREATE TABLE member_task_logs (
     KEY idx_member_task (member_id, task_id) COMMENT '會員任務複合索引',
 
     CONSTRAINT fk_member_task FOREIGN KEY (task_id) REFERENCES member_tasks(id),
-    CONSTRAINT fk_member FOREIGN KEY (member_id) REFERENCES members(id)
+    CONSTRAINT fk_log_user FOREIGN KEY (member_id) REFERENCES users(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='會員任務記錄表';
 
 -- 商家任務記錄表
@@ -220,8 +220,9 @@ CREATE TABLE merchant_task_logs (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商家任務記錄表';
 
 -- 會員表
-CREATE TABLE members (
+CREATE TABLE users (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主鍵',
+    member_id BIGINT UNSIGNED UNIQUE COMMENT '中央會員系統ID',
     email VARCHAR(255) NOT NULL UNIQUE COMMENT '會員信箱(登入帳號)',
     nickname VARCHAR(100) NOT NULL COMMENT '暱稱',
     password_hash VARCHAR(255) NOT NULL COMMENT '密碼雜湊值',
@@ -247,6 +248,7 @@ CREATE TABLE members (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
 
+    KEY idx_member_id (member_id) COMMENT '中央會員ID索引',
     KEY idx_phone (phone_country_iso, phone_number) COMMENT '電話複合索引',
     KEY idx_is_active (is_active) COMMENT '啟用狀態索引',
     KEY idx_registered_at (registered_at) COMMENT '註冊時間索引'
