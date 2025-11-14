@@ -19,14 +19,14 @@ CREATE TABLE banner (
     url VARCHAR(500) COMMENT '連結網址',
     image_url VARCHAR(500) NOT NULL COMMENT '圖片路徑',
     sort_order INT DEFAULT 0 COMMENT '排序順序',
-    is_active TINYINT(1) DEFAULT 1 COMMENT '是否啟用(0:否 1:是)',
+    is_published TINYINT(1) DEFAULT 1 COMMENT '是否發布(0:否 1:是)',
     is_top TINYINT(1) DEFAULT 0 COMMENT '是否置頂(0:否 1:是)',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
 
     KEY idx_category_id (category_id) COMMENT '分類索引',
     KEY idx_sort_order (sort_order) COMMENT '排序索引',
-    KEY idx_is_active (is_active) COMMENT '啟用狀態索引',
+    KEY idx_is_published (is_published) COMMENT '發布狀態索引',
 
     CONSTRAINT fk_banner_category FOREIGN KEY (category_id) REFERENCES banner_category(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='橫幅表';
@@ -46,14 +46,14 @@ CREATE TABLE news (
     title VARCHAR(200) NOT NULL COMMENT '新聞標題',
     description VARCHAR(100) COMMENT '新聞摘要',
     content TEXT NOT NULL COMMENT '新聞內容',
-    is_active TINYINT(1) DEFAULT 1 COMMENT '是否啟用(0:否 1:是)',
+    is_published TINYINT(1) DEFAULT 1 COMMENT '是否發布(0:否 1:是)',
     is_top TINYINT(1) DEFAULT 0 COMMENT '是否置頂(0:否 1:是)',
     publish_time TIMESTAMP NULL COMMENT '發布時間',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
 
     KEY idx_category_id (category_id) COMMENT '分類索引',
-    KEY idx_is_active (is_active) COMMENT '啟用狀態索引',
+    KEY idx_is_published (is_published) COMMENT '發布狀態索引',
     KEY idx_publish_time (publish_time) COMMENT '發布時間索引',
 
     CONSTRAINT fk_news_category FOREIGN KEY (category_id) REFERENCES news_category(id)
