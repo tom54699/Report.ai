@@ -132,3 +132,19 @@ CREATE TABLE charity_activities (
 
     CONSTRAINT fk_charity_activity_category FOREIGN KEY (category_id) REFERENCES charity_activity_categories(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='公益活動表';
+
+-- 職缺表
+CREATE TABLE vacancies (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主鍵',
+    title VARCHAR(255) NOT NULL COMMENT '職缺名稱',
+    department VARCHAR(100) NOT NULL COMMENT '部門',
+    region VARCHAR(100) NOT NULL COMMENT '地區',
+    is_published TINYINT(1) DEFAULT 0 COMMENT '是否上架(0:否 1:是)',
+    description TEXT NOT NULL COMMENT '職缺內容',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
+
+    KEY idx_is_published (is_published) COMMENT '上架狀態索引',
+    KEY idx_department (department) COMMENT '部門索引',
+    KEY idx_region (region) COMMENT '地區索引'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='職缺表';
