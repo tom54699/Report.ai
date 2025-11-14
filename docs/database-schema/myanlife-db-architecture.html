@@ -336,7 +336,7 @@
                         <div class="stat-label">外鍵關聯</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">28</div>
+                        <div class="stat-number">30</div>
                         <div class="stat-label">欄位總數</div>
                     </div>
                     <div class="stat-card">
@@ -353,7 +353,7 @@
                         <ul class="field-list">
                             <li class="field-item">
                                 <span class="field-name">欄位數</span>
-                                <span class="field-comment">4 個欄位</span>
+                                <span class="field-comment">5 個欄位</span>
                             </li>
                             <li class="field-item">
                                 <span class="field-name">關聯表</span>
@@ -383,7 +383,7 @@
                         <ul class="field-list">
                             <li class="field-item">
                                 <span class="field-name">欄位數</span>
-                                <span class="field-comment">4 個欄位</span>
+                                <span class="field-comment">5 個欄位</span>
                             </li>
                             <li class="field-item">
                                 <span class="field-name">關聯表</span>
@@ -422,7 +422,8 @@
                             <div style="font-size: 0.9em; opacity: 0.9;">橫幅分類表</div>
                             <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3);">
                                 <div>🔑 id (PK)</div>
-                                <div>📝 title</div>
+                                <div>📝 name</div>
+                                <div>📄 description</div>
                                 <div>📅 created_at</div>
                                 <div>🔄 updated_at</div>
                             </div>
@@ -459,7 +460,8 @@
                             <div style="font-size: 0.9em; opacity: 0.9;">新聞分類表</div>
                             <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3);">
                                 <div>🔑 id (PK)</div>
-                                <div>📝 title</div>
+                                <div>📝 name</div>
+                                <div>📄 description</div>
                                 <div>📅 created_at</div>
                                 <div>🔄 updated_at</div>
                             </div>
@@ -517,9 +519,14 @@
                                 <span class="field-comment">主鍵</span>
                             </li>
                             <li class="field-item">
-                                <span class="field-name">title</span>
+                                <span class="field-name">name</span>
                                 <span class="field-type">VARCHAR(50)</span>
-                                <span class="field-comment">分類標題</span>
+                                <span class="field-comment">分類名稱</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">description</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">分類描述</span>
                             </li>
                             <li class="field-item">
                                 <span class="field-name">created_at</span>
@@ -603,9 +610,14 @@
                                 <span class="field-comment">主鍵</span>
                             </li>
                             <li class="field-item">
-                                <span class="field-name">title</span>
+                                <span class="field-name">name</span>
                                 <span class="field-type">VARCHAR(50)</span>
-                                <span class="field-comment">分類標題</span>
+                                <span class="field-comment">分類名稱</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">description</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">分類描述</span>
                             </li>
                             <li class="field-item">
                                 <span class="field-name">created_at</span>
