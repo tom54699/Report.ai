@@ -414,49 +414,59 @@
                 <div class="diagram-container">
                     <div class="mermaid">
 erDiagram
-    banner_type ||--o{ banner : "類型"
-    news_type ||--o{ news : "類型"
+    banner_type ||--o{ banner : has
+    news_type ||--o{ news : has
 
     banner_type {
-        BIGINT id PK "主鍵"
-        VARCHAR title "類型標題"
-        TIMESTAMP created_at "建立時間"
-        TIMESTAMP updated_at "更新時間"
+        bigint id PK
+        varchar title
+        timestamp created_at
+        timestamp updated_at
     }
 
     banner {
-        BIGINT id PK "主鍵"
-        VARCHAR title "橫幅標題"
-        BIGINT type_id FK "類型ID"
-        VARCHAR url "連結網址"
-        VARCHAR image "圖片路徑"
-        INT sort_order "排序順序"
-        TINYINT is_active "是否啟用"
-        TINYINT is_top "是否置頂"
-        TIMESTAMP created_at "建立時間"
-        TIMESTAMP updated_at "更新時間"
+        bigint id PK
+        varchar title
+        bigint type_id FK
+        varchar url
+        varchar image
+        int sort_order
+        tinyint is_active
+        tinyint is_top
+        timestamp created_at
+        timestamp updated_at
     }
 
     news_type {
-        BIGINT id PK "主鍵"
-        VARCHAR title "類型標題"
-        TIMESTAMP created_at "建立時間"
-        TIMESTAMP updated_at "更新時間"
+        bigint id PK
+        varchar title
+        timestamp created_at
+        timestamp updated_at
     }
 
     news {
-        BIGINT id PK "主鍵"
-        BIGINT type_id FK "類型ID"
-        VARCHAR title "新聞標題"
-        VARCHAR description "新聞摘要"
-        TEXT content "新聞內容"
-        TINYINT is_active "是否啟用"
-        TINYINT is_top "是否置頂"
-        TIMESTAMP publish_time "發布時間"
-        TIMESTAMP created_at "建立時間"
-        TIMESTAMP updated_at "更新時間"
+        bigint id PK
+        bigint type_id FK
+        varchar title
+        varchar description
+        text content
+        tinyint is_active
+        tinyint is_top
+        timestamp publish_time
+        timestamp created_at
+        timestamp updated_at
     }
                     </div>
+                </div>
+
+                <div style="background: #fff5e6; padding: 20px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #ed8936;">
+                    <h3 style="color: #dd6b20; margin-bottom: 15px;">📝 ER 圖說明</h3>
+                    <ul style="line-height: 2; color: #666;">
+                        <li><strong>banner_type ←→ banner：</strong>一個橫幅類型可以有多個橫幅（一對多）</li>
+                        <li><strong>news_type ←→ news：</strong>一個新聞類型可以有多個新聞（一對多）</li>
+                        <li><strong>PK：</strong>主鍵（Primary Key）</li>
+                        <li><strong>FK：</strong>外鍵（Foreign Key）</li>
+                    </ul>
                 </div>
             </div>
 
