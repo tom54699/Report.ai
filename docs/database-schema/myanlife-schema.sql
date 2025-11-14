@@ -218,3 +218,36 @@ CREATE TABLE merchant_task_logs (
     CONSTRAINT fk_merchant_task FOREIGN KEY (task_id) REFERENCES merchant_tasks(id)
     -- CONSTRAINT fk_merchant FOREIGN KEY (merchant_id) REFERENCES merchants(id) -- 待 merchants 表建立後啟用
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商家任務記錄表';
+
+-- 會員表
+CREATE TABLE members (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主鍵',
+    email VARCHAR(255) NOT NULL UNIQUE COMMENT '會員信箱(登入帳號)',
+    nickname VARCHAR(100) NOT NULL COMMENT '暱稱',
+    password_hash VARCHAR(255) NOT NULL COMMENT '密碼雜湊值',
+
+    -- 基本資料
+    gender VARCHAR(20) COMMENT '性別',
+    birthday DATE COMMENT '生日',
+
+    -- 國籍與電話
+    nationality_iso CHAR(2) COMMENT '國籍代碼(ISO 3166-1 alpha-2)',
+    phone_country_iso CHAR(2) NOT NULL COMMENT '電話國碼(ISO 3166-1 alpha-2)',
+    phone_number VARCHAR(30) NOT NULL COMMENT '聯絡電話(不含國碼)',
+
+    -- 地址
+    region VARCHAR(100) COMMENT '區域',
+    address VARCHAR(255) COMMENT '地址',
+
+    -- 系統設定
+    preferences JSON COMMENT '偏好設定',
+    is_active TINYINT(1) DEFAULT 1 COMMENT '是否啟用(0:否 1:是)',
+
+    registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '註冊時間',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
+
+    KEY idx_phone (phone_country_iso, phone_number) COMMENT '電話複合索引',
+    KEY idx_is_active (is_active) COMMENT '啟用狀態索引',
+    KEY idx_registered_at (registered_at) COMMENT '註冊時間索引'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='會員表';

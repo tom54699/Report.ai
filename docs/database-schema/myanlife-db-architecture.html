@@ -294,6 +294,7 @@
 
         <div class="nav-tabs">
             <button class="nav-tab active" onclick="showTab('overview')">📊 總覽</button>
+            <button class="nav-tab" onclick="showTab('diagram')">🎨 ER 圖</button>
             <button class="nav-tab" onclick="showTab('tables')">📋 表格詳情</button>
             <button class="nav-tab" onclick="showTab('relations')">🔗 關聯關係</button>
         </div>
@@ -303,7 +304,7 @@
             <div id="overview" class="tab-content active">
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-number">13</div>
+                        <div class="stat-number">14</div>
                         <div class="stat-label">資料表數量</div>
                     </div>
                     <div class="stat-card">
@@ -311,11 +312,11 @@
                         <div class="stat-label">外鍵關聯</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">106</div>
+                        <div class="stat-number">123</div>
                         <div class="stat-label">欄位總數</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">30+</div>
+                        <div class="stat-number">33+</div>
                         <div class="stat-label">索引數量</div>
                     </div>
                 </div>
@@ -426,6 +427,260 @@
                             <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 merchant_tasks</span></li>
                         </ul>
                     </div>
+                    <div class="table-card">
+                        <div class="table-header">members</div>
+                        <div class="table-description">會員表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">17 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">被任務記錄表引用</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ER 圖頁籤 -->
+            <div id="diagram" class="tab-content">
+                <h2 style="margin-bottom: 30px; color: #333; text-align: center;">🎨 資料表 ER 圖</h2>
+
+                <!-- 橫幅系統 -->
+                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h3 style="color: #667eea; margin-bottom: 20px; border-bottom: 3px solid #667eea; padding-bottom: 10px;">🎨 橫幅管理系統</h3>
+                    <div style="display: flex; gap: 40px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(102,126,234,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">📁 banner_categories</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">橫幅分類表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3);">
+                                <div>🔑 id (PK)</div>
+                                <div>📝 name</div>
+                                <div>📄 description</div>
+                                <div>📅 created_at</div>
+                                <div>🔄 updated_at</div>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 2em; color: #667eea; font-weight: bold;">
+                            1 : N
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #48bb78, #38a169); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(72,187,120,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">🎨 banners</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">橫幅表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔑 id (PK)</div>
+                                <div>📝 title</div>
+                                <div>🔗 category_id (FK)</div>
+                                <div>🔗 url</div>
+                                <div>🖼️ image_url</div>
+                                <div style="opacity: 0.7;">+ 5 more...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 新聞系統 -->
+                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h3 style="color: #4299e1; margin-bottom: 20px; border-bottom: 3px solid #4299e1; padding-bottom: 10px;">📰 新聞管理系統</h3>
+                    <div style="display: flex; gap: 40px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                        <div style="background: linear-gradient(135deg, #4299e1, #3182ce); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(66,153,225,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">📁 news_categories</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">新聞分類表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3);">
+                                <div>🔑 id (PK)</div>
+                                <div>📝 name</div>
+                                <div>📄 description</div>
+                                <div>📅 created_at</div>
+                                <div>🔄 updated_at</div>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 2em; color: #4299e1; font-weight: bold;">
+                            1 : N
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #ed8936, #dd6b20); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(237,137,54,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">📰 news</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">新聞表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔑 id (PK)</div>
+                                <div>🔗 category_id (FK)</div>
+                                <div>📝 title</div>
+                                <div>📄 description</div>
+                                <div>📋 content</div>
+                                <div style="opacity: 0.7;">+ 5 more...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 黃頁系統 -->
+                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h3 style="color: #f59e0b; margin-bottom: 20px; border-bottom: 3px solid #f59e0b; padding-bottom: 10px;">📕 黃頁管理系統</h3>
+                    <div style="display: flex; gap: 40px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                        <div style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(245,158,11,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">📁 yellow_page_categories</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">黃頁分類表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3);">
+                                <div>🔑 id (PK)</div>
+                                <div>📝 name</div>
+                                <div>📄 description</div>
+                                <div>📅 created_at</div>
+                                <div>🔄 updated_at</div>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 2em; color: #f59e0b; font-weight: bold;">
+                            1 : N
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #f97316, #ea580c); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(249,115,22,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">📕 yellow_pages</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">黃頁表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔑 id (PK)</div>
+                                <div>🔗 category_id (FK)</div>
+                                <div>📝 name</div>
+                                <div>🖼️ image_url</div>
+                                <div>📞 phone_number</div>
+                                <div style="opacity: 0.7;">+ 10 more...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 公益活動系統 -->
+                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h3 style="color: #10b981; margin-bottom: 20px; border-bottom: 3px solid #10b981; padding-bottom: 10px;">🤝 公益活動系統</h3>
+                    <div style="display: flex; gap: 40px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                        <div style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(16,185,129,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">📁 charity_activity_categories</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">公益活動分類表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3);">
+                                <div>🔑 id (PK)</div>
+                                <div>📝 name</div>
+                                <div>📄 description</div>
+                                <div>📅 created_at</div>
+                                <div>🔄 updated_at</div>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 2em; color: #10b981; font-weight: bold;">
+                            1 : N
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #34d399, #10b981); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(52,211,153,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">🤝 charity_activities</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">公益活動表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔑 id (PK)</div>
+                                <div>🔗 category_id (FK)</div>
+                                <div>📝 name</div>
+                                <div>📅 start_date</div>
+                                <div>📅 end_date</div>
+                                <div style="opacity: 0.7;">+ 6 more...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 任務系統 -->
+                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h3 style="color: #8b5cf6; margin-bottom: 20px; border-bottom: 3px solid #8b5cf6; padding-bottom: 10px;">✅ 任務系統</h3>
+                    <div style="display: flex; gap: 40px; align-items: center; justify-content: center; flex-wrap: wrap; margin-bottom: 30px;">
+                        <div style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(139,92,246,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">✅ member_tasks</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">會員任務表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔑 id (PK)</div>
+                                <div>📝 name</div>
+                                <div>🏷️ task_type</div>
+                                <div>💰 reward_points</div>
+                                <div style="opacity: 0.7;">+ 6 more...</div>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 2em; color: #8b5cf6; font-weight: bold;">
+                            1 : N
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #a78bfa, #8b5cf6); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(167,139,250,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">📋 member_task_logs</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">會員任務記錄表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔑 id (PK)</div>
+                                <div>🔗 task_id (FK)</div>
+                                <div>👤 member_id</div>
+                                <div>⏰ completed_at</div>
+                                <div style="opacity: 0.7;">+ 2 more...</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 40px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                        <div style="background: linear-gradient(135deg, #ec4899, #db2777); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(236,72,153,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">🏪 merchant_tasks</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">商家任務表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔑 id (PK)</div>
+                                <div>📝 name</div>
+                                <div>🏷️ task_type</div>
+                                <div>💰 reward_points</div>
+                                <div style="opacity: 0.7;">+ 6 more...</div>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 2em; color: #ec4899; font-weight: bold;">
+                            1 : N
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #f472b6, #ec4899); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(244,114,182,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">📋 merchant_task_logs</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">商家任務記錄表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔑 id (PK)</div>
+                                <div>🔗 task_id (FK)</div>
+                                <div>🏪 merchant_id</div>
+                                <div>⏰ completed_at</div>
+                                <div style="opacity: 0.7;">+ 2 more...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 獨立系統 -->
+                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h3 style="color: #6b7280; margin-bottom: 20px; border-bottom: 3px solid #6b7280; padding-bottom: 10px;">💼 獨立系統</h3>
+                    <div style="display: flex; gap: 40px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                        <div style="background: linear-gradient(135deg, #6b7280, #4b5563); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(107,114,128,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">💼 vacancies</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">職缺表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3);">
+                                <div>🔑 id (PK)</div>
+                                <div>📝 title</div>
+                                <div>🏢 department</div>
+                                <div>📍 region</div>
+                                <div style="opacity: 0.7;">+ 4 more...</div>
+                            </div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(59,130,246,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">👤 members</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">會員表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3);">
+                                <div>🔑 id (PK)</div>
+                                <div>📧 email</div>
+                                <div>👤 nickname</div>
+                                <div>📞 phone_number</div>
+                                <div style="opacity: 0.7;">+ 13 more...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: #fff5e6; padding: 25px; border-radius: 15px; margin-top: 30px; border-left: 5px solid #ed8936;">
+                    <h3 style="color: #dd6b20; margin-bottom: 15px;">📝 關聯說明</h3>
+                    <ul style="line-height: 2; color: #666;">
+                        <li><strong>1:N (一對多)：</strong>一個分類/任務可以對應多筆資料</li>
+                        <li><strong>PK (Primary Key)：</strong>主鍵，唯一識別符</li>
+                        <li><strong>FK (Foreign Key)：</strong>外鍵，關聯到其他表格的主鍵</li>
+                    </ul>
                 </div>
             </div>
 
@@ -1066,6 +1321,94 @@
                                 <span class="field-name">reward_special</span>
                                 <span class="field-type">VARCHAR(100)</span>
                                 <span class="field-comment">實際獲得特別獎勵</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- members -->
+                    <div class="table-card" data-table="members">
+                        <div class="table-header">members</div>
+                        <div class="table-description">會員表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">主鍵</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">email</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">會員信箱(登入帳號)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">nickname</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">暱稱</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">password_hash</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">密碼雜湊值</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">gender</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">性別</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">birthday</span>
+                                <span class="field-type">DATE</span>
+                                <span class="field-comment">生日</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">nationality_iso</span>
+                                <span class="field-type">CHAR(2)</span>
+                                <span class="field-comment">國籍代碼</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">phone_country_iso</span>
+                                <span class="field-type">CHAR(2)</span>
+                                <span class="field-comment">電話國碼</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">phone_number <span class="badge badge-index">IDX</span></span>
+                                <span class="field-type">VARCHAR(30)</span>
+                                <span class="field-comment">聯絡電話(不含國碼)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">region</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">區域</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">address</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">地址</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">preferences</span>
+                                <span class="field-type">JSON</span>
+                                <span class="field-comment">偏好設定</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">is_active <span class="badge badge-index">IDX</span></span>
+                                <span class="field-type">TINYINT(1)</span>
+                                <span class="field-comment">是否啟用</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">registered_at <span class="badge badge-index">IDX</span></span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">註冊時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
                             </li>
                         </ul>
                     </div>
