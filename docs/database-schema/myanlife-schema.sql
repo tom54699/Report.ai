@@ -17,7 +17,7 @@ CREATE TABLE banner (
     title VARCHAR(100) NOT NULL COMMENT '橫幅標題',
     type_id BIGINT UNSIGNED NOT NULL COMMENT '類型ID',
     url VARCHAR(500) COMMENT '連結網址',
-    image VARCHAR(500) NOT NULL COMMENT '圖片路徑',
+    image_url VARCHAR(500) NOT NULL COMMENT '圖片路徑',
     sort_order INT DEFAULT 0 COMMENT '排序順序',
     is_active TINYINT(1) DEFAULT 1 COMMENT '是否啟用(0:否 1:是)',
     is_top TINYINT(1) DEFAULT 0 COMMENT '是否置頂(0:否 1:是)',
