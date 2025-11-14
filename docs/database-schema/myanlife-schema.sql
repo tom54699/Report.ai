@@ -3,19 +3,19 @@
 -- 創建日期: 2025-11-14
 -- ============================================
 
--- 橫幅類型表
-CREATE TABLE banner_type (
+-- 橫幅分類表
+CREATE TABLE banner_category (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主鍵',
-    title VARCHAR(50) NOT NULL COMMENT '類型標題',
+    title VARCHAR(50) NOT NULL COMMENT '分類標題',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='橫幅類型表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='橫幅分類表';
 
 -- 橫幅表
 CREATE TABLE banner (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主鍵',
     title VARCHAR(100) NOT NULL COMMENT '橫幅標題',
-    type_id BIGINT UNSIGNED NOT NULL COMMENT '類型ID',
+    category_id BIGINT UNSIGNED NOT NULL COMMENT '分類ID',
     url VARCHAR(500) COMMENT '連結網址',
     image_url VARCHAR(500) NOT NULL COMMENT '圖片路徑',
     sort_order INT DEFAULT 0 COMMENT '排序順序',
@@ -24,25 +24,25 @@ CREATE TABLE banner (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
 
-    KEY idx_type_id (type_id) COMMENT '類型索引',
+    KEY idx_category_id (category_id) COMMENT '分類索引',
     KEY idx_sort_order (sort_order) COMMENT '排序索引',
     KEY idx_is_active (is_active) COMMENT '啟用狀態索引',
 
-    CONSTRAINT fk_banner_type FOREIGN KEY (type_id) REFERENCES banner_type(id)
+    CONSTRAINT fk_banner_category FOREIGN KEY (category_id) REFERENCES banner_category(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='橫幅表';
 
--- 新聞類型表
-CREATE TABLE news_type (
+-- 新聞分類表
+CREATE TABLE news_category (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主鍵',
-    title VARCHAR(50) NOT NULL COMMENT '類型標題',
+    title VARCHAR(50) NOT NULL COMMENT '分類標題',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='新聞類型表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='新聞分類表';
 
 -- 新聞表
 CREATE TABLE news (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主鍵',
-    type_id BIGINT UNSIGNED NOT NULL COMMENT '類型ID',
+    category_id BIGINT UNSIGNED NOT NULL COMMENT '分類ID',
     title VARCHAR(200) NOT NULL COMMENT '新聞標題',
     description VARCHAR(100) COMMENT '新聞摘要',
     content TEXT NOT NULL COMMENT '新聞內容',
@@ -52,9 +52,9 @@ CREATE TABLE news (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
 
-    KEY idx_type_id (type_id) COMMENT '類型索引',
+    KEY idx_category_id (category_id) COMMENT '分類索引',
     KEY idx_is_active (is_active) COMMENT '啟用狀態索引',
     KEY idx_publish_time (publish_time) COMMENT '發布時間索引',
 
-    CONSTRAINT fk_news_type FOREIGN KEY (type_id) REFERENCES news_type(id)
+    CONSTRAINT fk_news_category FOREIGN KEY (category_id) REFERENCES news_category(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='新聞表';
