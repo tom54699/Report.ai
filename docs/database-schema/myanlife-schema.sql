@@ -197,8 +197,8 @@ CREATE TABLE member_task_logs (
     KEY idx_completed_at (completed_at) COMMENT '完成時間索引',
     KEY idx_member_task (member_id, task_id) COMMENT '會員任務複合索引',
 
-    CONSTRAINT fk_member_task FOREIGN KEY (task_id) REFERENCES member_tasks(id)
-    -- CONSTRAINT fk_member FOREIGN KEY (member_id) REFERENCES members(id) -- 待 members 表建立後啟用
+    CONSTRAINT fk_member_task FOREIGN KEY (task_id) REFERENCES member_tasks(id),
+    CONSTRAINT fk_member FOREIGN KEY (member_id) REFERENCES members(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='會員任務記錄表';
 
 -- 商家任務記錄表
