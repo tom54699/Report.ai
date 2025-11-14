@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跨國訂單架構方案對比</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-5px);
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            padding: 12px 30px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid transparent;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+            border-color: white;
+        }
+
+        .content {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .architecture-diagram {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 40px;
+            margin: 30px 0;
+        }
+
+        .diagram-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .layer {
+            margin-bottom: 40px;
+        }
+
+        .layer-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .component-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .component {
+            background: white;
+            border: 3px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px 30px;
+            min-width: 150px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .component:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .component.frontend {
+            border-color: #2196f3;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        }
+
+        .component.backend {
+            border-color: #9c27b0;
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+        }
+
+        .component.central-db {
+            border-color: #ff9800;
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+        }
+
+        .component.country-db {
+            border-color: #4caf50;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+        }
+
+        .component.aggregator {
+            border-color: #f44336;
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+        }
+
+        .component-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .component-name {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .component-desc {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .arrow {
+            text-align: center;
+            font-size: 2em;
+            color: #667eea;
+            margin: 10px 0;
+        }
+
+        .arrow.multi {
+            display: flex;
+            justify-content: center;
+            gap: 100px;
+        }
+
+        .arrow.multi span {
+            font-size: 2.5em;
+        }
+
+        .flow-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .flow-arrow {
+            font-size: 3em;
+            color: #667eea;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .pros, .cons {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .pros {
+            border-color: #4caf50;
+        }
+
+        .cons {
+            border-color: #f44336;
+        }
+
+        .pros h3 {
+            color: #4caf50;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .cons h3 {
+            color: #f44336;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .pros ul, .cons ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .pros li, .cons li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .pros li:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+
+        .cons li:before {
+            content: "❌";
+            position: absolute;
+            left: 0;
+        }
+
+        .note-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+
+        .note-box h4 {
+            color: #1976d2;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .note-box p {
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+
+        .warning-box h4 {
+            color: #f57c00;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            color: #333;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .highlight {
+            background: #fff9c4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+
+            .component-row {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .arrow.multi {
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="architecture.html" class="back-link">← 返回架構圖</a>
+            <h1>🌍 跨國訂單架構方案對比</h1>
+            <p class="subtitle">支援用戶查看所有國家訂單的架構設計</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('plan-a')">方案 A：中央索引</button>
+            <button class="tab" onclick="switchTab('plan-b')">方案 B：聚合 API</button>
+            <button class="tab" onclick="switchTab('comparison')">方案對比</button>
+        </div>
+
+        <!-- 方案 A -->
+        <div id="plan-a" class="content active">
+            <div class="architecture-diagram">
+                <div class="diagram-title">📊 方案 A：中央索引架構</div>
+
+                <!-- Layer 1: Frontend -->
+                <div class="layer">
+                    <div class="layer-title">📱 前端層</div>
+                    <div class="component-row">
+                        <div class="component frontend">
+                            <div class="component-icon">📱</div>
+                            <div class="component-name">Web App</div>
+                            <div class="component-desc">用戶前端</div>
+                        </div>
+                        <div class="component frontend">
+                            <div class="component-icon">🏪</div>
+                            <div class="component-name">商家後台</div>
+                            <div class="component-desc">商家管理</div>
+                        </div>
+                        <div class="component frontend">
+                            <div class="component-icon">👥</div>
+                            <div class="component-name">運營後台</div>
+                            <div class="component-desc">各國運營</div>
+                        </div>
+                        <div class="component frontend">
+                            <div class="component-icon">🏛️</div>
+                            <div class="component-name">中央後台</div>
+                            <div class="component-desc">集團管理</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow">↓</div>
+
+                <!-- Layer 2: Backend -->
+                <div class="layer">
+                    <div class="layer-title">⚙️ 後端層（單一 Laravel 專案）</div>
+                    <div class="component-row">
+                        <div class="component backend" style="min-width: 500px;">
+                            <div class="component-icon">🚀</div>
+                            <div class="component-name">Laravel API（單一專案）</div>
+                            <div class="component-desc">智能路由 + 多 DB 連接管理</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow">↓</div>
+
+                <!-- Layer 3: Database -->
+                <div class="layer">
+                    <div class="layer-title">💾 資料庫層</div>
+
+                    <!-- Central DB -->
+                    <div class="component-row">
+                        <div class="component central-db" style="min-width: 400px;">
+                            <div class="component-icon">🗂️</div>
+                            <div class="component-name">Central DB（中央索引庫）</div>
+                            <div class="component-desc">users + order_index（輕量級索引）</div>
+                        </div>
+                    </div>
+
+                    <div class="arrow">查詳情時 ↓</div>
+
+                    <!-- Country DBs -->
+                    <div class="component-row">
+                        <div class="component country-db">
+                            <div class="component-icon">🇹🇼</div>
+                            <div class="component-name">Taiwan DB</div>
+                            <div class="component-desc">完整訂單資料</div>
+                        </div>
+                        <div class="component country-db">
+                            <div class="component-icon">🇲🇲</div>
+                            <div class="component-name">Myanmar DB</div>
+                            <div class="component-desc">完整訂單資料</div>
+                        </div>
+                        <div class="component country-db">
+                            <div class="component-icon">🇹🇭</div>
+                            <div class="component-name">Thailand DB</div>
+                            <div class="component-desc">完整訂單資料</div>
+                        </div>
+                        <div class="component country-db">
+                            <div class="component-icon">🇻🇳</div>
+                            <div class="component-name">Vietnam DB</div>
+                            <div class="component-desc">完整訂單資料</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="note-box">
+                <h4>🔑 核心概念</h4>
+                <p><strong>1. 單一 Laravel 專案</strong> - 所有邏輯在一個專案內，透過 config/database.php 配置多個 DB 連接</p>
+                <p><strong>2. 中央索引表</strong> - Central DB 只存訂單摘要（輕量級），用於快速查詢列表</p>
+                <p><strong>3. 按需查詢詳情</strong> - 點擊訂單詳情時，根據 country_code 切換到對應 DB 查詢完整資料</p>
+                <p><strong>4. 雙寫機制</strong> - 下單時同時寫入：國家 DB（完整）+ Central DB（索引）</p>
+            </div>
+
+            <div class="note-box">
+                <h4>📝 資料流程</h4>
+                <p><strong>查詢訂單列表：</strong></p>
+                <p>App → Laravel API → <span class="highlight">查 Central DB 的 order_index</span> → 返回所有國家訂單摘要</p>
+                <br>
+                <p><strong>查詢訂單詳情：</strong></p>
+                <p>App → Laravel API → 先查 Central DB 找出國家 → <span class="highlight">切換到該國 DB</span> → 查完整資料 → 返回</p>
+                <br>
+                <p><strong>創建訂單：</strong></p>
+                <p>App → Laravel API → <span class="highlight">同時寫入兩個 DB</span> → 台灣 DB（完整）+ Central DB（索引）→ 完成</p>
+            </div>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h3>✅ 優點</h3>
+                    <ul>
+                        <li>查詢速度快（只查單一索引表）</li>
+                        <li>單一專案，部署簡單</li>
+                        <li>業務邏輯集中管理</li>
+                        <li>用戶體驗好（看到所有訂單）</li>
+                        <li>詳細資料仍在各國（合規）</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h3>❌ 缺點</h3>
+                    <ul>
+                        <li>需要維護中央 DB</li>
+                        <li>雙寫可能有一致性問題</li>
+                        <li>程式碼需要處理 DB 切換</li>
+                        <li>Central DB 成為單點依賴</li>
+                        <li>初期開發成本較高</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ 業務邏輯複雜度</h4>
+                <p><strong>需要處理的邏輯：</strong></p>
+                <p>1. <strong>DB 連接切換</strong> - 根據 country_code 動態切換 DB 連接（Laravel 原生支持）</p>
+                <p>2. <strong>雙寫協調</strong> - 下單時需要同時寫入兩個 DB，處理事務一致性</p>
+                <p>3. <strong>索引同步</strong> - 訂單狀態更新時，需要同步更新索引表</p>
+                <p>4. <strong>錯誤處理</strong> - 某個 DB 掛了，如何優雅降級</p>
+                <p><br><strong>結論：</strong>業務邏輯會增加約 20-30% 複雜度，但<span class="highlight">仍然可控</span>。</p>
+            </div>
+        </div>
+
+        <!-- 方案 B -->
+        <div id="plan-b" class="content">
+            <div class="architecture-diagram">
+                <div class="diagram-title">📊 方案 B：聚合 API 架構</div>
+
+                <!-- Layer 1: Frontend -->
+                <div class="layer">
+                    <div class="layer-title">📱 前端層</div>
+                    <div class="component-row">
+                        <div class="component frontend">
+                            <div class="component-icon">📱</div>
+                            <div class="component-name">Web App</div>
+                            <div class="component-desc">用戶前端</div>
+                        </div>
+                        <div class="component frontend">
+                            <div class="component-icon">🏪</div>
+                            <div class="component-name">商家後台</div>
+                            <div class="component-desc">商家管理</div>
+                        </div>
+                        <div class="component frontend">
+                            <div class="component-icon">👥</div>
+                            <div class="component-name">運營後台</div>
+                            <div class="component-desc">各國運營</div>
+                        </div>
+                        <div class="component frontend">
+                            <div class="component-icon">🏛️</div>
+                            <div class="component-name">中央後台</div>
+                            <div class="component-desc">集團管理</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow">↓</div>
+
+                <!-- Layer 2: Aggregator -->
+                <div class="layer">
+                    <div class="layer-title">🔄 聚合層（新增服務）</div>
+                    <div class="component-row">
+                        <div class="component aggregator" style="min-width: 500px;">
+                            <div class="component-icon">⚡</div>
+                            <div class="component-name">Aggregation Service</div>
+                            <div class="component-desc">Node.js / Go 輕量級服務，並行查詢各國 API</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow multi">
+                    <span>↙</span>
+                    <span>↓</span>
+                    <span>↓</span>
+                    <span>↘</span>
+                </div>
+
+                <!-- Layer 3: Country APIs -->
+                <div class="layer">
+                    <div class="layer-title">⚙️ 各國 API 層（可以是獨立專案或單一專案）</div>
+                    <div class="component-row">
+                        <div class="component backend">
+                            <div class="component-icon">🇹🇼</div>
+                            <div class="component-name">TW API</div>
+                            <div class="component-desc">台灣服務</div>
+                        </div>
+                        <div class="component backend">
+                            <div class="component-icon">🇲🇲</div>
+                            <div class="component-name">MM API</div>
+                            <div class="component-desc">緬甸服務</div>
+                        </div>
+                        <div class="component backend">
+                            <div class="component-icon">🇹🇭</div>
+                            <div class="component-name">TH API</div>
+                            <div class="component-desc">泰國服務</div>
+                        </div>
+                        <div class="component backend">
+                            <div class="component-icon">🇻🇳</div>
+                            <div class="component-name">VN API</div>
+                            <div class="component-desc">越南服務</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow multi">
+                    <span>↓</span>
+                    <span>↓</span>
+                    <span>↓</span>
+                    <span>↓</span>
+                </div>
+
+                <!-- Layer 4: Databases -->
+                <div class="layer">
+                    <div class="layer-title">💾 資料庫層</div>
+                    <div class="component-row">
+                        <div class="component country-db">
+                            <div class="component-icon">🗄️</div>
+                            <div class="component-name">Taiwan DB</div>
+                        </div>
+                        <div class="component country-db">
+                            <div class="component-icon">🗄️</div>
+                            <div class="component-name">Myanmar DB</div>
+                        </div>
+                        <div class="component country-db">
+                            <div class="component-icon">🗄️</div>
+                            <div class="component-name">Thailand DB</div>
+                        </div>
+                        <div class="component country-db">
+                            <div class="component-icon">🗄️</div>
+                            <div class="component-name">Vietnam DB</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="note-box">
+                <h4>🔑 核心概念</h4>
+                <p><strong>1. 聚合服務層</strong> - 新增一個輕量級服務（Node.js/Go），專門處理跨國查詢</p>
+                <p><strong>2. 並行請求</strong> - Aggregator 同時打 4 個國家的 API，等待結果後合併</p>
+                <p><strong>3. 各國 API 獨立</strong> - 可以是 4 個獨立 Laravel 專案，或單一專案根據路由區分</p>
+                <p><strong>4. 無中央 DB</strong> - 不需要額外的中央索引庫</p>
+            </div>
+
+            <div class="note-box">
+                <h4>📝 資料流程</h4>
+                <p><strong>查詢訂單列表：</strong></p>
+                <p>App → Aggregator → <span class="highlight">並行打 4 個 API</span> → 合併結果 → 排序 → 返回</p>
+                <br>
+                <p><strong>查詢訂單詳情：</strong></p>
+                <p>App → 直接打對應國家 API（前端記住 country_code）→ 返回詳情</p>
+                <br>
+                <p><strong>創建訂單：</strong></p>
+                <p>App → 打當前國家 API → 寫入該國 DB → 完成（<span class="highlight">單寫</span>）</p>
+            </div>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h3>✅ 優點</h3>
+                    <ul>
+                        <li>不需要中央 DB（架構簡單）</li>
+                        <li>各國 API 完全獨立（解耦）</li>
+                        <li>不需要雙寫（無一致性問題）</li>
+                        <li>可以漸進式遷移</li>
+                        <li>某個國家掛了不影響其他國家</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h3>❌ 缺點</h3>
+                    <ul>
+                        <li>查詢慢（需要等待 4 個 API）</li>
+                        <li>多一層服務（運維成本）</li>
+                        <li>需要處理各國 API 認證</li>
+                        <li>網絡延遲疊加</li>
+                        <li>某個國家 API 超時會拖慢整體</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ 性能問題</h4>
+                <p><strong>最壞情況：</strong></p>
+                <p>台灣 API 回應時間：100ms</p>
+                <p>緬甸 API 回應時間：150ms</p>
+                <p>泰國 API 回應時間：<span class="highlight" style="background: #ffcdd2;">3000ms（超時）</span></p>
+                <p>越南 API 回應時間：120ms</p>
+                <p><br><strong>結果：</strong>用戶需要等待 3 秒才能看到訂單列表（取最慢的）</p>
+                <p><br><strong>解決方案：</strong>設定超時（如 1 秒），超時的國家返回空結果，並標記「XX 國家數據載入失敗」</p>
+            </div>
+        </div>
+
+        <!-- 對比 -->
+        <div id="comparison" class="content">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #333;">方案詳細對比</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>比較維度</th>
+                        <th>方案 A：中央索引</th>
+                        <th>方案 B：聚合 API</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Laravel 專案數量</strong></td>
+                        <td><span class="highlight">單一專案</span><br>所有邏輯在一個專案內</td>
+                        <td>可選：<br>• 單一專案（路由區分）<br>• 或 4 個獨立專案</td>
+                    </tr>
+                    <tr>
+                        <td><strong>額外服務</strong></td>
+                        <td>無需額外服務<br>（但需要 Central DB）</td>
+                        <td>需要 Aggregation Service<br>（Node.js / Go）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>查詢訂單列表速度</strong></td>
+                        <td>⚡ <strong>快</strong><br>~50-100ms<br>（單次查詢索引表）</td>
+                        <td>🐌 <strong>慢</strong><br>~500-3000ms<br>（並行 4 個 API）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>查詢訂單詳情速度</strong></td>
+                        <td>🟢 正常<br>~100-200ms<br>（切換 DB 查詢）</td>
+                        <td>🟢 正常<br>~100-200ms<br>（直接打 API）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>業務邏輯複雜度</strong></td>
+                        <td>🟡 <strong>中等</strong><br>需要處理：<br>• DB 切換<br>• 雙寫協調<br>• 索引同步</td>
+                        <td>🟢 <strong>低</strong><br>各國邏輯獨立<br>不需要特殊處理</td>
+                    </tr>
+                    <tr>
+                        <td><strong>資料一致性</strong></td>
+                        <td>🟡 需要維護<br>（雙寫可能不一致）</td>
+                        <td>🟢 無問題<br>（單寫）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>運維成本</strong></td>
+                        <td>🟢 低<br>單一專案 + 多個 DB</td>
+                        <td>🔴 高<br>多個服務需要監控</td>
+                    </tr>
+                    <tr>
+                        <td><strong>擴展性</strong></td>
+                        <td>🟡 中等<br>新增國家需要：<br>• 加 DB 連接<br>• 修改程式碼</td>
+                        <td>🟢 好<br>新增國家只需：<br>• 部署新 API<br>• Aggregator 加配置</td>
+                    </tr>
+                    <tr>
+                        <td><strong>容錯能力</strong></td>
+                        <td>🔴 Central DB 是單點<br>掛了就無法查訂單列表</td>
+                        <td>🟢 某國 API 掛了<br>其他國家仍可查詢</td>
+                    </tr>
+                    <tr>
+                        <td><strong>適合場景</strong></td>
+                        <td>• 用戶經常查看訂單列表<br>• 追求極致性能<br>• 團隊可控制一致性</td>
+                        <td>• 各國團隊獨立開發<br>• 不想改現有架構<br>• 可接受查詢延遲</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="note-box">
+                <h4>💡 關於「單一 Laravel 專案」的說明</h4>
+                <p><strong>方案 A：</strong>肯定是單一專案，因為需要在一個專案內管理多個 DB 連接。</p>
+                <p><strong>方案 B：</strong>可以選擇：</p>
+                <p>• <strong>選項 1：</strong>單一 Laravel 專案，透過路由前綴區分國家（/tw/api、/mm/api）</p>
+                <p>• <strong>選項 2：</strong>4 個獨立 Laravel 專案，分別部署（tw.api.com、mm.api.com）</p>
+                <p>• <strong>選項 3：</strong>目前的做法（根據環境變數切換 DB），加上 Aggregator 聚合</p>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ 方案 A 的業務邏輯複雜度詳解</h4>
+                <p><strong>會增加哪些複雜度？</strong></p>
+                <p><br><strong>1. DB 連接切換（難度：⭐⭐ 簡單）</strong></p>
+                <p>Laravel 原生支持多 DB 連接，切換很簡單：</p>
+                <p style="background: #f5f5f5; padding: 10px; border-radius: 4px; font-family: monospace;">
+                    DB::connection('taiwan')->table('orders')->get();<br>
+                    DB::connection('myanmar')->table('orders')->get();
+                </p>
+                <p><br><strong>2. 雙寫協調（難度：⭐⭐⭐ 中等）</strong></p>
+                <p>需要確保兩個 DB 都寫入成功：</p>
+                <p>• 使用事務包裹<br>• 處理部分失敗的情況<br>• 可能需要補償機制</p>
+                <p><br><strong>3. 索引同步（難度：⭐⭐⭐⭐ 較難）</strong></p>
+                <p>訂單狀態更新時，需要同步更新索引：</p>
+                <p>• 訂單完成 → 更新台灣 DB + 更新 Central DB 索引<br>• 可以用事件監聽器自動處理</p>
+                <p><br><strong>4. 查詢路由邏輯（難度：⭐⭐ 簡單）</strong></p>
+                <p>根據 API 路徑決定查哪個 DB：</p>
+                <p>• /api/user/orders → 查 Central DB（跨國）<br>• /api/tw/merchants → 查台灣 DB<br>• /api/order/{uuid} → 查索引找國家 → 切換 DB</p>
+                <p><br><strong>總結：</strong>整體複雜度<span class="highlight">可控</span>，但需要團隊對事務、一致性有一定理解。</p>
+            </div>
+
+            <div class="note-box">
+                <h4>🎯 推薦方案</h4>
+                <p><strong>如果你的情境是：</strong></p>
+                <p>✅ 目前只有一個 Laravel 專案<br>✅ 用戶會頻繁查看訂單列表<br>✅ 團隊有能力處理 DB 切換邏輯<br>✅ 追求性能</p>
+                <p><br><strong>→ 推薦方案 A：中央索引</strong></p>
+                <p><br><strong>如果你的情境是：</strong></p>
+                <p>✅ 各國已經有獨立 API 在跑<br>✅ 不想改現有架構<br>✅ 可以接受查詢稍慢<br>✅ 團隊分散在各國</p>
+                <p><br><strong>→ 推薦方案 B：聚合 API</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // 移除所有 active
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // 添加 active
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+    </script>
+</body>
+</html>
