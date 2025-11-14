@@ -141,6 +141,7 @@
             justify-content: space-between;
             align-items: center;
             transition: background 0.2s;
+            gap: 10px;
         }
 
         .field-item:hover {
@@ -155,6 +156,10 @@
             font-weight: 600;
             color: #333;
             flex: 1;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
         }
 
         .field-type {
@@ -163,7 +168,7 @@
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.85em;
-            margin: 0 10px;
+            white-space: nowrap;
         }
 
         .field-comment {
@@ -175,11 +180,11 @@
 
         .badge {
             display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.75em;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7em;
             font-weight: 600;
-            margin-left: 8px;
+            white-space: nowrap;
         }
 
         .badge-primary {
@@ -683,17 +688,27 @@ erDiagram
 
     <script>
         // 初始化 Mermaid
-        mermaid.initialize({
-            startOnLoad: true,
-            theme: 'default',
-            themeVariables: {
-                primaryColor: '#667eea',
-                primaryTextColor: '#fff',
-                primaryBorderColor: '#764ba2',
-                lineColor: '#667eea',
-                secondaryColor: '#764ba2',
-                tertiaryColor: '#f8f9fa'
-            }
+        document.addEventListener('DOMContentLoaded', function() {
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'default',
+                er: {
+                    useMaxWidth: true
+                },
+                themeVariables: {
+                    primaryColor: '#667eea',
+                    primaryTextColor: '#fff',
+                    primaryBorderColor: '#764ba2',
+                    lineColor: '#667eea',
+                    secondaryColor: '#764ba2',
+                    tertiaryColor: '#f8f9fa'
+                }
+            });
+
+            // 強制渲染 Mermaid 圖表
+            setTimeout(() => {
+                mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            }, 100);
         });
 
         // 頁籤切換
