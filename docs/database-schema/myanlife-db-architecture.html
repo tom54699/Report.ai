@@ -411,61 +411,90 @@
 
             <!-- ER 圖頁籤 -->
             <div id="diagram" class="tab-content">
-                <div class="diagram-container">
-                    <div class="mermaid">
-erDiagram
-    banner_type ||--o{ banner : has
-    news_type ||--o{ news : has
+                <h2 style="margin-bottom: 30px; color: #333; text-align: center;">資料表關聯圖</h2>
 
-    banner_type {
-        bigint id PK
-        varchar title
-        timestamp created_at
-        timestamp updated_at
-    }
+                <!-- 橫幅系統 -->
+                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h3 style="color: #667eea; margin-bottom: 20px; border-bottom: 3px solid #667eea; padding-bottom: 10px;">🎨 橫幅管理系統</h3>
+                    <div style="display: flex; gap: 40px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(102,126,234,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">📁 banner_type</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">橫幅類型表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3);">
+                                <div>🔑 id (PK)</div>
+                                <div>📝 title</div>
+                                <div>📅 created_at</div>
+                                <div>🔄 updated_at</div>
+                            </div>
+                        </div>
 
-    banner {
-        bigint id PK
-        varchar title
-        bigint type_id FK
-        varchar url
-        varchar image
-        int sort_order
-        tinyint is_active
-        tinyint is_top
-        timestamp created_at
-        timestamp updated_at
-    }
+                        <div style="font-size: 2em; color: #667eea; font-weight: bold;">
+                            1 : N
+                        </div>
 
-    news_type {
-        bigint id PK
-        varchar title
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    news {
-        bigint id PK
-        bigint type_id FK
-        varchar title
-        varchar description
-        text content
-        tinyint is_active
-        tinyint is_top
-        timestamp publish_time
-        timestamp created_at
-        timestamp updated_at
-    }
+                        <div style="background: linear-gradient(135deg, #48bb78, #38a169); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(72,187,120,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">🎨 banner</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">橫幅表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔑 id (PK)</div>
+                                <div>📝 title</div>
+                                <div>🔗 type_id (FK)</div>
+                                <div>🔗 url</div>
+                                <div>🖼️ image</div>
+                                <div>🔢 sort_order</div>
+                                <div>✅ is_active</div>
+                                <div>📌 is_top</div>
+                                <div style="opacity: 0.7;">📅 created_at / updated_at</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div style="background: #fff5e6; padding: 20px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #ed8936;">
-                    <h3 style="color: #dd6b20; margin-bottom: 15px;">📝 ER 圖說明</h3>
+                <!-- 新聞系統 -->
+                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h3 style="color: #4299e1; margin-bottom: 20px; border-bottom: 3px solid #4299e1; padding-bottom: 10px;">📰 新聞管理系統</h3>
+                    <div style="display: flex; gap: 40px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                        <div style="background: linear-gradient(135deg, #4299e1, #3182ce); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(66,153,225,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">📁 news_type</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">新聞類型表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3);">
+                                <div>🔑 id (PK)</div>
+                                <div>📝 title</div>
+                                <div>📅 created_at</div>
+                                <div>🔄 updated_at</div>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 2em; color: #4299e1; font-weight: bold;">
+                            1 : N
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #ed8936, #dd6b20); color: white; padding: 25px; border-radius: 15px; min-width: 250px; box-shadow: 0 4px 8px rgba(237,137,54,0.3);">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">📰 news</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">新聞表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔑 id (PK)</div>
+                                <div>🔗 type_id (FK)</div>
+                                <div>📝 title</div>
+                                <div>📄 description</div>
+                                <div>📋 content</div>
+                                <div>✅ is_active</div>
+                                <div>📌 is_top</div>
+                                <div>🕐 publish_time</div>
+                                <div style="opacity: 0.7;">📅 created_at / updated_at</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: #fff5e6; padding: 25px; border-radius: 15px; margin-top: 30px; border-left: 5px solid #ed8936;">
+                    <h3 style="color: #dd6b20; margin-bottom: 15px;">📝 關聯說明</h3>
                     <ul style="line-height: 2; color: #666;">
-                        <li><strong>banner_type ←→ banner：</strong>一個橫幅類型可以有多個橫幅（一對多）</li>
-                        <li><strong>news_type ←→ news：</strong>一個新聞類型可以有多個新聞（一對多）</li>
-                        <li><strong>PK：</strong>主鍵（Primary Key）</li>
-                        <li><strong>FK：</strong>外鍵（Foreign Key）</li>
+                        <li><strong>1:N (一對多)：</strong>一個類型可以對應多筆資料</li>
+                        <li><strong>PK (Primary Key)：</strong>主鍵，唯一識別符</li>
+                        <li><strong>FK (Foreign Key)：</strong>外鍵，關聯到其他表格的主鍵</li>
+                        <li><strong>banner_type.id ← banner.type_id：</strong>橫幅透過 type_id 關聯到橫幅類型</li>
+                        <li><strong>news_type.id ← news.type_id：</strong>新聞透過 type_id 關聯到新聞類型</li>
                     </ul>
                 </div>
             </div>
