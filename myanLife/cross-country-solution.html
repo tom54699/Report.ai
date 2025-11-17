@@ -774,10 +774,10 @@
                     <h4>❌ 缺點</h4>
                     <ul>
                         <li>查詢速度取決於最慢的 API（同區域 ~60-100ms，跨區域 ~100-200ms）</li>
-                        <li>需要額外的聚合服務（運維成本）</li>
-                        <li>需要處理各國 API 認證</li>
+                        <li>需要額外的聚合服務（ECS 多一個 Service 要設定和監控）</li>
+                        <li>程式碼邏輯較複雜（並行請求、timeout、錯誤處理、降級策略）</li>
                         <li>某個國家 API 超時會拖慢整體體驗（需設定 timeout 機制）</li>
-                        <li>複雜度較高（需處理並行請求、錯誤處理）</li>
+                        <li>除錯較複雜（需追蹤跨服務請求鏈）</li>
                     </ul>
                 </div>
             </div>
@@ -1011,13 +1011,13 @@
                     <tr>
                         <td><strong>架構複雜度</strong></td>
                         <td>🟡 中等（+30%）</td>
-                        <td>🔴 高（多服務）</td>
+                        <td>🟡 中等（並行請求 + 錯誤處理）</td>
                         <td>🟢 <strong>最低</strong></td>
                     </tr>
                     <tr>
                         <td><strong>Laravel 專案數量</strong></td>
                         <td>1 個專案</td>
-                        <td>可選：1 個或 4 個</td>
+                        <td>1 個專案（可選聚合服務）</td>
                         <td>1 個專案</td>
                     </tr>
                     <tr>
@@ -1029,7 +1029,7 @@
                     <tr>
                         <td><strong>運維成本</strong></td>
                         <td>🟡 中等（Central DB）</td>
-                        <td>🔴 高（多服務監控）</td>
+                        <td>🟡 中等（ECS 多服務 + 監控）</td>
                         <td>🟢 <strong>最低</strong></td>
                     </tr>
                     <tr>
