@@ -762,6 +762,188 @@
             </div>
         </div>
 
+        <!-- 方案 C -->
+        <div class="section">
+            <div class="section-title">
+                <span>📊</span>
+                <span>方案 C：多帳號自動同步架構（Amazon 做法）</span>
+            </div>
+
+            <div class="scenario-box">
+                <h3>💡 核心理念</h3>
+                <p><strong>Amazon 的做法：</strong>切換區域 = 切換帳號</p>
+                <p>• 註冊時在中央會員系統建立唯一 member_id</p>
+                <p>• 按需在各國 DB 建立用戶（第一次切換到該國時才建立）</p>
+                <p>• 各國獨立發 token，切換區域 = 切換 token</p>
+                <p>• 只看當前區域訂單（台灣看台灣，泰國看泰國）</p>
+            </div>
+
+            <div class="architecture-diagram">
+                <div class="diagram-title">方案 C 架構圖</div>
+
+                <!-- App Layer -->
+                <div class="layer">
+                    <div class="layer-title">📱 前端層</div>
+                    <div class="component-row">
+                        <div class="component app">
+                            <div class="component-icon">📱</div>
+                            <div class="component-name">myanLife App</div>
+                            <div class="component-desc">儲存多組 token</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow">↓</div>
+
+                <!-- Laravel Layer -->
+                <div class="layer">
+                    <div class="layer-title">⚙️ 當前國家 API（例如台灣）</div>
+                    <div class="component-row">
+                        <div class="component laravel" style="min-width: 400px;">
+                            <div class="component-icon">🚀</div>
+                            <div class="component-name">Taiwan Laravel API</div>
+                            <div class="component-desc">提供切換區域端點</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: center; gap: 50px; margin: 20px 0;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2em; color: #667eea;">↓</div>
+                        <div style="color: #666; font-size: 0.9em;">查中央資料</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2em; color: #667eea;">→</div>
+                        <div style="color: #666; font-size: 0.9em;">內部 API</div>
+                    </div>
+                </div>
+
+                <!-- Central + Target Country -->
+                <div class="layer">
+                    <div class="component-row">
+                        <div class="component central-db" style="min-width: 250px;">
+                            <div class="component-icon">🏛️</div>
+                            <div class="component-name">中央會員系統</div>
+                            <div class="component-desc">member_id + 核心資料</div>
+                        </div>
+                        <div class="component laravel" style="min-width: 250px;">
+                            <div class="component-icon">🇹🇭</div>
+                            <div class="component-name">Thailand API</div>
+                            <div class="component-desc">內部端點</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow">↓</div>
+
+                <!-- Database Layer -->
+                <div class="layer">
+                    <div class="layer-title">💾 資料庫層</div>
+                    <div class="component-row">
+                        <div class="component country-db">
+                            <div class="component-icon">🇹🇼</div>
+                            <div class="component-name">Taiwan DB</div>
+                            <div class="component-desc">user (member_id)</div>
+                        </div>
+                        <div class="component country-db">
+                            <div class="component-icon">🇹🇭</div>
+                            <div class="component-name">Thailand DB</div>
+                            <div class="component-desc">user (member_id)</div>
+                        </div>
+                        <div class="component country-db">
+                            <div class="component-icon">🇲🇲</div>
+                            <div class="component-name">Myanmar DB</div>
+                        </div>
+                        <div class="component country-db">
+                            <div class="component-icon">🇻🇳</div>
+                            <div class="component-name">Vietnam DB</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="note-box">
+                <h4>💡 方案 C 運作流程</h4>
+                <p><strong>1. 註冊流程（在台灣註冊）：</strong></p>
+                <p>• 台灣 API 呼叫中央會員系統，檢查 email 是否存在</p>
+                <p>• 如果不存在 → 在中央建立記錄，取得 member_id</p>
+                <p>• 台灣 API 在台灣 DB 建立 user（包含 member_id）</p>
+                <p>• 台灣 API 發台灣 token 給前端</p>
+                <p>• 前端儲存：{ TW: token, member_id: 123 }</p>
+
+                <p><br><strong>2. 切換區域流程（台灣 → 泰國）：</strong></p>
+                <p>• 前端檢查是否有泰國 token → <span class="highlight">沒有</span></p>
+                <p>• 前端呼叫台灣 API：「我要切換到泰國」（帶台灣 token）</p>
+                <p>• 台灣 API 從台灣 DB 取得 member_id</p>
+                <p>• 台灣 API 呼叫泰國 API 的<span class="highlight">內部端點</span>（帶 member_id + shared secret）</p>
+                <p>• 泰國 API 用 member_id 查詢泰國 DB</p>
+                <p>• 如果沒有此用戶 → 從中央會員系統同步資料，在泰國 DB 建立 user</p>
+                <p>• 泰國 API 發泰國 token，返回給台灣 API</p>
+                <p>• 台灣 API 把泰國 token 給前端</p>
+                <p>• 前端儲存：{ TW: token1, TH: token2, member_id: 123 }</p>
+
+                <p><br><strong>3. 查詢訂單：</strong></p>
+                <p>App → 使用當前區域 token → 查該國 DB → <span class="highlight">只看該國訂單</span></p>
+
+                <p><br><strong>4. 下次切換到泰國：</strong></p>
+                <p>前端檢查已有泰國 token → 直接切換 → <span class="highlight">0 延遲</span></p>
+            </div>
+
+            <div class="scenario-box">
+                <h3>🔄 資料同步機制</h3>
+                <p><strong>用戶修改資料（例如改暱稱）：</strong></p>
+                <p>1. 台灣 API 更新台灣 DB</p>
+                <p>2. 台灣 API 同步到中央會員系統</p>
+                <p>3. 台灣 API 發 Message Queue，異步通知其他國家</p>
+                <p>4. 其他國家的 worker 收到通知：</p>
+                <p>   • 如果該國 DB 有此 member_id → 更新資料</p>
+                <p>   • 如果沒有 → 忽略（等用戶切換過來再建立）</p>
+                <p><br><strong>關鍵設計：</strong>按需建立，不浪費資源</p>
+            </div>
+
+            <div class="problem-highlight">
+                <h3>🔑 關鍵技術點</h3>
+                <p><strong>1. 內部 API 端點：</strong></p>
+                <p>• 各國 API 都開一個內部端點：/internal/get-or-create-token</p>
+                <p>• 只接受帶有 shared secret 的請求（各國共用密鑰）</p>
+                <p>• 不對外公開，只給其他國家 API 使用</p>
+                <p><br><strong>2. member_id 的作用：</strong></p>
+                <p>• 全球唯一識別符</p>
+                <p>• 各國 DB 的 user 表都有此欄位</p>
+                <p>• 用於跨國查詢用戶是否存在</p>
+                <p><br><strong>3. Token 管理：</strong></p>
+                <p>• 前端儲存多組 token（每個國家一個）</p>
+                <p>• 切換區域 = 切換使用哪個 token</p>
+                <p>• 每個 token 只能訪問對應國家 API</p>
+            </div>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>✅ 優點</h4>
+                    <ul>
+                        <li>架構最簡單（不需要額外服務）</li>
+                        <li>性能最好（查詢只打單一 DB）</li>
+                        <li>完全符合法規（各國資料獨立）</li>
+                        <li>運維成本最低（各國獨立運作）</li>
+                        <li>Amazon 驗證過的方案（業界實證）</li>
+                        <li>按需建立用戶（不浪費儲存空間）</li>
+                        <li>某國掛了不影響其他國家</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>❌ 缺點</h4>
+                    <ul>
+                        <li>無法一次看所有國家訂單（用戶體驗差？）</li>
+                        <li>資料同步需要維護（Message Queue）</li>
+                        <li>第一次切換有延遲（100-300ms，建立用戶）</li>
+                        <li>前端需要管理多組 token</li>
+                        <li>需要中央會員系統（輕量級）</li>
+                        <li>同步失敗需要重試機制</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <!-- 方案對比 -->
         <div class="section">
             <div class="section-title">
@@ -775,48 +957,87 @@
                         <th>比較維度</th>
                         <th>方案 A：中央索引</th>
                         <th>方案 B：聚合 API</th>
+                        <th>方案 C：多帳號同步</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>Laravel 專案數量</strong></td>
-                        <td><span class="highlight">1 個專案</span></td>
-                        <td>可選：1 個或 4 個</td>
+                        <td><strong>查看訂單範圍</strong></td>
+                        <td>✅ 所有國家</td>
+                        <td>✅ 所有國家</td>
+                        <td>❌ 僅當前國家</td>
                     </tr>
                     <tr>
-                        <td><strong>查詢訂單列表速度</strong></td>
-                        <td>⚡ <strong>快</strong> (~50-100ms)</td>
-                        <td>🐌 <strong>慢</strong> (~500-3000ms)</td>
+                        <td><strong>查詢列表速度</strong></td>
+                        <td>⚡ 快 (~50-100ms)</td>
+                        <td>🐌 慢 (~500-3000ms)</td>
+                        <td>⚡ <strong>最快</strong> (~30-50ms)</td>
                     </tr>
                     <tr>
-                        <td><strong>業務邏輯複雜度</strong></td>
+                        <td><strong>切換區域延遲</strong></td>
+                        <td>N/A（不需切換）</td>
+                        <td>N/A（不需切換）</td>
+                        <td>首次：100-300ms<br>之後：0ms</td>
+                    </tr>
+                    <tr>
+                        <td><strong>架構複雜度</strong></td>
                         <td>🟡 中等（+30%）</td>
-                        <td>🟢 低（各國獨立）</td>
+                        <td>🔴 高（多服務）</td>
+                        <td>🟢 <strong>最低</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Laravel 專案數量</strong></td>
+                        <td>1 個專案</td>
+                        <td>可選：1 個或 4 個</td>
+                        <td>1 個專案</td>
                     </tr>
                     <tr>
                         <td><strong>資料一致性</strong></td>
                         <td>🟡 需維護（雙寫）</td>
                         <td>🟢 無問題（單寫）</td>
+                        <td>🟡 需維護（異步同步）</td>
                     </tr>
                     <tr>
                         <td><strong>運維成本</strong></td>
-                        <td>🟢 低（單一專案）</td>
+                        <td>🟡 中等（Central DB）</td>
                         <td>🔴 高（多服務監控）</td>
+                        <td>🟢 <strong>最低</strong></td>
                     </tr>
                     <tr>
                         <td><strong>容錯能力</strong></td>
                         <td>🔴 Central DB 單點</td>
                         <td>🟢 某國掛了不影響</td>
+                        <td>🟢 <strong>各國完全獨立</strong></td>
                     </tr>
                     <tr>
-                        <td><strong>擴展性</strong></td>
-                        <td>🟡 中等</td>
-                        <td>🟢 好（加 API 即可）</td>
+                        <td><strong>數據本地化</strong></td>
+                        <td>🟡 部分（詳細在各國）</td>
+                        <td>✅ 完全符合</td>
+                        <td>✅ <strong>完全符合</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>前端複雜度</strong></td>
+                        <td>🟢 簡單</td>
+                        <td>🟢 簡單</td>
+                        <td>🟡 中等（管理多 token）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>需要中央系統</strong></td>
+                        <td>✅ 需要（中央 DB）</td>
+                        <td>❌ 不需要</td>
+                        <td>✅ 需要（輕量級）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>業界案例</strong></td>
+                        <td>Uber Eats</td>
+                        <td>-</td>
+                        <td><strong>Amazon</strong></td>
                     </tr>
                     <tr>
                         <td><strong>適合場景</strong></td>
-                        <td>• 追求性能<br>• 團隊集中<br>• 用戶常看訂單</td>
+                        <td>• 追求性能<br>• 需要看全部訂單<br>• 團隊集中</td>
                         <td>• 各國團隊獨立<br>• 不想改架構<br>• 可接受延遲</td>
+                        <td>• <strong>架構最簡單</strong><br>• 只看當前區域可接受<br>• 追求極致性能</td>
                     </tr>
                 </tbody>
             </table>
@@ -830,30 +1051,53 @@
             </div>
 
             <div class="recommendation">
-                <h3>💡 建議採用方案 A：中央索引架構</h3>
-                <p>理由：查詢速度快、用戶體驗好、單一專案易於維護</p>
-                <p>雖然業務邏輯會增加約 30% 複雜度，但 Laravel 原生支持多 DB 連接，這個複雜度是可控的</p>
+                <h3>💡 推薦方案：依據實際需求選擇</h3>
+                <p><strong>如果用戶可以接受「只看當前區域訂單」→ 強烈推薦方案 C</strong></p>
+                <p>理由：架構最簡單、性能最好、運維成本最低、Amazon 驗證過的方案</p>
+                <p><br><strong>如果必須讓用戶看到「所有國家訂單」→ 推薦方案 A</strong></p>
+                <p>理由：查詢速度快、單一專案易維護、業務邏輯複雜度可控</p>
             </div>
 
             <div class="scenario-box">
-                <h3>📋 實施建議</h3>
-                <p><strong>第一階段（MVP）：</strong>先採用「只顯示當前區域訂單」，快速上線</p>
+                <h3>📋 實施建議（分階段）</h3>
+                <p><strong>第一階段（MVP）：</strong>先採用方案 C，快速上線</p>
+                <p>• 建立輕量級中央會員系統（只管 member_id + 核心資料）</p>
+                <p>• 實現內部 API 端點（各國互相信任）</p>
                 <p>• UI 明確標示：「我的訂單（台灣）」</p>
-                <p>• 提供明顯的區域切換入口</p>
-                <p>• 99% 用戶只在單一國家使用，不會有問題</p>
-                <p><br><strong>第二階段（優化）：</strong>當有跨國用戶反饋時，實施方案 A</p>
-                <p>• 建立 Central DB 和索引表</p>
-                <p>• 修改下單流程（雙寫）</p>
-                <p>• 實現跨國訂單查詢 API</p>
-                <p>• 逐步同步歷史訂單到索引表</p>
+                <p>• 提供明顯的區域切換按鈕</p>
+                <p>• 前端儲存多組 token，切換時自動登入</p>
+                <p><br><strong>第二階段（數據驗證）：</strong>觀察用戶行為</p>
+                <p>• 統計：有多少用戶在多個國家下單？</p>
+                <p>• 統計：用戶切換區域的頻率？</p>
+                <p>• 收集：用戶是否抱怨看不到其他國家訂單？</p>
+                <p><br><strong>第三階段（按需升級）：</strong>如果真的需要跨國訂單查詢</p>
+                <p>• 升級到方案 A（建立 Central DB 索引表）</p>
+                <p>• 或保持方案 C，但在 UI 加上「查看其他區域」按鈕（手動切換）</p>
             </div>
 
             <div class="note-box">
-                <h4>🔑 關鍵要點</h4>
-                <p><strong>1. 不要過早優化：</strong>先確認真的有跨國用戶需求再做</p>
-                <p><strong>2. 漸進式遷移：</strong>可以先建索引，新訂單雙寫，舊訂單慢慢同步</p>
-                <p><strong>3. 業務邏輯複雜度可控：</strong>Laravel 多 DB 切換很簡單，雙寫用事務包裹即可</p>
-                <p><strong>4. 關注核心指標：</strong>用戶滿意度 > 技術完美度</p>
+                <h4>🔑 關鍵決策因素</h4>
+                <p><strong>1. 用戶行為分析：</strong>先確認真的有跨國用戶需求再做</p>
+                <p>• 如果 99% 用戶只在單一國家使用 → 方案 C 完全足夠</p>
+                <p>• 如果有大量跨國用戶且頻繁查訂單 → 考慮方案 A</p>
+                <p><br><strong>2. 業務優先級：</strong></p>
+                <p>• 追求極致性能 + 架構簡單 → 方案 C</p>
+                <p>• 追求最佳用戶體驗（一次看全部）→ 方案 A</p>
+                <p><br><strong>3. 團隊能力：</strong></p>
+                <p>• 團隊規模小、想快速上線 → 方案 C</p>
+                <p>• 團隊經驗豐富、有時間打磨 → 方案 A</p>
+                <p><br><strong>4. Amazon 的經驗告訴我們：</strong></p>
+                <p>大部分用戶可以接受「只看當前區域訂單」，因為他們確實很少跨國購物</p>
+            </div>
+
+            <div class="problem-highlight">
+                <h3>⚠️ 特別提醒</h3>
+                <p><strong>不建議方案 B（聚合 API）：</strong></p>
+                <p>• 查詢太慢（500-3000ms）</p>
+                <p>• 架構複雜度高</p>
+                <p>• 運維成本高</p>
+                <p>• 沒有明顯優勢</p>
+                <p><br><strong>結論：</strong>在方案 A 和方案 C 之間選擇即可</p>
             </div>
         </div>
     </div>
