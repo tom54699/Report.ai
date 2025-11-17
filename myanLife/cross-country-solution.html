@@ -773,7 +773,7 @@
                 <h3>💡 核心理念</h3>
                 <p><strong>Amazon 的做法：</strong>切換區域 = 切換帳號</p>
                 <p>• 註冊時在中央會員系統建立唯一 member_id</p>
-                <p>• 按需在各國 DB 建立用戶（第一次切換到該國時才建立）</p>
+                <p>• <strong>同時在所有國家 DB 建立用戶</strong>（註冊一次，全球同步）</p>
                 <p>• 各國獨立發 token，切換區域 = 切換 token</p>
                 <p>• 只看當前區域訂單（台灣看台灣，泰國看泰國）</p>
             </div>
@@ -793,43 +793,49 @@
                     </div>
                 </div>
 
-                <div class="arrow">↓</div>
-
-                <!-- Laravel Layer -->
-                <div class="layer">
-                    <div class="layer-title">⚙️ 當前國家 API（例如台灣）</div>
-                    <div class="component-row">
-                        <div class="component laravel" style="min-width: 400px;">
-                            <div class="component-icon">🚀</div>
-                            <div class="component-name">Taiwan Laravel API</div>
-                            <div class="component-desc">提供切換區域端點</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="display: flex; justify-content: center; gap: 50px; margin: 20px 0;">
+                <div style="display: flex; justify-content: center; gap: 20px; margin: 20px 0;">
                     <div style="text-align: center;">
                         <div style="font-size: 2em; color: #667eea;">↓</div>
-                        <div style="color: #666; font-size: 0.9em;">查中央資料</div>
-                    </div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 2em; color: #667eea;">→</div>
-                        <div style="color: #666; font-size: 0.9em;">內部 API</div>
                     </div>
                 </div>
 
-                <!-- Central + Target Country -->
+                <!-- API Layer -->
                 <div class="layer">
+                    <div class="layer-title">⚙️ 各國 API（完全獨立）</div>
                     <div class="component-row">
-                        <div class="component central-db" style="min-width: 250px;">
-                            <div class="component-icon">🏛️</div>
-                            <div class="component-name">中央會員系統</div>
-                            <div class="component-desc">member_id + 核心資料</div>
+                        <div class="component laravel">
+                            <div class="component-icon">🇹🇼</div>
+                            <div class="component-name">Taiwan API</div>
                         </div>
-                        <div class="component laravel" style="min-width: 250px;">
+                        <div class="component laravel">
                             <div class="component-icon">🇹🇭</div>
                             <div class="component-name">Thailand API</div>
-                            <div class="component-desc">內部端點</div>
+                        </div>
+                        <div class="component laravel">
+                            <div class="component-icon">🇲🇲</div>
+                            <div class="component-name">Myanmar API</div>
+                        </div>
+                        <div class="component laravel">
+                            <div class="component-icon">🇻🇳</div>
+                            <div class="component-name">Vietnam API</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: center; gap: 20px; margin: 20px 0;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2em; color: #667eea;">↓</div>
+                        <div style="color: #666; font-size: 0.9em;">註冊時查詢</div>
+                    </div>
+                </div>
+
+                <!-- Central System -->
+                <div class="layer">
+                    <div class="component-row">
+                        <div class="component central-db" style="min-width: 400px;">
+                            <div class="component-icon">🏛️</div>
+                            <div class="component-name">中央會員系統</div>
+                            <div class="component-desc">member_id + 核心資料（僅註冊時使用）</div>
                         </div>
                     </div>
                 </div>
@@ -867,20 +873,20 @@
                 <p><strong>1. 註冊流程（在台灣註冊）：</strong></p>
                 <p>• 台灣 API 呼叫中央會員系統，檢查 email 是否存在</p>
                 <p>• 如果不存在 → 在中央建立記錄，取得 member_id</p>
-                <p>• 台灣 API 在台灣 DB 建立 user（包含 member_id）</p>
+                <p>• 台灣 API <strong>同時在所有 4 國 DB 建立 user</strong>（包含 member_id）</p>
+                <p>   - Taiwan DB 建立 user (member_id: 123)</p>
+                <p>   - Thailand DB 建立 user (member_id: 123)</p>
+                <p>   - Myanmar DB 建立 user (member_id: 123)</p>
+                <p>   - Vietnam DB 建立 user (member_id: 123)</p>
                 <p>• 台灣 API 發台灣 token 給前端</p>
-                <p>• 前端儲存：{ TW: token, member_id: 123 }</p>
+                <p>• 前端儲存：{ TW: token }</p>
 
                 <p><br><strong>2. 切換區域流程（台灣 → 泰國）：</strong></p>
                 <p>• 前端檢查是否有泰國 token → <span class="highlight">沒有</span></p>
-                <p>• 前端呼叫台灣 API：「我要切換到泰國」（帶台灣 token）</p>
-                <p>• 台灣 API 從台灣 DB 取得 member_id</p>
-                <p>• 台灣 API 呼叫泰國 API 的<span class="highlight">內部端點</span>（帶 member_id + shared secret）</p>
-                <p>• 泰國 API 用 member_id 查詢泰國 DB</p>
-                <p>• 如果沒有此用戶 → 從中央會員系統同步資料，在泰國 DB 建立 user</p>
-                <p>• 泰國 API 發泰國 token，返回給台灣 API</p>
-                <p>• 台灣 API 把泰國 token 給前端</p>
-                <p>• 前端儲存：{ TW: token1, TH: token2, member_id: 123 }</p>
+                <p>• 前端直接呼叫<strong>泰國 API 登入端點</strong>（用 email + password 或 member_id）</p>
+                <p>• 泰國 API 查詢泰國 DB → <span class="highlight">用戶已存在</span>（註冊時已建立）</p>
+                <p>• 泰國 API 驗證成功，發泰國 token 給前端</p>
+                <p>• 前端儲存：{ TW: token1, TH: token2 }</p>
 
                 <p><br><strong>3. 查詢訂單：</strong></p>
                 <p>App → 使用當前區域 token → 查該國 DB → <span class="highlight">只看該國訂單</span></p>
@@ -895,26 +901,28 @@
                 <p>1. 台灣 API 更新台灣 DB</p>
                 <p>2. 台灣 API 同步到中央會員系統</p>
                 <p>3. 台灣 API 發 Message Queue，異步通知其他國家</p>
-                <p>4. 其他國家的 worker 收到通知：</p>
-                <p>   • 如果該國 DB 有此 member_id → 更新資料</p>
-                <p>   • 如果沒有 → 忽略（等用戶切換過來再建立）</p>
-                <p><br><strong>關鍵設計：</strong>按需建立，不浪費資源</p>
+                <p>4. 其他國家的 worker 收到通知 → 更新該國 DB 的用戶資料</p>
+                <p><br><strong>關鍵設計：</strong>所有國家用戶已存在，只需同步資料更新即可</p>
             </div>
 
             <div class="problem-highlight">
                 <h3>🔑 關鍵技術點</h3>
-                <p><strong>1. 內部 API 端點：</strong></p>
-                <p>• 各國 API 都開一個內部端點：/internal/get-or-create-token</p>
-                <p>• 只接受帶有 shared secret 的請求（各國共用密鑰）</p>
-                <p>• 不對外公開，只給其他國家 API 使用</p>
+                <p><strong>1. 註冊時同步建立：</strong></p>
+                <p>• 註冊 API 需要能連線到所有 4 國 DB</p>
+                <p>• 同時在 4 國 DB 建立相同 member_id 的用戶</p>
+                <p>• 可用 DB Transaction 確保一致性（全部成功或全部失敗）</p>
                 <p><br><strong>2. member_id 的作用：</strong></p>
                 <p>• 全球唯一識別符</p>
                 <p>• 各國 DB 的 user 表都有此欄位</p>
-                <p>• 用於跨國查詢用戶是否存在</p>
+                <p>• 用於識別同一個用戶在不同國家的帳號</p>
                 <p><br><strong>3. Token 管理：</strong></p>
                 <p>• 前端儲存多組 token（每個國家一個）</p>
                 <p>• 切換區域 = 切換使用哪個 token</p>
                 <p>• 每個 token 只能訪問對應國家 API</p>
+                <p><br><strong>4. 各國 API 完全獨立：</strong></p>
+                <p>• 不需要內部 API 端點</p>
+                <p>• 不需要各國互相呼叫</p>
+                <p>• 切換區域就是前端直接呼叫該國公開 API</p>
             </div>
 
             <div class="pros-cons">
@@ -926,16 +934,17 @@
                         <li>完全符合法規（各國資料獨立）</li>
                         <li>運維成本最低（各國獨立運作）</li>
                         <li>Amazon 驗證過的方案（業界實證）</li>
-                        <li>按需建立用戶（不浪費儲存空間）</li>
+                        <li>切換區域 0 延遲（用戶已存在）</li>
                         <li>某國掛了不影響其他國家</li>
+                        <li>各國 API 完全獨立，無需互相呼叫</li>
                     </ul>
                 </div>
                 <div class="cons">
                     <h4>❌ 缺點</h4>
                     <ul>
-                        <li>無法一次看所有國家訂單（用戶體驗差？）</li>
+                        <li>無法一次看所有國家訂單</li>
                         <li>資料同步需要維護（Message Queue）</li>
-                        <li>第一次切換有延遲（100-300ms，建立用戶）</li>
+                        <li>註冊時需連線到所有 4 國 DB（複雜度較高）</li>
                         <li>前端需要管理多組 token</li>
                         <li>需要中央會員系統（輕量級）</li>
                         <li>同步失敗需要重試機制</li>
@@ -977,7 +986,7 @@
                         <td><strong>切換區域延遲</strong></td>
                         <td>N/A（不需切換）</td>
                         <td>N/A（不需切換）</td>
-                        <td>首次：100-300ms<br>之後：0ms</td>
+                        <td>首次：<50ms（登入）<br>之後：0ms</td>
                     </tr>
                     <tr>
                         <td><strong>架構複雜度</strong></td>
@@ -1062,10 +1071,10 @@
                 <h3>📋 實施建議（分階段）</h3>
                 <p><strong>第一階段（MVP）：</strong>先採用方案 C，快速上線</p>
                 <p>• 建立輕量級中央會員系統（只管 member_id + 核心資料）</p>
-                <p>• 實現內部 API 端點（各國互相信任）</p>
+                <p>• 註冊 API 連線到所有 4 國 DB，同步建立用戶</p>
                 <p>• UI 明確標示：「我的訂單（台灣）」</p>
                 <p>• 提供明顯的區域切換按鈕</p>
-                <p>• 前端儲存多組 token，切換時自動登入</p>
+                <p>• 前端儲存多組 token，切換時直接呼叫該國 API 登入</p>
                 <p><br><strong>第二階段（數據驗證）：</strong>觀察用戶行為</p>
                 <p>• 統計：有多少用戶在多個國家下單？</p>
                 <p>• 統計：用戶切換區域的頻率？</p>
@@ -1083,10 +1092,7 @@
                 <p><br><strong>2. 業務優先級：</strong></p>
                 <p>• 追求極致性能 + 架構簡單 → 方案 C</p>
                 <p>• 追求最佳用戶體驗（一次看全部）→ 方案 A</p>
-                <p><br><strong>3. 團隊能力：</strong></p>
-                <p>• 團隊規模小、想快速上線 → 方案 C</p>
-                <p>• 團隊經驗豐富、有時間打磨 → 方案 A</p>
-                <p><br><strong>4. Amazon 的經驗告訴我們：</strong></p>
+                <p><br><strong>3. Amazon 的經驗告訴我們：</strong></p>
                 <p>大部分用戶可以接受「只看當前區域訂單」，因為他們確實很少跨國購物</p>
             </div>
 
