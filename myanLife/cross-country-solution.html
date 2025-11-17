@@ -616,6 +616,7 @@
                         <li>程式碼需要處理 DB 切換邏輯</li>
                         <li>Central DB 成為單點依賴</li>
                         <li>業務邏輯複雜度增加約 30%</li>
+                        <li>未來各國想拆分不同功能很難（架構耦合度高）</li>
                     </ul>
                 </div>
             </div>
@@ -752,11 +753,11 @@
                 <div class="cons">
                     <h4>❌ 缺點</h4>
                     <ul>
-                        <li>查詢慢（~500-3000ms，取決於最慢的 API）</li>
+                        <li>查詢速度取決於最慢的 API（AWS 內部約 100-200ms，跨區域可能達 500-3000ms）</li>
                         <li>需要額外的聚合服務（運維成本）</li>
                         <li>需要處理各國 API 認證</li>
-                        <li>網路延遲疊加</li>
                         <li>某個國家 API 超時會拖慢整體體驗</li>
+                        <li>網路延遲疊加（跨區域部署時）</li>
                     </ul>
                 </div>
             </div>
@@ -799,43 +800,40 @@
                     </div>
                 </div>
 
-                <!-- API Layer -->
-                <div class="layer">
-                    <div class="layer-title">⚙️ 各國 API（完全獨立）</div>
-                    <div class="component-row">
-                        <div class="component laravel">
-                            <div class="component-icon">🇹🇼</div>
-                            <div class="component-name">Taiwan API</div>
-                        </div>
-                        <div class="component laravel">
-                            <div class="component-icon">🇹🇭</div>
-                            <div class="component-name">Thailand API</div>
-                        </div>
-                        <div class="component laravel">
-                            <div class="component-icon">🇲🇲</div>
-                            <div class="component-name">Myanmar API</div>
-                        </div>
-                        <div class="component laravel">
-                            <div class="component-icon">🇻🇳</div>
-                            <div class="component-name">Vietnam API</div>
+                <!-- API Layer with External Central System -->
+                <div style="display: flex; gap: 30px; align-items: center; margin: 20px 0;">
+                    <!-- Main Flow -->
+                    <div style="flex: 1;">
+                        <div class="layer">
+                            <div class="layer-title">⚙️ 各國 API（完全獨立）</div>
+                            <div class="component-row">
+                                <div class="component laravel">
+                                    <div class="component-icon">🇹🇼</div>
+                                    <div class="component-name">Taiwan API</div>
+                                </div>
+                                <div class="component laravel">
+                                    <div class="component-icon">🇹🇭</div>
+                                    <div class="component-name">Thailand API</div>
+                                </div>
+                                <div class="component laravel">
+                                    <div class="component-icon">🇲🇲</div>
+                                    <div class="component-name">Myanmar API</div>
+                                </div>
+                                <div class="component laravel">
+                                    <div class="component-icon">🇻🇳</div>
+                                    <div class="component-name">Vietnam API</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div style="display: flex; justify-content: center; gap: 20px; margin: 20px 0;">
-                    <div style="text-align: center;">
-                        <div style="font-size: 2em; color: #667eea;">↓</div>
-                        <div style="color: #666; font-size: 0.9em;">註冊時查詢</div>
-                    </div>
-                </div>
-
-                <!-- Central System -->
-                <div class="layer">
-                    <div class="component-row">
-                        <div class="component central-db" style="min-width: 400px;">
+                    <!-- External Central System -->
+                    <div style="width: 200px; text-align: center;">
+                        <div style="font-size: 2em; margin-bottom: 10px;">↔</div>
+                        <div class="component central-db" style="border: 2px dashed #667eea;">
                             <div class="component-icon">🏛️</div>
                             <div class="component-name">中央會員系統</div>
-                            <div class="component-desc">member_id + 核心資料（僅註冊時使用）</div>
+                            <div class="component-desc" style="font-size: 0.85em;">外部服務<br>僅註冊時使用</div>
                         </div>
                     </div>
                 </div>
@@ -979,7 +977,7 @@
                     <tr>
                         <td><strong>查詢列表速度</strong></td>
                         <td>⚡ 快 (~50-100ms)</td>
-                        <td>🐌 慢 (~500-3000ms)</td>
+                        <td>🟡 中等 (AWS 內部 ~100-200ms，跨區域 ~500-3000ms)</td>
                         <td>⚡ <strong>最快</strong> (~30-50ms)</td>
                     </tr>
                     <tr>
@@ -1098,12 +1096,12 @@
 
             <div class="problem-highlight">
                 <h3>⚠️ 特別提醒</h3>
-                <p><strong>不建議方案 B（聚合 API）：</strong></p>
-                <p>• 查詢太慢（500-3000ms）</p>
-                <p>• 架構複雜度高</p>
-                <p>• 運維成本高</p>
-                <p>• 沒有明顯優勢</p>
-                <p><br><strong>結論：</strong>在方案 A 和方案 C 之間選擇即可</p>
+                <p><strong>關於方案 B（聚合 API）：</strong></p>
+                <p>• 若全部部署在 AWS 同區域，查詢速度尚可（100-200ms）</p>
+                <p>• 但架構複雜度高，需維護額外的聚合服務</p>
+                <p>• 運維成本較高（多一個服務需要監控）</p>
+                <p>• 如果 DB 分散在不同區域，速度會明顯下降（500-3000ms）</p>
+                <p><br><strong>結論：</strong>方案 A、B、C 各有優勢，依需求選擇</p>
             </div>
         </div>
     </div>
