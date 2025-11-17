@@ -446,10 +446,11 @@
             </div>
 
             <div class="scenario-box">
-                <h3>📋 目前架構狀況</h3>
-                <p><strong>系統設計：</strong>myanLife 是一個跨國優惠券與商家預訂平台，目前部署在台灣、緬甸、泰國、越南四個國家。</p>
-                <p><strong>資料庫設計：</strong>每個國家有獨立的資料庫（Taiwan DB、Myanmar DB、Thailand DB、Vietnam DB），存放該國的商家、優惠券、訂單等資料。</p>
+                <h3>📋 架構規劃與擴展性</h3>
+                <p><strong>系統設計：</strong>myanLife 是一個跨國優惠券與商家預訂平台，規劃部署在多個亞太國家（如台灣、緬甸、泰國、越南等），<strong>並將陸續擴展至更多國家</strong>。</p>
+                <p><strong>資料庫設計：</strong>每個國家有獨立的資料庫（如 Taiwan DB、Myanmar DB、Thailand DB、Vietnam DB 等），存放該國的商家、優惠券、訂單等資料。</p>
                 <p><strong>切換機制：</strong>用戶切換區域時，APP 連接到不同國家的資料庫，顯示該國的商家和優惠券。</p>
+                <p><strong>⚠️ 關鍵考量：</strong>架構必須能夠輕鬆支援新增國家，避免每次擴展都要大幅修改程式碼。</p>
             </div>
 
             <div class="user-journey">
@@ -736,8 +737,8 @@
                 <h4>⚡ AWS ECS + ALB 實際延遲分析</h4>
                 <p><strong>場景 1：同區域部署（例如全部在 ap-southeast-1 新加坡）</strong></p>
                 <p>• 聚合服務處理：~5-10ms</p>
-                <p>• 並行呼叫 4 國 API（取最慢的）：~30-50ms</p>
-                <p>• <strong>總計：40-60ms</strong> ⚡ 非常快</p>
+                <p>• 並行呼叫各國 API（取最慢的）：~30-50ms</p>
+                <p>• <strong>總計：40-60ms</strong> ⚡ 非常快（國家越多，延遲略增）</p>
 
                 <p><br><strong>場景 2：跨區域部署（例如台灣 ap-northeast-1，泰國 ap-southeast-1）</strong></p>
                 <p>• 聚合服務處理：~5-10ms</p>
@@ -887,14 +888,15 @@
 
             <div class="note-box">
                 <h4>💡 方案 C 運作流程</h4>
-                <p><strong>1. 註冊流程（在台灣註冊）：</strong></p>
+                <p><strong>1. 註冊流程（以台灣註冊為例）：</strong></p>
                 <p>• 台灣 API 呼叫中央會員系統，檢查 email 是否存在</p>
                 <p>• 如果不存在 → 在中央建立記錄，取得 member_id</p>
-                <p>• 台灣 API <strong>同時在所有 4 國 DB 建立 user</strong>（包含 member_id）</p>
+                <p>• 台灣 API <strong>同時在所有國家 DB 建立 user</strong>（包含 member_id）</p>
                 <p>   - Taiwan DB 建立 user (member_id: 123)</p>
                 <p>   - Thailand DB 建立 user (member_id: 123)</p>
                 <p>   - Myanmar DB 建立 user (member_id: 123)</p>
                 <p>   - Vietnam DB 建立 user (member_id: 123)</p>
+                <p>   - ... （未來新增的國家也會同步建立）</p>
                 <p>• 台灣 API 發台灣 token 給前端</p>
                 <p>• 前端儲存：{ TW: token }</p>
 
@@ -925,9 +927,10 @@
             <div class="problem-highlight">
                 <h3>🔑 關鍵技術點</h3>
                 <p><strong>1. 註冊時同步建立：</strong></p>
-                <p>• 註冊 API 需要能連線到所有 4 國 DB</p>
-                <p>• 同時在 4 國 DB 建立相同 member_id 的用戶</p>
+                <p>• 註冊 API 需要能連線到所有國家 DB</p>
+                <p>• 同時在所有國家 DB 建立相同 member_id 的用戶</p>
                 <p>• 可用 DB Transaction 確保一致性（全部成功或全部失敗）</p>
+                <p>• <strong>新增國家時：</strong>只需在註冊邏輯新增一個 DB 連線配置即可</p>
                 <p><br><strong>2. member_id 的作用：</strong></p>
                 <p>• 全球唯一識別符</p>
                 <p>• 各國 DB 的 user 表都有此欄位</p>
@@ -961,7 +964,7 @@
                     <ul>
                         <li>無法一次看所有國家訂單</li>
                         <li>資料同步需要維護（Message Queue）</li>
-                        <li>註冊時需連線到所有 4 國 DB（複雜度較高）</li>
+                        <li>註冊時需連線到所有國家 DB（國家越多，複雜度越高）</li>
                         <li>前端需要管理多組 token</li>
                         <li>需要中央會員系統（輕量級）</li>
                         <li>同步失敗需要重試機制</li>
@@ -1048,6 +1051,12 @@
                         <td>🟡 中等（管理多 token）</td>
                     </tr>
                     <tr>
+                        <td><strong>新增國家難易度</strong></td>
+                        <td>🔴 困難（需修改多處 DB 路由邏輯）</td>
+                        <td>🟢 容易（聚合服務加配置即可）</td>
+                        <td>🟢 <strong>最容易</strong>（註冊邏輯加一行）</td>
+                    </tr>
+                    <tr>
                         <td><strong>需要中央系統</strong></td>
                         <td>✅ 需要（中央 DB）</td>
                         <td>❌ 不需要</td>
@@ -1090,7 +1099,8 @@
                 <h3>📋 實施建議（分階段）</h3>
                 <p><strong>第一階段（MVP）：</strong>先採用方案 C，快速上線</p>
                 <p>• 建立輕量級中央會員系統（只管 member_id + 核心資料）</p>
-                <p>• 註冊 API 連線到所有 4 國 DB，同步建立用戶</p>
+                <p>• 註冊 API 連線到所有國家 DB，同步建立用戶</p>
+                <p>• 採用配置化設計，方便未來新增國家</p>
                 <p>• UI 明確標示：「我的訂單（台灣）」</p>
                 <p>• 提供明顯的區域切換按鈕</p>
                 <p>• 前端儲存多組 token，切換時直接呼叫該國 API 登入</p>
