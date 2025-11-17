@@ -492,10 +492,13 @@
                 <h3>❓ 核心問題</h3>
                 <p><strong>用戶在查看「我的訂單」時，應該看到什麼？</strong></p>
                 <p><br><strong>選項 A：</strong>只顯示當前區域的訂單（切換到泰國 → 只看到泰國訂單）</p>
-                <p>✅ 架構簡單 ❌ 用戶體驗差（看不到完整歷史）</p>
+                <p>✅ 架構簡單、性能好 ❌ 無法一次看到完整歷史</p>
                 <p><br><strong>選項 B：</strong>顯示所有國家的訂單（台灣 + 泰國 + 其他國家）</p>
-                <p>✅ 用戶體驗好 ❌ 需要跨資料庫查詢（技術挑戰）</p>
-                <p><br><strong>業界做法：</strong>Uber Eats、Grab、foodpanda 等大型跨國 APP 都選擇 <span class="highlight">顯示所有國家的訂單</span></p>
+                <p>✅ 用戶體驗完整 ❌ 需要跨資料庫查詢（技術挑戰）</p>
+                <p><br><strong>業界做法：</strong></p>
+                <p>• <strong>Amazon、Netflix：</strong>選擇 A（只顯示當前區域，架構簡單）</p>
+                <p>• <strong>Uber Eats、Grab：</strong>選擇 B（顯示所有國家，用戶體驗好）</p>
+                <p>• <strong>沒有標準答案，取決於業務需求與技術資源</strong></p>
             </div>
         </div>
 
@@ -729,15 +732,30 @@
                 <p>App → 打當前國家 API → 寫入該國 DB → 完成（<span class="highlight">單寫，無一致性問題</span>）</p>
             </div>
 
-            <div class="problem-highlight">
-                <h3>⚠️ 性能問題</h3>
-                <p><strong>查詢訂單列表需要等待所有 API 回應：</strong></p>
-                <p>• 台灣 API：100ms</p>
-                <p>• 緬甸 API：150ms</p>
-                <p>• 泰國 API：<span class="highlight">3000ms（網路慢或超時）</span></p>
-                <p>• 越南 API：120ms</p>
-                <p><br><strong>結果：</strong>用戶需要等待 3 秒才能看到訂單列表（取最慢的那個）</p>
-                <p><br><strong>解決方案：</strong>設定超時（如 1 秒），超時的國家返回空陣列，並標記「該國數據載入失敗，請稍後重試」</p>
+            <div class="note-box">
+                <h4>⚡ AWS ECS + ALB 實際延遲分析</h4>
+                <p><strong>場景 1：同區域部署（例如全部在 ap-southeast-1 新加坡）</strong></p>
+                <p>• 聚合服務處理：~5-10ms</p>
+                <p>• 並行呼叫 4 國 API（取最慢的）：~30-50ms</p>
+                <p>• <strong>總計：40-60ms</strong> ⚡ 非常快</p>
+
+                <p><br><strong>場景 2：跨區域部署（例如台灣 ap-northeast-1，泰國 ap-southeast-1）</strong></p>
+                <p>• 聚合服務處理：~5-10ms</p>
+                <p>• AWS 跨區域延遲：~50-150ms（亞太區域內）</p>
+                <p>• 並行呼叫取最慢的：~80-150ms</p>
+                <p>• <strong>總計：100-200ms</strong> ⚡ 可接受範圍</p>
+
+                <p><br><strong>場景 3：極端情況（某個 API 變慢或故障）</strong></p>
+                <p>• 如果設定 timeout 500ms：最多 500ms</p>
+                <p>• 超時的國家返回空陣列，並標記「該國數據載入失敗」</p>
+                <p>• <strong>避免方式：</strong>設定合理的 timeout + 降級機制</p>
+
+                <p><br><strong>⚠️ 3000ms 只會發生在：</strong></p>
+                <p>• 跨大陸且走公網（不是 AWS 內部網路）</p>
+                <p>• 某個 API 真的掛了且沒設 timeout</p>
+                <p>• DB 查詢本身很慢（索引問題、慢查詢）</p>
+
+                <p><br><strong>✅ 結論：</strong>在 AWS 內部部署，速度表現良好（60-200ms）</p>
             </div>
 
             <div class="pros-cons">
@@ -1043,8 +1061,8 @@
                     </tr>
                     <tr>
                         <td><strong>適合場景</strong></td>
-                        <td>• 追求性能<br>• 需要看全部訂單<br>• 團隊集中</td>
-                        <td>• 各國團隊獨立<br>• 不想改架構<br>• 可接受延遲</td>
+                        <td>• 需要看全部訂單<br>• 單一專案管理<br>• 團隊集中維護</td>
+                        <td>• 各國團隊獨立<br>• 需要看全部訂單<br>• AWS 內部部署</td>
                         <td>• <strong>架構最簡單</strong><br>• 只看當前區域可接受<br>• 追求極致性能</td>
                     </tr>
                 </tbody>
@@ -1061,9 +1079,11 @@
             <div class="recommendation">
                 <h3>💡 推薦方案：依據實際需求選擇</h3>
                 <p><strong>如果用戶可以接受「只看當前區域訂單」→ 強烈推薦方案 C</strong></p>
-                <p>理由：架構最簡單、性能最好、運維成本最低、Amazon 驗證過的方案</p>
-                <p><br><strong>如果必須讓用戶看到「所有國家訂單」→ 推薦方案 A</strong></p>
-                <p>理由：查詢速度快、單一專案易維護、業務邏輯複雜度可控</p>
+                <p>理由：架構最簡單、性能最好、運維成本最低、擴展性佳、Amazon 驗證過的方案</p>
+
+                <p><br><strong>如果必須讓用戶看到「所有國家訂單」：</strong></p>
+                <p>• <strong>方案 A：</strong>適合單一團隊集中管理，查詢快但擴展性差</p>
+                <p>• <strong>方案 B：</strong>適合各國團隊獨立，AWS 內部部署速度也很快（60-200ms）</p>
             </div>
 
             <div class="scenario-box">
@@ -1086,12 +1106,19 @@
             <div class="note-box">
                 <h4>🔑 關鍵決策因素</h4>
                 <p><strong>1. 用戶行為分析：</strong>先確認真的有跨國用戶需求再做</p>
-                <p>• 如果 99% 用戶只在單一國家使用 → 方案 C 完全足夠</p>
-                <p>• 如果有大量跨國用戶且頻繁查訂單 → 考慮方案 A</p>
-                <p><br><strong>2. 業務優先級：</strong></p>
-                <p>• 追求極致性能 + 架構簡單 → 方案 C</p>
-                <p>• 追求最佳用戶體驗（一次看全部）→ 方案 A</p>
-                <p><br><strong>3. Amazon 的經驗告訴我們：</strong></p>
+                <p>• 如果 99% 用戶只在單一國家使用 → <strong>方案 C</strong> 完全足夠</p>
+                <p>• 如果有大量跨國用戶且頻繁查訂單 → 考慮 <strong>方案 A 或 B</strong></p>
+
+                <p><br><strong>2. 業務優先級與部署環境：</strong></p>
+                <p>• 追求極致性能 + 架構簡單 → <strong>方案 C</strong></p>
+                <p>• 需要看全部訂單 + 單一團隊維護 → <strong>方案 A</strong></p>
+                <p>• 需要看全部訂單 + 各國團隊獨立 + AWS 部署 → <strong>方案 B</strong></p>
+
+                <p><br><strong>3. 擴展性考量：</strong></p>
+                <p>• 未來可能新增更多國家 → <strong>方案 C</strong>（擴展最容易）</p>
+                <p>• 各國可能有不同功能需求 → <strong>方案 C</strong>（解耦最徹底）</p>
+
+                <p><br><strong>4. Amazon 的經驗告訴我們：</strong></p>
                 <p>大部分用戶可以接受「只看當前區域訂單」，因為他們確實很少跨國購物</p>
             </div>
 
