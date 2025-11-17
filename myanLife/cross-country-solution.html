@@ -725,17 +725,30 @@
 
             <div class="note-box">
                 <h4>💡 方案 B 運作流程</h4>
-                <p><strong>1. 查詢訂單列表：</strong></p>
-                <p>App → Aggregation Service → <span class="highlight">並行打 4 個國家 API</span> → 等待結果 → 合併 → 排序 → 返回</p>
-                <p><br><strong>2. 查詢訂單詳情：</strong></p>
+                <p><strong>⚠️ 關鍵設計：只有「跨國用戶資料查詢」才需要聚合服務</strong></p>
+
+                <p><br><strong>情境 1：查詢「我的所有訂單」（跨國用戶資料）：</strong></p>
+                <p>App → Aggregation Service → <span class="highlight">並行打各國 API</span> → 等待結果 → 合併 → 排序 → 返回</p>
+                <p>• 適用於：我的訂單、我的優惠券、我的收藏等跨國查詢</p>
+                <p>• 延遲：60-200ms（取決於部署方式）</p>
+
+                <p><br><strong>情境 2：查詢「台灣的商家列表」（單國資料）：</strong></p>
+                <p>App → <span class="highlight">直接打 Taiwan API</span> → 查 Taiwan DB → 返回</p>
+                <p>• 適用於：商家列表、優惠券列表、分類、搜尋等</p>
+                <p>• 延遲：30-50ms（跟方案 C 一樣快）</p>
+
+                <p><br><strong>情境 3：查詢訂單詳情：</strong></p>
                 <p>App → 直接打對應國家 API（前端記住 country_code）→ 返回詳情</p>
-                <p><br><strong>3. 創建訂單：</strong></p>
+
+                <p><br><strong>情境 4：創建訂單：</strong></p>
                 <p>App → 打當前國家 API → 寫入該國 DB → 完成（<span class="highlight">單寫，無一致性問題</span>）</p>
             </div>
 
             <div class="note-box">
-                <h4>⚡ AWS ECS + ALB 實際延遲分析</h4>
-                <p><strong>場景 1：同區域部署（例如全部在 ap-southeast-1 新加坡）</strong></p>
+                <h4>⚡ 跨國用戶資料查詢延遲分析（AWS ECS + ALB）</h4>
+                <p><strong>⚠️ 注意：以下延遲只適用於「我的訂單」等跨國查詢，商家列表等單國查詢不受影響</strong></p>
+
+                <p><br><strong>場景 1：同區域部署（例如全部在 ap-southeast-1 新加坡）</strong></p>
                 <p>• 聚合服務處理：~5-10ms</p>
                 <p>• 並行呼叫各國 API（取最慢的）：~30-50ms</p>
                 <p>• <strong>總計：40-60ms</strong> ⚡ 非常快（國家越多，延遲略增）</p>
@@ -751,18 +764,14 @@
                 <p>• 超時的國家返回空陣列，並標記「該國數據載入失敗」</p>
                 <p>• <strong>避免方式：</strong>設定合理的 timeout + 降級機制</p>
 
-                <p><br><strong>⚠️ 3000ms 只會發生在：</strong></p>
-                <p>• 跨大陸且走公網（不是 AWS 內部網路）</p>
-                <p>• 某個 API 真的掛了且沒設 timeout</p>
-                <p>• DB 查詢本身很慢（索引問題、慢查詢）</p>
-
-                <p><br><strong>✅ 結論：</strong>在 AWS 內部部署，速度表現良好（60-200ms）</p>
+                <p><br><strong>✅ 結論：</strong>跨國查詢 60-200ms，大部分 API（商家、優惠券等）30-50ms</p>
             </div>
 
             <div class="pros-cons">
                 <div class="pros">
                     <h4>✅ 優點</h4>
                     <ul>
+                        <li><strong>大部分 API 不受影響</strong>（商家、優惠券等單國查詢跟方案 C 一樣快）</li>
                         <li>不需要中央 DB（省成本）</li>
                         <li>各國 API 完全獨立（解耦）</li>
                         <li>不需要雙寫（無一致性問題）</li>
@@ -773,11 +782,11 @@
                 <div class="cons">
                     <h4>❌ 缺點</h4>
                     <ul>
-                        <li>查詢速度取決於最慢的 API（同區域 ~60-100ms，跨區域 ~100-200ms）</li>
+                        <li><strong>只有跨國用戶資料查詢</strong>速度較慢（60-200ms，取決於部署方式）</li>
                         <li>需要額外的聚合服務（ECS 多一個 Service 要設定和監控）</li>
-                        <li>程式碼邏輯較複雜（並行請求、timeout、錯誤處理、降級策略）</li>
-                        <li>某個國家 API 超時會拖慢整體體驗（需設定 timeout 機制）</li>
-                        <li>除錯較複雜（需追蹤跨服務請求鏈）</li>
+                        <li>聚合服務程式碼較複雜（並行請求、timeout、錯誤處理、降級策略）</li>
+                        <li>某個國家 API 超時會拖慢「我的訂單」查詢（需設定 timeout 機制）</li>
+                        <li>跨國查詢除錯較複雜（需追蹤跨服務請求鏈）</li>
                     </ul>
                 </div>
             </div>
@@ -999,7 +1008,7 @@
                     <tr>
                         <td><strong>查詢列表速度</strong></td>
                         <td>⚡ 快 (~50-100ms)</td>
-                        <td>⚡ 快 (同區域 ~60-100ms，跨區域 ~100-200ms)</td>
+                        <td>⚡ 快（跨國查詢 ~60-200ms，單國查詢 ~30-50ms）</td>
                         <td>⚡ <strong>最快</strong> (~30-50ms)</td>
                     </tr>
                     <tr>
