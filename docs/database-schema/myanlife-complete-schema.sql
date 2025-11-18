@@ -922,3 +922,150 @@ CREATE TABLE product_ratings (
     KEY idx_member (member_id),
     KEY idx_rating (rating)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商品評分表';
+
+-- =====================================================
+-- 第十部分：用戶與商家偏好設定
+-- =====================================================
+
+-- 會員偏好設定表
+CREATE TABLE user_preferences (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '偏好設定 ID',
+    user_id BIGINT UNSIGNED NOT NULL UNIQUE COMMENT '會員 ID',
+
+    -- 偏好設定
+    currency CHAR(3) DEFAULT 'MMK' COMMENT '偏好幣別(ISO 4217)',
+    lang CHAR(5) DEFAULT 'my-MM' COMMENT '偏好語言(ISO 639-1 + ISO 3166-1)',
+    newsletter_subscription TINYINT(1) DEFAULT 0 COMMENT '是否訂閱電子報(0:否 1:是)',
+
+    -- 系統紀錄
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
+
+    CONSTRAINT fk_user_preference FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='會員偏好設定表';
+
+-- 商家偏好設定表
+CREATE TABLE merchant_preferences (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '偏好設定 ID',
+    merchant_id BIGINT UNSIGNED NOT NULL UNIQUE COMMENT '商家 ID',
+
+    -- 偏好設定
+    currency CHAR(3) DEFAULT 'MMK' COMMENT '偏好幣別(ISO 4217)',
+    lang CHAR(5) DEFAULT 'my-MM' COMMENT '偏好語言(ISO 639-1 + ISO 3166-1)',
+    newsletter_subscription TINYINT(1) DEFAULT 0 COMMENT '是否訂閱電子報(0:否 1:是)',
+
+    -- 系統紀錄
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
+
+    CONSTRAINT fk_merchant_preference FOREIGN KEY (merchant_id) REFERENCES merchants(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商家偏好設定表';
+
+-- =====================================================
+-- 第十一部分：管理員系統
+-- =====================================================
+
+-- 管理員表(各國運營團隊)
+CREATE TABLE admins (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '管理員 ID',
+
+    -- Laravel 標準認證欄位
+    name VARCHAR(100) NOT NULL COMMENT '姓名',
+    email VARCHAR(255) NOT NULL UNIQUE COMMENT '信箱(登入帳號)',
+    email_verified_at TIMESTAMP NULL COMMENT 'Email 驗證時間',
+    password VARCHAR(255) NOT NULL COMMENT '密碼雜湊值',
+    remember_token VARCHAR(100) COMMENT 'Remember Token',
+
+    -- 聯絡資訊
+    phone_country_iso CHAR(2) COMMENT '電話國碼(ISO 3166-1 alpha-2)',
+    phone_number VARCHAR(30) COMMENT '聯絡電話(不含國碼)',
+
+    -- 運營團隊專屬欄位
+    country_iso CHAR(2) NOT NULL COMMENT '所屬國家(ISO 3166-1 alpha-2)',
+    department VARCHAR(50) COMMENT '部門(customer_service/operation/marketing/finance/tech)',
+
+    -- 偏好設定
+    lang CHAR(5) DEFAULT 'en-US' COMMENT '介面語言',
+    timezone VARCHAR(50) DEFAULT 'UTC' COMMENT '時區',
+
+    -- 頭像
+    avatar VARCHAR(500) COMMENT '頭像 URL',
+
+    -- 狀態管理
+    is_active TINYINT(1) DEFAULT 1 COMMENT '是否啟用(0:停用 1:啟用)',
+    is_super_admin TINYINT(1) DEFAULT 0 COMMENT '是否為超級管理員(0:否 1:是)',
+
+    -- 登入記錄
+    last_login_at TIMESTAMP NULL COMMENT '最後登入時間',
+    last_login_ip VARCHAR(45) COMMENT '最後登入 IP',
+
+    -- 系統紀錄
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
+
+    KEY idx_country (country_iso),
+    KEY idx_email (email),
+    KEY idx_is_active (is_active),
+    KEY idx_department (department)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='管理員表(各國運營團隊)';
+
+-- =====================================================
+-- 第十二部分：權限管理系統 (Laravel Permission)
+-- =====================================================
+
+-- 角色表
+CREATE TABLE roles (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '角色 ID',
+    name VARCHAR(255) NOT NULL COMMENT '角色名稱(唯一識別碼)',
+    guard_name VARCHAR(255) NOT NULL COMMENT '守衛名稱',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
+
+    UNIQUE KEY uk_role_name_guard (name, guard_name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='角色表';
+
+-- 權限表
+CREATE TABLE permissions (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '權限 ID',
+    name VARCHAR(255) NOT NULL COMMENT '權限名稱(唯一識別碼)',
+    guard_name VARCHAR(255) NOT NULL COMMENT '守衛名稱',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '建立時間',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
+
+    UNIQUE KEY uk_permission_name_guard (name, guard_name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='權限表';
+
+-- 模型擁有權限表 (多態關聯)
+CREATE TABLE model_has_permissions (
+    permission_id BIGINT UNSIGNED NOT NULL COMMENT '權限 ID',
+    model_type VARCHAR(255) NOT NULL COMMENT '模型類型(App\\Models\\Admin等)',
+    model_id BIGINT UNSIGNED NOT NULL COMMENT '模型 ID',
+
+    PRIMARY KEY (permission_id, model_id, model_type),
+    KEY idx_model (model_id, model_type),
+
+    CONSTRAINT fk_mhp_permission FOREIGN KEY (permission_id) REFERENCES permissions(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='模型擁有權限表';
+
+-- 模型擁有角色表 (多態關聯)
+CREATE TABLE model_has_roles (
+    role_id BIGINT UNSIGNED NOT NULL COMMENT '角色 ID',
+    model_type VARCHAR(255) NOT NULL COMMENT '模型類型(App\\Models\\Admin等)',
+    model_id BIGINT UNSIGNED NOT NULL COMMENT '模型 ID',
+
+    PRIMARY KEY (role_id, model_id, model_type),
+    KEY idx_model (model_id, model_type),
+
+    CONSTRAINT fk_mhr_role FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='模型擁有角色表';
+
+-- 角色擁有權限表
+CREATE TABLE role_has_permissions (
+    permission_id BIGINT UNSIGNED NOT NULL COMMENT '權限 ID',
+    role_id BIGINT UNSIGNED NOT NULL COMMENT '角色 ID',
+
+    PRIMARY KEY (permission_id, role_id),
+
+    CONSTRAINT fk_rhp_permission FOREIGN KEY (permission_id) REFERENCES permissions(id) ON DELETE CASCADE,
+    CONSTRAINT fk_rhp_role FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='角色擁有權限表';
