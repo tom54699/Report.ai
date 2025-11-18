@@ -317,19 +317,19 @@
             <div id="overview" class="tab-content active">
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-number">32</div>
+                        <div class="stat-number">39</div>
                         <div class="stat-label">資料表數量</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">37</div>
+                        <div class="stat-number">43</div>
                         <div class="stat-label">外鍵關聯</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">399</div>
+                        <div class="stat-number">450</div>
                         <div class="stat-label">欄位總數</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">9</div>
+                        <div class="stat-number">12</div>
                         <div class="stat-label">系統模組</div>
                     </div>
                 </div>
@@ -590,6 +590,70 @@
                         <ul class="field-list">
                             <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">10 個</span></li>
                             <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 products, users, orders</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">user_preferences</div>
+                        <div class="table-description">會員偏好設定表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">7 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 users</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">merchant_preferences</div>
+                        <div class="table-description">商家偏好設定表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">7 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 merchants</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">admins</div>
+                        <div class="table-description">管理員表(各國運營團隊)</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">19 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">可被 model_has_permissions, model_has_roles 引用</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">roles</div>
+                        <div class="table-description">角色表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">5 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">被 model_has_roles, role_has_permissions 引用</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">permissions</div>
+                        <div class="table-description">權限表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">5 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">被 model_has_permissions, role_has_permissions 引用</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">model_has_permissions</div>
+                        <div class="table-description">模型擁有權限表（多態關聯）</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">3 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 permissions</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">model_has_roles</div>
+                        <div class="table-description">模型擁有角色表（多態關聯）</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">3 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 roles</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">role_has_permissions</div>
+                        <div class="table-description">角色擁有權限表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">2 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 permissions, roles</span></li>
                         </ul>
                     </div>
                 </div>
@@ -3298,6 +3362,325 @@
                             </li>
                         </ul>
                     </div>
+
+                    <!-- user_preferences -->
+                    <div class="table-card" data-table="user_preferences">
+                        <div class="table-header">user_preferences</div>
+                        <div class="table-description">會員偏好設定表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">偏好設定 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">user_id <span class="badge badge-foreign">FK</span> <span class="badge badge-unique">UNIQUE</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">會員 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">currency</span>
+                                <span class="field-type">CHAR(3)</span>
+                                <span class="field-comment">偏好幣別(ISO 4217)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">lang</span>
+                                <span class="field-type">CHAR(5)</span>
+                                <span class="field-comment">偏好語言(ISO 639-1 + ISO 3166-1)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">newsletter_subscription</span>
+                                <span class="field-type">TINYINT(1)</span>
+                                <span class="field-comment">是否訂閱電子報(0:否 1:是)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- merchant_preferences -->
+                    <div class="table-card" data-table="merchant_preferences">
+                        <div class="table-header">merchant_preferences</div>
+                        <div class="table-description">商家偏好設定表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">偏好設定 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">merchant_id <span class="badge badge-foreign">FK</span> <span class="badge badge-unique">UNIQUE</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">商家 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">currency</span>
+                                <span class="field-type">CHAR(3)</span>
+                                <span class="field-comment">偏好幣別(ISO 4217)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">lang</span>
+                                <span class="field-type">CHAR(5)</span>
+                                <span class="field-comment">偏好語言(ISO 639-1 + ISO 3166-1)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">newsletter_subscription</span>
+                                <span class="field-type">TINYINT(1)</span>
+                                <span class="field-comment">是否訂閱電子報(0:否 1:是)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- admins -->
+                    <div class="table-card" data-table="admins">
+                        <div class="table-header">admins</div>
+                        <div class="table-description">管理員表(各國運營團隊)</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">管理員 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">name</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">姓名</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">email <span class="badge badge-unique">UNIQUE</span></span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">信箱(登入帳號)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">email_verified_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">Email 驗證時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">password</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">密碼雜湊值</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">remember_token</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">Remember Token</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">phone_country_iso</span>
+                                <span class="field-type">CHAR(2)</span>
+                                <span class="field-comment">電話國碼(ISO 3166-1 alpha-2)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">phone_number</span>
+                                <span class="field-type">VARCHAR(30)</span>
+                                <span class="field-comment">聯絡電話(不含國碼)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">country_iso</span>
+                                <span class="field-type">CHAR(2)</span>
+                                <span class="field-comment">所屬國家(ISO 3166-1 alpha-2)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">department</span>
+                                <span class="field-type">VARCHAR(50)</span>
+                                <span class="field-comment">部門(customer_service/operation/marketing/finance/tech)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">lang</span>
+                                <span class="field-type">CHAR(5)</span>
+                                <span class="field-comment">介面語言</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">timezone</span>
+                                <span class="field-type">VARCHAR(50)</span>
+                                <span class="field-comment">時區</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">avatar</span>
+                                <span class="field-type">VARCHAR(500)</span>
+                                <span class="field-comment">頭像 URL</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">is_active</span>
+                                <span class="field-type">TINYINT(1)</span>
+                                <span class="field-comment">是否啟用(0:停用 1:啟用)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">is_super_admin</span>
+                                <span class="field-type">TINYINT(1)</span>
+                                <span class="field-comment">是否為超級管理員(0:否 1:是)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">last_login_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">最後登入時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">last_login_ip</span>
+                                <span class="field-type">VARCHAR(45)</span>
+                                <span class="field-comment">最後登入 IP</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- roles -->
+                    <div class="table-card" data-table="roles">
+                        <div class="table-header">roles</div>
+                        <div class="table-description">角色表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">角色 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">name</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">角色名稱(唯一識別碼)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">guard_name</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">守衛名稱</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- permissions -->
+                    <div class="table-card" data-table="permissions">
+                        <div class="table-header">permissions</div>
+                        <div class="table-description">權限表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">權限 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">name</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">權限名稱(唯一識別碼)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">guard_name</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">守衛名稱</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- model_has_permissions -->
+                    <div class="table-card" data-table="model_has_permissions">
+                        <div class="table-header">model_has_permissions</div>
+                        <div class="table-description">模型擁有權限表（多態關聯）</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">permission_id <span class="badge badge-primary">PK</span> <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">權限 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">model_type <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">模型類型(App\\Models\\Admin等)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">model_id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">模型 ID</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- model_has_roles -->
+                    <div class="table-card" data-table="model_has_roles">
+                        <div class="table-header">model_has_roles</div>
+                        <div class="table-description">模型擁有角色表（多態關聯）</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">role_id <span class="badge badge-primary">PK</span> <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">角色 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">model_type <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">模型類型(App\\Models\\Admin等)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">model_id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">模型 ID</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- role_has_permissions -->
+                    <div class="table-card" data-table="role_has_permissions">
+                        <div class="table-header">role_has_permissions</div>
+                        <div class="table-description">角色擁有權限表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">permission_id <span class="badge badge-primary">PK</span> <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">權限 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">role_id <span class="badge badge-primary">PK</span> <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">角色 ID</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
@@ -3791,22 +4174,130 @@
                     </div>
                 </div>
 
+                <!-- 用戶與商家偏好設定 -->
+                <div class="system-section">
+                    <h3 class="system-title" style="color: #10b981; border-color: #10b981;">⚙️ 用戶與商家偏好設定</h3>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #10b981; margin-bottom: 10px;">👤 會員與偏好設定 - 一對一 (1:1)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #dbeafe; padding: 4px 8px; border-radius: 4px;">users</code>
+                            擁有一個
+                            <code style="background: #d1fae5; padding: 4px 8px; border-radius: 4px;">user_preferences</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: user_preferences.user_id → users.id (UNIQUE)
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #10b981; margin-bottom: 10px;">🏪 商家與偏好設定 - 一對一 (1:1)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #fef3c7; padding: 4px 8px; border-radius: 4px;">merchants</code>
+                            擁有一個
+                            <code style="background: #d1fae5; padding: 4px 8px; border-radius: 4px;">merchant_preferences</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: merchant_preferences.merchant_id → merchants.id (UNIQUE)
+                        </div>
+                    </div>
+
+                    <div style="background: #d1fae5; padding: 15px; border-radius: 8px; border-left: 4px solid #10b981;">
+                        <div style="color: #065f46; font-size: 0.95em;">
+                            <strong>💡 架構說明：</strong>採用一對一關係儲存用戶和商家的偏好設定（幣別、語言、電子報訂閱），提供個性化體驗。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 管理員系統 -->
+                <div class="system-section">
+                    <h3 class="system-title" style="color: #f59e0b; border-color: #f59e0b;">👨‍💼 管理員系統</h3>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #f59e0b; margin-bottom: 10px;">🔐 管理員表</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #fef3c7; padding: 4px 8px; border-radius: 4px;">admins</code>
+                            儲存各國運營團隊帳號資訊
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            支援 Laravel 標準認證，包含所屬國家、部門、超級管理員標記等欄位
+                        </div>
+                    </div>
+
+                    <div style="background: #fef3c7; padding: 15px; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                        <div style="color: #92400e; font-size: 0.95em;">
+                            <strong>💡 架構說明：</strong>獨立的管理員系統，透過 Laravel Permission 實現細粒度權限控制，支援多國運營團隊管理。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 權限管理系統 (Laravel Permission) -->
+                <div class="system-section">
+                    <h3 class="system-title" style="color: #8b5cf6; border-color: #8b5cf6;">🔒 權限管理系統 (Laravel Permission)</h3>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #8b5cf6; margin-bottom: 10px;">👥 模型與角色 - 多對多 (N:M)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #fef3c7; padding: 4px 8px; border-radius: 4px;">admins</code>
+                            擁有多個
+                            <code style="background: #ede9fe; padding: 4px 8px; border-radius: 4px;">roles</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            透過: model_has_roles (多態關聯)<br>
+                            外鍵: model_has_roles.role_id → roles.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #8b5cf6; margin-bottom: 10px;">🔑 角色與權限 - 多對多 (N:M)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #ede9fe; padding: 4px 8px; border-radius: 4px;">roles</code>
+                            擁有多個
+                            <code style="background: #ede9fe; padding: 4px 8px; border-radius: 4px;">permissions</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            透過: role_has_permissions<br>
+                            外鍵: role_has_permissions.role_id → roles.id<br>
+                            外鍵: role_has_permissions.permission_id → permissions.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #8b5cf6; margin-bottom: 10px;">🔐 模型與權限 - 多對多 (N:M)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #fef3c7; padding: 4px 8px; border-radius: 4px;">admins</code>
+                            直接擁有
+                            <code style="background: #ede9fe; padding: 4px 8px; border-radius: 4px;">permissions</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            透過: model_has_permissions (多態關聯)<br>
+                            外鍵: model_has_permissions.permission_id → permissions.id
+                        </div>
+                    </div>
+
+                    <div style="background: #faf5ff; padding: 15px; border-radius: 8px; border-left: 4px solid #8b5cf6;">
+                        <div style="color: #6b21a8; font-size: 0.95em;">
+                            <strong>💡 架構說明：</strong>採用 Spatie Laravel Permission 標準五表結構，支援角色繼承權限和直接分配權限，靈活的多態關聯設計可擴展至其他模型。
+                        </div>
+                    </div>
+                </div>
+
                 <h2 style="margin-top: 40px; margin-bottom: 20px; color: #333;">📊 關聯統計</h2>
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-number">37</div>
+                        <div class="stat-number">43</div>
                         <div class="stat-label">外鍵關聯</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">0</div>
+                        <div class="stat-number">3</div>
                         <div class="stat-label">多對多關聯</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">9</div>
+                        <div class="stat-number">12</div>
                         <div class="stat-label">系統模組</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">32</div>
+                        <div class="stat-number">39</div>
                         <div class="stat-label">資料表</div>
                     </div>
                 </div>
