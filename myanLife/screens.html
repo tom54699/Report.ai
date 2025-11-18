@@ -592,6 +592,204 @@
             transform: translateY(-2px);
         }
 
+        .content-view {
+            display: none;
+        }
+
+        .content-view.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .filter-tab:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .filter-tab.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+        }
+
+        .order-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .order-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .order-number {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .order-date {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .order-items {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .order-image {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+        }
+
+        .order-details {
+            flex: 1;
+        }
+
+        .order-product-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .order-product-desc {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .order-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-total {
+            font-weight: bold;
+            color: #f44336;
+            font-size: 1.2em;
+        }
+
+        .settings-section {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .settings-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .settings-label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .settings-value {
+            color: #666;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 1.8em;
@@ -644,10 +842,6 @@
         <div id="memberApp" class="mockup-container active" style="position: relative;">
             <!-- 登入畫面 -->
             <div class="login-overlay" id="memberLogin">
-                <div class="login-header">
-                    <h1>🌐 myanLife 會員平台</h1>
-                    <p>探索緬甸美好生活 · 盡享優質體驗</p>
-                </div>
                 <div class="login-box">
                     <h2>👤 會員登入</h2>
                     <p class="subtitle">歡迎回來！請登入您的 myanLife 會員帳號</p>
@@ -673,11 +867,11 @@
                     <span>myanLife 會員端</span>
                 </div>
                 <div class="mockup-nav">
-                    <div class="nav-item active">首頁</div>
-                    <div class="nav-item">商品</div>
-                    <div class="nav-item">我的訂單</div>
-                    <div class="nav-item">任務中心</div>
-                    <div class="nav-item">設定</div>
+                    <div class="nav-item active" onclick="switchMemberView('home')">首頁</div>
+                    <div class="nav-item" onclick="switchMemberView('products')">商品</div>
+                    <div class="nav-item" onclick="switchMemberView('orders')">我的訂單</div>
+                    <div class="nav-item" onclick="switchMemberView('tasks')">任務中心</div>
+                    <div class="nav-item" onclick="switchMemberView('settings')">設定</div>
                     <div class="user-info">
                         <div class="avatar">張</div>
                         <span>張小明</span>
@@ -686,7 +880,9 @@
                 </div>
             </div>
 
-            <div class="stats-row">
+            <!-- 首頁視圖 -->
+            <div id="memberHome" class="content-view active">
+                <div class="stats-row">
                 <div class="stat-card">
                     <div class="stat-number">12</div>
                     <div class="stat-label">我的商品</div>
@@ -810,6 +1006,530 @@
                 </tbody>
             </table>
 
+            </div>
+            <!-- 首頁視圖結束 -->
+
+            <!-- 商品視圖 -->
+            <div id="memberProducts" class="content-view">
+                <h3 style="margin-bottom: 15px; color: #333;">🛍️ 所有商品</h3>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active">全部商品</button>
+                    <button class="filter-tab">🍔 餐飲美食</button>
+                    <button class="filter-tab">✈️ 旅遊交通</button>
+                    <button class="filter-tab">🏨 飯店住宿</button>
+                    <button class="filter-tab">🎭 娛樂休閒</button>
+                </div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-image">🍕</div>
+                        <div class="card-title">美味披薩 8折優惠</div>
+                        <div class="card-desc">Pizza Hut 全品項享8折，限量100張</div>
+                        <div class="card-meta">
+                            <span style="color: #f57c00; font-size: 0.85em;">🍔 餐飲美食</span>
+                            <span class="card-price">12,000 MMK</span>
+                        </div>
+                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-image">☕</div>
+                        <div class="card-title">咖啡買一送一</div>
+                        <div class="card-desc">Starbucks 中杯以上飲品適用</div>
+                        <div class="card-meta">
+                            <span style="color: #f57c00; font-size: 0.85em;">🍔 餐飲美食</span>
+                            <span class="card-price">6,500 MMK</span>
+                        </div>
+                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-image">🍜</div>
+                        <div class="card-title">緬式料理套餐</div>
+                        <div class="card-desc">傳統緬甸風味餐廳優惠套餐</div>
+                        <div class="card-meta">
+                            <span style="color: #f57c00; font-size: 0.85em;">🍔 餐飲美食</span>
+                            <span class="card-price">8,000 MMK</span>
+                        </div>
+                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-image">✈️</div>
+                        <div class="card-title">曼德勒來回機票</div>
+                        <div class="card-desc">Myanmar Airways 限時優惠</div>
+                        <div class="card-meta">
+                            <span style="color: #1976d2; font-size: 0.85em;">✈️ 旅遊交通</span>
+                            <span class="card-price">85,000 MMK</span>
+                        </div>
+                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-image">🎫</div>
+                        <div class="card-title">茵萊湖一日遊</div>
+                        <div class="card-desc">包含交通、導遊、午餐</div>
+                        <div class="card-meta">
+                            <span style="color: #1976d2; font-size: 0.85em;">✈️ 旅遊交通</span>
+                            <span class="card-price">35,000 MMK</span>
+                        </div>
+                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-image">🚌</div>
+                        <div class="card-title">觀光巴士一日券</div>
+                        <div class="card-desc">仰光市區觀光巴士無限次搭乘</div>
+                        <div class="card-meta">
+                            <span style="color: #1976d2; font-size: 0.85em;">✈️ 旅遊交通</span>
+                            <span class="card-price">15,000 MMK</span>
+                        </div>
+                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-image">🏨</div>
+                        <div class="card-title">仰光市中心酒店住宿</div>
+                        <div class="card-desc">Sedona Hotel 豪華雙人房一晚</div>
+                        <div class="card-meta">
+                            <span style="color: #7b1fa2; font-size: 0.85em;">🏨 飯店住宿</span>
+                            <span class="card-price">45,000 MMK</span>
+                        </div>
+                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-image">🛏️</div>
+                        <div class="card-title">茵萊湖畔度假村</div>
+                        <div class="card-desc">湖景房兩晚含早餐</div>
+                        <div class="card-meta">
+                            <span style="color: #7b1fa2; font-size: 0.85em;">🏨 飯店住宿</span>
+                            <span class="card-price">68,000 MMK</span>
+                        </div>
+                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-image">🎭</div>
+                        <div class="card-title">緬甸傳統舞蹈表演</div>
+                        <div class="card-desc">Karaweik Palace 晚宴表演</div>
+                        <div class="card-meta">
+                            <span style="color: #c62828; font-size: 0.85em;">🎭 娛樂休閒</span>
+                            <span class="card-price">25,000 MMK</span>
+                        </div>
+                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-image">🎬</div>
+                        <div class="card-title">電影票買一送一</div>
+                        <div class="card-desc">Junction City 影城全片適用</div>
+                        <div class="card-meta">
+                            <span style="color: #c62828; font-size: 0.85em;">🎭 娛樂休閒</span>
+                            <span class="card-price">10,000 MMK</span>
+                        </div>
+                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-image">🎪</div>
+                        <div class="card-title">茵萊湖文化節門票</div>
+                        <div class="card-desc">體驗傳統文化表演與市集</div>
+                        <div class="card-meta">
+                            <span style="color: #c62828; font-size: 0.85em;">🎭 娛樂休閒</span>
+                            <span class="card-price">18,000 MMK</span>
+                        </div>
+                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-image">🏋️</div>
+                        <div class="card-title">健身房月卡優惠</div>
+                        <div class="card-desc">Fitness First 一個月無限使用</div>
+                        <div class="card-meta">
+                            <span style="color: #c62828; font-size: 0.85em;">🎭 娛樂休閒</span>
+                            <span class="card-price">35,000 MMK</span>
+                        </div>
+                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 商品視圖結束 -->
+
+            <!-- 我的訂單視圖 -->
+            <div id="memberOrders" class="content-view">
+                <h3 style="margin-bottom: 15px; color: #333;">📦 我的訂單</h3>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active">全部訂單</button>
+                    <button class="filter-tab">待付款</button>
+                    <button class="filter-tab">待核銷</button>
+                    <button class="filter-tab">已完成</button>
+                    <button class="filter-tab">已取消</button>
+                </div>
+
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-number">訂單編號：ORD-20251118-001</div>
+                            <div class="order-date">2025-11-18 14:30</div>
+                        </div>
+                        <span class="status-badge active">待核銷</span>
+                    </div>
+                    <div class="order-items">
+                        <div class="order-image">🍕</div>
+                        <div class="order-details">
+                            <div class="order-product-name">美味披薩 8折優惠</div>
+                            <div class="order-product-desc">Pizza Hut 仰光總店 | 數量：1</div>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <div class="order-total">12,000 MMK</div>
+                        <button class="card-button">立即核銷</button>
+                    </div>
+                </div>
+
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-number">訂單編號：ORD-20251117-052</div>
+                            <div class="order-date">2025-11-17 09:15</div>
+                        </div>
+                        <span class="status-badge active">待核銷</span>
+                    </div>
+                    <div class="order-items">
+                        <div class="order-image">☕</div>
+                        <div class="order-details">
+                            <div class="order-product-name">咖啡買一送一</div>
+                            <div class="order-product-desc">Starbucks Downtown | 數量：2</div>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <div class="order-total">13,000 MMK</div>
+                        <button class="card-button">立即核銷</button>
+                    </div>
+                </div>
+
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-number">訂單編號：ORD-20251116-038</div>
+                            <div class="order-date">2025-11-16 16:45</div>
+                        </div>
+                        <span class="status-badge pending">已完成</span>
+                    </div>
+                    <div class="order-items">
+                        <div class="order-image">🎭</div>
+                        <div class="order-details">
+                            <div class="order-product-name">緬甸傳統舞蹈表演</div>
+                            <div class="order-product-desc">Karaweik Palace | 數量：2</div>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <div class="order-total">50,000 MMK</div>
+                        <button class="action-btn edit">查看詳情</button>
+                    </div>
+                </div>
+
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-number">訂單編號：ORD-20251115-025</div>
+                            <div class="order-date">2025-11-15 11:20</div>
+                        </div>
+                        <span class="status-badge pending">已完成</span>
+                    </div>
+                    <div class="order-items">
+                        <div class="order-image">🏨</div>
+                        <div class="order-details">
+                            <div class="order-product-name">仰光市中心酒店住宿</div>
+                            <div class="order-product-desc">Sedona Hotel | 數量：1</div>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <div class="order-total">45,000 MMK</div>
+                        <button class="action-btn edit">查看詳情</button>
+                    </div>
+                </div>
+
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-number">訂單編號：ORD-20251114-019</div>
+                            <div class="order-date">2025-11-14 18:30</div>
+                        </div>
+                        <span class="status-badge rejected">已取消</span>
+                    </div>
+                    <div class="order-items">
+                        <div class="order-image">✈️</div>
+                        <div class="order-details">
+                            <div class="order-product-name">曼德勒來回機票</div>
+                            <div class="order-product-desc">Myanmar Airways | 數量：1</div>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <div class="order-total">85,000 MMK</div>
+                        <span style="color: #999;">已退款</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 我的訂單視圖結束 -->
+
+            <!-- 任務中心視圖 -->
+            <div id="memberTasks" class="content-view">
+                <h3 style="margin-bottom: 15px; color: #333;">✅ 任務中心</h3>
+
+                <div class="stats-row" style="margin-bottom: 30px;">
+                    <div class="stat-card info">
+                        <div class="stat-number">850</div>
+                        <div class="stat-label">我的總積分</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">進行中任務</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">已完成任務</div>
+                    </div>
+                </div>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active">全部任務</button>
+                    <button class="filter-tab">新手任務</button>
+                    <button class="filter-tab">每日任務</button>
+                    <button class="filter-tab">推廣任務</button>
+                    <button class="filter-tab">已完成</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>任務名稱</th>
+                            <th>任務類型</th>
+                            <th>獎勵積分</th>
+                            <th>進度</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>連續7天登入</td>
+                            <td>每日任務</td>
+                            <td>+50 分</td>
+                            <td>5/7</td>
+                            <td><span class="status-badge pending">進行中</span></td>
+                            <td><button class="action-btn edit">查看</button></td>
+                        </tr>
+                        <tr>
+                            <td>邀請好友註冊</td>
+                            <td>推廣任務</td>
+                            <td>+200 分</td>
+                            <td>2/5</td>
+                            <td><span class="status-badge pending">進行中</span></td>
+                            <td><button class="action-btn edit">邀請</button></td>
+                        </tr>
+                        <tr>
+                            <td>完成 3 次商品評分</td>
+                            <td>互動任務</td>
+                            <td>+100 分</td>
+                            <td>1/3</td>
+                            <td><span class="status-badge pending">進行中</span></td>
+                            <td><button class="action-btn edit">前往</button></td>
+                        </tr>
+                        <tr>
+                            <td>完成首次購物</td>
+                            <td>新手任務</td>
+                            <td>+100 分</td>
+                            <td>1/1</td>
+                            <td><span class="status-badge active">已完成</span></td>
+                            <td><span style="color: #4caf50;">✓ 已領取</span></td>
+                        </tr>
+                        <tr>
+                            <td>完善個人資料</td>
+                            <td>新手任務</td>
+                            <td>+50 分</td>
+                            <td>1/1</td>
+                            <td><span class="status-badge active">已完成</span></td>
+                            <td><span style="color: #4caf50;">✓ 已領取</span></td>
+                        </tr>
+                        <tr>
+                            <td>首次分享商品</td>
+                            <td>推廣任務</td>
+                            <td>+80 分</td>
+                            <td>1/1</td>
+                            <td><span class="status-badge active">已完成</span></td>
+                            <td><span style="color: #4caf50;">✓ 已領取</span></td>
+                        </tr>
+                        <tr>
+                            <td>消費滿 100,000 MMK</td>
+                            <td>消費任務</td>
+                            <td>+500 分</td>
+                            <td>62,000/100,000</td>
+                            <td><span class="status-badge pending">進行中</span></td>
+                            <td><button class="action-btn edit">查看</button></td>
+                        </tr>
+                        <tr>
+                            <td>關注 5 個商家</td>
+                            <td>互動任務</td>
+                            <td>+120 分</td>
+                            <td>3/5</td>
+                            <td><span class="status-badge pending">進行中</span></td>
+                            <td><button class="action-btn edit">前往</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-note" style="margin-top: 20px;">
+                    <strong>💡 關於任務積分：</strong>完成任務可獲得積分獎勵，積分可用於兌換優惠券、專屬商品或參加抽獎活動。每日任務會在每天 00:00 (GMT+6:30) 重置。
+                </div>
+            </div>
+            <!-- 任務中心視圖結束 -->
+
+            <!-- 設定視圖 -->
+            <div id="memberSettings" class="content-view">
+                <h3 style="margin-bottom: 20px; color: #333;">⚙️ 帳號設定</h3>
+
+                <div class="settings-section">
+                    <div class="settings-title">
+                        <span>👤</span>
+                        <span>個人資料</span>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">姓名</div>
+                        <div class="settings-value">張小明</div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">電子信箱</div>
+                        <div class="settings-value">zhang@example.com</div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">手機號碼</div>
+                        <div class="settings-value">+95-9-123-456789</div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">會員等級</div>
+                        <div class="settings-value">🌟 黃金會員</div>
+                    </div>
+                    <button class="quick-action-btn" style="margin-top: 15px;">編輯個人資料</button>
+                </div>
+
+                <div class="settings-section">
+                    <div class="settings-title">
+                        <span>🌍</span>
+                        <span>偏好設定 (user_preferences)</span>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">語言</div>
+                        <select style="padding: 8px 12px; border: 1px solid #e0e0e0; border-radius: 6px;">
+                            <option>繁體中文</option>
+                            <option>English</option>
+                            <option>မြန်မာဘာသာ (緬甸語)</option>
+                            <option>ไทย (泰語)</option>
+                        </select>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">貨幣顯示</div>
+                        <select style="padding: 8px 12px; border: 1px solid #e0e0e0; border-radius: 6px;">
+                            <option>MMK (緬甸元)</option>
+                            <option>USD (美元)</option>
+                            <option>TWD (新台幣)</option>
+                            <option>THB (泰銖)</option>
+                        </select>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">訂閱電子報</div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">接收推播通知</div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">接收促銷訊息</div>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <div class="settings-title">
+                        <span>🔒</span>
+                        <span>安全設定</span>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">密碼</div>
+                        <button class="action-btn edit">修改密碼</button>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">雙重驗證 (2FA)</div>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">社群帳號連結</div>
+                        <div style="display: flex; gap: 10px;">
+                            <span style="color: #4267B2;">✓ Facebook</span>
+                            <span style="color: #999;">Google</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <div class="settings-title">
+                        <span>💳</span>
+                        <span>付款方式</span>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">已綁定信用卡</div>
+                        <div class="settings-value">Visa •••• 4567</div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">行動支付</div>
+                        <div class="settings-value">Wave Money 已連結</div>
+                    </div>
+                    <button class="quick-action-btn" style="margin-top: 15px;">管理付款方式</button>
+                </div>
+
+                <div class="settings-section">
+                    <div class="settings-title">
+                        <span>ℹ️</span>
+                        <span>關於</span>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">App 版本</div>
+                        <div class="settings-value">v2.5.1</div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">服務條款</div>
+                        <a href="#" style="color: #667eea;">查看</a>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">隱私政策</div>
+                        <a href="#" style="color: #667eea;">查看</a>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">客服中心</div>
+                        <a href="#" style="color: #667eea;">聯絡我們</a>
+                    </div>
+                </div>
+
+                <button class="action-btn reject" style="width: 100%; margin-top: 20px; padding: 12px;">刪除帳號</button>
+            </div>
+            <!-- 設定視圖結束 -->
+
             <div class="info-note">
                 <strong>💡 會員端功能：</strong>基於 users 表，支援 email/phone_number 登入（含社群登入）。功能包含：瀏覽商品 (products, product_categories)、購買商品 (orders, order_items, payments)、核銷商品 (user_products, redemptions)、評分商品 (product_ratings)、完成任務 (member_tasks, member_task_logs)、偏好設定 (user_preferences: 語言/貨幣/電子報訂閱)、查看訂單狀態 (order_status_logs)、使用優惠碼 (promo_codes)。支援 4 種商品類型：餐飲美食 (food_products)、旅遊交通 (travel_products)、飯店住宿 (hotel_products)、娛樂休閒 (entertainment_products)。
             </div>
@@ -819,10 +1539,6 @@
         <div id="merchantApp" class="mockup-container" style="position: relative;">
             <!-- 登入畫面 -->
             <div class="login-overlay" id="merchantLogin">
-                <div class="login-header">
-                    <h1>🏪 myanLife 商家平台</h1>
-                    <p>攜手共創商機 · 與我們一起成長</p>
-                </div>
                 <div class="login-box">
                     <h2>🏪 商家登入</h2>
                     <p class="subtitle">歡迎商家夥伴！請登入您的商家管理帳號</p>
@@ -1033,10 +1749,6 @@
         <div id="operation" class="mockup-container" style="position: relative;">
             <!-- 登入畫面 -->
             <div class="login-overlay" id="operationLogin">
-                <div class="login-header">
-                    <h1>👥 myanLife 運營後台</h1>
-                    <p>多國運營管理系統 · 專業高效管理</p>
-                </div>
                 <div class="login-box">
                     <h2>👨‍💼 管理員登入</h2>
                     <p class="subtitle">運營管理後台 - 多國運營管理</p>
@@ -1290,10 +2002,6 @@
         <div id="central" class="mockup-container" style="position: relative;">
             <!-- 登入畫面 -->
             <div class="login-overlay" id="centralLogin">
-                <div class="login-header">
-                    <h1>🏛️ myanLife 中央後台</h1>
-                    <p>全球數據整合中心 · 跨國營運總覽</p>
-                </div>
                 <div class="login-box">
                     <h2>🏛️ 中央後台登入</h2>
                     <p class="subtitle">中央管理系統 - 最高權限</p>
@@ -1483,6 +2191,37 @@
             const loginOverlay = document.getElementById(type + 'Login');
             if (loginOverlay) {
                 loginOverlay.classList.remove('hidden');
+            }
+        }
+
+        // 會員端視圖切換功能
+        function switchMemberView(viewName) {
+            // 移除所有導航項目的 active class
+            const memberApp = document.getElementById('memberApp');
+            memberApp.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // 添加 active class 到當前點擊的導航項目
+            event.target.classList.add('active');
+
+            // 隱藏所有內容視圖
+            memberApp.querySelectorAll('.content-view').forEach(view => {
+                view.classList.remove('active');
+            });
+
+            // 顯示選中的視圖
+            const viewMap = {
+                'home': 'memberHome',
+                'products': 'memberProducts',
+                'orders': 'memberOrders',
+                'tasks': 'memberTasks',
+                'settings': 'memberSettings'
+            };
+
+            const targetView = document.getElementById(viewMap[viewName]);
+            if (targetView) {
+                targetView.classList.add('active');
             }
         }
 
