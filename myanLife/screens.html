@@ -463,6 +463,29 @@
             box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
 
+        .filter-btn {
+            padding: 8px 16px;
+            background: #f5f5f5;
+            color: #666;
+            border: 2px solid transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .filter-btn:hover {
+            background: #e8e8e8;
+            transform: translateY(-1px);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
+        }
+
         .info-note {
             background: #e3f2fd;
             border-left: 4px solid #2196f3;
@@ -1122,7 +1145,22 @@
             </div>
 
             <h3 style="margin-bottom: 15px; color: #333;">🔥 熱門商品</h3>
-            <div class="content-grid">
+
+            <!-- 搜索和篩選區 -->
+            <div style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div style="margin-bottom: 15px;">
+                    <input type="text" id="productSearch" placeholder="🔍 搜索商品名稱或商家..." style="width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em;" oninput="filterProducts()">
+                </div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                    <button class="filter-btn active" data-category="all" onclick="selectCategory(this, 'all')">全部</button>
+                    <button class="filter-btn" data-category="餐飲美食" onclick="selectCategory(this, '餐飲美食')">🍔 餐飲美食</button>
+                    <button class="filter-btn" data-category="旅遊交通" onclick="selectCategory(this, '旅遊交通')">✈️ 旅遊交通</button>
+                    <button class="filter-btn" data-category="飯店住宿" onclick="selectCategory(this, '飯店住宿')">🏨 飯店住宿</button>
+                    <button class="filter-btn" data-category="娛樂休閒" onclick="selectCategory(this, '娛樂休閒')">🎭 娛樂休閒</button>
+                </div>
+            </div>
+
+            <div id="productGrid" class="content-grid">
                 <div class="card" onclick="showProductDetail('美味披薩 8折優惠', '🍕', '12,000', '餐飲美食', 'Pizza Hut 全品項享受 8 折優惠，包含經典瑪格麗特、夏威夷披薩、海鮮總匯等多種口味。餅皮酥脆，料多實在，適合全家共享。限量 100 張，售完為止！', 'Pizza Hut 仰光總店', '4.5')" style="cursor: pointer;">
                     <div class="card-image">🍕</div>
                     <div class="card-title">美味披薩 8折優惠</div>
@@ -4410,10 +4448,14 @@
             ],
 
             products: [
-                { id: 1, merchant_id: 1, category_id: 1, product_name: '美味披薩 8折優惠', cover_image: '🍕', original_price: 15000, selling_price: 12000, currency: 'MMK', available_quantity: 55, total_quantity: 100, description: 'Pizza Hut 全品項享受 8 折優惠，包含經典瑪格麗特、夏威夷披薩、海鮮總匯等多種口味。餅皮酥脆，料多實在，適合全家共享。限量 100 張，售完為止！', review_status: 'approved', is_published: 1, rating_average: 4.5, rating_count: 23, purchase_count: 45 },
-                { id: 2, merchant_id: 1, category_id: 1, product_name: '咖啡買一送一', cover_image: '☕', original_price: 8000, selling_price: 6500, currency: 'MMK', available_quantity: 178, total_quantity: 200, description: 'Starbucks 中杯以上所有飲品買一送一優惠券。包含拿鐵、卡布奇諾、摩卡、焦糖瑪奇朵等經典飲品。可於緬甸所有 Starbucks 門市使用，有效期限 30 天。', review_status: 'approved', is_published: 1, rating_average: 4.4, rating_count: 15, purchase_count: 22 },
-                { id: 3, merchant_id: 2, category_id: 3, product_name: '仰光五星級飯店', cover_image: '🏨', original_price: 60000, selling_price: 45000, currency: 'MMK', available_quantity: 32, total_quantity: 50, description: 'Sedona Hotel Yangon 一晚住宿優惠券。享受五星級服務，房間寬敞舒適，配備豪華衛浴設備。飯店設施包含游泳池、健身房、水療中心。位於市中心，交通便利，鄰近購物中心。', review_status: 'approved', is_published: 1, rating_average: 4.8, rating_count: 12, purchase_count: 18 },
-                { id: 4, merchant_id: 1, category_id: 4, product_name: '緬甸傳統舞蹈表演', cover_image: '🎭', original_price: 30000, selling_price: 25000, currency: 'MMK', available_quantity: 45, total_quantity: 60, description: 'Karaweik Palace 晚宴表演套票，欣賞精彩的緬甸傳統舞蹈與音樂演出。在金色皇家餐廳享用緬式傳統料理自助晚餐，品嚐道地美食。體驗緬甸獨特的文化藝術，留下難忘回憶。', review_status: 'approved', is_published: 1, rating_average: 4.6, rating_count: 18, purchase_count: 15 }
+                { id: 1, merchant_id: 1, category_id: 1, product_name: '美味披薩 8折優惠', cover_image: '🍕', original_price: 15000, selling_price: 12000, currency: 'MMK', available_quantity: 55, total_quantity: 100, description: 'Pizza Hut 全品項享受 8 折優惠，包含經典瑪格麗特、夏威夷披薩、海鮮總匯等多種口味。餅皮酥脆，料多實在，適合全家共享。限量 100 張，售完為止！', review_status: 'approved', is_published: 1, rating_average: 4.5, rating_count: 23, purchase_count: 45, short_description: 'Pizza Hut 全品項享8折，限量100張' },
+                { id: 2, merchant_id: 1, category_id: 1, product_name: '咖啡買一送一', cover_image: '☕', original_price: 8000, selling_price: 6500, currency: 'MMK', available_quantity: 178, total_quantity: 200, description: 'Starbucks 中杯以上所有飲品買一送一優惠券。包含拿鐵、卡布奇諾、摩卡、焦糖瑪奇朵等經典飲品。可於緬甸所有 Starbucks 門市使用，有效期限 30 天。', review_status: 'approved', is_published: 1, rating_average: 4.4, rating_count: 15, purchase_count: 22, short_description: 'Starbucks 中杯以上飲品適用' },
+                { id: 3, merchant_id: 2, category_id: 3, product_name: '仰光五星級飯店', cover_image: '🏨', original_price: 60000, selling_price: 45000, currency: 'MMK', available_quantity: 32, total_quantity: 50, description: 'Sedona Hotel Yangon 一晚住宿優惠券。享受五星級服務，房間寬敞舒適，配備豪華衛浴設備。飯店設施包含游泳池、健身房、水療中心。位於市中心，交通便利，鄰近購物中心。', review_status: 'approved', is_published: 1, rating_average: 4.8, rating_count: 12, purchase_count: 18, short_description: 'Sedona Hotel 豪華雙人房一晚' },
+                { id: 4, merchant_id: 1, category_id: 4, product_name: '緬甸傳統舞蹈表演', cover_image: '🎭', original_price: 30000, selling_price: 25000, currency: 'MMK', available_quantity: 45, total_quantity: 60, description: 'Karaweik Palace 晚宴表演套票，欣賞精彩的緬甸傳統舞蹈與音樂演出。在金色皇家餐廳享用緬式傳統料理自助晚餐，品嚐道地美食。體驗緬甸獨特的文化藝術，留下難忘回憶。', review_status: 'approved', is_published: 1, rating_average: 4.6, rating_count: 18, purchase_count: 15, short_description: 'Karaweik Palace 晚宴表演' },
+                { id: 5, merchant_id: 1, category_id: 2, product_name: '曼德勒來回機票', cover_image: '✈️', original_price: 100000, selling_price: 85000, currency: 'MMK', available_quantity: 20, total_quantity: 30, description: 'Myanmar Airways 推出仰光至曼德勒來回機票限時優惠。包含來回航班、20kg 托運行李、機上餐點。航班時間彈性，可自由選擇出發日期。體驗緬甸第二大城市的文化魅力！', review_status: 'approved', is_published: 1, rating_average: 4.7, rating_count: 8, purchase_count: 10, short_description: 'Myanmar Airways 限時優惠' },
+                { id: 6, merchant_id: 1, category_id: 2, product_name: '茵萊湖一日遊', cover_image: '🎫', original_price: 40000, selling_price: 35000, currency: 'MMK', available_quantity: 15, total_quantity: 25, description: '茵萊湖一日遊套票，包含仰光來回交通、專業中文導遊、午餐。參觀水上市場、浮島菜園、手工藝作坊。乘坐長尾船遊覽美麗湖景，體驗獨特的單腳划船文化。適合全家出遊！', review_status: 'approved', is_published: 1, rating_average: 4.9, rating_count: 11, purchase_count: 10, short_description: '包含交通、導遊、午餐' },
+                { id: 7, merchant_id: 1, category_id: 4, product_name: 'SPA 水療按摩', cover_image: '💆', original_price: 35000, selling_price: 28000, currency: 'MMK', available_quantity: 40, total_quantity: 50, description: '高級 SPA 館 90 分鐘全身按摩套餐。採用純天然精油，由專業按摩師服務。包含泰式按摩、精油推拿、足部護理。幫助舒緩壓力，放鬆身心。', review_status: 'approved', is_published: 1, rating_average: 4.7, rating_count: 25, purchase_count: 10, short_description: '90分鐘全身按摩套餐' },
+                { id: 8, merchant_id: 2, category_id: 3, product_name: '茵萊湖度假村', cover_image: '🏖️', original_price: 80000, selling_price: 65000, currency: 'MMK', available_quantity: 10, total_quantity: 15, description: 'Inle Lake View Resort 兩天一夜住宿套餐。湖景房型，陽台可直接欣賞茵萊湖美景。包含早餐、下午茶、免費租借腳踏車。遠離都市喧囂，享受寧靜假期。', review_status: 'approved', is_published: 1, rating_average: 4.9, rating_count: 6, purchase_count: 5, short_description: '兩天一夜湖景房套餐' }
             ],
 
             // ========== 訂單系統 ==========
@@ -5094,6 +5136,164 @@
                 '⚠️ 刪除帳號'
             );
         }
+
+        // ============================================
+        // 商品篩選和搜索功能
+        // ============================================
+
+        let currentCategory = 'all';
+        let currentSearchTerm = '';
+
+        // 選擇分類
+        function selectCategory(btn, category) {
+            currentCategory = category;
+
+            // 更新按鈕樣式
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // 重新渲染商品
+            renderProducts();
+        }
+
+        // 篩選商品
+        function filterProducts() {
+            currentSearchTerm = document.getElementById('productSearch')?.value?.toLowerCase() || '';
+            renderProducts();
+        }
+
+        // 渲染商品列表
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            if (!grid) return;
+
+            // 從 AppData 獲取商品和分類
+            let products = AppData.products || [];
+            const categories = AppData.product_categories || [];
+            const merchants = AppData.merchants || [];
+
+            // 創建 category_id 到 category_name 的映射
+            const categoryMap = {};
+            categories.forEach(cat => {
+                categoryMap[cat.id] = cat.category_name;
+            });
+
+            // 創建 merchant_id 到 merchant_name 的映射
+            const merchantMap = {};
+            merchants.forEach(merchant => {
+                merchantMap[merchant.id] = merchant.merchant_name;
+            });
+
+            // 按分類篩選
+            if (currentCategory !== 'all') {
+                products = products.filter(p => categoryMap[p.category_id] === currentCategory);
+            }
+
+            // 按搜索詞篩選
+            if (currentSearchTerm) {
+                products = products.filter(p =>
+                    p.product_name.toLowerCase().includes(currentSearchTerm) ||
+                    p.description?.toLowerCase().includes(currentSearchTerm) ||
+                    merchantMap[p.merchant_id]?.toLowerCase().includes(currentSearchTerm)
+                );
+            }
+
+            // 生成 HTML
+            if (products.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #999;">
+                        <div style="font-size: 4em; margin-bottom: 20px;">🔍</div>
+                        <h3 style="color: #666; margin-bottom: 10px;">找不到符合條件的商品</h3>
+                        <p>試試調整搜索關鍵字或篩選條件</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = products.map(product => {
+                const categoryName = categoryMap[product.category_id] || '其他';
+                const merchantName = merchantMap[product.merchant_id] || '未知商家';
+
+                const categoryIcons = {
+                    '餐飲美食': { icon: '🍔', color: '#f57c00' },
+                    '旅遊交通': { icon: '✈️', color: '#1976d2' },
+                    '飯店住宿': { icon: '🏨', color: '#7b1fa2' },
+                    '娛樂休閒': { icon: '🎭', color: '#c62828' }
+                };
+                const catInfo = categoryIcons[categoryName] || { icon: '🎁', color: '#666' };
+
+                return `
+                    <div class="card" onclick="showProductDetailFromData(${product.id})" style="cursor: pointer;">
+                        <div class="card-image">${product.cover_image || catInfo.icon}</div>
+                        <div class="card-title">${product.product_name}</div>
+                        <div class="card-desc">${product.short_description || product.description?.substring(0, 50) + '...' || ''}</div>
+                        <div class="card-meta">
+                            <span style="color: ${catInfo.color}; font-size: 0.85em;">${catInfo.icon} ${categoryName}</span>
+                            <span class="card-price">${product.selling_price?.toLocaleString()} ${product.currency || 'MMK'}</span>
+                        </div>
+                        <button class="card-button" style="margin-top: 10px;" onclick="event.stopPropagation(); handleBuyProductFromData(${product.id})">立即購買</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 從 AppData 顯示商品詳情
+        function showProductDetailFromData(productId) {
+            const product = AppData.find('products', productId);
+            if (!product) {
+                showToast('商品不存在', 'error');
+                return;
+            }
+
+            const categories = AppData.product_categories || [];
+            const merchants = AppData.merchants || [];
+
+            // 獲取分類名稱
+            const category = categories.find(cat => cat.id === product.category_id);
+            const categoryName = category?.category_name || '其他';
+
+            // 獲取商家名稱
+            const merchant = merchants.find(m => m.id === product.merchant_id);
+            const merchantName = merchant?.merchant_name || '未知商家';
+
+            const categoryIcons = {
+                '餐飲美食': '🍔',
+                '旅遊交通': '✈️',
+                '飯店住宿': '🏨',
+                '娛樂休閒': '🎭'
+            };
+
+            showProductDetail(
+                product.product_name,
+                product.cover_image || categoryIcons[categoryName] || '🎁',
+                product.selling_price?.toLocaleString() || '0',
+                categoryName,
+                product.description || '',
+                merchantName,
+                product.rating_average || '4.5'
+            );
+        }
+
+        // 從 AppData 購買商品
+        function handleBuyProductFromData(productId) {
+            const product = AppData.find('products', productId);
+            if (!product) {
+                showToast('商品不存在', 'error');
+                return;
+            }
+
+            handleBuyProduct(product.product_name, product.selling_price?.toLocaleString() || '0');
+        }
+
+        // 初始化商品列表
+        function initProducts() {
+            renderProducts();
+        }
+
+        // 頁面載入時初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            initProducts();
+        });
     </script>
 </body>
 </html>
