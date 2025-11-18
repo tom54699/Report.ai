@@ -27,29 +27,37 @@
             overflow: hidden;
         }
 
-        .back-btn {
-            display: inline-block;
-            color: #667eea;
-            text-decoration: none;
-            margin-bottom: 20px;
-            padding: 10px 20px;
-            background: rgba(102, 126, 234, 0.1);
-            border: 2px solid #667eea;
-            border-radius: 20px;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
-
-        .back-btn:hover {
-            background: rgba(102, 126, 234, 0.2);
-            transform: translateY(-2px);
-        }
-
         header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 40px;
             text-align: center;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-50%) translateX(-5px);
         }
 
         header h1 {
@@ -301,9 +309,11 @@
 </head>
 <body>
     <div class="container">
-        <a href="../../myanLife/architecture.html" class="back-btn">← 返回架構圖</a>
-
         <header>
+            <a href="../../myanLife/architecture.html" class="back-button">
+                <span>←</span>
+                <span>上一頁</span>
+            </a>
             <h1>🗄️ MyAnLife 完整資料庫架構設計</h1>
             <p>包含所有系統模組的完整資料庫結構視覺化文檔</p>
         </header>

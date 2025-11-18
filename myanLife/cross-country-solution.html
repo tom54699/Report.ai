@@ -40,22 +40,20 @@
             opacity: 0.9;
         }
 
-        .back-btn {
+        .back-link {
             display: inline-block;
             color: white;
             text-decoration: none;
             margin-bottom: 20px;
             padding: 10px 20px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: rgba(255,255,255,0.2);
             border-radius: 20px;
             transition: all 0.3s;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
-        .back-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        .back-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-5px);
         }
 
         .section {
@@ -434,9 +432,8 @@
 </head>
 <body>
     <div class="container">
-        <a href="architecture.html" class="back-btn">← 返回架構圖</a>
-
         <header>
+            <a href="architecture.html" class="back-link">← 返回架構圖</a>
             <h1>🌍 跨國訂單架構解決方案</h1>
             <p class="subtitle">如何讓用戶查看所有國家的訂單？</p>
         </header>
