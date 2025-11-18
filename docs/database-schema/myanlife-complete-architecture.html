@@ -27,12 +27,29 @@
             overflow: hidden;
         }
 
+        .back-btn {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            transition: all 0.3s;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
         header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 40px;
             text-align: center;
-            position: relative;
         }
 
         header h1 {
@@ -44,31 +61,6 @@
         header p {
             font-size: 1.1em;
             opacity: 0.9;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 30px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 1em;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .back-button:hover {
-            transform: translateY(calc(-50% - 2px));
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
         .nav-tabs {
@@ -309,11 +301,9 @@
 </head>
 <body>
     <div class="container">
+        <a href="../../myanLife/architecture.html" class="back-btn">← 返回 myanLife 專案架構</a>
+
         <header>
-            <a href="../../myanLife/architecture.html" class="back-button">
-                <span>←</span>
-                <span>上一頁</span>
-            </a>
             <h1>🗄️ MyAnLife 完整資料庫架構設計</h1>
             <p>包含所有系統模組的完整資料庫結構視覺化文檔</p>
         </header>
