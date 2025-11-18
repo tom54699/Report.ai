@@ -2808,16 +2808,16 @@
                 </div>
 
                 <div class="filter-tabs">
-                    <button class="filter-tab active">全部會員</button>
-                    <button class="filter-tab">活躍會員</button>
-                    <button class="filter-tab">新註冊</button>
-                    <button class="filter-tab">已停用</button>
+                    <button class="filter-tab active" onclick="filterOperationMembers('all', this)">全部會員</button>
+                    <button class="filter-tab" onclick="filterOperationMembers('active', this)">活躍會員</button>
+                    <button class="filter-tab" onclick="filterOperationMembers('new', this)">新註冊</button>
+                    <button class="filter-tab" onclick="filterOperationMembers('disabled', this)">已停用</button>
                 </div>
 
                 <div class="quick-actions" style="margin-bottom: 20px;">
-                    <button class="quick-action-btn">📊 匯出會員資料</button>
-                    <button class="quick-action-btn">📧 批次發送通知</button>
-                    <button class="quick-action-btn">⚙️ 會員設定</button>
+                    <button class="quick-action-btn" onclick="showToast('匯出功能開發中', 'info')">📊 匯出會員資料</button>
+                    <button class="quick-action-btn" onclick="showToast('批次通知功能開發中', 'info')">📧 批次發送通知</button>
+                    <button class="quick-action-btn" onclick="showToast('會員設定功能開發中', 'info')">⚙️ 會員設定</button>
                 </div>
 
                 <table class="data-table">
@@ -2834,7 +2834,7 @@
                             <th>操作</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="operationMembersTable">
                         <tr>
                             <td>#U00523</td>
                             <td>張小明</td>
@@ -2947,16 +2947,16 @@
                 </div>
 
                 <div class="filter-tabs">
-                    <button class="filter-tab active">全部商家</button>
-                    <button class="filter-tab">營業中</button>
-                    <button class="filter-tab">待審核</button>
-                    <button class="filter-tab">已停用</button>
+                    <button class="filter-tab active" onclick="filterOperationMerchants('all', this)">全部商家</button>
+                    <button class="filter-tab" onclick="filterOperationMerchants('approved', this)">營業中</button>
+                    <button class="filter-tab" onclick="filterOperationMerchants('pending', this)">待審核</button>
+                    <button class="filter-tab" onclick="filterOperationMerchants('disabled', this)">已停用</button>
                 </div>
 
                 <div class="quick-actions" style="margin-bottom: 20px;">
-                    <button class="quick-action-btn">📊 匯出商家資料</button>
-                    <button class="quick-action-btn">📧 批次通知</button>
-                    <button class="quick-action-btn">⚙️ 商家設定</button>
+                    <button class="quick-action-btn" onclick="showToast('匯出功能開發中', 'info')">📊 匯出商家資料</button>
+                    <button class="quick-action-btn" onclick="showToast('批次通知功能開發中', 'info')">📧 批次通知</button>
+                    <button class="quick-action-btn" onclick="showToast('商家設定功能開發中', 'info')">⚙️ 商家設定</button>
                 </div>
 
                 <table class="data-table">
@@ -2973,7 +2973,7 @@
                             <th>操作</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="operationMerchantsTable">
                         <tr>
                             <td>#M0015</td>
                             <td>Pizza Hut Myanmar</td>
@@ -3086,10 +3086,9 @@
                 </div>
 
                 <div class="filter-tabs">
-                    <button class="filter-tab active">待審核</button>
-                    <button class="filter-tab">已通過</button>
-                    <button class="filter-tab">待修改</button>
-                    <button class="filter-tab">已拒絕</button>
+                    <button class="filter-tab active" onclick="filterOperationProducts('pending', this)">待審核</button>
+                    <button class="filter-tab" onclick="filterOperationProducts('approved', this)">已通過</button>
+                    <button class="filter-tab" onclick="filterOperationProducts('rejected', this)">已拒絕</button>
                 </div>
 
                 <table class="data-table">
@@ -3105,7 +3104,7 @@
                             <th>操作</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="operationProductsTable">
                         <tr>
                             <td>#P2385</td>
                             <td>茵萊湖一日遊</td>
@@ -3500,11 +3499,11 @@
             <!-- 跨國儀表板視圖 -->
             <div id="centralDashboard" class="content-view active">
                 <div class="country-selector">
-                <button class="country-btn active">🌍 全部國家</button>
-                <button class="country-btn">🇹🇼 台灣</button>
-                <button class="country-btn">🇲🇲 緬甸</button>
-                <button class="country-btn">🇹🇭 泰國</button>
-                <button class="country-btn">🇻🇳 越南</button>
+                <button class="country-btn active" onclick="filterCentralByCountry('all', this, 'dashboard')">🌍 全部國家</button>
+                <button class="country-btn" onclick="filterCentralByCountry('tw', this, 'dashboard')">🇹🇼 台灣</button>
+                <button class="country-btn" onclick="filterCentralByCountry('mm', this, 'dashboard')">🇲🇲 緬甸</button>
+                <button class="country-btn" onclick="filterCentralByCountry('th', this, 'dashboard')">🇹🇭 泰國</button>
+                <button class="country-btn" onclick="filterCentralByCountry('vn', this, 'dashboard')">🇻🇳 越南</button>
             </div>
 
             <div class="stats-row">
@@ -3628,11 +3627,11 @@
                 <h3 style="margin-bottom: 15px; color: #333;">💰 營收報表</h3>
 
                 <div class="country-selector">
-                    <button class="country-btn active">🌍 全部國家</button>
-                    <button class="country-btn">🇹🇼 台灣</button>
-                    <button class="country-btn">🇲🇲 緬甸</button>
-                    <button class="country-btn">🇹🇭 泰國</button>
-                    <button class="country-btn">🇻🇳 越南</button>
+                    <button class="country-btn active" onclick="filterCentralByCountry('all', this, 'revenue')">🌍 全部國家</button>
+                    <button class="country-btn" onclick="filterCentralByCountry('tw', this, 'revenue')">🇹🇼 台灣</button>
+                    <button class="country-btn" onclick="filterCentralByCountry('mm', this, 'revenue')">🇲🇲 緬甸</button>
+                    <button class="country-btn" onclick="filterCentralByCountry('th', this, 'revenue')">🇹🇭 泰國</button>
+                    <button class="country-btn" onclick="filterCentralByCountry('vn', this, 'revenue')">🇻🇳 越南</button>
                 </div>
 
                 <div class="filter-tabs" style="margin-top: 20px;">
@@ -3771,11 +3770,11 @@
                 <h3 style="margin-bottom: 15px; color: #333;">📊 數據分析</h3>
 
                 <div class="country-selector">
-                    <button class="country-btn active">🌍 全部國家</button>
-                    <button class="country-btn">🇹🇼 台灣</button>
-                    <button class="country-btn">🇲🇲 緬甸</button>
-                    <button class="country-btn">🇹🇭 泰國</button>
-                    <button class="country-btn">🇻🇳 越南</button>
+                    <button class="country-btn active" onclick="filterCentralByCountry('all', this, 'analytics')">🌍 全部國家</button>
+                    <button class="country-btn" onclick="filterCentralByCountry('tw', this, 'analytics')">🇹🇼 台灣</button>
+                    <button class="country-btn" onclick="filterCentralByCountry('mm', this, 'analytics')">🇲🇲 緬甸</button>
+                    <button class="country-btn" onclick="filterCentralByCountry('th', this, 'analytics')">🇹🇭 泰國</button>
+                    <button class="country-btn" onclick="filterCentralByCountry('vn', this, 'analytics')">🇻🇳 越南</button>
                 </div>
 
                 <h4 style="margin-bottom: 15px; margin-top: 30px; color: #333;">👥 用戶行為分析</h4>
@@ -5831,6 +5830,913 @@
                 '核銷訂單'
             );
         }
+
+        // ============================================
+        // 運營後台功能
+        // ============================================
+
+        let currentOperationMemberFilter = 'all';
+        let currentOperationMerchantFilter = 'all';
+        let currentOperationProductFilter = 'pending';
+
+        // 初始化運營後台
+        document.addEventListener('DOMContentLoaded', () => {
+            initOperationMembers();
+            initOperationMerchants();
+            initOperationProducts();
+        });
+
+        // ========== 會員管理 ==========
+
+        function initOperationMembers() {
+            renderOperationMembers();
+        }
+
+        function renderOperationMembers() {
+            const tbody = document.getElementById('operationMembersTable');
+            if (!tbody) return;
+
+            let users = AppData.users || [];
+
+            // 按篩選條件過濾
+            if (currentOperationMemberFilter === 'active') {
+                users = users.filter(u => u.is_active === 1 && u.orders_count > 0);
+            } else if (currentOperationMemberFilter === 'new') {
+                const oneMonthAgo = new Date();
+                oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+                users = users.filter(u => new Date(u.created_at) > oneMonthAgo);
+            } else if (currentOperationMemberFilter === 'disabled') {
+                users = users.filter(u => u.is_active === 0);
+            }
+
+            // 生成 HTML
+            if (users.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 40px; color: #999;">
+                            沒有符合條件的會員
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = users.map(user => {
+                const statusClass = user.is_active === 1 ? 'active' : 'rejected';
+                const statusText = user.is_active === 1 ? '活躍' : '已停用';
+
+                return `
+                    <tr>
+                        <td>#U${String(user.member_id).padStart(5, '0')}</td>
+                        <td>${user.nickname}</td>
+                        <td>${user.email}</td>
+                        <td>${user.phone_number || '-'}</td>
+                        <td>${user.created_at?.substring(0, 10) || '-'}</td>
+                        <td>${user.orders_count || 0}</td>
+                        <td>${(user.total_spent || 0).toLocaleString()} MMK</td>
+                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn edit" onclick="showOperationMemberDetail(${user.id})">查看</button>
+                                ${user.is_active === 1
+                                    ? `<button class="action-btn reject" onclick="toggleMemberStatus(${user.id}, 0)">停用</button>`
+                                    : `<button class="action-btn approve" onclick="toggleMemberStatus(${user.id}, 1)">啟用</button>`
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterOperationMembers(filter, btn) {
+            currentOperationMemberFilter = filter;
+            btn.parentElement.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderOperationMembers();
+        }
+
+        function showOperationMemberDetail(userId) {
+            const user = AppData.find('users', userId);
+            if (!user) {
+                showToast('會員不存在', 'error');
+                return;
+            }
+
+            const content = `
+                <div style="padding: 20px;">
+                    <div style="background: #f9fafb; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <h4 style="margin-bottom: 15px; color: #333;">👤 基本資料</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">會員 ID</div>
+                                <div style="font-weight: 600;">#U${String(user.member_id).padStart(5, '0')}</div>
+                            </div>
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">暱稱</div>
+                                <div style="font-weight: 600;">${user.nickname}</div>
+                            </div>
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">電子信箱</div>
+                                <div style="font-weight: 600;">${user.email}</div>
+                            </div>
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">手機號碼</div>
+                                <div style="font-weight: 600;">${user.phone_number || '-'}</div>
+                            </div>
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">註冊日期</div>
+                                <div style="font-weight: 600;">${user.created_at?.substring(0, 10) || '-'}</div>
+                            </div>
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">地區</div>
+                                <div style="font-weight: 600;">${user.region || '-'}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: #f9fafb; padding: 20px; border-radius: 12px;">
+                        <h4 style="margin-bottom: 15px; color: #333;">📊 消費統計</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                            <div style="text-align: center; padding: 15px; background: white; border-radius: 8px;">
+                                <div style="font-size: 1.8em; color: #667eea; font-weight: 700;">${user.orders_count || 0}</div>
+                                <div style="color: #999; margin-top: 5px;">訂單數</div>
+                            </div>
+                            <div style="text-align: center; padding: 15px; background: white; border-radius: 8px;">
+                                <div style="font-size: 1.8em; color: #4caf50; font-weight: 700;">${(user.total_spent || 0).toLocaleString()}</div>
+                                <div style="color: #999; margin-top: 5px;">消費金額 (MMK)</div>
+                            </div>
+                            <div style="text-align: center; padding: 15px; background: white; border-radius: 8px;">
+                                <div style="font-size: 1.8em; color: #ff9800; font-weight: 700;">${user.points || 0}</div>
+                                <div style="color: #999; margin-top: 5px;">積分</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            showModal('👤 會員詳情', content);
+        }
+
+        function toggleMemberStatus(userId, newStatus) {
+            const action = newStatus === 1 ? '啟用' : '停用';
+            showConfirm(
+                `確定要${action}此會員嗎？`,
+                () => {
+                    AppData.update('users', userId, { is_active: newStatus });
+                    showToast(`會員已${action}`, 'success');
+                    setTimeout(() => {
+                        renderOperationMembers();
+                    }, 300);
+                },
+                `${action}會員`
+            );
+        }
+
+        // ========== 商家管理 ==========
+
+        function initOperationMerchants() {
+            renderOperationMerchants();
+        }
+
+        function renderOperationMerchants() {
+            const tbody = document.getElementById('operationMerchantsTable');
+            if (!tbody) return;
+
+            let merchants = AppData.merchants || [];
+
+            // 按篩選條件過濾
+            if (currentOperationMerchantFilter === 'approved') {
+                merchants = merchants.filter(m => m.status === 'approved' && m.is_active === 1);
+            } else if (currentOperationMerchantFilter === 'pending') {
+                merchants = merchants.filter(m => m.status === 'pending');
+            } else if (currentOperationMerchantFilter === 'disabled') {
+                merchants = merchants.filter(m => m.is_active === 0);
+            }
+
+            // 生成 HTML
+            if (merchants.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 40px; color: #999;">
+                            沒有符合條件的商家
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = merchants.map(merchant => {
+                const productCount = AppData.products.filter(p => p.merchant_id === merchant.id).length;
+                const statusClass = merchant.is_active === 1 && merchant.status === 'approved' ? 'active' :
+                                  merchant.status === 'pending' ? 'pending' : 'rejected';
+                const statusText = merchant.is_active === 1 && merchant.status === 'approved' ? '營業中' :
+                                 merchant.status === 'pending' ? '待審核' : '已停用';
+
+                return `
+                    <tr>
+                        <td>#M${String(merchant.id).padStart(4, '0')}</td>
+                        <td>${merchant.merchant_name}</td>
+                        <td>${merchant.account_email}</td>
+                        <td>1</td>
+                        <td>${productCount}</td>
+                        <td>${merchant.total_orders || 0}</td>
+                        <td>${merchant.rating || 0} ⭐</td>
+                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn edit" onclick="showOperationMerchantDetail(${merchant.id})">查看</button>
+                                ${merchant.is_active === 1
+                                    ? `<button class="action-btn reject" onclick="toggleMerchantStatus(${merchant.id}, 0)">停用</button>`
+                                    : `<button class="action-btn approve" onclick="toggleMerchantStatus(${merchant.id}, 1)">啟用</button>`
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterOperationMerchants(filter, btn) {
+            currentOperationMerchantFilter = filter;
+            btn.parentElement.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderOperationMerchants();
+        }
+
+        function showOperationMerchantDetail(merchantId) {
+            const merchant = AppData.find('merchants', merchantId);
+            if (!merchant) {
+                showToast('商家不存在', 'error');
+                return;
+            }
+
+            const productCount = AppData.products.filter(p => p.merchant_id === merchant.id).length;
+            const orders = AppData.orders.filter(o => o.merchant_id === merchant.id);
+            const totalRevenue = orders.reduce((sum, o) => sum + (o.final_amount || 0), 0);
+
+            const content = `
+                <div style="padding: 20px;">
+                    <div style="background: #f9fafb; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <h4 style="margin-bottom: 15px; color: #333;">🏪 商家資訊</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">商家 ID</div>
+                                <div style="font-weight: 600;">#M${String(merchant.id).padStart(4, '0')}</div>
+                            </div>
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">商家名稱</div>
+                                <div style="font-weight: 600;">${merchant.merchant_name}</div>
+                            </div>
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">聯絡信箱</div>
+                                <div style="font-weight: 600;">${merchant.account_email}</div>
+                            </div>
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">聯絡電話</div>
+                                <div style="font-weight: 600;">${merchant.contact_phone || '-'}</div>
+                            </div>
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">負責人</div>
+                                <div style="font-weight: 600;">${merchant.owner_name || '-'}</div>
+                            </div>
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">類別</div>
+                                <div style="font-weight: 600;">${merchant.category || '-'}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: #f9fafb; padding: 20px; border-radius: 12px;">
+                        <h4 style="margin-bottom: 15px; color: #333;">📊 營運統計</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                            <div style="text-align: center; padding: 15px; background: white; border-radius: 8px;">
+                                <div style="font-size: 1.8em; color: #667eea; font-weight: 700;">${productCount}</div>
+                                <div style="color: #999; margin-top: 5px;">商品數</div>
+                            </div>
+                            <div style="text-align: center; padding: 15px; background: white; border-radius: 8px;">
+                                <div style="font-size: 1.8em; color: #4caf50; font-weight: 700;">${merchant.total_orders || 0}</div>
+                                <div style="color: #999; margin-top: 5px;">訂單數</div>
+                            </div>
+                            <div style="text-align: center; padding: 15px; background: white; border-radius: 8px;">
+                                <div style="font-size: 1.8em; color: #ff9800; font-weight: 700;">${totalRevenue.toLocaleString()}</div>
+                                <div style="color: #999; margin-top: 5px;">營收 (MMK)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            showModal('🏪 商家詳情', content);
+        }
+
+        function toggleMerchantStatus(merchantId, newStatus) {
+            const action = newStatus === 1 ? '啟用' : '停用';
+            showConfirm(
+                `確定要${action}此商家嗎？`,
+                () => {
+                    AppData.update('merchants', merchantId, { is_active: newStatus });
+                    showToast(`商家已${action}`, 'success');
+                    setTimeout(() => {
+                        renderOperationMerchants();
+                    }, 300);
+                },
+                `${action}商家`
+            );
+        }
+
+        // ========== 商品審核 ==========
+
+        function initOperationProducts() {
+            renderOperationProducts();
+        }
+
+        function renderOperationProducts() {
+            const tbody = document.getElementById('operationProductsTable');
+            if (!tbody) return;
+
+            let products = AppData.products || [];
+            const categories = AppData.product_categories || [];
+            const merchants = AppData.merchants || [];
+
+            // 創建映射
+            const categoryMap = {};
+            categories.forEach(cat => {
+                categoryMap[cat.id] = { name: cat.category_name, icon: cat.icon };
+            });
+
+            const merchantMap = {};
+            merchants.forEach(m => {
+                merchantMap[m.id] = m.merchant_name;
+            });
+
+            // 按篩選條件過濾
+            products = products.filter(p => p.review_status === currentOperationProductFilter);
+
+            // 生成 HTML
+            if (products.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 40px; color: #999;">
+                            沒有符合條件的商品
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = products.map(product => {
+                const catInfo = categoryMap[product.category_id] || { name: '其他', icon: '🎁' };
+                const merchantName = merchantMap[product.merchant_id] || '未知商家';
+                const statusMap = {
+                    'pending': { text: '待審核', class: 'pending' },
+                    'approved': { text: '已通過', class: 'active' },
+                    'rejected': { text: '已拒絕', class: 'rejected' }
+                };
+                const status = statusMap[product.review_status] || { text: '未知', class: 'pending' };
+
+                let buttons = '';
+                if (product.review_status === 'pending') {
+                    buttons = `
+                        <button class="action-btn approve" onclick="approveProduct(${product.id})">通過</button>
+                        <button class="action-btn reject" onclick="rejectProduct(${product.id})">拒絕</button>
+                    `;
+                } else {
+                    buttons = `<button class="action-btn edit" onclick="showOperationProductDetail(${product.id})">查看</button>`;
+                }
+
+                return `
+                    <tr>
+                        <td>#P${product.id}</td>
+                        <td>${product.product_name}</td>
+                        <td>${catInfo.icon} ${catInfo.name}</td>
+                        <td>${merchantName}</td>
+                        <td>${product.selling_price?.toLocaleString()}</td>
+                        <td>${product.created_at?.substring(0, 10) || '-'}</td>
+                        <td><span class="status-badge ${status.class}">${status.text}</span></td>
+                        <td><div class="action-buttons">${buttons}</div></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterOperationProducts(filter, btn) {
+            currentOperationProductFilter = filter;
+            btn.parentElement.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderOperationProducts();
+        }
+
+        function showOperationProductDetail(productId) {
+            const product = AppData.find('products', productId);
+            if (!product) {
+                showToast('商品不存在', 'error');
+                return;
+            }
+
+            const categories = AppData.product_categories || [];
+            const merchants = AppData.merchants || [];
+
+            const category = categories.find(cat => cat.id === product.category_id);
+            const categoryName = category?.category_name || '其他';
+            const merchant = merchants.find(m => m.id === product.merchant_id);
+            const merchantName = merchant?.merchant_name || '未知商家';
+
+            const content = `
+                <div style="padding: 20px; max-height: 500px; overflow-y: auto;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div style="font-size: 4em; margin-bottom: 10px;">${product.cover_image || '🎁'}</div>
+                        <h3 style="margin-bottom: 5px;">${product.product_name}</h3>
+                        <div style="color: #666;">${categoryName}</div>
+                    </div>
+
+                    <div style="background: #f9fafb; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <h4 style="margin-bottom: 15px; color: #333;">📋 商品資訊</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">商家</div>
+                                <div style="font-weight: 600;">${merchantName}</div>
+                            </div>
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">類別</div>
+                                <div style="font-weight: 600;">${categoryName}</div>
+                            </div>
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">原價</div>
+                                <div style="font-weight: 600;">${product.original_price?.toLocaleString()} MMK</div>
+                            </div>
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">售價</div>
+                                <div style="font-weight: 600; color: #667eea;">${product.selling_price?.toLocaleString()} MMK</div>
+                            </div>
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">總數量</div>
+                                <div style="font-weight: 600;">${product.total_quantity}</div>
+                            </div>
+                            <div>
+                                <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">可用數量</div>
+                                <div style="font-weight: 600;">${product.available_quantity}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: #f9fafb; padding: 20px; border-radius: 12px;">
+                        <h4 style="margin-bottom: 10px; color: #333;">📝 商品描述</h4>
+                        <p style="color: #666; line-height: 1.6;">${product.description || '無描述'}</p>
+                    </div>
+                </div>
+            `;
+
+            showModal('🔍 商品詳情', content);
+        }
+
+        function approveProduct(productId) {
+            showConfirm(
+                '確定要通過此商品審核嗎？通過後商品將上架販售。',
+                () => {
+                    AppData.update('products', productId, {
+                        review_status: 'approved',
+                        is_published: 1
+                    });
+                    showToast('商品已通過審核並上架', 'success');
+                    setTimeout(() => {
+                        renderOperationProducts();
+                        renderMerchantProducts(); // 同時更新商家端列表
+                        renderProducts(); // 同時更新會員端列表
+                    }, 300);
+                },
+                '通過審核'
+            );
+        }
+
+        function rejectProduct(productId) {
+            showConfirm(
+                '確定要拒絕此商品嗎？拒絕後商家可重新修改並送審。',
+                () => {
+                    AppData.update('products', productId, {
+                        review_status: 'rejected',
+                        is_published: 0
+                    });
+                    showToast('商品已拒絕', 'info');
+                    setTimeout(() => {
+                        renderOperationProducts();
+                        renderMerchantProducts(); // 同時更新商家端列表
+                    }, 300);
+                },
+                '拒絕審核'
+            );
+        }
+
+        // ============================================
+        // 中央後台功能
+        // ============================================
+
+        // 當前選擇的國家 (用於中央後台篩選)
+        let currentCentralCountry = 'all';
+
+        // 初始化中央後台
+        function initCentral() {
+            renderCentralDashboard();
+            renderCentralRevenue();
+            renderCentralAnalytics();
+        }
+
+        // 國家篩選功能（中央後台通用）
+        function filterCentralByCountry(country, buttonElement, viewName) {
+            // 更新當前選擇的國家
+            currentCentralCountry = country;
+
+            // 更新按鈕 active 狀態
+            const container = buttonElement.closest('.country-selector');
+            container.querySelectorAll('.country-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            buttonElement.classList.add('active');
+
+            // 根據視圖重新渲染數據
+            if (viewName === 'dashboard') {
+                renderCentralDashboard();
+            } else if (viewName === 'revenue') {
+                renderCentralRevenue();
+            } else if (viewName === 'analytics') {
+                renderCentralAnalytics();
+            }
+
+            showToast(`已切換到 ${country === 'all' ? '全部國家' : buttonElement.textContent}`, 'info');
+        }
+
+        // 計算跨國統計數據
+        function calculateCentralStats(countryFilter = 'all') {
+            const users = AppData.users || [];
+            const merchants = AppData.merchants || [];
+            const orders = AppData.orders || [];
+            const products = AppData.products || [];
+
+            // 根據國家過濾（目前示例數據沒有國家字段，所以暫時返回全部）
+            // 實際應用中會根據 users.country_iso, merchants.country_iso 等進行過濾
+
+            const totalMembers = users.length;
+            const totalMerchants = merchants.filter(m => m.status === 'approved').length;
+            const monthOrders = orders.length;
+            const totalRevenue = orders.reduce((sum, o) => sum + (o.final_amount || 0), 0);
+
+            const activeMembers = users.filter(u => u.is_active === 1).length;
+            const activeMerchants = merchants.filter(m => m.is_active === 1 && m.status === 'approved').length;
+            const totalProducts = products.filter(p => p.review_status === 'approved').length;
+
+            const averageOrderValue = monthOrders > 0 ? (totalRevenue / monthOrders) : 0;
+
+            return {
+                totalMembers,
+                totalMerchants,
+                monthOrders,
+                totalRevenue,
+                activeMembers,
+                activeMerchants,
+                totalProducts,
+                averageOrderValue
+            };
+        }
+
+        // 渲染中央後台儀表板
+        function renderCentralDashboard() {
+            const stats = calculateCentralStats(currentCentralCountry);
+
+            // 更新頂部統計卡片
+            const statsRow = document.querySelector('#centralDashboard .stats-row');
+            if (statsRow) {
+                const statCards = statsRow.querySelectorAll('.stat-card');
+                if (statCards.length >= 4) {
+                    statCards[0].querySelector('.stat-number').textContent = stats.totalMembers.toLocaleString();
+                    statCards[1].querySelector('.stat-number').textContent = stats.totalMerchants.toLocaleString();
+                    statCards[2].querySelector('.stat-number').textContent = stats.monthOrders.toLocaleString();
+                    statCards[3].querySelector('.stat-number').textContent = stats.totalRevenue.toLocaleString();
+                }
+            }
+
+            // 計算各國營收（示例數據，實際應根據 country_iso 分組）
+            const countryRevenue = calculateCountryRevenue();
+            updateCountryRevenueTable(countryRevenue);
+
+            // 計算用戶分佈
+            const userDistribution = calculateUserDistribution();
+            updateUserDistributionTable(userDistribution);
+        }
+
+        // 計算各國營收（示例實現）
+        function calculateCountryRevenue() {
+            const orders = AppData.orders || [];
+            const totalRevenue = orders.reduce((sum, o) => sum + (o.final_amount || 0), 0);
+
+            // 示例分配（實際應根據訂單的國家字段分組）
+            return [
+                { country: '🇹🇼 台灣', revenue: Math.round(totalRevenue * 0.35), growth: 15 },
+                { country: '🇲🇲 緬甸', revenue: Math.round(totalRevenue * 0.45), growth: 22 },
+                { country: '🇹🇭 泰國', revenue: Math.round(totalRevenue * 0.12), growth: -5 },
+                { country: '🇻🇳 越南', revenue: Math.round(totalRevenue * 0.08), growth: 8 }
+            ];
+        }
+
+        // 更新各國營收表格
+        function updateCountryRevenueTable(countryData) {
+            const table = document.querySelector('#centralDashboard .dashboard-card table tbody');
+            if (!table) return;
+
+            const rows = table.querySelectorAll('tr');
+            countryData.forEach((data, index) => {
+                if (rows[index]) {
+                    const cells = rows[index].querySelectorAll('td');
+                    if (cells.length >= 3) {
+                        cells[1].textContent = `$${data.revenue.toLocaleString()}`;
+                        cells[2].innerHTML = data.growth >= 0
+                            ? `<span style="color: #4caf50;">↑ ${data.growth}%</span>`
+                            : `<span style="color: #f44336;">↓ ${Math.abs(data.growth)}%</span>`;
+                    }
+                }
+            });
+        }
+
+        // 計算用戶分佈
+        function calculateUserDistribution() {
+            const users = AppData.users || [];
+            const totalUsers = users.length;
+            const activeUsers = users.filter(u => u.is_active === 1).length;
+            const activeRate = totalUsers > 0 ? Math.round((activeUsers / totalUsers) * 100) : 0;
+
+            // 示例分配（實際應根據用戶的國家字段分組）
+            return [
+                { country: '🇹🇼 台灣', members: Math.round(totalUsers * 0.41), activeRate: 78 },
+                { country: '🇲🇲 緬甸', members: Math.round(totalUsers * 0.33), activeRate: 82 },
+                { country: '🇹🇭 泰國', members: Math.round(totalUsers * 0.18), activeRate: 65 },
+                { country: '🇻🇳 越南', members: Math.round(totalUsers * 0.08), activeRate: 71 }
+            ];
+        }
+
+        // 更新用戶分佈表格
+        function updateUserDistributionTable(userData) {
+            const tables = document.querySelectorAll('#centralDashboard .dashboard-card table');
+            if (tables.length < 2) return;
+
+            const table = tables[1].querySelector('tbody');
+            if (!table) return;
+
+            const rows = table.querySelectorAll('tr');
+            userData.forEach((data, index) => {
+                if (rows[index]) {
+                    const cells = rows[index].querySelectorAll('td');
+                    if (cells.length >= 3) {
+                        cells[1].textContent = data.members.toLocaleString();
+                        cells[2].textContent = `${data.activeRate}%`;
+                    }
+                }
+            });
+        }
+
+        // 渲染中央後台營收報表
+        function renderCentralRevenue() {
+            const stats = calculateCentralStats(currentCentralCountry);
+            const orders = AppData.orders || [];
+            const users = AppData.users || [];
+            const merchants = AppData.merchants || [];
+
+            // 計算各國詳細營收統計
+            const countryStats = calculateDetailedCountryStats();
+
+            // 更新營收統計表格
+            const table = document.querySelector('#centralRevenue table tbody');
+            if (table) {
+                const dataRows = table.querySelectorAll('tr:not(:last-child)');
+                countryStats.forEach((stat, index) => {
+                    if (dataRows[index]) {
+                        const cells = dataRows[index].querySelectorAll('td');
+                        if (cells.length >= 7) {
+                            cells[1].textContent = `$${stat.revenue.toLocaleString()}`;
+                            cells[2].textContent = stat.orders.toLocaleString();
+                            cells[3].textContent = stat.activeMembers.toLocaleString();
+                            cells[4].textContent = stat.activeMerchants.toLocaleString();
+                            cells[5].textContent = `$${stat.avgOrderValue.toFixed(2)}`;
+                            cells[6].innerHTML = stat.growth >= 0
+                                ? `<span style="color: #4caf50;">↑ ${stat.growth}%</span>`
+                                : `<span style="color: #f44336;">↓ ${Math.abs(stat.growth)}%</span>`;
+                        }
+                    }
+                });
+
+                // 更新總計行
+                const totalRow = table.querySelector('tr:last-child');
+                if (totalRow) {
+                    const totalRevenue = countryStats.reduce((sum, s) => sum + s.revenue, 0);
+                    const totalOrders = countryStats.reduce((sum, s) => sum + s.orders, 0);
+                    const totalActiveMembers = countryStats.reduce((sum, s) => sum + s.activeMembers, 0);
+                    const totalActiveMerchants = countryStats.reduce((sum, s) => sum + s.activeMerchants, 0);
+                    const avgOrderValue = totalOrders > 0 ? (totalRevenue / totalOrders) : 0;
+                    const avgGrowth = countryStats.reduce((sum, s) => sum + s.growth, 0) / countryStats.length;
+
+                    const cells = totalRow.querySelectorAll('td');
+                    if (cells.length >= 7) {
+                        cells[1].textContent = `$${totalRevenue.toLocaleString()}`;
+                        cells[2].textContent = totalOrders.toLocaleString();
+                        cells[3].textContent = totalActiveMembers.toLocaleString();
+                        cells[4].textContent = totalActiveMerchants.toLocaleString();
+                        cells[5].textContent = `$${avgOrderValue.toFixed(2)}`;
+                        cells[6].innerHTML = avgGrowth >= 0
+                            ? `<span style="color: #4caf50;">↑ ${avgGrowth.toFixed(1)}%</span>`
+                            : `<span style="color: #f44336;">↓ ${Math.abs(avgGrowth).toFixed(1)}%</span>`;
+                    }
+                }
+            }
+
+            // 更新營收分類統計
+            updateRevenueCategoryStats();
+        }
+
+        // 計算各國詳細統計
+        function calculateDetailedCountryStats() {
+            const orders = AppData.orders || [];
+            const users = AppData.users || [];
+            const merchants = AppData.merchants || [];
+
+            const totalRevenue = orders.reduce((sum, o) => sum + (o.final_amount || 0), 0);
+            const totalOrders = orders.length;
+            const activeMembers = users.filter(u => u.is_active === 1).length;
+            const activeMerchants = merchants.filter(m => m.is_active === 1 && m.status === 'approved').length;
+
+            // 示例分配（實際應根據國家字段分組）
+            return [
+                {
+                    country: '🇲🇲 緬甸',
+                    revenue: Math.round(totalRevenue * 0.50),
+                    orders: Math.round(totalOrders * 0.50),
+                    activeMembers: Math.round(activeMembers * 0.49),
+                    activeMerchants: Math.round(activeMerchants * 0.49),
+                    avgOrderValue: (totalRevenue * 0.50) / (totalOrders * 0.50 || 1),
+                    growth: 15.2
+                },
+                {
+                    country: '🇹🇼 台灣',
+                    revenue: Math.round(totalRevenue * 0.30),
+                    orders: Math.round(totalOrders * 0.25),
+                    activeMembers: Math.round(activeMembers * 0.28),
+                    activeMerchants: Math.round(activeMerchants * 0.27),
+                    avgOrderValue: (totalRevenue * 0.30) / (totalOrders * 0.25 || 1),
+                    growth: 8.5
+                },
+                {
+                    country: '🇹🇭 泰國',
+                    revenue: Math.round(totalRevenue * 0.15),
+                    orders: Math.round(totalOrders * 0.18),
+                    activeMembers: Math.round(activeMembers * 0.17),
+                    activeMerchants: Math.round(activeMerchants * 0.17),
+                    avgOrderValue: (totalRevenue * 0.15) / (totalOrders * 0.18 || 1),
+                    growth: 12.8
+                },
+                {
+                    country: '🇻🇳 越南',
+                    revenue: Math.round(totalRevenue * 0.05),
+                    orders: Math.round(totalOrders * 0.07),
+                    activeMembers: Math.round(activeMembers * 0.06),
+                    activeMerchants: Math.round(activeMerchants * 0.07),
+                    avgOrderValue: (totalRevenue * 0.05) / (totalOrders * 0.07 || 1),
+                    growth: -3.2
+                }
+            ];
+        }
+
+        // 更新營收分類統計
+        function updateRevenueCategoryStats() {
+            const products = AppData.products || [];
+            const categories = AppData.product_categories || [];
+            const orders = AppData.orders || [];
+
+            const totalRevenue = orders.reduce((sum, o) => sum + (o.final_amount || 0), 0);
+
+            // 計算各類別營收（簡化版本）
+            const categoryRevenue = {
+                '🍔': totalRevenue * 0.44,  // 餐飲美食
+                '✈️': totalRevenue * 0.289, // 旅遊交通
+                '🏨': totalRevenue * 0.184, // 飯店住宿
+                '🎭': totalRevenue * 0.087  // 娛樂休閒
+            };
+
+            const cards = document.querySelectorAll('#centralRevenue .dashboard-grid .dashboard-card');
+            const categoryIcons = ['🍔', '✈️', '🏨', '🎭'];
+            const growthRates = [18.5, 10.2, 6.8, -2.1];
+
+            cards.forEach((card, index) => {
+                const icon = categoryIcons[index];
+                const revenue = categoryRevenue[icon] || 0;
+                const percentage = totalRevenue > 0 ? ((revenue / totalRevenue) * 100).toFixed(1) : 0;
+                const growth = growthRates[index];
+
+                const revenueDiv = card.querySelector('div[style*="font-size: 2.5em"]');
+                const percentageDiv = card.querySelectorAll('div[style*="color: #666"]')[0];
+                const growthDiv = card.querySelectorAll('div[style*="margin-top: 5px"]')[1];
+
+                if (revenueDiv) revenueDiv.textContent = `$${Math.round(revenue).toLocaleString()}`;
+                if (percentageDiv) percentageDiv.textContent = `${percentage}% 佔比`;
+                if (growthDiv) {
+                    growthDiv.style.color = growth >= 0 ? '#4caf50' : '#f44336';
+                    growthDiv.textContent = growth >= 0 ? `↑ ${growth}%` : `↓ ${Math.abs(growth)}%`;
+                }
+            });
+        }
+
+        // 渲染中央後台數據分析
+        function renderCentralAnalytics() {
+            const stats = calculateCentralStats(currentCentralCountry);
+            const users = AppData.users || [];
+            const products = AppData.products || [];
+
+            // 計算用戶行為統計
+            const dau = Math.round(stats.activeMembers * 0.18); // 假設 18% 的活躍用戶為日活
+            const mau = stats.activeMembers;
+            const avgSessionTime = 8.5; // 分鐘（示例）
+            const retentionRate = 68.5; // 百分比（示例）
+
+            // 更新用戶行為分析卡片
+            const cards = document.querySelectorAll('#centralAnalytics .dashboard-grid .dashboard-card');
+            if (cards.length >= 4) {
+                updateAnalyticsCard(cards[0], dau, '平均每日', 12.3);
+                updateAnalyticsCard(cards[1], mau, '本月總計', 8.7);
+                updateAnalyticsCard(cards[2], avgSessionTime, '分鐘/次', 5.2);
+                updateAnalyticsCard(cards[3], retentionRate, '30天留存', 3.8, true);
+            }
+
+            // 更新熱門商品排行
+            updateTopProductsTable();
+        }
+
+        // 更新分析卡片數據
+        function updateAnalyticsCard(card, value, label, growth, isPercentage = false) {
+            const valueDiv = card.querySelector('div[style*="font-size: 2.5em"]');
+            const labelDiv = card.querySelectorAll('div[style*="color: #666"]')[0];
+            const growthDiv = card.querySelector('div[style*="color: #4caf50"], div[style*="color: #f44336"]');
+
+            if (valueDiv) {
+                if (isPercentage) {
+                    valueDiv.textContent = `${value}%`;
+                } else {
+                    valueDiv.textContent = typeof value === 'number' && value > 100
+                        ? value.toLocaleString()
+                        : value;
+                }
+            }
+            if (labelDiv) labelDiv.textContent = label;
+            if (growthDiv) {
+                growthDiv.style.color = '#4caf50';
+                growthDiv.textContent = `↑ ${growth}%`;
+            }
+        }
+
+        // 更新熱門商品排行表格
+        function updateTopProductsTable() {
+            const products = AppData.products || [];
+            const categories = AppData.product_categories || [];
+
+            // 創建 category_id 到 category info 的映射
+            const categoryMap = {};
+            categories.forEach(cat => {
+                categoryMap[cat.id] = { name: cat.category_name, icon: cat.icon };
+            });
+
+            // 按購買次數排序並取前5名
+            const topProducts = [...products]
+                .filter(p => p.review_status === 'approved')
+                .sort((a, b) => b.purchase_count - a.purchase_count)
+                .slice(0, 5);
+
+            const table = document.querySelector('#centralAnalytics table tbody');
+            if (!table) return;
+
+            const rows = table.querySelectorAll('tr');
+            topProducts.forEach((product, index) => {
+                if (rows[index]) {
+                    const category = categoryMap[product.category_id] || { name: '未分類', icon: '📦' };
+                    const revenue = product.purchase_count * product.selling_price;
+                    const rating = (4.6 + Math.random() * 0.4).toFixed(1);
+
+                    const cells = rows[index].querySelectorAll('td');
+                    if (cells.length >= 7) {
+                        cells[0].textContent = index === 0 ? '🥇 1' : index === 1 ? '🥈 2' : index === 2 ? '🥉 3' : (index + 1);
+                        cells[1].textContent = product.product_name;
+                        cells[2].textContent = `${category.icon} ${category.name}`;
+                        cells[3].textContent = product.purchase_count.toLocaleString();
+                        cells[4].textContent = `$${revenue.toLocaleString()}`;
+                        cells[5].textContent = `${rating} ⭐`;
+                        // cells[6] 保持原有的市場標記
+                    }
+                }
+            });
+        }
+
+        // 頁面載入時初始化中央後台（當切換到中央後台時）
+        const originalSwitchTab = switchTab;
+        switchTab = function(tabName) {
+            originalSwitchTab.call(this, tabName);
+            if (tabName === 'central') {
+                setTimeout(() => initCentral(), 100);
+            }
+        };
     </script>
 </body>
 </html>
