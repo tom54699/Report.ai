@@ -3146,24 +3146,496 @@
             <!-- 營收報表視圖 -->
             <div id="centralRevenue" class="content-view">
                 <h3 style="margin-bottom: 15px; color: #333;">💰 營收報表</h3>
-                <div class="info-note">
-                    此頁面用於查看各國詳細的營收報表，包含月報、季報、年報，支援匯出 Excel/PDF 格式。可查看各國營收趨勢、成長率、收益分析等數據。
+
+                <div class="country-selector">
+                    <button class="country-btn active">🌍 全部國家</button>
+                    <button class="country-btn">🇹🇼 台灣</button>
+                    <button class="country-btn">🇲🇲 緬甸</button>
+                    <button class="country-btn">🇹🇭 泰國</button>
+                    <button class="country-btn">🇻🇳 越南</button>
+                </div>
+
+                <div class="filter-tabs" style="margin-top: 20px;">
+                    <button class="filter-tab active">本月報表</button>
+                    <button class="filter-tab">本季報表</button>
+                    <button class="filter-tab">本年報表</button>
+                    <button class="filter-tab">自訂區間</button>
+                </div>
+
+                <div class="quick-actions" style="margin: 20px 0;">
+                    <button class="quick-action-btn">📊 匯出 Excel</button>
+                    <button class="quick-action-btn">📄 匯出 PDF</button>
+                    <button class="quick-action-btn">📈 產生圖表</button>
+                </div>
+
+                <h4 style="margin-bottom: 15px; margin-top: 30px; color: #333;">📊 各國營收統計（2025年11月）</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>國家</th>
+                            <th>總營收 (USD)</th>
+                            <th>訂單數</th>
+                            <th>活躍會員</th>
+                            <th>活躍商家</th>
+                            <th>平均客單價</th>
+                            <th>成長率</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🇲🇲 緬甸</td>
+                            <td>$142,580</td>
+                            <td>4,235</td>
+                            <td>3,245</td>
+                            <td>128</td>
+                            <td>$33.67</td>
+                            <td><span style="color: #4caf50;">↑ 15.2%</span></td>
+                        </tr>
+                        <tr>
+                            <td>🇹🇼 台灣</td>
+                            <td>$85,420</td>
+                            <td>2,156</td>
+                            <td>1,850</td>
+                            <td>72</td>
+                            <td>$39.62</td>
+                            <td><span style="color: #4caf50;">↑ 8.5%</span></td>
+                        </tr>
+                        <tr>
+                            <td>🇹🇭 泰國</td>
+                            <td>$42,680</td>
+                            <td>1,542</td>
+                            <td>1,124</td>
+                            <td>45</td>
+                            <td>$27.68</td>
+                            <td><span style="color: #4caf50;">↑ 12.8%</span></td>
+                        </tr>
+                        <tr>
+                            <td>🇻🇳 越南</td>
+                            <td>$14,740</td>
+                            <td>523</td>
+                            <td>385</td>
+                            <td>18</td>
+                            <td>$28.18</td>
+                            <td><span style="color: #f44336;">↓ 3.2%</span></td>
+                        </tr>
+                        <tr style="background: #f5f5f5; font-weight: bold;">
+                            <td>總計</td>
+                            <td>$285,420</td>
+                            <td>8,456</td>
+                            <td>6,604</td>
+                            <td>263</td>
+                            <td>$33.75</td>
+                            <td><span style="color: #4caf50;">↑ 11.3%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4 style="margin-bottom: 15px; margin-top: 40px; color: #333;">💰 營收分類統計</h4>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>🍔</span>
+                            <span>餐飲美食</span>
+                        </div>
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="font-size: 2.5em; font-weight: bold; color: #667eea;">$125,680</div>
+                            <div style="color: #666; margin-top: 5px;">44.0% 佔比</div>
+                            <div style="color: #4caf50; margin-top: 5px;">↑ 18.5%</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>✈️</span>
+                            <span>旅遊交通</span>
+                        </div>
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="font-size: 2.5em; font-weight: bold; color: #667eea;">$82,450</div>
+                            <div style="color: #666; margin-top: 5px;">28.9% 佔比</div>
+                            <div style="color: #4caf50; margin-top: 5px;">↑ 10.2%</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>🏨</span>
+                            <span>飯店住宿</span>
+                        </div>
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="font-size: 2.5em; font-weight: bold; color: #667eea;">$52,380</div>
+                            <div style="color: #666; margin-top: 5px;">18.4% 佔比</div>
+                            <div style="color: #4caf50; margin-top: 5px;">↑ 6.8%</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>🎭</span>
+                            <span>娛樂休閒</span>
+                        </div>
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="font-size: 2.5em; font-weight: bold; color: #667eea;">$24,910</div>
+                            <div style="color: #666; margin-top: 5px;">8.7% 佔比</div>
+                            <div style="color: #f44336; margin-top: 5px;">↓ 2.1%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-note" style="margin-top: 20px;">
+                    <strong>💡 營收報表說明：</strong>可查看各國詳細營收數據，支援月報、季報、年報切換。可匯出 Excel/PDF 格式報表，查看營收趨勢、成長率、分類佔比等數據分析。
                 </div>
             </div>
 
             <!-- 數據分析視圖 -->
             <div id="centralAnalytics" class="content-view">
                 <h3 style="margin-bottom: 15px; color: #333;">📊 數據分析</h3>
-                <div class="info-note">
-                    此頁面用於跨國數據分析，包含用戶行為分析、商品銷售分析、市場趨勢分析等。支援自訂義報表、數據視覺化圖表、數據匯出等功能。
+
+                <div class="country-selector">
+                    <button class="country-btn active">🌍 全部國家</button>
+                    <button class="country-btn">🇹🇼 台灣</button>
+                    <button class="country-btn">🇲🇲 緬甸</button>
+                    <button class="country-btn">🇹🇭 泰國</button>
+                    <button class="country-btn">🇻🇳 越南</button>
+                </div>
+
+                <h4 style="margin-bottom: 15px; margin-top: 30px; color: #333;">👥 用戶行為分析</h4>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>📱</span>
+                            <span>日活躍用戶 (DAU)</span>
+                        </div>
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="font-size: 2.5em; font-weight: bold; color: #667eea;">2,847</div>
+                            <div style="color: #666; margin-top: 5px;">平均每日</div>
+                            <div style="color: #4caf50; margin-top: 5px;">↑ 12.3%</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>📅</span>
+                            <span>月活躍用戶 (MAU)</span>
+                        </div>
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="font-size: 2.5em; font-weight: bold; color: #667eea;">15,847</div>
+                            <div style="color: #666; margin-top: 5px;">本月總計</div>
+                            <div style="color: #4caf50; margin-top: 5px;">↑ 8.7%</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>⏱️</span>
+                            <span>平均停留時間</span>
+                        </div>
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="font-size: 2.5em; font-weight: bold; color: #667eea;">8.5</div>
+                            <div style="color: #666; margin-top: 5px;">分鐘/次</div>
+                            <div style="color: #4caf50; margin-top: 5px;">↑ 5.2%</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>🔄</span>
+                            <span>用戶留存率</span>
+                        </div>
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="font-size: 2.5em; font-weight: bold; color: #667eea;">68.5%</div>
+                            <div style="color: #666; margin-top: 5px;">30天留存</div>
+                            <div style="color: #4caf50; margin-top: 5px;">↑ 3.8%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 style="margin-bottom: 15px; margin-top: 40px; color: #333;">🎯 熱門商品排行（本月）</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>排名</th>
+                            <th>商品名稱</th>
+                            <th>類別</th>
+                            <th>銷售數量</th>
+                            <th>營收 (USD)</th>
+                            <th>評分</th>
+                            <th>主要市場</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🥇 1</td>
+                            <td>美味披薩 8折優惠</td>
+                            <td>🍔 餐飲美食</td>
+                            <td>856</td>
+                            <td>$24,568</td>
+                            <td>4.8 ⭐</td>
+                            <td>🇲🇲 緬甸</td>
+                        </tr>
+                        <tr>
+                            <td>🥈 2</td>
+                            <td>茵萊湖一日遊</td>
+                            <td>✈️ 旅遊交通</td>
+                            <td>542</td>
+                            <td>$18,970</td>
+                            <td>4.9 ⭐</td>
+                            <td>🇲🇲 緬甸</td>
+                        </tr>
+                        <tr>
+                            <td>🥉 3</td>
+                            <td>Sedona Hotel 豪華雙人房</td>
+                            <td>🏨 飯店住宿</td>
+                            <td>328</td>
+                            <td>$14,760</td>
+                            <td>4.7 ⭐</td>
+                            <td>🇲🇲 緬甸</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>咖啡買一送一</td>
+                            <td>🍔 餐飲美食</td>
+                            <td>1,245</td>
+                            <td>$8,092</td>
+                            <td>4.6 ⭐</td>
+                            <td>🇹🇼 台灣</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>緬甸傳統舞蹈表演</td>
+                            <td>🎭 娛樂休閒</td>
+                            <td>285</td>
+                            <td>$7,125</td>
+                            <td>4.9 ⭐</td>
+                            <td>🇲🇲 緬甸</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4 style="margin-bottom: 15px; margin-top: 40px; color: #333;">📈 市場趨勢分析</h4>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>🔥</span>
+                            <span>成長最快市場</span>
+                        </div>
+                        <div style="margin: 20px 0;">
+                            <div style="font-size: 1.8em; font-weight: bold; color: #667eea;">🇲🇲 緬甸</div>
+                            <div style="color: #666; margin-top: 10px;">訂單成長率</div>
+                            <div style="color: #4caf50; font-size: 1.5em; font-weight: bold; margin-top: 5px;">+15.2%</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>⭐</span>
+                            <span>最高平均評分</span>
+                        </div>
+                        <div style="margin: 20px 0;">
+                            <div style="font-size: 1.8em; font-weight: bold; color: #667eea;">🇹🇼 台灣</div>
+                            <div style="color: #666; margin-top: 10px;">商品平均評分</div>
+                            <div style="color: #f57c00; font-size: 1.5em; font-weight: bold; margin-top: 5px;">4.8 ⭐</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>💰</span>
+                            <span>最高客單價</span>
+                        </div>
+                        <div style="margin: 20px 0;">
+                            <div style="font-size: 1.8em; font-weight: bold; color: #667eea;">🇹🇼 台灣</div>
+                            <div style="color: #666; margin-top: 10px;">平均訂單金額</div>
+                            <div style="color: #4caf50; font-size: 1.5em; font-weight: bold; margin-top: 5px;">$39.62</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-actions" style="margin-top: 30px;">
+                    <button class="quick-action-btn">📊 產生完整報告</button>
+                    <button class="quick-action-btn">📈 查看更多圖表</button>
+                    <button class="quick-action-btn">📥 匯出分析數據</button>
+                </div>
+
+                <div class="info-note" style="margin-top: 20px;">
+                    <strong>💡 數據分析說明：</strong>提供跨國用戶行為分析、熱門商品排行、市場趨勢分析等數據。支援自訂義報表、數據視覺化圖表、數據匯出等功能。幫助決策者了解業務狀況並制定策略。
                 </div>
             </div>
 
             <!-- 系統監控視圖 -->
             <div id="centralMonitoring" class="content-view">
                 <h3 style="margin-bottom: 15px; color: #333;">🖥️ 系統監控</h3>
-                <div class="info-note">
-                    此頁面用於監控各國系統運行狀態，包含伺服器狀態、資料庫連接、API 回應時間、錯誤日誌等。即時監控系統健康度，確保平台穩定運行。
+
+                <div class="stats-row" style="margin-bottom: 30px;">
+                    <div class="stat-card success">
+                        <div class="stat-number">99.98%</div>
+                        <div class="stat-label">系統可用率</div>
+                    </div>
+                    <div class="stat-card info">
+                        <div class="stat-number">45ms</div>
+                        <div class="stat-label">API 平均回應</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">運行中服務</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-number">2</div>
+                        <div class="stat-label">警告事件</div>
+                    </div>
+                </div>
+
+                <h4 style="margin-bottom: 15px; color: #333;">🌍 各國伺服器狀態</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>國家</th>
+                            <th>伺服器狀態</th>
+                            <th>CPU 使用率</th>
+                            <th>記憶體使用</th>
+                            <th>磁碟空間</th>
+                            <th>資料庫連接</th>
+                            <th>最後檢查</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🇲🇲 緬甸</td>
+                            <td><span class="status-badge active">正常</span></td>
+                            <td>42%</td>
+                            <td>3.2GB / 8GB</td>
+                            <td>145GB / 500GB</td>
+                            <td><span style="color: #4caf50;">✓ 正常</span></td>
+                            <td>2 分鐘前</td>
+                        </tr>
+                        <tr>
+                            <td>🇹🇼 台灣</td>
+                            <td><span class="status-badge active">正常</span></td>
+                            <td>38%</td>
+                            <td>2.8GB / 8GB</td>
+                            <td>98GB / 500GB</td>
+                            <td><span style="color: #4caf50;">✓ 正常</span></td>
+                            <td>2 分鐘前</td>
+                        </tr>
+                        <tr>
+                            <td>🇹🇭 泰國</td>
+                            <td><span class="status-badge pending">警告</span></td>
+                            <td>78%</td>
+                            <td>6.5GB / 8GB</td>
+                            <td>352GB / 500GB</td>
+                            <td><span style="color: #f57c00;">⚠ 高負載</span></td>
+                            <td>1 分鐘前</td>
+                        </tr>
+                        <tr>
+                            <td>🇻🇳 越南</td>
+                            <td><span class="status-badge active">正常</span></td>
+                            <td>25%</td>
+                            <td>1.9GB / 8GB</td>
+                            <td>52GB / 500GB</td>
+                            <td><span style="color: #4caf50;">✓ 正常</span></td>
+                            <td>3 分鐘前</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4 style="margin-bottom: 15px; margin-top: 40px; color: #333;">📡 API 監控</h4>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>📊</span>
+                            <span>API 請求統計</span>
+                        </div>
+                        <div style="margin: 20px 0;">
+                            <div style="color: #666; margin-bottom: 10px;">每分鐘請求數</div>
+                            <div style="font-size: 2em; font-weight: bold; color: #667eea;">2,847</div>
+                            <div style="color: #4caf50; margin-top: 10px;">平均回應時間：45ms</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>✅</span>
+                            <span>成功率</span>
+                        </div>
+                        <div style="margin: 20px 0;">
+                            <div style="color: #666; margin-bottom: 10px;">24小時統計</div>
+                            <div style="font-size: 2em; font-weight: bold; color: #4caf50;">99.96%</div>
+                            <div style="color: #666; margin-top: 10px;">失敗請求：125 次</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>⚡</span>
+                            <span>最慢端點</span>
+                        </div>
+                        <div style="margin: 20px 0;">
+                            <div style="color: #666; margin-bottom: 10px;">API Endpoint</div>
+                            <div style="font-size: 1.2em; font-weight: bold; color: #f57c00;">/api/analytics/report</div>
+                            <div style="color: #f57c00; margin-top: 10px;">平均：325ms</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>❌</span>
+                            <span>錯誤統計</span>
+                        </div>
+                        <div style="margin: 20px 0;">
+                            <div style="color: #666; margin-bottom: 10px;">過去24小時</div>
+                            <div style="font-size: 2em; font-weight: bold; color: #f44336;">15</div>
+                            <div style="color: #666; margin-top: 10px;">5xx 錯誤：3 次</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 style="margin-bottom: 15px; margin-top: 40px; color: #333;">⚠️ 最近警告與錯誤</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>時間</th>
+                            <th>類型</th>
+                            <th>國家</th>
+                            <th>訊息</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2025-11-18 14:25</td>
+                            <td><span class="status-badge pending">警告</span></td>
+                            <td>🇹🇭 泰國</td>
+                            <td>伺服器 CPU 使用率超過 75%</td>
+                            <td><span class="status-badge pending">處理中</span></td>
+                            <td><button class="action-btn edit">查看</button></td>
+                        </tr>
+                        <tr>
+                            <td>2025-11-18 13:52</td>
+                            <td><span class="status-badge pending">警告</span></td>
+                            <td>🇹🇭 泰國</td>
+                            <td>資料庫連接數接近上限</td>
+                            <td><span class="status-badge pending">處理中</span></td>
+                            <td><button class="action-btn edit">查看</button></td>
+                        </tr>
+                        <tr>
+                            <td>2025-11-18 11:30</td>
+                            <td><span class="status-badge rejected">錯誤</span></td>
+                            <td>🇲🇲 緬甸</td>
+                            <td>第三方支付 API 連接失敗</td>
+                            <td><span class="status-badge active">已解決</span></td>
+                            <td><button class="action-btn edit">查看</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="quick-actions" style="margin-top: 30px;">
+                    <button class="quick-action-btn">📊 查看完整日誌</button>
+                    <button class="quick-action-btn">🔔 設定警告規則</button>
+                    <button class="quick-action-btn">📈 效能報表</button>
+                </div>
+
+                <div class="info-note" style="margin-top: 20px;">
+                    <strong>💡 系統監控說明：</strong>即時監控各國系統運行狀態，包含伺服器資源使用、資料庫連接、API 回應時間、錯誤日誌等。可設定警告規則，及時發現並處理系統問題，確保平台穩定運行。
                 </div>
             </div>
 
