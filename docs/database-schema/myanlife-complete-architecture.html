@@ -159,12 +159,11 @@
         .field-item {
             padding: 12px 20px;
             border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 2fr 1.2fr 1.8fr;
             align-items: center;
             transition: background 0.2s;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .field-item:hover {
@@ -178,12 +177,10 @@
         .field-name {
             font-weight: 600;
             color: #333;
-            flex: 1;
             display: flex;
             align-items: center;
             flex-wrap: wrap;
             gap: 6px;
-            min-width: 150px;
         }
 
         .field-type {
@@ -193,14 +190,13 @@
             border-radius: 20px;
             font-size: 0.85em;
             white-space: nowrap;
+            text-align: center;
+            justify-self: start;
         }
 
         .field-comment {
             color: #666;
             font-size: 0.9em;
-            flex: 1;
-            text-align: right;
-            min-width: 100px;
         }
 
         .badge {
