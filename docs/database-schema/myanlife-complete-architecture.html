@@ -3442,11 +3442,347 @@
                     </div>
                 </div>
 
+                <!-- 商家系統 -->
+                <div class="system-section">
+                    <h3 class="system-title" style="color: #10b981; border-color: #10b981;">🏪 商家系統</h3>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #10b981; margin-bottom: 10px;">🏪 商家與店家 - 一對多 (1:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #d1fae5; padding: 4px 8px; border-radius: 4px;">merchants</code>
+                            擁有多個
+                            <code style="background: #d1fae5; padding: 4px 8px; border-radius: 4px;">stores</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: stores.merchant_id → merchants.id
+                        </div>
+                    </div>
+
+                    <div style="background: #ecfdf5; padding: 15px; border-radius: 8px; border-left: 4px solid #10b981;">
+                        <div style="color: #065f46; font-size: 0.95em;">
+                            <strong>💡 架構說明：</strong>支援單店和連鎖商家，一個商家可擁有多個店面。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 商品系統 -->
+                <div class="system-section">
+                    <h3 class="system-title" style="color: #f59e0b; border-color: #f59e0b;">🎫 商品系統</h3>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #f59e0b; margin-bottom: 10px;">🏪 商家與商品 - 一對多 (1:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #fef3c7; padding: 4px 8px; border-radius: 4px;">merchants</code>
+                            擁有多個
+                            <code style="background: #fef3c7; padding: 4px 8px; border-radius: 4px;">products</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: products.merchant_id → merchants.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #f59e0b; margin-bottom: 10px;">📁 分類與商品 - 一對多 (1:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #fef3c7; padding: 4px 8px; border-radius: 4px;">product_categories</code>
+                            擁有多個
+                            <code style="background: #fef3c7; padding: 4px 8px; border-radius: 4px;">products</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: products.category_id → product_categories.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #f59e0b; margin-bottom: 10px;">🎫 商品與子表 - 一對一 (1:1)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #fef3c7; padding: 4px 8px; border-radius: 4px;">products</code>
+                            對應
+                            <code style="background: #fee2e2; padding: 4px 8px; border-radius: 4px;">food_products</code> /
+                            <code style="background: #dbeafe; padding: 4px 8px; border-radius: 4px;">travel_products</code> /
+                            <code style="background: #ede9fe; padding: 4px 8px; border-radius: 4px;">hotel_products</code> /
+                            <code style="background: #fed7aa; padding: 4px 8px; border-radius: 4px;">entertainment_products</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: {food|travel|hotel|entertainment}_products.product_id → products.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #f59e0b; margin-bottom: 10px;">🎫 商品與店家 - 多對多 (M:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #fef3c7; padding: 4px 8px; border-radius: 4px;">products</code>
+                            ↔ <code style="background: #e5e7eb; padding: 4px 8px; border-radius: 4px;">product_stores</code> ↔
+                            <code style="background: #d1fae5; padding: 4px 8px; border-radius: 4px;">stores</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: product_stores.product_id → products.id<br>
+                            外鍵: product_stores.store_id → stores.id
+                        </div>
+                    </div>
+
+                    <div style="background: #fffbeb; padding: 15px; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                        <div style="color: #92400e; font-size: 0.95em;">
+                            <strong>💡 架構說明：</strong>商品主表統一管理，通過子表擴展不同類型商品的特殊欄位，支援商品在多店使用。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 訂單系統 -->
+                <div class="system-section">
+                    <h3 class="system-title" style="color: #8b5cf6; border-color: #8b5cf6;">🛒 訂單系統</h3>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #8b5cf6; margin-bottom: 10px;">👤 會員與訂單 - 一對多 (1:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #dbeafe; padding: 4px 8px; border-radius: 4px;">users</code>
+                            擁有多個
+                            <code style="background: #ede9fe; padding: 4px 8px; border-radius: 4px;">orders</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: orders.member_id → users.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #8b5cf6; margin-bottom: 10px;">🏪 商家與訂單 - 一對多 (1:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #d1fae5; padding: 4px 8px; border-radius: 4px;">merchants</code>
+                            擁有多個
+                            <code style="background: #ede9fe; padding: 4px 8px; border-radius: 4px;">orders</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: orders.merchant_id → merchants.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #8b5cf6; margin-bottom: 10px;">🛒 訂單與明細 - 一對多 (1:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #ede9fe; padding: 4px 8px; border-radius: 4px;">orders</code>
+                            擁有多個
+                            <code style="background: #ede9fe; padding: 4px 8px; border-radius: 4px;">order_items</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: order_items.order_id → orders.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #8b5cf6; margin-bottom: 10px;">📋 明細與商品 - 多對一 (N:1)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #ede9fe; padding: 4px 8px; border-radius: 4px;">order_items</code>
+                            引用
+                            <code style="background: #fef3c7; padding: 4px 8px; border-radius: 4px;">products</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: order_items.product_id → products.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #8b5cf6; margin-bottom: 10px;">📋 明細與折扣碼 - 多對一 (N:1)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #ede9fe; padding: 4px 8px; border-radius: 4px;">order_items</code>
+                            引用
+                            <code style="background: #fee2e2; padding: 4px 8px; border-radius: 4px;">promo_codes</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: order_items.promo_code_id → promo_codes.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #8b5cf6; margin-bottom: 10px;">🛒 訂單與支付 - 一對多 (1:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #ede9fe; padding: 4px 8px; border-radius: 4px;">orders</code>
+                            擁有多個
+                            <code style="background: #ede9fe; padding: 4px 8px; border-radius: 4px;">payments</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: payments.order_id → orders.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #8b5cf6; margin-bottom: 10px;">🛒 訂單與狀態記錄 - 一對多 (1:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #ede9fe; padding: 4px 8px; border-radius: 4px;">orders</code>
+                            擁有多個
+                            <code style="background: #ede9fe; padding: 4px 8px; border-radius: 4px;">order_status_logs</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: order_status_logs.order_id → orders.id
+                        </div>
+                    </div>
+
+                    <div style="background: #faf5ff; padding: 15px; border-radius: 8px; border-left: 4px solid #8b5cf6;">
+                        <div style="color: #6b21a8; font-size: 0.95em;">
+                            <strong>💡 架構說明：</strong>完整的訂單流程管理，支援多商品、支付追蹤、狀態變更記錄。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 用戶持有與核銷系統 -->
+                <div class="system-section">
+                    <h3 class="system-title" style="color: #ec4899; border-color: #ec4899;">🎟️ 用戶持有與核銷系統</h3>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #ec4899; margin-bottom: 10px;">👤 會員與持有商品 - 一對多 (1:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #dbeafe; padding: 4px 8px; border-radius: 4px;">users</code>
+                            擁有多個
+                            <code style="background: #fce7f3; padding: 4px 8px; border-radius: 4px;">user_products</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: user_products.member_id → users.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #ec4899; margin-bottom: 10px;">🎫 商品與持有記錄 - 一對多 (1:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #fef3c7; padding: 4px 8px; border-radius: 4px;">products</code>
+                            擁有多個
+                            <code style="background: #fce7f3; padding: 4px 8px; border-radius: 4px;">user_products</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: user_products.product_id → products.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #ec4899; margin-bottom: 10px;">🛒 訂單與持有商品 - 一對多 (1:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #ede9fe; padding: 4px 8px; border-radius: 4px;">orders</code>
+                            生成多個
+                            <code style="background: #fce7f3; padding: 4px 8px; border-radius: 4px;">user_products</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: user_products.order_id → orders.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #ec4899; margin-bottom: 10px;">🏬 店家與核銷 - 一對多 (1:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #d1fae5; padding: 4px 8px; border-radius: 4px;">stores</code>
+                            處理多個
+                            <code style="background: #fce7f3; padding: 4px 8px; border-radius: 4px;">user_products</code> 和
+                            <code style="background: #fce7f3; padding: 4px 8px; border-radius: 4px;">redemptions</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: user_products.redeemed_store_id → stores.id<br>
+                            外鍵: redemptions.store_id → stores.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #ec4899; margin-bottom: 10px;">🎟️ 持有商品與核銷記錄 - 一對多 (1:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #fce7f3; padding: 4px 8px; border-radius: 4px;">user_products</code>
+                            擁有多個
+                            <code style="background: #fce7f3; padding: 4px 8px; border-radius: 4px;">redemptions</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: redemptions.user_product_id → user_products.id
+                        </div>
+                    </div>
+
+                    <div style="background: #fdf2f8; padding: 15px; border-radius: 8px; border-left: 4px solid #ec4899;">
+                        <div style="color: #9f1239; font-size: 0.95em;">
+                            <strong>💡 架構說明：</strong>完整追蹤從訂單購買到核銷使用的全流程，支援 QR Code 動態生成與核銷記錄。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 促銷系統 -->
+                <div class="system-section">
+                    <h3 class="system-title" style="color: #ef4444; border-color: #ef4444;">🎁 促銷系統</h3>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #ef4444; margin-bottom: 10px;">🎫 折扣碼與商品 - 多對一 (N:1)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #fee2e2; padding: 4px 8px; border-radius: 4px;">promo_codes</code>
+                            可限定
+                            <code style="background: #fef3c7; padding: 4px 8px; border-radius: 4px;">products</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: promo_codes.limited_product_id → products.id (可為 NULL，表示通用折扣碼)
+                        </div>
+                    </div>
+
+                    <div style="background: #fef2f2; padding: 15px; border-radius: 8px; border-left: 4px solid #ef4444;">
+                        <div style="color: #991b1b; font-size: 0.95em;">
+                            <strong>💡 架構說明：</strong>支援通用折扣碼和商品限定折扣碼，靈活配置促銷活動。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 審核與評分系統 -->
+                <div class="system-section">
+                    <h3 class="system-title" style="color: #06b6d4; border-color: #06b6d4;">⭐ 審核與評分系統</h3>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #06b6d4; margin-bottom: 10px;">🎫 商品與審核記錄 - 一對多 (1:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #fef3c7; padding: 4px 8px; border-radius: 4px;">products</code>
+                            擁有多個
+                            <code style="background: #cffafe; padding: 4px 8px; border-radius: 4px;">product_reviews</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: product_reviews.product_id → products.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #06b6d4; margin-bottom: 10px;">🎫 商品與評分 - 一對多 (1:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #fef3c7; padding: 4px 8px; border-radius: 4px;">products</code>
+                            擁有多個
+                            <code style="background: #cffafe; padding: 4px 8px; border-radius: 4px;">product_ratings</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: product_ratings.product_id → products.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #06b6d4; margin-bottom: 10px;">👤 會員與評分 - 一對多 (1:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #dbeafe; padding: 4px 8px; border-radius: 4px;">users</code>
+                            擁有多個
+                            <code style="background: #cffafe; padding: 4px 8px; border-radius: 4px;">product_ratings</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: product_ratings.member_id → users.id
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #06b6d4; margin-bottom: 10px;">🛒 訂單與評分 - 一對多 (1:N)</div>
+                        <div style="font-size: 1.1em; color: #333;">
+                            <code style="background: #ede9fe; padding: 4px 8px; border-radius: 4px;">orders</code>
+                            擁有多個
+                            <code style="background: #cffafe; padding: 4px 8px; border-radius: 4px;">product_ratings</code>
+                        </div>
+                        <div style="color: #666; margin-top: 10px; font-size: 0.9em;">
+                            外鍵: product_ratings.order_id → orders.id
+                        </div>
+                    </div>
+
+                    <div style="background: #ecfeff; padding: 15px; border-radius: 8px; border-left: 4px solid #06b6d4;">
+                        <div style="color: #164e63; font-size: 0.95em;">
+                            <strong>💡 架構說明：</strong>分離審核（管理員）和評分（會員）機制，確保商品質量與用戶反饋。
+                        </div>
+                    </div>
+                </div>
+
                 <h2 style="margin-top: 40px; margin-bottom: 20px; color: #333;">📊 關聯統計</h2>
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-number">7</div>
-                        <div class="stat-label">一對多關聯</div>
+                        <div class="stat-number">37</div>
+                        <div class="stat-label">外鍵關聯</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-number">0</div>
