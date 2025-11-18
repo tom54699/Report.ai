@@ -4384,6 +4384,123 @@
         }
 
         // ============================================
+        // 數據模型系統（基於資料庫 Schema）
+        // ============================================
+
+        // 全局數據存儲
+        const AppData = {
+            // ========== 會員系統 ==========
+            users: [
+                { id: 1, member_id: 10001, email: 'ming@example.com', nickname: '林小明', password_hash: 'hash', gender: '男', birthday: '1990-05-15', nationality_iso: 'TW', phone_country_iso: 'MM', phone_number: '09xx-xxx-xxx', region: '仰光', address: '市中心區...', preferences: {currency: 'MMK', lang: 'zh-TW'}, is_active: 1, registered_at: '2024-01-15 10:00:00', points: 850, orders_count: 15, total_spent: 125000 },
+                { id: 2, member_id: 10002, email: 'wang@example.com', nickname: '王小華', password_hash: 'hash', gender: '女', birthday: '1995-08-20', nationality_iso: 'TW', phone_country_iso: 'MM', phone_number: '09yy-yyy-yyy', region: '仰光', address: '新市區...', preferences: {currency: 'MMK', lang: 'zh-TW'}, is_active: 1, registered_at: '2024-02-20 14:30:00', points: 620, orders_count: 8, total_spent: 68000 }
+            ],
+
+            // ========== 商家系統 ==========
+            merchants: [
+                { id: 1, account_email: 'merchant1@example.com', merchant_name: 'Pizza Hut 仰光總店', owner_name: '張老闆', category: 'food', contact_phone: '09111111111', status: 'approved', is_active: 1, rating: 4.5, total_orders: 328, monthly_revenue: 8450000 },
+                { id: 2, account_email: 'merchant2@example.com', merchant_name: 'Sedona Hotel', owner_name: '李經理', category: 'hotel', contact_phone: '09222222222', status: 'approved', is_active: 1, rating: 4.8, total_orders: 156, monthly_revenue: 6230000 }
+            ],
+
+            // ========== 商品系統 ==========
+            product_categories: [
+                { id: 1, category_name: '餐飲美食', category_type: 'food', icon: '🍔' },
+                { id: 2, category_name: '旅遊交通', category_type: 'travel', icon: '✈️' },
+                { id: 3, category_name: '飯店住宿', category_type: 'hotel', icon: '🏨' },
+                { id: 4, category_name: '娛樂休閒', category_type: 'entertainment', icon: '🎭' }
+            ],
+
+            products: [
+                { id: 1, merchant_id: 1, category_id: 1, product_name: '美味披薩 8折優惠', cover_image: '🍕', original_price: 15000, selling_price: 12000, currency: 'MMK', available_quantity: 55, total_quantity: 100, description: 'Pizza Hut 全品項享受 8 折優惠，包含經典瑪格麗特、夏威夷披薩、海鮮總匯等多種口味。餅皮酥脆，料多實在，適合全家共享。限量 100 張，售完為止！', review_status: 'approved', is_published: 1, rating_average: 4.5, rating_count: 23, purchase_count: 45 },
+                { id: 2, merchant_id: 1, category_id: 1, product_name: '咖啡買一送一', cover_image: '☕', original_price: 8000, selling_price: 6500, currency: 'MMK', available_quantity: 178, total_quantity: 200, description: 'Starbucks 中杯以上所有飲品買一送一優惠券。包含拿鐵、卡布奇諾、摩卡、焦糖瑪奇朵等經典飲品。可於緬甸所有 Starbucks 門市使用，有效期限 30 天。', review_status: 'approved', is_published: 1, rating_average: 4.4, rating_count: 15, purchase_count: 22 },
+                { id: 3, merchant_id: 2, category_id: 3, product_name: '仰光五星級飯店', cover_image: '🏨', original_price: 60000, selling_price: 45000, currency: 'MMK', available_quantity: 32, total_quantity: 50, description: 'Sedona Hotel Yangon 一晚住宿優惠券。享受五星級服務，房間寬敞舒適，配備豪華衛浴設備。飯店設施包含游泳池、健身房、水療中心。位於市中心，交通便利，鄰近購物中心。', review_status: 'approved', is_published: 1, rating_average: 4.8, rating_count: 12, purchase_count: 18 },
+                { id: 4, merchant_id: 1, category_id: 4, product_name: '緬甸傳統舞蹈表演', cover_image: '🎭', original_price: 30000, selling_price: 25000, currency: 'MMK', available_quantity: 45, total_quantity: 60, description: 'Karaweik Palace 晚宴表演套票，欣賞精彩的緬甸傳統舞蹈與音樂演出。在金色皇家餐廳享用緬式傳統料理自助晚餐，品嚐道地美食。體驗緬甸獨特的文化藝術，留下難忘回憶。', review_status: 'approved', is_published: 1, rating_average: 4.6, rating_count: 18, purchase_count: 15 }
+            ],
+
+            // ========== 訂單系統 ==========
+            orders: [
+                { id: 1, order_number: 'ORD-20251118-001', member_id: 1, merchant_id: 1, product_id: 1, product_name: '美味披薩 8折優惠', product_image: '🍕', final_amount: 12000, currency: 'MMK', payment_status: 'paid', order_status: 'pending', created_at: '2025-11-18 14:30:00' },
+                { id: 2, order_number: 'ORD-20251117-052', member_id: 1, merchant_id: 1, product_id: 2, product_name: '咖啡買一送一', product_image: '☕', final_amount: 13000, currency: 'MMK', payment_status: 'paid', order_status: 'pending', created_at: '2025-11-17 09:15:00' },
+                { id: 3, order_number: 'ORD-20251116-038', member_id: 1, merchant_id: 1, product_id: 4, product_name: '緬甸傳統舞蹈表演', product_image: '🎭', final_amount: 50000, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-11-16 18:00:00', created_at: '2025-11-16 16:45:00' },
+                { id: 4, order_number: 'ORD-20251115-025', member_id: 1, merchant_id: 2, product_id: 3, product_name: '仰光五星級飯店', product_image: '🏨', final_amount: 45000, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-11-15 20:00:00', created_at: '2025-11-15 11:20:00' }
+            ],
+
+            // ========== 任務系統 ==========
+            member_tasks: [
+                { id: 1, name: '首次購物任務', description: '完成第一筆訂單即可獲得 100 積分獎勵', task_type: '新手任務', reward_points: 100, is_active: 1, user_progress: { member_id: 1, progress: 100, status: 'completed' } },
+                { id: 2, name: '每日簽到', description: '每天登入簽到即可獲得 10 積分', task_type: '每日任務', reward_points: 10, is_active: 1, user_progress: { member_id: 1, progress: 50, status: 'in_progress' } },
+                { id: 3, name: '推薦好友', description: '推薦好友註冊並完成首次購物', task_type: '推廣任務', reward_points: 200, is_active: 1, user_progress: { member_id: 1, progress: 0, status: 'not_started' } }
+            ],
+
+            // ========== 當前狀態 ==========
+            currentUser: null,
+            currentMerchant: null,
+
+            // ========== 工具方法 ==========
+            init() {
+                const savedData = localStorage.getItem('myanlife_data');
+                if (savedData) {
+                    try {
+                        const parsed = JSON.parse(savedData);
+                        Object.assign(this, parsed);
+                        console.log('✅ 數據已從 LocalStorage 載入');
+                    } catch (e) {
+                        console.error('❌ 載入數據失敗:', e);
+                    }
+                }
+            },
+
+            save() {
+                try {
+                    const dataToSave = { ...this };
+                    delete dataToSave.init;
+                    delete dataToSave.save;
+                    delete dataToSave.find;
+                    delete dataToSave.create;
+                    delete dataToSave.update;
+                    delete dataToSave.delete;
+                    localStorage.setItem('myanlife_data', JSON.stringify(dataToSave));
+                } catch (e) {
+                    console.error('❌ 保存數據失敗:', e);
+                }
+            },
+
+            find(table, id) {
+                return this[table].find(item => item.id === id);
+            },
+
+            create(table, data) {
+                const maxId = Math.max(...this[table].map(item => item.id), 0);
+                const newItem = { id: maxId + 1, ...data, created_at: new Date().toISOString() };
+                this[table].push(newItem);
+                this.save();
+                return newItem;
+            },
+
+            update(table, id, data) {
+                const index = this[table].findIndex(item => item.id === id);
+                if (index !== -1) {
+                    this[table][index] = { ...this[table][index], ...data, updated_at: new Date().toISOString() };
+                    this.save();
+                    return this[table][index];
+                }
+                return null;
+            },
+
+            delete(table, id) {
+                const index = this[table].findIndex(item => item.id === id);
+                if (index !== -1) {
+                    this[table].splice(index, 1);
+                    this.save();
+                    return true;
+                }
+                return false;
+            }
+        };
+
+        // 初始化數據
+        AppData.init();
+
+        // ============================================
         // 會員端互動功能
         // ============================================
 
