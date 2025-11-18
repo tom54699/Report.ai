@@ -472,6 +472,114 @@
             color: #1976d2;
         }
 
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .login-container.hidden {
+            display: none;
+        }
+
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-box h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+
+        .login-box .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+
+        .login-box .form-group {
+            margin-bottom: 20px;
+        }
+
+        .login-box label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .login-box input,
+        .login-box select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        .login-box input:focus,
+        .login-box select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .logout-btn {
+            padding: 8px 16px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-left: 10px;
+        }
+
+        .logout-btn:hover {
+            background: #d32f2f;
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            display: none;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
         .content-view {
             display: none;
         }
@@ -720,7 +828,28 @@
 
         <!-- 1. 會員端 Web App -->
         <div id="memberApp" class="mockup-container active">
-            <!-- 內容 -->
+            <!-- 登入畫面 -->
+            <div class="login-container" id="memberLogin">
+                <div class="login-box">
+                    <h2>👤 會員登入</h2>
+                    <p class="subtitle">歡迎回來！請登入您的 myanLife 會員帳號</p>
+                    <div class="form-group">
+                        <label>電子信箱或手機號碼</label>
+                        <input type="text" placeholder="請輸入信箱或手機號碼">
+                    </div>
+                    <div class="form-group">
+                        <label>密碼</label>
+                        <input type="password" placeholder="請輸入密碼">
+                    </div>
+                    <button class="login-btn" onclick="login('member')">登入</button>
+                    <p style="text-align: center; margin-top: 15px; color: #666; font-size: 0.9em;">
+                        還沒有帳號？<a href="#" style="color: #667eea;">立即註冊</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 主要內容 -->
+            <div class="main-content" id="memberContent">
             <div class="mockup-header">
                 <div class="mockup-title">
                     <span>🌐</span>
@@ -736,6 +865,7 @@
                         <div class="avatar">張</div>
                         <span>張小明</span>
                     </div>
+                    <button class="logout-btn" onclick="logout('member')">登出</button>
                 </div>
             </div>
 
@@ -1392,11 +1522,34 @@
             <div class="info-note">
                 <strong>💡 會員端功能：</strong>基於 users 表，支援 email/phone_number 登入（含社群登入）。功能包含：瀏覽商品 (products, product_categories)、購買商品 (orders, order_items, payments)、核銷商品 (user_products, redemptions)、評分商品 (product_ratings)、完成任務 (member_tasks, member_task_logs)、偏好設定 (user_preferences: 語言/貨幣/電子報訂閱)、查看訂單狀態 (order_status_logs)、使用優惠碼 (promo_codes)。支援 4 種商品類型：餐飲美食 (food_products)、旅遊交通 (travel_products)、飯店住宿 (hotel_products)、娛樂休閒 (entertainment_products)。
             </div>
+            </div>
+            <!-- 主要內容結束 -->
         </div>
 
         <!-- 2. 商家端 Web App -->
         <div id="merchantApp" class="mockup-container">
-            <!-- 內容 -->
+            <!-- 登入畫面 -->
+            <div class="login-container" id="merchantLogin">
+                <div class="login-box">
+                    <h2>🏪 商家登入</h2>
+                    <p class="subtitle">歡迎商家夥伴！請登入您的商家管理帳號</p>
+                    <div class="form-group">
+                        <label>商家電子信箱</label>
+                        <input type="email" placeholder="請輸入商家註冊信箱">
+                    </div>
+                    <div class="form-group">
+                        <label>密碼</label>
+                        <input type="password" placeholder="請輸入密碼">
+                    </div>
+                    <button class="login-btn" onclick="login('merchant')">登入商家後台</button>
+                    <p style="text-align: center; margin-top: 15px; color: #666; font-size: 0.9em;">
+                        還沒有商家帳號？<a href="#" style="color: #667eea;">申請加入</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 主要內容 -->
+            <div class="main-content" id="merchantContent">
             <div class="mockup-header">
                 <div class="mockup-title">
                     <span>🏪</span>
@@ -1413,6 +1566,7 @@
                         <div class="avatar">🍕</div>
                         <span>Pizza Hut Myanmar</span>
                     </div>
+                    <button class="logout-btn" onclick="logout('merchant')">登出</button>
                 </div>
             </div>
 
@@ -2107,11 +2261,41 @@
             <div class="info-note">
                 <strong>💡 商家端功能：</strong>基於 merchants 表，使用 email 登入。管理多店鋪 (stores)、新增/編輯商品 (products) 並分配到店鋪 (product_stores)、處理訂單 (orders, order_items)、查看商品評分/評論 (product_ratings)、完成商家任務 (merchant_tasks, merchant_task_logs)、偏好設定 (merchant_preferences: 語言/貨幣)、查看營收統計 (payments)、回覆顧客評論、上下架商品管理。支援 4 種商品類型：餐飲美食 (food_products)、旅遊交通 (travel_products)、飯店住宿 (hotel_products)、娛樂休閒 (entertainment_products)。
             </div>
+            </div>
+            <!-- 主要內容結束 -->
         </div>
 
         <!-- 3. 運營後台 -->
         <div id="operation" class="mockup-container">
-            <!-- 內容 -->
+            <!-- 登入畫面 -->
+            <div class="login-container" id="operationLogin">
+                <div class="login-box">
+                    <h2>👨‍💼 管理員登入</h2>
+                    <p class="subtitle">運營管理後台 - 多國運營管理</p>
+                    <div class="form-group">
+                        <label>管理員信箱</label>
+                        <input type="email" placeholder="請輸入管理員信箱">
+                    </div>
+                    <div class="form-group">
+                        <label>密碼</label>
+                        <input type="password" placeholder="請輸入密碼">
+                    </div>
+                    <div class="form-group">
+                        <label>國家/地區</label>
+                        <select>
+                            <option value="">選擇您的管理區域</option>
+                            <option value="MM">🇲🇲 Myanmar (緬甸)</option>
+                            <option value="TW">🇹🇼 Taiwan (台灣)</option>
+                            <option value="TH">🇹🇭 Thailand (泰國)</option>
+                            <option value="VN">🇻🇳 Vietnam (越南)</option>
+                        </select>
+                    </div>
+                    <button class="login-btn" onclick="login('operation')">登入管理後台</button>
+                </div>
+            </div>
+
+            <!-- 主要內容 -->
+            <div class="main-content" id="operationContent">
             <div class="mockup-header">
                 <div class="mockup-title">
                     <span>👥</span>
@@ -2128,6 +2312,7 @@
                         <div class="avatar">🛡️</div>
                         <span>Super Admin</span>
                     </div>
+                    <button class="logout-btn" onclick="logout('operation')">登出</button>
                 </div>
             </div>
 
@@ -2999,7 +3184,32 @@
 
         <!-- 4. 中央後台 -->
         <div id="central" class="mockup-container">
-            <!-- 內容 -->
+            <!-- 登入畫面 -->
+            <div class="login-container" id="centralLogin">
+                <div class="login-box">
+                    <h2>🏛️ 中央後台登入</h2>
+                    <p class="subtitle">最高權限管理中心 - 跨國數據整合與監控</p>
+                    <div class="form-group">
+                        <label>管理員帳號</label>
+                        <input type="text" placeholder="請輸入中央後台管理員帳號">
+                    </div>
+                    <div class="form-group">
+                        <label>密碼</label>
+                        <input type="password" placeholder="請輸入密碼">
+                    </div>
+                    <div class="form-group">
+                        <label>雙因素驗證碼</label>
+                        <input type="text" placeholder="請輸入 6 位數驗證碼" maxlength="6">
+                    </div>
+                    <button class="login-btn" onclick="login('central')">登入中央後台</button>
+                    <p style="text-align: center; margin-top: 15px; color: #999; font-size: 0.85em;">
+                        🔒 此系統需要最高權限與雙因素驗證
+                    </p>
+                </div>
+            </div>
+
+            <!-- 主要內容 -->
+            <div class="main-content" id="centralContent">
             <div class="mockup-header">
                 <div class="mockup-title">
                     <span>🏛️</span>
@@ -3014,6 +3224,7 @@
                         <div class="avatar">C</div>
                         <span>Central Admin</span>
                     </div>
+                    <button class="logout-btn" onclick="logout('central')">登出</button>
                 </div>
             </div>
 
@@ -3642,6 +3853,8 @@
             <div class="info-note">
                 <strong>💡 中央後台功能：</strong>跨國數據整合、統一報表產製、各國營收對比、會員分析、商家統計、系統監控。<strong>主要為只讀查看</strong>，如需修改資料，透過快速連結自動登入各國運營後台操作。權限層級：中央後台 (最高權限) > 各國 Super Admin > 各國一般管理員。
             </div>
+            </div>
+            <!-- 主要內容結束 -->
         </div>
     </div>
 
@@ -3770,6 +3983,32 @@
             const targetView = document.getElementById(viewMap[viewName]);
             if (targetView) {
                 targetView.classList.add('active');
+            }
+        }
+
+        // 登入功能
+        function login(type) {
+            const loginContainer = document.getElementById(type + 'Login');
+            const mainContent = document.getElementById(type + 'Content');
+
+            if (loginContainer) {
+                loginContainer.classList.add('hidden');
+            }
+            if (mainContent) {
+                mainContent.classList.add('active');
+            }
+        }
+
+        // 登出功能
+        function logout(type) {
+            const loginContainer = document.getElementById(type + 'Login');
+            const mainContent = document.getElementById(type + 'Content');
+
+            if (loginContainer) {
+                loginContainer.classList.remove('hidden');
+            }
+            if (mainContent) {
+                mainContent.classList.remove('active');
             }
         }
 
