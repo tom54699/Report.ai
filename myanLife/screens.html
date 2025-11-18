@@ -1564,12 +1564,12 @@
                     <span>myanLife 商家端</span>
                 </div>
                 <div class="mockup-nav">
-                    <div class="nav-item active">儀表板</div>
-                    <div class="nav-item">店鋪管理</div>
-                    <div class="nav-item">商品管理</div>
-                    <div class="nav-item">訂單管理</div>
-                    <div class="nav-item">任務中心</div>
-                    <div class="nav-item">設定</div>
+                    <div class="nav-item active" onclick="switchMerchantView('dashboard')">儀表板</div>
+                    <div class="nav-item" onclick="switchMerchantView('stores')">店鋪管理</div>
+                    <div class="nav-item" onclick="switchMerchantView('products')">商品管理</div>
+                    <div class="nav-item" onclick="switchMerchantView('orders')">訂單管理</div>
+                    <div class="nav-item" onclick="switchMerchantView('tasks')">任務中心</div>
+                    <div class="nav-item" onclick="switchMerchantView('settings')">設定</div>
                     <div class="user-info">
                         <div class="avatar">🍕</div>
                         <span>Pizza Hut Myanmar</span>
@@ -1578,7 +1578,9 @@
                 </div>
             </div>
 
-            <div class="stats-row">
+            <!-- 儀表板視圖 -->
+            <div id="merchantDashboard" class="content-view active">
+                <div class="stats-row">
                 <div class="stat-card">
                     <div class="stat-number">328</div>
                     <div class="stat-label">本月訂單</div>
@@ -1740,6 +1742,530 @@
                 </tbody>
             </table>
 
+            </div>
+            <!-- 儀表板視圖結束 -->
+
+            <!-- 店鋪管理視圖 -->
+            <div id="merchantStores" class="content-view">
+                <h3 style="margin-bottom: 15px; color: #333;">🏬 店鋪管理</h3>
+
+                <div class="quick-actions" style="margin-bottom: 20px;">
+                    <button class="quick-action-btn">➕ 新增店鋪</button>
+                    <button class="quick-action-btn">📊 營業統計</button>
+                </div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-image">🏪</div>
+                        <div class="card-title">Pizza Hut 仰光總店</div>
+                        <div class="card-desc">
+                            📍 Yangon Downtown, Myanmar<br>
+                            📞 +95-1-234-5678<br>
+                            🕒 營業時間：10:00 - 22:00
+                        </div>
+                        <div class="card-meta" style="margin-top: 15px;">
+                            <span class="status-badge active">營業中</span>
+                            <div style="margin-top: 10px; display: flex; gap: 8px;">
+                                <button class="action-btn edit">編輯資訊</button>
+                                <button class="action-btn approve">查看數據</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-image">🏪</div>
+                        <div class="card-title">Pizza Hut 曼德勒分店</div>
+                        <div class="card-desc">
+                            📍 Mandalay City, Myanmar<br>
+                            📞 +95-2-345-6789<br>
+                            🕒 營業時間：10:00 - 22:00
+                        </div>
+                        <div class="card-meta" style="margin-top: 15px;">
+                            <span class="status-badge active">營業中</span>
+                            <div style="margin-top: 10px; display: flex; gap: 8px;">
+                                <button class="action-btn edit">編輯資訊</button>
+                                <button class="action-btn approve">查看數據</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-image">🏪</div>
+                        <div class="card-title">Pizza Hut 內比都店</div>
+                        <div class="card-desc">
+                            📍 Naypyidaw, Myanmar<br>
+                            📞 +95-3-456-7890<br>
+                            🕒 營業時間：11:00 - 21:00
+                        </div>
+                        <div class="card-meta" style="margin-top: 15px;">
+                            <span class="status-badge pending">休息中</span>
+                            <div style="margin-top: 10px; display: flex; gap: 8px;">
+                                <button class="action-btn edit">編輯資訊</button>
+                                <button class="action-btn approve">查看數據</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border: 2px dashed #e0e0e0;">
+                        <div class="card-image" style="background: #f5f5f5; color: #999;">➕</div>
+                        <div class="card-title" style="color: #999;">新增店鋪</div>
+                        <div class="card-desc">點擊新增更多店鋪位置，擴展您的業務範圍</div>
+                        <button class="card-button" style="margin-top: 15px;">新增店鋪</button>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 15px; margin-top: 40px; color: #333;">📊 各店鋪營業數據</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>店鋪名稱</th>
+                            <th>本月訂單</th>
+                            <th>本月營收</th>
+                            <th>平均評分</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Pizza Hut 仰光總店</td>
+                            <td>185</td>
+                            <td>4,820,000 MMK</td>
+                            <td>4.9 ⭐</td>
+                            <td><span class="status-badge active">營業中</span></td>
+                            <td><button class="action-btn edit">管理</button></td>
+                        </tr>
+                        <tr>
+                            <td>Pizza Hut 曼德勒分店</td>
+                            <td>98</td>
+                            <td>2,540,000 MMK</td>
+                            <td>4.7 ⭐</td>
+                            <td><span class="status-badge active">營業中</span></td>
+                            <td><button class="action-btn edit">管理</button></td>
+                        </tr>
+                        <tr>
+                            <td>Pizza Hut 內比都店</td>
+                            <td>45</td>
+                            <td>1,090,000 MMK</td>
+                            <td>4.6 ⭐</td>
+                            <td><span class="status-badge pending">休息中</span></td>
+                            <td><button class="action-btn edit">管理</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 店鋪管理視圖結束 -->
+
+            <!-- 商品管理視圖 -->
+            <div id="merchantProducts" class="content-view">
+                <h3 style="margin-bottom: 15px; color: #333;">🎫 商品管理</h3>
+
+                <div class="quick-actions" style="margin-bottom: 20px;">
+                    <button class="quick-action-btn">➕ 新增商品</button>
+                    <button class="quick-action-btn">📊 銷售統計</button>
+                    <button class="quick-action-btn">📦 批次匯入</button>
+                </div>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active">全部商品</button>
+                    <button class="filter-tab">上架中</button>
+                    <button class="filter-tab">審核中</button>
+                    <button class="filter-tab">已下架</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>商品名稱</th>
+                            <th>類別</th>
+                            <th>價格 (MMK)</th>
+                            <th>已售/庫存</th>
+                            <th>評分</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>美味披薩 8折優惠</td>
+                            <td>🍔 餐飲美食</td>
+                            <td>12,000</td>
+                            <td>45/100</td>
+                            <td>4.5 ⭐ (23 則)</td>
+                            <td><span class="status-badge active">上架中</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit">編輯</button>
+                                    <button class="action-btn reject">下架</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>外帶優惠套餐</td>
+                            <td>🍔 餐飲美食</td>
+                            <td>18,000</td>
+                            <td>12/50</td>
+                            <td>4.8 ⭐ (15 則)</td>
+                            <td><span class="status-badge active">上架中</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit">編輯</button>
+                                    <button class="action-btn reject">下架</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>週末下午茶優惠</td>
+                            <td>🍔 餐飲美食</td>
+                            <td>25,000</td>
+                            <td>89/100</td>
+                            <td>4.9 ⭐ (45 則)</td>
+                            <td><span class="status-badge active">上架中</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit">編輯</button>
+                                    <button class="action-btn reject">下架</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>學生專屬優惠</td>
+                            <td>🍔 餐飲美食</td>
+                            <td>10,000</td>
+                            <td>0/50</td>
+                            <td>N/A</td>
+                            <td><span class="status-badge pending">審核中</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit">編輯</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>家庭聚餐套餐</td>
+                            <td>🍔 餐飲美食</td>
+                            <td>45,000</td>
+                            <td>0/30</td>
+                            <td>N/A</td>
+                            <td><span class="status-badge rejected">已下架</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit">編輯</button>
+                                    <button class="action-btn approve">重新上架</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 商品管理視圖結束 -->
+
+            <!-- 訂單管理視圖 -->
+            <div id="merchantOrders" class="content-view">
+                <h3 style="margin-bottom: 15px; color: #333;">📦 訂單管理</h3>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active">全部訂單</button>
+                    <button class="filter-tab">待處理</button>
+                    <button class="filter-tab">待核銷</button>
+                    <button class="filter-tab">已完成</button>
+                    <button class="filter-tab">已取消</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>訂單編號</th>
+                            <th>顧客</th>
+                            <th>商品</th>
+                            <th>店鋪</th>
+                            <th>金額 (MMK)</th>
+                            <th>訂單時間</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ORD-20251118-001</td>
+                            <td>張小明</td>
+                            <td>美味披薩 8折優惠</td>
+                            <td>仰光總店</td>
+                            <td>12,000</td>
+                            <td>2025-11-18 14:30</td>
+                            <td><span class="status-badge pending">待核銷</span></td>
+                            <td><button class="action-btn approve">核銷</button></td>
+                        </tr>
+                        <tr>
+                            <td>ORD-20251118-015</td>
+                            <td>李美玲</td>
+                            <td>週末下午茶優惠</td>
+                            <td>曼德勒分店</td>
+                            <td>25,000</td>
+                            <td>2025-11-18 12:15</td>
+                            <td><span class="status-badge pending">待核銷</span></td>
+                            <td><button class="action-btn approve">核銷</button></td>
+                        </tr>
+                        <tr>
+                            <td>ORD-20251117-098</td>
+                            <td>王大明</td>
+                            <td>外帶優惠套餐</td>
+                            <td>仰光總店</td>
+                            <td>18,000</td>
+                            <td>2025-11-17 19:45</td>
+                            <td><span class="status-badge active">已完成</span></td>
+                            <td><button class="action-btn edit">查看</button></td>
+                        </tr>
+                        <tr>
+                            <td>ORD-20251117-085</td>
+                            <td>陳小華</td>
+                            <td>美味披薩 8折優惠 x2</td>
+                            <td>仰光總店</td>
+                            <td>24,000</td>
+                            <td>2025-11-17 18:20</td>
+                            <td><span class="status-badge active">已完成</span></td>
+                            <td><button class="action-btn edit">查看</button></td>
+                        </tr>
+                        <tr>
+                            <td>ORD-20251117-072</td>
+                            <td>林志明</td>
+                            <td>週末下午茶優惠</td>
+                            <td>曼德勒分店</td>
+                            <td>25,000</td>
+                            <td>2025-11-17 16:30</td>
+                            <td><span class="status-badge rejected">已取消</span></td>
+                            <td><button class="action-btn edit">查看</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 訂單管理視圖結束 -->
+
+            <!-- 任務中心視圖 -->
+            <div id="merchantTasks" class="content-view">
+                <h3 style="margin-bottom: 15px; color: #333;">✅ 商家任務中心</h3>
+
+                <div class="stats-row" style="margin-bottom: 30px;">
+                    <div class="stat-card info">
+                        <div class="stat-number">優質商家</div>
+                        <div class="stat-label">當前標章</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-number">1</div>
+                        <div class="stat-label">進行中任務</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-number">2</div>
+                        <div class="stat-label">已完成任務</div>
+                    </div>
+                </div>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active">全部任務</button>
+                    <button class="filter-tab">新手任務</button>
+                    <button class="filter-tab">業績任務</button>
+                    <button class="filter-tab">品質任務</button>
+                    <button class="filter-tab">已完成</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>任務名稱</th>
+                            <th>任務類型</th>
+                            <th>獎勵</th>
+                            <th>進度</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>維持 4.5 星以上評分</td>
+                            <td>品質任務</td>
+                            <td>優質商家標章</td>
+                            <td>4.8/4.5</td>
+                            <td><span class="status-badge pending">進行中</span></td>
+                            <td><button class="action-btn edit">查看</button></td>
+                        </tr>
+                        <tr>
+                            <td>上架第一個商品</td>
+                            <td>新手任務</td>
+                            <td>平台推薦 7 天</td>
+                            <td>1/1</td>
+                            <td><span class="status-badge active">已完成</span></td>
+                            <td><span style="color: #4caf50;">✓ 已領取</span></td>
+                        </tr>
+                        <tr>
+                            <td>月銷售達 100 單</td>
+                            <td>業績任務</td>
+                            <td>降低平台抽成 2%</td>
+                            <td>328/100</td>
+                            <td><span class="status-badge active">已完成</span></td>
+                            <td><span style="color: #4caf50;">✓ 已領取</span></td>
+                        </tr>
+                        <tr>
+                            <td>月營收突破 10,000,000 MMK</td>
+                            <td>業績任務</td>
+                            <td>首頁推薦位 30 天</td>
+                            <td>8,450,000/10,000,000</td>
+                            <td><span class="status-badge pending">進行中</span></td>
+                            <td><button class="action-btn edit">查看</button></td>
+                        </tr>
+                        <tr>
+                            <td>回覆 90% 以上顧客評論</td>
+                            <td>品質任務</td>
+                            <td>提升店鋪曝光度</td>
+                            <td>75/83 (90%)</td>
+                            <td><span class="status-badge pending">進行中</span></td>
+                            <td><button class="action-btn edit">前往</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-note" style="margin-top: 20px;">
+                    <strong>💡 關於商家任務：</strong>完成任務可獲得平台推薦、降低抽成、專屬標章等獎勵。持續保持優質服務，解鎖更多特權！
+                </div>
+            </div>
+            <!-- 任務中心視圖結束 -->
+
+            <!-- 設定視圖 -->
+            <div id="merchantSettings" class="content-view">
+                <h3 style="margin-bottom: 20px; color: #333;">⚙️ 商家設定</h3>
+
+                <div class="settings-section">
+                    <div class="settings-title">
+                        <span>🏪</span>
+                        <span>商家資訊</span>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">商家名稱</div>
+                        <div class="settings-value">Pizza Hut Myanmar</div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">商家電子信箱</div>
+                        <div class="settings-value">contact@pizzahut.mm</div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">統一編號</div>
+                        <div class="settings-value">MM-12345678</div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">店鋪數量</div>
+                        <div class="settings-value">3 間</div>
+                    </div>
+                    <button class="quick-action-btn" style="margin-top: 15px;">編輯商家資料</button>
+                </div>
+
+                <div class="settings-section">
+                    <div class="settings-title">
+                        <span>🌍</span>
+                        <span>偏好設定 (merchant_preferences)</span>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">後台語言</div>
+                        <select style="padding: 8px 12px; border: 1px solid #e0e0e0; border-radius: 6px;">
+                            <option>繁體中文</option>
+                            <option>English</option>
+                            <option>မြန်မာဘာသာ (緬甸語)</option>
+                            <option>ไทย (泰語)</option>
+                        </select>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">貨幣顯示</div>
+                        <select style="padding: 8px 12px; border: 1px solid #e0e0e0; border-radius: 6px;">
+                            <option>MMK (緬甸元)</option>
+                            <option>USD (美元)</option>
+                            <option>TWD (新台幣)</option>
+                            <option>THB (泰銖)</option>
+                        </select>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">接收訂單通知</div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">接收系統公告</div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">接收平台活動訊息</div>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <div class="settings-title">
+                        <span>💰</span>
+                        <span>金流設定</span>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">收款帳戶</div>
+                        <div class="settings-value">KBZ Bank •••• 5678</div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">結算週期</div>
+                        <div class="settings-value">每月 5 號結算</div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">平台抽成</div>
+                        <div class="settings-value">8% (優惠中)</div>
+                    </div>
+                    <button class="quick-action-btn" style="margin-top: 15px;">管理收款方式</button>
+                </div>
+
+                <div class="settings-section">
+                    <div class="settings-title">
+                        <span>🔒</span>
+                        <span>安全設定</span>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">密碼</div>
+                        <button class="action-btn edit">修改密碼</button>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">雙重驗證 (2FA)</div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">員工子帳號管理</div>
+                        <button class="action-btn approve">管理子帳號 (3)</button>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <div class="settings-title">
+                        <span>ℹ️</span>
+                        <span>關於</span>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">商家後台版本</div>
+                        <div class="settings-value">v3.2.0</div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">合作條款</div>
+                        <a href="#" style="color: #667eea;">查看</a>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-label">商家服務中心</div>
+                        <a href="#" style="color: #667eea;">聯絡我們</a>
+                    </div>
+                </div>
+            </div>
+            <!-- 設定視圖結束 -->
+
             <div class="info-note">
                 <strong>💡 商家端功能：</strong>基於 merchants 表，使用 email 登入。管理多店鋪 (stores)、新增/編輯商品 (products) 並分配到店鋪 (product_stores)、處理訂單 (orders, order_items)、查看商品評分/評論 (product_ratings)、完成商家任務 (merchant_tasks, merchant_task_logs)、偏好設定 (merchant_preferences: 語言/貨幣)、查看營收統計 (payments)、回覆顧客評論、上下架商品管理。支援 4 種商品類型：餐飲美食 (food_products)、旅遊交通 (travel_products)、飯店住宿 (hotel_products)、娛樂休閒 (entertainment_products)。
             </div>
@@ -1781,12 +2307,12 @@
                     <span>運營管理後台 - 緬甸</span>
                 </div>
                 <div class="mockup-nav">
-                    <div class="nav-item active">儀表板</div>
-                    <div class="nav-item">會員管理</div>
-                    <div class="nav-item">商家管理</div>
-                    <div class="nav-item">商品審核</div>
-                    <div class="nav-item">內容管理</div>
-                    <div class="nav-item">權限管理</div>
+                    <div class="nav-item active" onclick="switchOperationView('dashboard')">儀表板</div>
+                    <div class="nav-item" onclick="switchOperationView('members')">會員管理</div>
+                    <div class="nav-item" onclick="switchOperationView('merchants')">商家管理</div>
+                    <div class="nav-item" onclick="switchOperationView('products')">商品審核</div>
+                    <div class="nav-item" onclick="switchOperationView('cms')">內容管理</div>
+                    <div class="nav-item" onclick="switchOperationView('permissions')">權限管理</div>
                     <div class="user-info">
                         <div class="avatar">🛡️</div>
                         <span>Super Admin</span>
@@ -1795,7 +2321,9 @@
                 </div>
             </div>
 
-            <div class="country-selector">
+            <!-- 儀表板視圖 -->
+            <div id="operationDashboard" class="content-view active">
+                <div class="country-selector">
                 <button class="country-btn active">🇲🇲 緬甸</button>
                 <button class="country-btn">🇹🇼 台灣</button>
                 <button class="country-btn">🇹🇭 泰國</button>
@@ -2217,6 +2745,88 @@
                 'orders': 'memberOrders',
                 'tasks': 'memberTasks',
                 'settings': 'memberSettings'
+            };
+
+            const targetView = document.getElementById(viewMap[viewName]);
+            if (targetView) {
+                targetView.classList.add('active');
+            }
+        }
+
+        // 商家端視圖切換功能
+        function switchMerchantView(viewName) {
+            const merchantApp = document.getElementById('merchantApp');
+            merchantApp.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            event.target.classList.add('active');
+
+            merchantApp.querySelectorAll('.content-view').forEach(view => {
+                view.classList.remove('active');
+            });
+
+            const viewMap = {
+                'dashboard': 'merchantDashboard',
+                'stores': 'merchantStores',
+                'products': 'merchantProducts',
+                'orders': 'merchantOrders',
+                'tasks': 'merchantTasks',
+                'settings': 'merchantSettings'
+            };
+
+            const targetView = document.getElementById(viewMap[viewName]);
+            if (targetView) {
+                targetView.classList.add('active');
+            }
+        }
+
+        // 運營後台視圖切換功能
+        function switchOperationView(viewName) {
+            const operation = document.getElementById('operation');
+            operation.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            event.target.classList.add('active');
+
+            operation.querySelectorAll('.content-view').forEach(view => {
+                view.classList.remove('active');
+            });
+
+            const viewMap = {
+                'dashboard': 'operationDashboard',
+                'members': 'operationMembers',
+                'merchants': 'operationMerchants',
+                'products': 'operationProducts',
+                'cms': 'operationCMS',
+                'permissions': 'operationPermissions'
+            };
+
+            const targetView = document.getElementById(viewMap[viewName]);
+            if (targetView) {
+                targetView.classList.add('active');
+            }
+        }
+
+        // 中央後台視圖切換功能
+        function switchCentralView(viewName) {
+            const central = document.getElementById('central');
+            central.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            event.target.classList.add('active');
+
+            central.querySelectorAll('.content-view').forEach(view => {
+                view.classList.remove('active');
+            });
+
+            const viewMap = {
+                'dashboard': 'centralDashboard',
+                'revenue': 'centralRevenue',
+                'analytics': 'centralAnalytics',
+                'monitoring': 'centralMonitoring'
             };
 
             const targetView = document.getElementById(viewMap[viewName]);
