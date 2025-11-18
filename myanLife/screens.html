@@ -1535,31 +1535,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr onclick="showTaskDetail(1)" style="cursor: pointer;">
                             <td>連續7天登入</td>
                             <td>每日任務</td>
                             <td>+50 分</td>
                             <td>5/7</td>
                             <td><span class="status-badge pending">進行中</span></td>
-                            <td><button class="action-btn edit">查看</button></td>
+                            <td><button class="action-btn edit" onclick="event.stopPropagation(); showTaskDetail(1)">查看</button></td>
                         </tr>
-                        <tr>
+                        <tr onclick="showTaskDetail(2)" style="cursor: pointer;">
                             <td>邀請好友註冊</td>
                             <td>推廣任務</td>
                             <td>+200 分</td>
                             <td>2/5</td>
                             <td><span class="status-badge pending">進行中</span></td>
-                            <td><button class="action-btn edit">邀請</button></td>
+                            <td><button class="action-btn edit" onclick="event.stopPropagation(); showTaskDetail(2)">邀請</button></td>
                         </tr>
-                        <tr>
+                        <tr onclick="showTaskDetail(3)" style="cursor: pointer;">
                             <td>完成 3 次商品評分</td>
                             <td>互動任務</td>
                             <td>+100 分</td>
                             <td>1/3</td>
                             <td><span class="status-badge pending">進行中</span></td>
-                            <td><button class="action-btn edit">前往</button></td>
+                            <td><button class="action-btn edit" onclick="event.stopPropagation(); showTaskDetail(3)">前往</button></td>
                         </tr>
-                        <tr>
+                        <tr onclick="showTaskDetail(4)" style="cursor: pointer;">
                             <td>完成首次購物</td>
                             <td>新手任務</td>
                             <td>+100 分</td>
@@ -1567,7 +1567,7 @@
                             <td><span class="status-badge active">已完成</span></td>
                             <td><span style="color: #4caf50;">✓ 已領取</span></td>
                         </tr>
-                        <tr>
+                        <tr onclick="showTaskDetail(5)" style="cursor: pointer;">
                             <td>完善個人資料</td>
                             <td>新手任務</td>
                             <td>+50 分</td>
@@ -1575,7 +1575,7 @@
                             <td><span class="status-badge active">已完成</span></td>
                             <td><span style="color: #4caf50;">✓ 已領取</span></td>
                         </tr>
-                        <tr>
+                        <tr onclick="showTaskDetail(6)" style="cursor: pointer;">
                             <td>首次分享商品</td>
                             <td>推廣任務</td>
                             <td>+80 分</td>
@@ -1583,21 +1583,21 @@
                             <td><span class="status-badge active">已完成</span></td>
                             <td><span style="color: #4caf50;">✓ 已領取</span></td>
                         </tr>
-                        <tr>
+                        <tr onclick="showTaskDetail(7)" style="cursor: pointer;">
                             <td>消費滿 100,000 MMK</td>
                             <td>消費任務</td>
                             <td>+500 分</td>
                             <td>62,000/100,000</td>
                             <td><span class="status-badge pending">進行中</span></td>
-                            <td><button class="action-btn edit">查看</button></td>
+                            <td><button class="action-btn edit" onclick="event.stopPropagation(); showTaskDetail(7)">查看</button></td>
                         </tr>
-                        <tr>
+                        <tr onclick="showTaskDetail(8)" style="cursor: pointer;">
                             <td>關注 5 個商家</td>
                             <td>互動任務</td>
                             <td>+120 分</td>
                             <td>3/5</td>
                             <td><span class="status-badge pending">進行中</span></td>
-                            <td><button class="action-btn edit">前往</button></td>
+                            <td><button class="action-btn edit" onclick="event.stopPropagation(); showTaskDetail(8)">前往</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -1633,7 +1633,7 @@
                         <div class="settings-label">會員等級</div>
                         <div class="settings-value">🌟 黃金會員</div>
                     </div>
-                    <button class="quick-action-btn" style="margin-top: 15px;">編輯個人資料</button>
+                    <button class="quick-action-btn" style="margin-top: 15px;" onclick="showEditProfile()">編輯個人資料</button>
                 </div>
 
                 <div class="settings-section">
@@ -1643,40 +1643,40 @@
                     </div>
                     <div class="settings-item">
                         <div class="settings-label">語言</div>
-                        <select style="padding: 8px 12px; border: 1px solid #e0e0e0; border-radius: 6px;">
-                            <option>繁體中文</option>
-                            <option>English</option>
-                            <option>မြန်မာဘာသာ (緬甸語)</option>
-                            <option>ไทย (泰語)</option>
+                        <select id="langSelect" style="padding: 8px 12px; border: 1px solid #e0e0e0; border-radius: 6px;" onchange="handleLangChange(this.value)">
+                            <option value="zh-TW">繁體中文</option>
+                            <option value="en">English</option>
+                            <option value="my">မြန်မာဘာသာ (緬甸語)</option>
+                            <option value="th">ไทย (泰語)</option>
                         </select>
                     </div>
                     <div class="settings-item">
                         <div class="settings-label">貨幣顯示</div>
-                        <select style="padding: 8px 12px; border: 1px solid #e0e0e0; border-radius: 6px;">
-                            <option>MMK (緬甸元)</option>
-                            <option>USD (美元)</option>
-                            <option>TWD (新台幣)</option>
-                            <option>THB (泰銖)</option>
+                        <select id="currencySelect" style="padding: 8px 12px; border: 1px solid #e0e0e0; border-radius: 6px;" onchange="handleCurrencyChange(this.value)">
+                            <option value="MMK">MMK (緬甸元)</option>
+                            <option value="USD">USD (美元)</option>
+                            <option value="TWD">TWD (新台幣)</option>
+                            <option value="THB">THB (泰銖)</option>
                         </select>
                     </div>
                     <div class="settings-item">
                         <div class="settings-label">訂閱電子報</div>
                         <label class="switch">
-                            <input type="checkbox" checked>
+                            <input type="checkbox" id="newsletterToggle" checked onchange="handleNewsletterToggle(this.checked)">
                             <span class="slider"></span>
                         </label>
                     </div>
                     <div class="settings-item">
                         <div class="settings-label">接收推播通知</div>
                         <label class="switch">
-                            <input type="checkbox" checked>
+                            <input type="checkbox" id="pushToggle" checked onchange="handlePushToggle(this.checked)">
                             <span class="slider"></span>
                         </label>
                     </div>
                     <div class="settings-item">
                         <div class="settings-label">接收促銷訊息</div>
                         <label class="switch">
-                            <input type="checkbox">
+                            <input type="checkbox" id="promoToggle" onchange="handlePromoToggle(this.checked)">
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -1689,12 +1689,12 @@
                     </div>
                     <div class="settings-item">
                         <div class="settings-label">密碼</div>
-                        <button class="action-btn edit">修改密碼</button>
+                        <button class="action-btn edit" onclick="handleChangePassword()">修改密碼</button>
                     </div>
                     <div class="settings-item">
                         <div class="settings-label">雙重驗證 (2FA)</div>
                         <label class="switch">
-                            <input type="checkbox">
+                            <input type="checkbox" id="twoFAToggle" onchange="handle2FAToggle(this.checked)">
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -1720,7 +1720,7 @@
                         <div class="settings-label">行動支付</div>
                         <div class="settings-value">Wave Money 已連結</div>
                     </div>
-                    <button class="quick-action-btn" style="margin-top: 15px;">管理付款方式</button>
+                    <button class="quick-action-btn" style="margin-top: 15px;" onclick="handleManagePayment()">管理付款方式</button>
                 </div>
 
                 <div class="settings-section">
@@ -1734,19 +1734,19 @@
                     </div>
                     <div class="settings-item">
                         <div class="settings-label">服務條款</div>
-                        <a href="#" style="color: #667eea;">查看</a>
+                        <a href="#" style="color: #667eea;" onclick="handleViewTerms(event)">查看</a>
                     </div>
                     <div class="settings-item">
                         <div class="settings-label">隱私政策</div>
-                        <a href="#" style="color: #667eea;">查看</a>
+                        <a href="#" style="color: #667eea;" onclick="handleViewPrivacy(event)">查看</a>
                     </div>
                     <div class="settings-item">
                         <div class="settings-label">客服中心</div>
-                        <a href="#" style="color: #667eea;">聯絡我們</a>
+                        <a href="#" style="color: #667eea;" onclick="handleContactUs(event)">聯絡我們</a>
                     </div>
                 </div>
 
-                <button class="action-btn reject" style="width: 100%; margin-top: 20px; padding: 12px;">刪除帳號</button>
+                <button class="action-btn reject" style="width: 100%; margin-top: 20px; padding: 12px;" onclick="handleDeleteAccount()">刪除帳號</button>
             </div>
             <!-- 設定視圖結束 -->
 
@@ -4426,9 +4426,14 @@
 
             // ========== 任務系統 ==========
             member_tasks: [
-                { id: 1, name: '首次購物任務', description: '完成第一筆訂單即可獲得 100 積分獎勵', task_type: '新手任務', reward_points: 100, is_active: 1, user_progress: { member_id: 1, progress: 100, status: 'completed' } },
-                { id: 2, name: '每日簽到', description: '每天登入簽到即可獲得 10 積分', task_type: '每日任務', reward_points: 10, is_active: 1, user_progress: { member_id: 1, progress: 50, status: 'in_progress' } },
-                { id: 3, name: '推薦好友', description: '推薦好友註冊並完成首次購物', task_type: '推廣任務', reward_points: 200, is_active: 1, user_progress: { member_id: 1, progress: 0, status: 'not_started' } }
+                { id: 1, name: '連續7天登入', description: '連續 7 天每日登入系統，即可獲得 50 積分獎勵', task_type: '每日任務', reward_points: 50, is_active: 1, user_progress: { member_id: 1, progress: 71, status: 'in_progress', current: 5, total: 7 } },
+                { id: 2, name: '邀請好友註冊', description: '邀請好友註冊並完成首次購物，每成功邀請 1 位好友獲得 40 積分', task_type: '推廣任務', reward_points: 200, is_active: 1, user_progress: { member_id: 1, progress: 40, status: 'in_progress', current: 2, total: 5 } },
+                { id: 3, name: '完成 3 次商品評分', description: '完成 3 次商品購買後的評分，即可獲得 100 積分獎勵', task_type: '互動任務', reward_points: 100, is_active: 1, user_progress: { member_id: 1, progress: 33, status: 'in_progress', current: 1, total: 3 } },
+                { id: 4, name: '完成首次購物', description: '完成第一筆訂單即可獲得 100 積分獎勵', task_type: '新手任務', reward_points: 100, is_active: 1, user_progress: { member_id: 1, progress: 100, status: 'claimed', current: 1, total: 1 } },
+                { id: 5, name: '完善個人資料', description: '完善個人資料（包含頭像、暱稱、手機、地址），即可獲得 50 積分獎勵', task_type: '新手任務', reward_points: 50, is_active: 1, user_progress: { member_id: 1, progress: 100, status: 'claimed', current: 1, total: 1 } },
+                { id: 6, name: '首次分享商品', description: '首次分享商品到社群媒體，即可獲得 80 積分獎勵', task_type: '推廣任務', reward_points: 80, is_active: 1, user_progress: { member_id: 1, progress: 100, status: 'claimed', current: 1, total: 1 } },
+                { id: 7, name: '消費滿 100,000 MMK', description: '累計消費金額達到 100,000 MMK，即可獲得 500 積分獎勵', task_type: '消費任務', reward_points: 500, is_active: 1, user_progress: { member_id: 1, progress: 62, status: 'in_progress', current: 62000, total: 100000 } },
+                { id: 8, name: '關注 5 個商家', description: '關注 5 個不同的商家，即可獲得 120 積分獎勵', task_type: '互動任務', reward_points: 120, is_active: 1, user_progress: { member_id: 1, progress: 60, status: 'in_progress', current: 3, total: 5 } }
             ],
 
             // ========== 當前狀態 ==========
@@ -4614,31 +4619,43 @@
             }, '取消訂單');
         }
 
-        // 任務詳情頁
-        function showTaskDetail(taskName, taskType, points, description, progress) {
-            const progressPercent = progress || 0;
+        // 任務詳情頁（從 AppData 讀取）
+        function showTaskDetail(taskId) {
+            const task = AppData.find('member_tasks', taskId);
+            if (!task) {
+                showToast('任務不存在', 'error');
+                return;
+            }
+
+            const userProgress = task.user_progress || { progress: 0, status: 'not_started' };
+            const progressPercent = userProgress.progress;
+            const status = userProgress.status;
 
             const content = `
                 <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 12px; margin-bottom: 20px;">
                     <div style="font-size: 3em; margin-bottom: 10px;">🎯</div>
-                    <h2 style="margin-bottom: 10px;">${taskName}</h2>
+                    <h2 style="margin-bottom: 10px;">${task.name}</h2>
                     <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px;">
-                        ${taskType}
+                        ${task.task_type}
                     </div>
                 </div>
 
                 <div style="background: #f9fafb; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
                     <h4 style="margin-bottom: 10px; color: #333;">🎁 任務獎勵</h4>
-                    <div style="font-size: 2em; color: #667eea; font-weight: bold;">${points} 積分</div>
+                    <div style="font-size: 2em; color: #667eea; font-weight: bold;">${task.reward_points} 積分</div>
                 </div>
 
                 <div style="margin-bottom: 20px;">
                     <h4 style="margin-bottom: 15px; color: #333;">📝 任務說明</h4>
-                    <p style="color: #666; line-height: 1.6;">${description}</p>
+                    <p style="color: #666; line-height: 1.6;">${task.description}</p>
                 </div>
 
                 <div style="margin-bottom: 20px;">
                     <h4 style="margin-bottom: 15px; color: #333;">📊 完成進度</h4>
+                    ${userProgress.current !== undefined && userProgress.total !== undefined ?
+                        `<p style="text-align: center; font-size: 1.2em; color: #667eea; font-weight: 600; margin-bottom: 10px;">
+                            ${userProgress.current} / ${userProgress.total}
+                        </p>` : ''}
                     <div style="background: #e5e7eb; height: 24px; border-radius: 12px; overflow: hidden;">
                         <div style="background: linear-gradient(135deg, #667eea, #764ba2); height: 100%; width: ${progressPercent}%; transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.85em; font-weight: 600;">
                             ${progressPercent}%
@@ -4647,53 +4664,120 @@
                 </div>
             `;
 
-            const footer = progressPercent === 100
-                ? `<button class="btn-primary" onclick="handleClaimReward('${taskName}', ${points})">領取獎勵</button>`
-                : progressPercent === 0
-                ? `<button class="btn-primary" onclick="handleAcceptTask('${taskName}')">接取任務</button>`
-                : `<button class="btn-primary" onclick="closeModal()">繼續努力</button>`;
+            let footer = '';
+            if (status === 'completed') {
+                footer = `<button class="btn-primary" onclick="handleClaimReward(${taskId})">領取獎勵</button>`;
+            } else if (status === 'claimed') {
+                footer = `<div style="text-align: center; padding: 20px; color: #4caf50; font-weight: 600; font-size: 1.1em;">
+                    ✓ 獎勵已領取
+                </div>`;
+            } else if (status === 'not_started') {
+                footer = `<button class="btn-primary" onclick="handleAcceptTask(${taskId})">接取任務</button>`;
+            } else {
+                footer = `<button class="btn-primary" onclick="closeModal()">繼續努力</button>`;
+            }
 
             showModal('🎯 任務詳情', content, footer);
         }
 
-        // 接取任務
-        function handleAcceptTask(taskName) {
-            closeModal();
-            setTimeout(() => {
-                showToast(`已接取任務「${taskName}」！`, 'success');
-            }, 300);
+        // 接取任務（實際更新數據）
+        function handleAcceptTask(taskId) {
+            const task = AppData.find('member_tasks', taskId);
+            if (task) {
+                // 更新任務狀態為進行中
+                task.user_progress = { member_id: 1, progress: 10, status: 'in_progress' };
+                AppData.save();
+
+                closeModal();
+                setTimeout(() => {
+                    showToast(`已接取任務「${task.name}」！`, 'success');
+                    // 可以在這裡重新渲染任務列表
+                }, 300);
+            }
         }
 
-        // 領取獎勵
-        function handleClaimReward(taskName, points) {
-            closeModal();
-            setTimeout(() => {
-                showToast(`恭喜完成任務！獲得 ${points} 積分 🎉`, 'success');
-            }, 300);
+        // 領取獎勵（實際更新數據）
+        function handleClaimReward(taskId) {
+            const task = AppData.find('member_tasks', taskId);
+            if (task) {
+                // 更新用戶積分
+                if (AppData.users[0]) {
+                    AppData.users[0].points += task.reward_points;
+                }
+
+                // 標記任務為已領取
+                task.user_progress.status = 'claimed';
+                AppData.save();
+
+                closeModal();
+                setTimeout(() => {
+                    showToast(`恭喜完成任務！獲得 ${task.reward_points} 積分 🎉`, 'success');
+                    // 更新頁面上的積分顯示
+                    updatePointsDisplay();
+                }, 300);
+            }
         }
 
-        // 設定編輯頁面
+        // 更新積分顯示
+        function updatePointsDisplay() {
+            const pointsElements = document.querySelectorAll('[data-user-points]');
+            const userPoints = AppData.users[0]?.points || 0;
+            pointsElements.forEach(el => {
+                el.textContent = userPoints;
+            });
+        }
+
+        // 設定編輯頁面（從 AppData 讀取當前用戶資料）
         function showEditProfile() {
+            const user = AppData.users[0]; // 假設當前登入的是第一個用戶
+            if (!user) {
+                showToast('用戶資料不存在', 'error');
+                return;
+            }
+
             const content = `
-                <form id="profileForm" onsubmit="handleSaveProfile(event)">
+                <form id="profileForm">
                     <div class="form-group">
-                        <label class="form-label">姓名</label>
-                        <input type="text" class="form-input" value="林小明" placeholder="請輸入姓名">
+                        <label class="form-label">暱稱</label>
+                        <input type="text" id="nickname" class="form-input" value="${user.nickname}" placeholder="請輸入暱稱">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">電子信箱</label>
-                        <input type="email" class="form-input" value="ming@example.com" placeholder="請輸入電子信箱">
+                        <input type="email" id="email" class="form-input" value="${user.email}" placeholder="請輸入電子信箱">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">手機號碼</label>
-                        <input type="tel" class="form-input" value="09xx-xxx-xxx" placeholder="請輸入手機號碼">
+                        <input type="tel" id="phone" class="form-input" value="${user.phone_number}" placeholder="請輸入手機號碼">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">地區</label>
+                        <input type="text" id="region" class="form-input" value="${user.region || ''}" placeholder="請輸入地區">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">地址</label>
-                        <input type="text" class="form-input" value="仰光市中心區..." placeholder="請輸入地址">
+                        <input type="text" id="address" class="form-input" value="${user.address || ''}" placeholder="請輸入地址">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">偏好語言</label>
+                        <select id="lang" class="form-select">
+                            <option value="zh-TW" ${user.preferences?.lang === 'zh-TW' ? 'selected' : ''}>繁體中文</option>
+                            <option value="my-MM" ${user.preferences?.lang === 'my-MM' ? 'selected' : ''}>緬甸語</option>
+                            <option value="en-US" ${user.preferences?.lang === 'en-US' ? 'selected' : ''}>English</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">偏好貨幣</label>
+                        <select id="currency" class="form-select">
+                            <option value="MMK" ${user.preferences?.currency === 'MMK' ? 'selected' : ''}>MMK (緬甸元)</option>
+                            <option value="TWD" ${user.preferences?.currency === 'TWD' ? 'selected' : ''}>TWD (新台幣)</option>
+                            <option value="USD" ${user.preferences?.currency === 'USD' ? 'selected' : ''}>USD (美元)</option>
+                        </select>
                     </div>
                 </form>
             `;
@@ -4706,12 +4790,309 @@
             showModal('✏️ 編輯個人資料', content, footer);
         }
 
-        // 儲存個人資料
+        // 儲存個人資料（實際更新數據）
         function handleSaveProfile() {
+            const user = AppData.users[0];
+            if (!user) return;
+
+            // 讀取表單數據
+            const nickname = document.getElementById('nickname')?.value;
+            const email = document.getElementById('email')?.value;
+            const phone = document.getElementById('phone')?.value;
+            const region = document.getElementById('region')?.value;
+            const address = document.getElementById('address')?.value;
+            const lang = document.getElementById('lang')?.value;
+            const currency = document.getElementById('currency')?.value;
+
+            // 更新用戶數據
+            AppData.update('users', user.id, {
+                nickname,
+                email,
+                phone_number: phone,
+                region,
+                address,
+                preferences: {
+                    ...user.preferences,
+                    lang,
+                    currency
+                }
+            });
+
             closeModal();
             setTimeout(() => {
                 showToast('個人資料已更新！', 'success');
             }, 300);
+        }
+
+        // 語言變更處理
+        function handleLangChange(lang) {
+            const user = AppData.users[0];
+            if (user) {
+                AppData.update('users', user.id, {
+                    preferences: {
+                        ...user.preferences,
+                        lang
+                    }
+                });
+                showToast(`語言已切換為 ${document.getElementById('langSelect').selectedOptions[0].text}`, 'success');
+            }
+        }
+
+        // 貨幣變更處理
+        function handleCurrencyChange(currency) {
+            const user = AppData.users[0];
+            if (user) {
+                AppData.update('users', user.id, {
+                    preferences: {
+                        ...user.preferences,
+                        currency
+                    }
+                });
+                showToast(`貨幣已切換為 ${currency}`, 'success');
+            }
+        }
+
+        // 電子報訂閱切換
+        function handleNewsletterToggle(checked) {
+            const user = AppData.users[0];
+            if (user) {
+                AppData.update('users', user.id, {
+                    preferences: {
+                        ...user.preferences,
+                        newsletter: checked
+                    }
+                });
+                showToast(checked ? '已開啟電子報訂閱' : '已關閉電子報訂閱', 'success');
+            }
+        }
+
+        // 推播通知切換
+        function handlePushToggle(checked) {
+            const user = AppData.users[0];
+            if (user) {
+                AppData.update('users', user.id, {
+                    preferences: {
+                        ...user.preferences,
+                        push_notifications: checked
+                    }
+                });
+                showToast(checked ? '已開啟推播通知' : '已關閉推播通知', 'success');
+            }
+        }
+
+        // 促銷訊息切換
+        function handlePromoToggle(checked) {
+            const user = AppData.users[0];
+            if (user) {
+                AppData.update('users', user.id, {
+                    preferences: {
+                        ...user.preferences,
+                        promotional_messages: checked
+                    }
+                });
+                showToast(checked ? '已開啟促銷訊息' : '已關閉促銷訊息', 'success');
+            }
+        }
+
+        // 雙重驗證切換
+        function handle2FAToggle(checked) {
+            if (checked) {
+                showConfirm(
+                    '啟用雙重驗證後，每次登入都需要輸入驗證碼。是否確定啟用？',
+                    () => {
+                        const user = AppData.users[0];
+                        if (user) {
+                            AppData.update('users', user.id, {
+                                preferences: {
+                                    ...user.preferences,
+                                    two_factor_auth: true
+                                }
+                            });
+                            showToast('雙重驗證已啟用 🔐', 'success');
+                        }
+                    },
+                    '啟用雙重驗證'
+                );
+            } else {
+                const user = AppData.users[0];
+                if (user) {
+                    AppData.update('users', user.id, {
+                        preferences: {
+                            ...user.preferences,
+                            two_factor_auth: false
+                        }
+                    });
+                    showToast('雙重驗證已關閉', 'info');
+                }
+            }
+        }
+
+        // 修改密碼
+        function handleChangePassword() {
+            const content = `
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: #666;">舊密碼</label>
+                    <input type="password" id="oldPassword" style="width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px;" placeholder="請輸入舊密碼">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: #666;">新密碼</label>
+                    <input type="password" id="newPassword" style="width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px;" placeholder="請輸入新密碼">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: #666;">確認新密碼</label>
+                    <input type="password" id="confirmPassword" style="width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px;" placeholder="請再次輸入新密碼">
+                </div>
+                <div style="background: #f0f9ff; padding: 12px; border-radius: 8px; color: #0369a1; font-size: 0.9em;">
+                    💡 密碼須包含至少 8 個字元，建議包含大小寫字母、數字和特殊符號
+                </div>
+            `;
+
+            const footer = `
+                <button class="btn-secondary" onclick="closeModal()" style="margin-right: 10px;">取消</button>
+                <button class="btn-primary" onclick="handleSavePassword()">確認修改</button>
+            `;
+
+            showModal('🔒 修改密碼', content, footer);
+        }
+
+        function handleSavePassword() {
+            const oldPassword = document.getElementById('oldPassword')?.value;
+            const newPassword = document.getElementById('newPassword')?.value;
+            const confirmPassword = document.getElementById('confirmPassword')?.value;
+
+            if (!oldPassword || !newPassword || !confirmPassword) {
+                showToast('請填寫所有欄位', 'error');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                showToast('新密碼與確認密碼不符', 'error');
+                return;
+            }
+
+            if (newPassword.length < 8) {
+                showToast('密碼長度至少需要 8 個字元', 'error');
+                return;
+            }
+
+            // 模擬密碼更新
+            closeModal();
+            setTimeout(() => {
+                showToast('密碼已成功修改！', 'success');
+            }, 300);
+        }
+
+        // 管理付款方式
+        function handleManagePayment() {
+            const content = `
+                <div style="margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 15px; color: #333;">💳 已綁定的付款方式</h4>
+                    <div style="background: #f9fafb; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #667eea;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 5px;">Visa 信用卡</div>
+                                <div style="color: #666; font-size: 0.9em;">•••• •••• •••• 4567</div>
+                            </div>
+                            <button class="action-btn reject" style="padding: 6px 12px;">解除綁定</button>
+                        </div>
+                    </div>
+                    <div style="background: #f9fafb; padding: 15px; border-radius: 8px; border-left: 4px solid #4caf50;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 5px;">Wave Money</div>
+                                <div style="color: #666; font-size: 0.9em;">+95 9 123 456 789</div>
+                            </div>
+                            <button class="action-btn reject" style="padding: 6px 12px;">解除綁定</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-primary" style="width: 100%;">➕ 新增付款方式</button>
+            `;
+
+            showModal('💳 管理付款方式', content);
+        }
+
+        // 查看服務條款
+        function handleViewTerms(e) {
+            e.preventDefault();
+            const content = `
+                <div style="max-height: 400px; overflow-y: auto; padding: 20px; background: #f9fafb; border-radius: 8px;">
+                    <h4>服務條款</h4>
+                    <p style="color: #666; line-height: 1.8;">
+                        歡迎使用 myanLife 平台服務。請仔細閱讀以下條款：<br><br>
+                        1. 使用者需年滿 18 歲或經監護人同意<br>
+                        2. 平台保留修改服務內容的權利<br>
+                        3. 使用者需遵守當地法律法規<br>
+                        4. 禁止發布非法或不當內容<br>
+                        5. 平台不對第三方商家行為負責<br><br>
+                        最後更新時間：2025-11-18
+                    </p>
+                </div>
+            `;
+            showModal('📄 服務條款', content);
+        }
+
+        // 查看隱私政策
+        function handleViewPrivacy(e) {
+            e.preventDefault();
+            const content = `
+                <div style="max-height: 400px; overflow-y: auto; padding: 20px; background: #f9fafb; border-radius: 8px;">
+                    <h4>隱私政策</h4>
+                    <p style="color: #666; line-height: 1.8;">
+                        我們重視您的隱私權，以下說明我們如何收集和使用您的資料：<br><br>
+                        <strong>收集的資料：</strong><br>
+                        - 基本個人資料（姓名、電子郵件、手機號碼）<br>
+                        - 交易記錄和訂單資訊<br>
+                        - 裝置資訊和使用行為<br><br>
+                        <strong>資料使用目的：</strong><br>
+                        - 提供和改善服務<br>
+                        - 處理交易和訂單<br>
+                        - 發送重要通知和行銷訊息（經同意）<br><br>
+                        <strong>資料保護：</strong><br>
+                        我們採用業界標準的安全措施保護您的資料，絕不會將您的個人資料出售給第三方。<br><br>
+                        最後更新時間：2025-11-18
+                    </p>
+                </div>
+            `;
+            showModal('🔒 隱私政策', content);
+        }
+
+        // 聯絡客服
+        function handleContactUs(e) {
+            e.preventDefault();
+            const content = `
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 3em; margin-bottom: 15px;">💬</div>
+                    <h4 style="margin-bottom: 20px;">我們隨時為您服務</h4>
+                    <div style="background: #f9fafb; padding: 20px; border-radius: 8px; margin-bottom: 15px; text-align: left;">
+                        <div style="margin-bottom: 15px;">
+                            <div style="color: #666; margin-bottom: 5px;">📧 電子郵件</div>
+                            <div style="font-weight: 600; color: #667eea;">support@myanlife.com</div>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <div style="color: #666; margin-bottom: 5px;">📞 客服專線</div>
+                            <div style="font-weight: 600; color: #667eea;">+95-1-234-5678</div>
+                        </div>
+                        <div>
+                            <div style="color: #666; margin-bottom: 5px;">⏰ 服務時間</div>
+                            <div style="font-weight: 600;">週一至週五 9:00 - 18:00 (GMT+6:30)</div>
+                        </div>
+                    </div>
+                    <button class="btn-primary" style="width: 100%;">開啟線上客服</button>
+                </div>
+            `;
+            showModal('📞 客服中心', content);
+        }
+
+        // 刪除帳號
+        function handleDeleteAccount() {
+            showConfirm(
+                '刪除帳號後，您的所有資料將永久移除且無法復原。此操作包括：\n\n• 個人資料和偏好設定\n• 訂單記錄\n• 積分和優惠券\n• 商家關注和評價\n\n確定要刪除帳號嗎？',
+                () => {
+                    showToast('帳號刪除請求已送出，我們將在 7 個工作天內處理', 'info');
+                },
+                '⚠️ 刪除帳號'
+            );
         }
     </script>
 </body>
