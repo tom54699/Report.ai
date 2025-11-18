@@ -27,6 +27,10 @@
       box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
 
+    header {
+      margin-bottom: 30px;
+    }
+
     .back-btn {
       display: inline-block;
       padding: 10px 20px;
@@ -391,10 +395,11 @@
 </head>
 <body>
   <div class="page">
-    <a href="architecture.html" class="back-btn">← 返回架構圖</a>
-
-    <h1>SSO 正統做法 vs 過渡方案</h1>
-    <h2>Central Identity Provider 與「中央會員 + 各系統本地帳號 / JIT 開帳」對照</h2>
+    <header>
+      <a href="architecture.html" class="back-btn">← 返回架構圖</a>
+      <h1>SSO 正統做法 vs 過渡方案</h1>
+      <h2>Central Identity Provider 與「中央會員 + 各系統本地帳號 / JIT 開帳」對照</h2>
+    </header>
 
     <div class="legend">
       <span><span class="legend-tag legend-sso"></span> 正統 SSO / IdP 模式</span>
