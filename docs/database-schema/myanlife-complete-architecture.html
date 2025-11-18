@@ -1095,6 +1095,107 @@
                     </div>
                 </div>
 
+                <!-- 用戶與商家偏好設定 -->
+                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h3 style="color: #10b981; margin-bottom: 20px; border-bottom: 3px solid #10b981; padding-bottom: 10px;">⚙️ 用戶與商家偏好設定</h3>
+                    <div style="display: flex; gap: 40px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                        <div style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 25px; border-radius: 15px; min-width: 250px;">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">⚙️ user_preferences</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">會員偏好設定表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔑 id (PK)</div>
+                                <div>🔗 user_id (FK, UQ)</div>
+                                <div>💱 currency</div>
+                                <div>🌐 lang</div>
+                                <div style="opacity: 0.7;">+ 3 more...</div>
+                            </div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #059669, #047857); color: white; padding: 25px; border-radius: 15px; min-width: 250px;">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">⚙️ merchant_preferences</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">商家偏好設定表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔑 id (PK)</div>
+                                <div>🔗 merchant_id (FK, UQ)</div>
+                                <div>💱 currency</div>
+                                <div>🌐 lang</div>
+                                <div style="opacity: 0.7;">+ 3 more...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 管理員系統 -->
+                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h3 style="color: #f59e0b; margin-bottom: 20px; border-bottom: 3px solid #f59e0b; padding-bottom: 10px;">👨‍💼 管理員系統</h3>
+                    <div style="display: flex; gap: 40px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                        <div style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 25px; border-radius: 15px; min-width: 280px;">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">👨‍💼 admins</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">管理員表(各國運營團隊)</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔑 id (PK)</div>
+                                <div>📧 email (UQ)</div>
+                                <div>🌍 country_iso</div>
+                                <div>🏢 department</div>
+                                <div>👑 is_super_admin</div>
+                                <div style="opacity: 0.7;">+ 14 more...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 權限管理系統 (Laravel Permission) -->
+                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h3 style="color: #8b5cf6; margin-bottom: 20px; border-bottom: 3px solid #8b5cf6; padding-bottom: 10px;">🔒 權限管理系統 (Laravel Permission)</h3>
+                    <div style="display: flex; gap: 40px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                        <div style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; padding: 25px; border-radius: 15px; min-width: 220px;">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">👥 roles</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">角色表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔑 id (PK)</div>
+                                <div>📛 name</div>
+                                <div>🛡️ guard_name</div>
+                                <div style="opacity: 0.7;">+ 2 more...</div>
+                            </div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #7c3aed, #6d28d9); color: white; padding: 25px; border-radius: 15px; min-width: 220px;">
+                            <h4 style="margin-bottom: 15px; font-size: 1.3em;">🔑 permissions</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">權限表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔑 id (PK)</div>
+                                <div>📛 name</div>
+                                <div>🛡️ guard_name</div>
+                                <div style="opacity: 0.7;">+ 2 more...</div>
+                            </div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #6d28d9, #5b21b6); color: white; padding: 25px; border-radius: 15px; min-width: 240px;">
+                            <h4 style="margin-bottom: 15px; font-size: 1.2em;">🔐 model_has_permissions</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">模型擁有權限表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔗 permission_id (PK, FK)</div>
+                                <div>📦 model_type (PK)</div>
+                                <div>🔢 model_id (PK)</div>
+                            </div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #5b21b6, #4c1d95); color: white; padding: 25px; border-radius: 15px; min-width: 240px;">
+                            <h4 style="margin-bottom: 15px; font-size: 1.2em;">👔 model_has_roles</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">模型擁有角色表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔗 role_id (PK, FK)</div>
+                                <div>📦 model_type (PK)</div>
+                                <div>🔢 model_id (PK)</div>
+                            </div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #4c1d95, #3b0764); color: white; padding: 25px; border-radius: 15px; min-width: 240px;">
+                            <h4 style="margin-bottom: 15px; font-size: 1.2em;">🔗 role_has_permissions</h4>
+                            <div style="font-size: 0.9em; opacity: 0.9;">角色擁有權限表</div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.95em;">
+                                <div>🔗 permission_id (PK, FK)</div>
+                                <div>🔗 role_id (PK, FK)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div style="background: #fff5e6; padding: 25px; border-radius: 15px; margin-top: 30px; border-left: 5px solid #ed8936;">
                     <h3 style="color: #dd6b20; margin-bottom: 15px;">📝 關聯說明</h3>
                     <ul style="line-height: 2; color: #666;">
