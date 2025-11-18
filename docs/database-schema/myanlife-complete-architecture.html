@@ -1668,6 +1668,95 @@
                     <!-- users -->
                     <div class="table-card" data-table="users">
                         <div class="table-header">users</div>
+                        <div class="table-description">會員表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">主鍵</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">member_id</span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">中央會員系統ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">email</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">會員信箱(登入帳號)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">nickname</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">暱稱</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">password_hash</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">密碼雜湊值</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">gender</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">性別</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">birthday</span>
+                                <span class="field-type">DATE</span>
+                                <span class="field-comment">生日</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">nationality_iso</span>
+                                <span class="field-type">CHAR(2)</span>
+                                <span class="field-comment">國籍代碼(ISO 3166-1 alpha-2)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">phone_country_iso <span class="badge badge-index">IDX</span></span>
+                                <span class="field-type">CHAR(2)</span>
+                                <span class="field-comment">電話國碼(ISO 3166-1 alpha-2)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">phone_number <span class="badge badge-index">IDX</span></span>
+                                <span class="field-type">VARCHAR(30)</span>
+                                <span class="field-comment">聯絡電話(不含國碼)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">region</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">區域</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">address</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">地址</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">preferences</span>
+                                <span class="field-type">JSON</span>
+                                <span class="field-comment">偏好設定</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">is_active <span class="badge badge-index">IDX</span></span>
+                                <span class="field-type">TINYINT(1)</span>
+                                <span class="field-comment">是否啟用(0:否 1:是)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">registered_at <span class="badge badge-index">IDX</span></span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">註冊時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
 
                     <!-- merchants -->
                     <div class="table-card" data-table="merchants">
@@ -3179,95 +3268,6 @@
                                 <span class="field-name">is_anonymous</span>
                                 <span class="field-type">TINYINT(1)</span>
                                 <span class="field-comment">是否匿名(0:否 1:是)</span>
-                            </li>
-                            <li class="field-item">
-                                <span class="field-name">created_at</span>
-                                <span class="field-type">TIMESTAMP</span>
-                                <span class="field-comment">建立時間</span>
-                            </li>
-                            <li class="field-item">
-                                <span class="field-name">updated_at</span>
-                                <span class="field-type">TIMESTAMP</span>
-                                <span class="field-comment">更新時間</span>
-                            </li>
-                        </ul>
-                    </div>
-                        <div class="table-description">會員表</div>
-                        <ul class="field-list">
-                            <li class="field-item">
-                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
-                                <span class="field-type">BIGINT UNSIGNED</span>
-                                <span class="field-comment">主鍵</span>
-                            </li>
-                            <li class="field-item">
-                                <span class="field-name">member_id <span class="badge badge-index">IDX</span></span>
-                                <span class="field-type">BIGINT UNSIGNED</span>
-                                <span class="field-comment">中央會員系統ID</span>
-                            </li>
-                            <li class="field-item">
-                                <span class="field-name">email</span>
-                                <span class="field-type">VARCHAR(255)</span>
-                                <span class="field-comment">會員信箱(登入帳號)</span>
-                            </li>
-                            <li class="field-item">
-                                <span class="field-name">nickname</span>
-                                <span class="field-type">VARCHAR(100)</span>
-                                <span class="field-comment">暱稱</span>
-                            </li>
-                            <li class="field-item">
-                                <span class="field-name">password_hash</span>
-                                <span class="field-type">VARCHAR(255)</span>
-                                <span class="field-comment">密碼雜湊值</span>
-                            </li>
-                            <li class="field-item">
-                                <span class="field-name">gender</span>
-                                <span class="field-type">VARCHAR(20)</span>
-                                <span class="field-comment">性別</span>
-                            </li>
-                            <li class="field-item">
-                                <span class="field-name">birthday</span>
-                                <span class="field-type">DATE</span>
-                                <span class="field-comment">生日</span>
-                            </li>
-                            <li class="field-item">
-                                <span class="field-name">nationality_iso</span>
-                                <span class="field-type">CHAR(2)</span>
-                                <span class="field-comment">國籍代碼</span>
-                            </li>
-                            <li class="field-item">
-                                <span class="field-name">phone_country_iso</span>
-                                <span class="field-type">CHAR(2)</span>
-                                <span class="field-comment">電話國碼</span>
-                            </li>
-                            <li class="field-item">
-                                <span class="field-name">phone_number <span class="badge badge-index">IDX</span></span>
-                                <span class="field-type">VARCHAR(30)</span>
-                                <span class="field-comment">聯絡電話(不含國碼)</span>
-                            </li>
-                            <li class="field-item">
-                                <span class="field-name">region</span>
-                                <span class="field-type">VARCHAR(100)</span>
-                                <span class="field-comment">區域</span>
-                            </li>
-                            <li class="field-item">
-                                <span class="field-name">address</span>
-                                <span class="field-type">VARCHAR(255)</span>
-                                <span class="field-comment">地址</span>
-                            </li>
-                            <li class="field-item">
-                                <span class="field-name">preferences</span>
-                                <span class="field-type">JSON</span>
-                                <span class="field-comment">偏好設定</span>
-                            </li>
-                            <li class="field-item">
-                                <span class="field-name">is_active <span class="badge badge-index">IDX</span></span>
-                                <span class="field-type">TINYINT(1)</span>
-                                <span class="field-comment">是否啟用</span>
-                            </li>
-                            <li class="field-item">
-                                <span class="field-name">registered_at <span class="badge badge-index">IDX</span></span>
-                                <span class="field-type">TIMESTAMP</span>
-                                <span class="field-comment">註冊時間</span>
                             </li>
                             <li class="field-item">
                                 <span class="field-name">created_at</span>
