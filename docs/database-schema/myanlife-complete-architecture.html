@@ -432,7 +432,151 @@
                         <div class="table-description">會員表</div>
                         <ul class="field-list">
                             <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">18 個</span></li>
-                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">被 member_task_logs 引用</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">被 member_task_logs, orders, user_products 引用</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">merchants</div>
+                        <div class="table-description">商家主表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">28 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">被 stores, products, orders, merchant_task_logs 引用</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">stores</div>
+                        <div class="table-description">店家表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">23 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 merchants；被 product_stores, user_products, redemptions 引用</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">product_categories</div>
+                        <div class="table-description">商品分類表（管理員管理）</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">8 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">被 products 引用</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">products</div>
+                        <div class="table-description">商品主表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">52 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 merchants, product_categories；被所有商品子表、product_stores、order_items 等引用</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">food_products</div>
+                        <div class="table-description">美食優惠券子表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">7 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 products</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">travel_products</div>
+                        <div class="table-description">旅遊優惠券子表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">8 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 products</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">hotel_products</div>
+                        <div class="table-description">住宿優惠券子表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">10 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 products</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">entertainment_products</div>
+                        <div class="table-description">休閒娛樂優惠券子表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">8 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 products</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">product_stores</div>
+                        <div class="table-description">商品與店家關聯表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">4 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 products, stores</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">orders</div>
+                        <div class="table-description">訂單主表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">22 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 users, merchants；被 order_items, payments, order_status_logs, user_products 引用</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">order_items</div>
+                        <div class="table-description">訂單明細表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">9 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 orders, products, promo_codes</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">payments</div>
+                        <div class="table-description">支付記錄表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">12 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 orders</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">order_status_logs</div>
+                        <div class="table-description">訂單狀態記錄表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">10 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 orders</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">user_products</div>
+                        <div class="table-description">用戶持有商品表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">16 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 users, products, orders, stores；被 redemptions 引用</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">redemptions</div>
+                        <div class="table-description">核銷記錄表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">12 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 user_products, users, products, stores</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">promo_codes</div>
+                        <div class="table-description">折扣碼表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">16 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 products；被 order_items 引用</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">product_reviews</div>
+                        <div class="table-description">商品審核記錄表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">8 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 products</span></li>
+                        </ul>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-header">product_ratings</div>
+                        <div class="table-description">商品評分表</div>
+                        <ul class="field-list">
+                            <li class="field-item"><span class="field-name">欄位數</span><span class="field-comment">10 個</span></li>
+                            <li class="field-item"><span class="field-name">關聯</span><span class="field-comment">引用 products, users, orders</span></li>
                         </ul>
                     </div>
                 </div>
