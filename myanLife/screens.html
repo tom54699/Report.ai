@@ -2517,6 +2517,49 @@
                 </div>
             </div>
 
+            </div>
+            <!-- 儀表板視圖結束 -->
+
+            <!-- 會員管理視圖 -->
+            <div id="operationMembers" class="content-view">
+                <h3 style="margin-bottom: 15px; color: #333;">👥 會員管理</h3>
+                <div class="info-note">
+                    此頁面用於管理所有會員資料 (users表)、會員偏好設定 (user_preferences表)，包含查看、編輯、停用會員等功能。
+                </div>
+            </div>
+
+            <!-- 商家管理視圖 -->
+            <div id="operationMerchants" class="content-view">
+                <h3 style="margin-bottom: 15px; color: #333;">🏪 商家管理</h3>
+                <div class="info-note">
+                    此頁面用於管理所有商家 (merchants表)、店鋪 (stores表)、商家偏好設定 (merchant_preferences表)，包含審核、編輯、停用商家等功能。
+                </div>
+            </div>
+
+            <!-- 商品審核視圖 -->
+            <div id="operationProducts" class="content-view">
+                <h3 style="margin-bottom: 15px; color: #333;">🔍 商品審核</h3>
+                <div class="info-note">
+                    此頁面用於審核商家提交的商品 (products表及4種子表)，包含審核通過、拒絕、要求修改等功能。審核通過後商品才會上架顯示。
+                </div>
+            </div>
+
+            <!-- 內容管理視圖 -->
+            <div id="operationCMS" class="content-view">
+                <h3 style="margin-bottom: 15px; color: #333;">📰 內容管理系統 (CMS)</h3>
+                <div class="info-note">
+                    此頁面用於管理平台所有內容，包含：橫幅廣告 (banners)、新聞公告 (news)、黃頁 (yellow_pages)、慈善活動 (charity_activities)、職缺 (vacancies)、商品評論審核 (product_reviews)。
+                </div>
+            </div>
+
+            <!-- 權限管理視圖 -->
+            <div id="operationPermissions" class="content-view">
+                <h3 style="margin-bottom: 15px; color: #333;">🔐 權限管理</h3>
+                <div class="info-note">
+                    此頁面用於管理管理員帳號 (admins表)、角色 (roles表)、權限 (permissions表)，使用 Laravel Permission 套件進行細緻化的權限控管。
+                </div>
+            </div>
+
             <div class="info-note">
                 <strong>💡 運營後台功能：</strong>基於 admins 表，使用 email + country_iso 登入對應國家的管理後台。依據國家管理該國的所有業務資料。<br>
                 <strong>🔵 核心管理：</strong>會員管理 (users, user_preferences)、商家管理 (merchants, stores, merchant_preferences)、管理員管理 (admins)、權限控管 (roles, permissions, model_has_roles, model_has_permissions, role_has_permissions - Laravel Permission 套件)。<br>
@@ -2552,10 +2595,10 @@
                     <span>中央後台系統</span>
                 </div>
                 <div class="mockup-nav">
-                    <div class="nav-item active">跨國儀表板</div>
-                    <div class="nav-item">營收報表</div>
-                    <div class="nav-item">數據分析</div>
-                    <div class="nav-item">系統監控</div>
+                    <div class="nav-item active" onclick="switchCentralView('dashboard')">跨國儀表板</div>
+                    <div class="nav-item" onclick="switchCentralView('revenue')">營收報表</div>
+                    <div class="nav-item" onclick="switchCentralView('analytics')">數據分析</div>
+                    <div class="nav-item" onclick="switchCentralView('monitoring')">系統監控</div>
                     <div class="user-info">
                         <div class="avatar">C</div>
                         <span>Central Admin</span>
@@ -2564,7 +2607,9 @@
                 </div>
             </div>
 
-            <div class="country-selector">
+            <!-- 跨國儀表板視圖 -->
+            <div id="centralDashboard" class="content-view active">
+                <div class="country-selector">
                 <button class="country-btn active">🌍 全部國家</button>
                 <button class="country-btn">🇹🇼 台灣</button>
                 <button class="country-btn">🇲🇲 緬甸</button>
@@ -2682,6 +2727,33 @@
                     <button class="quick-action-btn">🇲🇲 登入緬甸運營後台</button>
                     <button class="quick-action-btn">🇹🇭 登入泰國運營後台</button>
                     <button class="quick-action-btn">🇻🇳 登入越南運營後台</button>
+                </div>
+            </div>
+
+            </div>
+            <!-- 跨國儀表板視圖結束 -->
+
+            <!-- 營收報表視圖 -->
+            <div id="centralRevenue" class="content-view">
+                <h3 style="margin-bottom: 15px; color: #333;">💰 營收報表</h3>
+                <div class="info-note">
+                    此頁面用於查看各國詳細的營收報表，包含月報、季報、年報，支援匯出 Excel/PDF 格式。可查看各國營收趨勢、成長率、收益分析等數據。
+                </div>
+            </div>
+
+            <!-- 數據分析視圖 -->
+            <div id="centralAnalytics" class="content-view">
+                <h3 style="margin-bottom: 15px; color: #333;">📊 數據分析</h3>
+                <div class="info-note">
+                    此頁面用於跨國數據分析，包含用戶行為分析、商品銷售分析、市場趨勢分析等。支援自訂義報表、數據視覺化圖表、數據匯出等功能。
+                </div>
+            </div>
+
+            <!-- 系統監控視圖 -->
+            <div id="centralMonitoring" class="content-view">
+                <h3 style="margin-bottom: 15px; color: #333;">🖥️ 系統監控</h3>
+                <div class="info-note">
+                    此頁面用於監控各國系統運行狀態，包含伺服器狀態、資料庫連接、API 回應時間、錯誤日誌等。即時監控系統健康度，確保平台穩定運行。
                 </div>
             </div>
 
