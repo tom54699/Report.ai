@@ -1672,6 +1672,1530 @@
                     <!-- users -->
                     <div class="table-card" data-table="users">
                         <div class="table-header">users</div>
+
+                    <!-- merchants -->
+                    <div class="table-card" data-table="merchants">
+                        <div class="table-header">merchants</div>
+                        <div class="table-description">商家主表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">商家 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">account_email</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">商家帳號信箱</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">password_hash</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">密碼雜湊</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">merchant_name</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">公司/商家名稱</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">owner_name</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">負責人姓名</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">category</span>
+                                <span class="field-type">VARCHAR(50)</span>
+                                <span class="field-comment">商家類型(travel/food/hotel/entertainment)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">contact_person</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">聯絡人</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">contact_phone_country_iso</span>
+                                <span class="field-type">CHAR(2)</span>
+                                <span class="field-comment">聯絡電話國碼(ISO 3166-1 alpha-2)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">contact_phone</span>
+                                <span class="field-type">VARCHAR(50)</span>
+                                <span class="field-comment">聯絡電話</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">contact_email</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">聯絡信箱</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">fb_link</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">Facebook 連結</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">line_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">Line ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">website</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">官方網站</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">has_license</span>
+                                <span class="field-type">TINYINT(1)</span>
+                                <span class="field-comment">是否有營業執照(0:否 1:是)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">license_number</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">營業執照號碼</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">license_image</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">營業執照圖片</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">store_type</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">單店/連鎖(single/chain)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">logo_image</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">商家 Logo</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">banner_image</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">橫幅圖片</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">intro_text</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">商家簡介</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">commission_rate</span>
+                                <span class="field-type">DECIMAL(5,2)</span>
+                                <span class="field-comment">平台抽成比例(%)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">settlement_cycle</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">結算週期(weekly/monthly)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">bank_account</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">收款帳號</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">status</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">審核狀態(pending/approved/rejected/suspended)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">is_active</span>
+                                <span class="field-type">TINYINT(1)</span>
+                                <span class="field-comment">是否啟用(0:否 1:是)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">deleted_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">刪除時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- stores -->
+                    <div class="table-card" data-table="stores">
+                        <div class="table-header">stores</div>
+                        <div class="table-description">店家表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">店家 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">merchant_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">所屬商家 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">store_name</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">店家名稱</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">store_code</span>
+                                <span class="field-type">VARCHAR(50)</span>
+                                <span class="field-comment">店家代碼(分店編號)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">country_iso</span>
+                                <span class="field-type">CHAR(2)</span>
+                                <span class="field-comment">國家代碼(ISO 3166-1 alpha-2)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">region</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">地區/城市</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">address</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">詳細地址</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">google_map_url</span>
+                                <span class="field-type">VARCHAR(500)</span>
+                                <span class="field-comment">Google Map 連結</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">latitude</span>
+                                <span class="field-type">DECIMAL(10,8)</span>
+                                <span class="field-comment">緯度</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">longitude</span>
+                                <span class="field-type">DECIMAL(11,8)</span>
+                                <span class="field-comment">經度</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">phone_country_iso</span>
+                                <span class="field-type">CHAR(2)</span>
+                                <span class="field-comment">電話國碼(ISO 3166-1 alpha-2)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">phone_number</span>
+                                <span class="field-type">VARCHAR(50)</span>
+                                <span class="field-comment">店家電話</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">store_email</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">店家信箱</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">business_hours</span>
+                                <span class="field-type">JSON</span>
+                                <span class="field-comment">營業時間(JSON格式)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">storefront_image</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">店面照片</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">gallery_images</span>
+                                <span class="field-type">JSON</span>
+                                <span class="field-comment">店內圖片集</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">features</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">店家特色</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">facilities</span>
+                                <span class="field-type">JSON</span>
+                                <span class="field-comment">設施設備(停車場/wifi等)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">transportation</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">交通方式說明</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">is_active</span>
+                                <span class="field-type">TINYINT(1)</span>
+                                <span class="field-comment">是否營業中(0:否 1:是)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">deleted_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">刪除時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- product_categories -->
+                    <div class="table-card" data-table="product_categories">
+                        <div class="table-header">product_categories</div>
+                        <div class="table-description">商品分類表(管理員管理)</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">分類 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">category_name</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">分類名稱</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">category_type</span>
+                                <span class="field-type">VARCHAR(50)</span>
+                                <span class="field-comment">大類別(travel/food/hotel/entertainment)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">description</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">分類描述</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">icon</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">分類圖示</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">sort_order</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">排序</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">is_active</span>
+                                <span class="field-type">TINYINT(1)</span>
+                                <span class="field-comment">是否啟用(0:否 1:是)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- products -->
+                    <div class="table-card" data-table="products">
+                        <div class="table-header">products</div>
+                        <div class="table-description">商品主表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">商品 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">merchant_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">所屬商家 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">category_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">商品分類 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">product_name</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">商品名稱</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">subtitle</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">副標題</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">cover_image</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">封面圖片</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">gallery_images</span>
+                                <span class="field-type">JSON</span>
+                                <span class="field-comment">圖片集</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">promo_video</span>
+                                <span class="field-type">VARCHAR(500)</span>
+                                <span class="field-comment">宣傳影片</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">original_price</span>
+                                <span class="field-type">DECIMAL(10,2)</span>
+                                <span class="field-comment">原價(0表示免費)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">selling_price</span>
+                                <span class="field-type">DECIMAL(10,2)</span>
+                                <span class="field-comment">售價(0表示免費)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">currency</span>
+                                <span class="field-type">CHAR(3)</span>
+                                <span class="field-comment">幣別</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">total_quantity</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">總數量(NULL表示不限)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">available_quantity</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">剩餘數量</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">purchase_limit_per_user</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">每人限購數量</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">valid_from</span>
+                                <span class="field-type">DATE</span>
+                                <span class="field-comment">使用開始日期</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">valid_to</span>
+                                <span class="field-type">DATE</span>
+                                <span class="field-comment">使用結束日期</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">usage_scope</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">使用範圍說明</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">usage_method</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">使用方式(electronic/qrcode/voucher)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">promotion_start</span>
+                                <span class="field-type">DATETIME</span>
+                                <span class="field-comment">推廣開始時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">promotion_end</span>
+                                <span class="field-type">DATETIME</span>
+                                <span class="field-comment">推廣結束時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">discount_type</span>
+                                <span class="field-type">VARCHAR(50)</span>
+                                <span class="field-comment">優惠類型(percentage/fixed_amount/buy_one_get_one等)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">discount_value</span>
+                                <span class="field-type">DECIMAL(10,2)</span>
+                                <span class="field-comment">折扣數值</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">discount_description</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">優惠說明</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">description</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">商品詳細說明</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">features</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">商品特色</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">includes</span>
+                                <span class="field-type">JSON</span>
+                                <span class="field-comment">費用包含項目</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">excludes</span>
+                                <span class="field-type">JSON</span>
+                                <span class="field-comment">費用不包含項目</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">extra_fees</span>
+                                <span class="field-type">JSON</span>
+                                <span class="field-comment">可能的額外費用</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">usage_notes</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">使用說明</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">terms</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">使用條款</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">transportation</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">交通方式</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">cancellation_policy_type</span>
+                                <span class="field-type">VARCHAR(50)</span>
+                                <span class="field-comment">退款政策類型(non_refundable/full_refund/partial_refund/flexible)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">cancellation_days_before</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">使用前幾天可退款</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">cancellation_refund_percentage</span>
+                                <span class="field-type">DECIMAL(5,2)</span>
+                                <span class="field-comment">退款百分比(0-100)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">cancellation_notes</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">退款政策補充說明</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">is_booking_required</span>
+                                <span class="field-type">TINYINT(1)</span>
+                                <span class="field-comment">是否需要預訂(0:否 1:是)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">booking_notice_days</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">需提前幾天預訂</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">review_status</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">審核狀態(draft/pending/approved/rejected)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">reject_reason</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">拒絕原因</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">is_published</span>
+                                <span class="field-type">TINYINT(1)</span>
+                                <span class="field-comment">是否上架(0:否 1:是)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">is_active</span>
+                                <span class="field-type">TINYINT(1)</span>
+                                <span class="field-comment">是否啟用(0:否 1:是)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">view_count</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">瀏覽次數</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">purchase_count</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">購買次數</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">rating_average</span>
+                                <span class="field-type">DECIMAL(3,2)</span>
+                                <span class="field-comment">平均評分</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">rating_count</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">評分人數</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">deleted_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">刪除時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">published_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">上架時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- food_products -->
+                    <div class="table-card" data-table="food_products">
+                        <div class="table-header">food_products</div>
+                        <div class="table-description">美食優惠券子表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">product_id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">商品 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">cuisine_type</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">菜系類型</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">meal_type</span>
+                                <span class="field-type">VARCHAR(50)</span>
+                                <span class="field-comment">用餐時段(breakfast/lunch/dinner/afternoon_tea/all_day)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">serving_size</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">適用人數</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">menu_items</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">菜單項目</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">dietary_info</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">飲食資訊(素食/清真等)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- travel_products -->
+                    <div class="table-card" data-table="travel_products">
+                        <div class="table-header">travel_products</div>
+                        <div class="table-description">旅遊優惠券子表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">product_id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">商品 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">travelers</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">適用人數</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">days</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">天數</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">nights</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">夜數</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">destinations</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">目的地</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">itinerary</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">行程說明</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">tour_type</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">旅遊類型(group/private/self_guided)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- hotel_products -->
+                    <div class="table-card" data-table="hotel_products">
+                        <div class="table-header">hotel_products</div>
+                        <div class="table-description">住宿優惠券子表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">product_id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">商品 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">room_type</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">房型</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">guest_capacity</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">可住人數</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">bed_type</span>
+                                <span class="field-type">VARCHAR(50)</span>
+                                <span class="field-comment">床型</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">room_size</span>
+                                <span class="field-type">DECIMAL(5,2)</span>
+                                <span class="field-comment">房間坪數</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">nights_included</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">包含住宿夜數</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">check_in_time</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">入住時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">check_out_time</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">退房時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">amenities</span>
+                                <span class="field-type">JSON</span>
+                                <span class="field-comment">房間設施</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- entertainment_products -->
+                    <div class="table-card" data-table="entertainment_products">
+                        <div class="table-header">entertainment_products</div>
+                        <div class="table-description">休閒娛樂優惠券子表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">product_id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">商品 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">activity_type</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">活動類型</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">participant_limit</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">參與人數限制</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">duration_minutes</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">活動時長(分鐘)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">age_restriction</span>
+                                <span class="field-type">VARCHAR(50)</span>
+                                <span class="field-comment">年齡限制</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">difficulty_level</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">難度等級(easy/medium/hard)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">equipment_provided</span>
+                                <span class="field-type">TINYINT(1)</span>
+                                <span class="field-comment">是否提供設備(0:否 1:是)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- product_stores -->
+                    <div class="table-card" data-table="product_stores">
+                        <div class="table-header">product_stores</div>
+                        <div class="table-description">商品與店家關聯表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment"></span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">product_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">商品 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">store_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">適用店家 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">is_primary</span>
+                                <span class="field-type">TINYINT(1)</span>
+                                <span class="field-comment">是否為主要店家(0:否 1:是)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- orders -->
+                    <div class="table-card" data-table="orders">
+                        <div class="table-header">orders</div>
+                        <div class="table-description">訂單主表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">訂單流水號</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">order_number</span>
+                                <span class="field-type">VARCHAR(50)</span>
+                                <span class="field-comment">訂單編號</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">member_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">會員 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">merchant_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">商家 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">total_amount</span>
+                                <span class="field-type">DECIMAL(10,2)</span>
+                                <span class="field-comment">訂單總金額</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">discount_amount</span>
+                                <span class="field-type">DECIMAL(10,2)</span>
+                                <span class="field-comment">折扣金額</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">final_amount</span>
+                                <span class="field-type">DECIMAL(10,2)</span>
+                                <span class="field-comment">實付金額</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">currency</span>
+                                <span class="field-type">CHAR(3)</span>
+                                <span class="field-comment">幣別</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">payment_method</span>
+                                <span class="field-type">VARCHAR(50)</span>
+                                <span class="field-comment">付款方式(kbzpay/aya_pay/credit_card等)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">payment_status</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">付款狀態(pending/paid/failed/refunded)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">contact_name</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">聯絡人姓名</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">contact_email</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">聯絡人信箱</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">phone_country_iso</span>
+                                <span class="field-type">CHAR(2)</span>
+                                <span class="field-comment">電話國碼(ISO 3166-1 alpha-2)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">phone_number</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">聯絡電話</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">order_status</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">訂單狀態(pending/confirmed/completed/cancelled)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">notes</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">備註</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">confirmed_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">確認時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">completed_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">完成時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">cancelled_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">取消時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">cancellation_reason</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">取消原因</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">deleted_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">刪除時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- order_items -->
+                    <div class="table-card" data-table="order_items">
+                        <div class="table-header">order_items</div>
+                        <div class="table-description">訂單明細表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">訂單明細 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">order_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">訂單 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">product_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">商品 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">product_name</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">商品名稱</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">product_image</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">商品圖片</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">unit_price</span>
+                                <span class="field-type">DECIMAL(10,2)</span>
+                                <span class="field-comment">單價</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">quantity</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">數量</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">subtotal</span>
+                                <span class="field-type">DECIMAL(10,2)</span>
+                                <span class="field-comment">小計</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">promo_code_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">使用的折扣碼 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">discount_amount</span>
+                                <span class="field-type">DECIMAL(10,2)</span>
+                                <span class="field-comment">折扣金額</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- payments -->
+                    <div class="table-card" data-table="payments">
+                        <div class="table-header">payments</div>
+                        <div class="table-description">支付記錄表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">支付 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">order_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">訂單 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">payment_method</span>
+                                <span class="field-type">VARCHAR(50)</span>
+                                <span class="field-comment">付款方式(kbzpay/aya_pay/credit_card等)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">payment_amount</span>
+                                <span class="field-type">DECIMAL(10,2)</span>
+                                <span class="field-comment">付款金額</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">currency</span>
+                                <span class="field-type">CHAR(3)</span>
+                                <span class="field-comment">幣別</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">payment_status</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">支付狀態(pending/processing/completed/failed/refunded)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">transaction_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">第三方交易 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">payment_gateway</span>
+                                <span class="field-type">VARCHAR(50)</span>
+                                <span class="field-comment">支付閘道</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">gateway_response</span>
+                                <span class="field-type">JSON</span>
+                                <span class="field-comment">閘道回應資料</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">paid_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">付款完成時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">refunded_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">退款時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- order_status_logs -->
+                    <div class="table-card" data-table="order_status_logs">
+                        <div class="table-header">order_status_logs</div>
+                        <div class="table-description">訂單狀態記錄表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">記錄 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">order_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">訂單 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">from_status</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">原狀態(pending/confirmed/completed/cancelled)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">to_status</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">新狀態(pending/confirmed/completed/cancelled)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">from_payment_status</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">原支付狀態(pending/paid/failed/refunded)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">to_payment_status</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">新支付狀態(pending/paid/failed/refunded)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">operator_type</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">操作者類型(system/member/merchant/admin)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">operator_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">操作者 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">operator_name</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">操作者名稱</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">reason</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">狀態變更原因</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">notes</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">備註</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">變更時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- user_products -->
+                    <div class="table-card" data-table="user_products">
+                        <div class="table-header">user_products</div>
+                        <div class="table-description">用戶持有商品表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">持有 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">member_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">會員 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">product_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">商品 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">order_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">訂單 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">unique_code</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">唯一識別碼(固定不變)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">qr_temp_token</span>
+                                <span class="field-type">VARCHAR(255)</span>
+                                <span class="field-comment">臨時 QR token(5分鐘有效)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">qr_temp_token_expires_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">QR token 過期時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">status</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">狀態(active/redeemed/expired/cancelled)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">quantity</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">數量</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">valid_from</span>
+                                <span class="field-type">DATE</span>
+                                <span class="field-comment">有效開始日期</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">valid_to</span>
+                                <span class="field-type">DATE</span>
+                                <span class="field-comment">有效結束日期</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">redeemed_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">核銷時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">redeemed_store_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">核銷店家</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">redeemed_by</span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">核銷員工 ID(未來可擴充)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">acquired_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">取得時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- redemptions -->
+                    <div class="table-card" data-table="redemptions">
+                        <div class="table-header">redemptions</div>
+                        <div class="table-description">核銷記錄表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">核銷 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">user_product_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">用戶商品 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">member_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">會員 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">product_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">商品 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">store_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">核銷店家 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">unique_code</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">唯一識別碼</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">redemption_method</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">核銷方式(qr_scan/manual/system)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">staff_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">核銷員工 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">staff_name</span>
+                                <span class="field-type">VARCHAR(100)</span>
+                                <span class="field-comment">核銷員工姓名</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">device_info</span>
+                                <span class="field-type">JSON</span>
+                                <span class="field-comment">裝置資訊</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">ip_address</span>
+                                <span class="field-type">VARCHAR(45)</span>
+                                <span class="field-comment">IP 位址</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">notes</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">核銷備註</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">redeemed_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">核銷時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- promo_codes -->
+                    <div class="table-card" data-table="promo_codes">
+                        <div class="table-header">promo_codes</div>
+                        <div class="table-description">折扣碼表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">折扣碼流水號</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">code</span>
+                                <span class="field-type">VARCHAR(50)</span>
+                                <span class="field-comment">折扣碼</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">group_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">折扣碼分組 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">prefix</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">折扣碼前綴</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">suffix_length</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">隨機後綴長度(3-20字元)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">char_set</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">字元集(mixed/alpha/numeric)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">discount_type</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">折扣類型(fixed/percentage)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">discount_amount</span>
+                                <span class="field-type">DECIMAL(10,2)</span>
+                                <span class="field-comment">折扣金額或百分比</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">limited_product_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">限定商品 ID(NULL表示通用)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">quantity</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">折扣碼可使用總數量</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">used_count</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">已使用次數</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">usage_limit</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">每位使用者可使用次數</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">min_spending</span>
+                                <span class="field-type">DECIMAL(10,2)</span>
+                                <span class="field-comment">最低消費金額</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">start_date</span>
+                                <span class="field-type">DATETIME</span>
+                                <span class="field-comment">折扣碼開始日期</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">end_date</span>
+                                <span class="field-type">DATETIME</span>
+                                <span class="field-comment">折扣碼結束日期</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">is_active</span>
+                                <span class="field-type">TINYINT(1)</span>
+                                <span class="field-comment">是否啟用(0:否 1:是)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- product_reviews -->
+                    <div class="table-card" data-table="product_reviews">
+                        <div class="table-header">product_reviews</div>
+                        <div class="table-description">商品審核記錄表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">審核 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">product_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">商品 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">reviewer_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">審核人員 ID(管理員)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">review_status</span>
+                                <span class="field-type">VARCHAR(20)</span>
+                                <span class="field-comment">審核狀態(pending/approved/rejected/revision_required)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">reviewer_notes</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">審核意見</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">reject_reason</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">拒絕原因</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">product_snapshot</span>
+                                <span class="field-type">JSON</span>
+                                <span class="field-comment">商品資料快照</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">reviewed_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">審核時間</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- product_ratings -->
+                    <div class="table-card" data-table="product_ratings">
+                        <div class="table-header">product_ratings</div>
+                        <div class="table-description">商品評分表</div>
+                        <ul class="field-list">
+                            <li class="field-item">
+                                <span class="field-name">id <span class="badge badge-primary">PK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">評分 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">product_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">商品 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">member_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">會員 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">order_id <span class="badge badge-foreign">FK</span></span>
+                                <span class="field-type">BIGINT UNSIGNED</span>
+                                <span class="field-comment">訂單 ID</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">rating</span>
+                                <span class="field-type">INT</span>
+                                <span class="field-comment">評分(1-5)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">review_text</span>
+                                <span class="field-type">TEXT</span>
+                                <span class="field-comment">評價內容</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">images</span>
+                                <span class="field-type">JSON</span>
+                                <span class="field-comment">評價圖片</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">is_anonymous</span>
+                                <span class="field-type">TINYINT(1)</span>
+                                <span class="field-comment">是否匿名(0:否 1:是)</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">created_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">建立時間</span>
+                            </li>
+                            <li class="field-item">
+                                <span class="field-name">updated_at</span>
+                                <span class="field-type">TIMESTAMP</span>
+                                <span class="field-comment">更新時間</span>
+                            </li>
+                        </ul>
+                    </div>
                         <div class="table-description">會員表</div>
                         <ul class="field-list">
                             <li class="field-item">
