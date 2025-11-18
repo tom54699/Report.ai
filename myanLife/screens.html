@@ -472,6 +472,136 @@
             color: #1976d2;
         }
 
+        .login-container {
+            max-width: 450px;
+            margin: 60px auto;
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .login-logo {
+            text-align: center;
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .login-title {
+            text-align: center;
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 0.95em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-links {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .login-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-links a:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            color: #999;
+            font-size: 0.85em;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.5em;
+            transition: all 0.3s;
+        }
+
+        .social-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 1.8em;
@@ -510,60 +640,145 @@
         <header>
             <a href="architecture.html" class="back-link">← 返回架構圖</a>
             <h1>🖥️ myanLife 系統畫面模擬</h1>
-            <p class="subtitle">互動式 UI Mockups - 四大系統介面展示</p>
+            <p class="subtitle">互動式 UI Mockups - 三大入口 × 六個系統介面展示</p>
         </header>
 
         <div class="tabs">
-            <button class="tab active" onclick="switchTab('webapp')">🌐 Web App</button>
-            <button class="tab" onclick="switchTab('merchant')">🏪 商家後台</button>
-            <button class="tab" onclick="switchTab('operation')">👥 運營後台</button>
-            <button class="tab" onclick="switchTab('central')">🏛️ 中央後台</button>
+            <button class="tab active" onclick="switchTab('memberLogin')">🔐 會員登入</button>
+            <button class="tab" onclick="switchTab('memberApp')">🌐 會員端</button>
+            <button class="tab" onclick="switchTab('merchantLogin')">🔐 商家登入</button>
+            <button class="tab" onclick="switchTab('merchantApp')">🏪 商家端</button>
+            <button class="tab" onclick="switchTab('adminLogin')">🔐 管理員登入</button>
+            <button class="tab" onclick="switchTab('adminBackend')">👨‍💼 管理後台</button>
         </div>
 
-        <!-- Web App 用戶介面 -->
-        <div id="webapp" class="mockup-container active">
+        <!-- 1. 會員登入頁面 -->
+        <div id="memberLogin" class="mockup-container active">
+            <div class="login-container">
+                <div class="login-logo">👤</div>
+                <h2 class="login-title">會員登入</h2>
+                <p class="login-subtitle">歡迎回來！請登入您的 myanLife 會員帳號</p>
+
+                <form>
+                    <div class="form-group">
+                        <label class="form-label">電子信箱或手機號碼</label>
+                        <input type="text" class="form-input" placeholder="請輸入您的信箱或手機號碼">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">密碼</label>
+                        <input type="password" class="form-input" placeholder="請輸入密碼">
+                    </div>
+
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="remember">
+                        <label for="remember" style="color: #666; font-size: 0.9em;">記住我</label>
+                    </div>
+
+                    <button type="button" class="login-button">登入</button>
+                </form>
+
+                <div class="login-links">
+                    還沒有帳號？ <a href="#">立即註冊</a> | <a href="#">忘記密碼？</a>
+                </div>
+
+                <div class="divider">─── 或使用社群帳號登入 ───</div>
+
+                <div class="social-login">
+                    <button class="social-btn" title="Facebook">📘</button>
+                    <button class="social-btn" title="Google">🔍</button>
+                    <button class="social-btn" title="LINE">💚</button>
+                </div>
+            </div>
+
+            <div class="info-note" style="max-width: 800px; margin: 30px auto 0;">
+                <strong>💡 會員登入功能：</strong>使用 users 表進行驗證，支援 email 或 phone_number 登入。登入後可管理個人資料、偏好設定 (user_preferences)、瀏覽購買商品 (products)、查看訂單 (orders)、核銷商品 (redemptions)、完成任務 (member_tasks)、評分商品 (product_ratings)。
+            </div>
+        </div>
+
+        <!-- 2. 會員端 Web App -->
+        <div id="memberApp" class="mockup-container">
             <div class="mockup-header">
                 <div class="mockup-title">
                     <span>🌐</span>
-                    <span>myanLife Web App</span>
+                    <span>myanLife 會員端</span>
                 </div>
                 <div class="mockup-nav">
                     <div class="nav-item active">首頁</div>
-                    <div class="nav-item">優惠券</div>
-                    <div class="nav-item">商家</div>
+                    <div class="nav-item">商品</div>
                     <div class="nav-item">我的訂單</div>
+                    <div class="nav-item">任務中心</div>
+                    <div class="nav-item">設定</div>
                     <div class="user-info">
-                        <div class="avatar">U</div>
-                        <span>User</span>
+                        <div class="avatar">張</div>
+                        <span>張小明</span>
                     </div>
                 </div>
             </div>
 
             <div class="stats-row">
                 <div class="stat-card">
-                    <div class="stat-number">126</div>
-                    <div class="stat-label">可用優惠券</div>
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">我的商品</div>
                 </div>
                 <div class="stat-card success">
-                    <div class="stat-number">45</div>
-                    <div class="stat-label">合作商家</div>
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">待核銷</div>
                 </div>
                 <div class="stat-card warning">
-                    <div class="stat-number">8</div>
-                    <div class="stat-label">即將到期</div>
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">進行中任務</div>
+                </div>
+                <div class="stat-card info">
+                    <div class="stat-number">850</div>
+                    <div class="stat-label">任務積分</div>
                 </div>
             </div>
 
-            <h3 style="margin-bottom: 15px; color: #333;">🔥 熱門優惠券</h3>
+            <h3 style="margin-bottom: 15px; color: #333;">🔥 熱門商品</h3>
             <div class="content-grid">
                 <div class="card">
                     <div class="card-image">🍕</div>
                     <div class="card-title">美味披薩 8折優惠</div>
                     <div class="card-desc">Pizza Hut 全品項享8折，限量100張</div>
                     <div class="card-meta">
-                        <span class="card-price">$12</span>
-                        <button class="card-button">立即購買</button>
+                        <span style="color: #f57c00; font-size: 0.85em;">🍔 餐飲美食</span>
+                        <span class="card-price">12,000 MMK</span>
                     </div>
+                    <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">✈️</div>
+                    <div class="card-title">曼德勒來回機票</div>
+                    <div class="card-desc">Myanmar Airways 限時優惠</div>
+                    <div class="card-meta">
+                        <span style="color: #1976d2; font-size: 0.85em;">✈️ 旅遊交通</span>
+                        <span class="card-price">85,000 MMK</span>
+                    </div>
+                    <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">🏨</div>
+                    <div class="card-title">仰光市中心酒店住宿</div>
+                    <div class="card-desc">Sedona Hotel 豪華雙人房一晚</div>
+                    <div class="card-meta">
+                        <span style="color: #7b1fa2; font-size: 0.85em;">🏨 飯店住宿</span>
+                        <span class="card-price">45,000 MMK</span>
+                    </div>
+                    <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">🎭</div>
+                    <div class="card-title">緬甸傳統舞蹈表演</div>
+                    <div class="card-desc">Karaweik Palace 晚宴表演</div>
+                    <div class="card-meta">
+                        <span style="color: #c62828; font-size: 0.85em;">🎭 娛樂休閒</span>
+                        <span class="card-price">25,000 MMK</span>
+                    </div>
+                    <button class="card-button" style="margin-top: 10px;">立即購買</button>
                 </div>
 
                 <div class="card">
@@ -571,72 +786,118 @@
                     <div class="card-title">咖啡買一送一</div>
                     <div class="card-desc">Starbucks 中杯以上飲品適用</div>
                     <div class="card-meta">
-                        <span class="card-price">$8</span>
-                        <button class="card-button">立即購買</button>
+                        <span style="color: #f57c00; font-size: 0.85em;">🍔 餐飲美食</span>
+                        <span class="card-price">6,500 MMK</span>
                     </div>
+                    <button class="card-button" style="margin-top: 10px;">立即購買</button>
                 </div>
 
                 <div class="card">
-                    <div class="card-image">🎬</div>
-                    <div class="card-title">電影票優惠</div>
-                    <div class="card-desc">威秀影城 平日票券特價</div>
+                    <div class="card-image">🎫</div>
+                    <div class="card-title">茵萊湖一日遊</div>
+                    <div class="card-desc">包含交通、導遊、午餐</div>
                     <div class="card-meta">
-                        <span class="card-price">$15</span>
-                        <button class="card-button">立即購買</button>
+                        <span style="color: #1976d2; font-size: 0.85em;">✈️ 旅遊交通</span>
+                        <span class="card-price">35,000 MMK</span>
                     </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-image">🍔</div>
-                    <div class="card-title">漢堡套餐優惠</div>
-                    <div class="card-desc">McDonald's 超值套餐特價</div>
-                    <div class="card-meta">
-                        <span class="card-price">$10</span>
-                        <button class="card-button">立即購買</button>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-image">💆</div>
-                    <div class="card-title">SPA 按摩體驗</div>
-                    <div class="card-desc">60分鐘全身按摩放鬆療程</div>
-                    <div class="card-meta">
-                        <span class="card-price">$35</span>
-                        <button class="card-button">立即購買</button>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-image">🏋️</div>
-                    <div class="card-title">健身房月票</div>
-                    <div class="card-desc">World Gym 單月使用券</div>
-                    <div class="card-meta">
-                        <span class="card-price">$45</span>
-                        <button class="card-button">立即購買</button>
-                    </div>
+                    <button class="card-button" style="margin-top: 10px;">立即購買</button>
                 </div>
             </div>
 
+            <h3 style="margin-bottom: 15px; margin-top: 40px; color: #333;">✅ 我的任務</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>任務名稱</th>
+                        <th>任務類型</th>
+                        <th>獎勵積分</th>
+                        <th>進度</th>
+                        <th>狀態</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>完成首次購物</td>
+                        <td>新手任務</td>
+                        <td>+100 分</td>
+                        <td>1/1</td>
+                        <td><span class="status-badge active">已完成</span></td>
+                    </tr>
+                    <tr>
+                        <td>連續7天登入</td>
+                        <td>每日任務</td>
+                        <td>+50 分</td>
+                        <td>5/7</td>
+                        <td><span class="status-badge pending">進行中</span></td>
+                    </tr>
+                    <tr>
+                        <td>邀請好友註冊</td>
+                        <td>推廣任務</td>
+                        <td>+200 分</td>
+                        <td>2/5</td>
+                        <td><span class="status-badge pending">進行中</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
             <div class="info-note">
-                <strong>💡 用戶功能：</strong>瀏覽優惠券、購買優惠券、查看商家資訊、預訂服務、管理訂單、評價商家
+                <strong>💡 會員端功能：</strong>瀏覽商品 (products, product_categories)、購買商品 (orders, order_items, payments)、核銷商品 (user_products, redemptions)、評分商品 (product_ratings)、完成任務 (member_tasks, member_task_logs)、偏好設定 (user_preferences: 語言/貨幣/電子報訂閱)、查看訂單狀態 (order_status_logs)、使用優惠碼 (promo_codes)。
             </div>
         </div>
 
-        <!-- 商家後台 -->
-        <div id="merchant" class="mockup-container">
+        <!-- 3. 商家登入頁面 -->
+        <div id="merchantLogin" class="mockup-container">
+            <div class="login-container">
+                <div class="login-logo">🏪</div>
+                <h2 class="login-title">商家登入</h2>
+                <p class="login-subtitle">歡迎商家夥伴！請登入您的商家管理帳號</p>
+
+                <form>
+                    <div class="form-group">
+                        <label class="form-label">商家電子信箱</label>
+                        <input type="email" class="form-input" placeholder="請輸入商家註冊信箱">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">密碼</label>
+                        <input type="password" class="form-input" placeholder="請輸入密碼">
+                    </div>
+
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="remember-merchant">
+                        <label for="remember-merchant" style="color: #666; font-size: 0.9em;">記住我</label>
+                    </div>
+
+                    <button type="button" class="login-button">登入商家後台</button>
+                </form>
+
+                <div class="login-links">
+                    還沒有商家帳號？ <a href="#">申請加入</a> | <a href="#">忘記密碼？</a>
+                </div>
+            </div>
+
+            <div class="info-note" style="max-width: 800px; margin: 30px auto 0;">
+                <strong>💡 商家登入功能：</strong>使用 merchants 表進行驗證，使用 email 登入。登入後可管理店鋪資訊 (stores)、商品上下架 (products, product_stores)、處理訂單 (orders, order_items)、查看評分 (product_ratings)、完成任務 (merchant_tasks)、偏好設定 (merchant_preferences)、查看營收報表 (payments)。
+            </div>
+        </div>
+
+        <!-- 4. 商家端 Web App -->
+        <div id="merchantApp" class="mockup-container">
             <div class="mockup-header">
                 <div class="mockup-title">
                     <span>🏪</span>
-                    <span>商家管理後台</span>
+                    <span>myanLife 商家端</span>
                 </div>
                 <div class="mockup-nav">
                     <div class="nav-item active">儀表板</div>
-                    <div class="nav-item">優惠券</div>
-                    <div class="nav-item">訂單</div>
+                    <div class="nav-item">店鋪管理</div>
+                    <div class="nav-item">商品管理</div>
+                    <div class="nav-item">訂單管理</div>
+                    <div class="nav-item">任務中心</div>
                     <div class="nav-item">設定</div>
                     <div class="user-info">
-                        <div class="avatar">M</div>
-                        <span>Pizza Hut</span>
+                        <div class="avatar">🍕</div>
+                        <span>Pizza Hut Myanmar</span>
                     </div>
                 </div>
             </div>
@@ -647,44 +908,75 @@
                     <div class="stat-label">本月訂單</div>
                 </div>
                 <div class="stat-card success">
-                    <div class="stat-number">$12,450</div>
-                    <div class="stat-label">本月營收</div>
+                    <div class="stat-number">8,450,000</div>
+                    <div class="stat-label">本月營收 (MMK)</div>
                 </div>
                 <div class="stat-card warning">
                     <div class="stat-number">15</div>
                     <div class="stat-label">待處理訂單</div>
                 </div>
                 <div class="stat-card info">
-                    <div class="stat-number">4.8</div>
+                    <div class="stat-number">4.8 ⭐</div>
                     <div class="stat-label">平均評分</div>
                 </div>
             </div>
 
-            <h3 style="margin-bottom: 15px; color: #333;">🎫 我的優惠券</h3>
+            <h3 style="margin-bottom: 15px; color: #333;">🏬 我的店鋪</h3>
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-image">🏪</div>
+                    <div class="card-title">Pizza Hut 仰光總店</div>
+                    <div class="card-desc">📍 Yangon Downtown, Myanmar<br>📞 +95-1-234-5678</div>
+                    <div class="card-meta" style="margin-top: 10px;">
+                        <span class="status-badge active">營業中</span>
+                        <button class="action-btn edit">管理</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">🏪</div>
+                    <div class="card-title">Pizza Hut 曼德勒分店</div>
+                    <div class="card-desc">📍 Mandalay City, Myanmar<br>📞 +95-2-345-6789</div>
+                    <div class="card-meta" style="margin-top: 10px;">
+                        <span class="status-badge active">營業中</span>
+                        <button class="action-btn edit">管理</button>
+                    </div>
+                </div>
+
+                <div class="card" style="border: 2px dashed #e0e0e0;">
+                    <div class="card-image" style="background: #f5f5f5; color: #999;">➕</div>
+                    <div class="card-title" style="color: #999;">新增店鋪</div>
+                    <div class="card-desc">點擊新增更多店鋪位置</div>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 15px; margin-top: 40px; color: #333;">🎫 商品管理</h3>
             <div class="quick-actions">
-                <button class="quick-action-btn">➕ 新增優惠券</button>
-                <button class="quick-action-btn">📊 查看統計</button>
-                <button class="quick-action-btn">⚙️ 商家設定</button>
+                <button class="quick-action-btn">➕ 新增商品</button>
+                <button class="quick-action-btn">📊 銷售統計</button>
+                <button class="quick-action-btn">⚙️ 偏好設定</button>
             </div>
 
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>優惠券名稱</th>
-                        <th>價格</th>
+                        <th>商品名稱</th>
+                        <th>類別</th>
+                        <th>價格 (MMK)</th>
                         <th>已售/庫存</th>
+                        <th>評分</th>
                         <th>狀態</th>
-                        <th>有效期限</th>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>美味披薩 8折優惠</td>
-                        <td>$12</td>
+                        <td>🍔 餐飲美食</td>
+                        <td>12,000</td>
                         <td>45/100</td>
+                        <td>4.5 ⭐ (23 則)</td>
                         <td><span class="status-badge active">上架中</span></td>
-                        <td>2025-12-31</td>
                         <td>
                             <div class="action-buttons">
                                 <button class="action-btn edit">編輯</button>
@@ -694,10 +986,11 @@
                     </tr>
                     <tr>
                         <td>外帶優惠套餐</td>
-                        <td>$18</td>
+                        <td>🍔 餐飲美食</td>
+                        <td>18,000</td>
                         <td>12/50</td>
+                        <td>4.8 ⭐ (15 則)</td>
                         <td><span class="status-badge active">上架中</span></td>
-                        <td>2025-11-30</td>
                         <td>
                             <div class="action-buttons">
                                 <button class="action-btn edit">編輯</button>
@@ -707,10 +1000,11 @@
                     </tr>
                     <tr>
                         <td>週末下午茶優惠</td>
-                        <td>$25</td>
+                        <td>🍔 餐飲美食</td>
+                        <td>25,000</td>
                         <td>89/100</td>
+                        <td>4.9 ⭐ (45 則)</td>
                         <td><span class="status-badge active">上架中</span></td>
-                        <td>2025-12-15</td>
                         <td>
                             <div class="action-buttons">
                                 <button class="action-btn edit">編輯</button>
@@ -720,10 +1014,11 @@
                     </tr>
                     <tr>
                         <td>學生專屬優惠</td>
-                        <td>$10</td>
+                        <td>🍔 餐飲美食</td>
+                        <td>10,000</td>
                         <td>0/50</td>
+                        <td>N/A</td>
                         <td><span class="status-badge pending">審核中</span></td>
-                        <td>2025-12-31</td>
                         <td>
                             <div class="action-buttons">
                                 <button class="action-btn edit">編輯</button>
@@ -733,67 +1028,169 @@
                 </tbody>
             </table>
 
+            <h3 style="margin-bottom: 15px; margin-top: 40px; color: #333;">✅ 商家任務</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>任務名稱</th>
+                        <th>任務類型</th>
+                        <th>獎勵</th>
+                        <th>進度</th>
+                        <th>狀態</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>上架第一個商品</td>
+                        <td>新手任務</td>
+                        <td>平台推薦 7 天</td>
+                        <td>1/1</td>
+                        <td><span class="status-badge active">已完成</span></td>
+                    </tr>
+                    <tr>
+                        <td>月銷售達 100 單</td>
+                        <td>業績任務</td>
+                        <td>降低平台抽成 2%</td>
+                        <td>328/100</td>
+                        <td><span class="status-badge active">已完成</span></td>
+                    </tr>
+                    <tr>
+                        <td>維持 4.5 星以上評分</td>
+                        <td>品質任務</td>
+                        <td>優質商家標章</td>
+                        <td>4.8/4.5</td>
+                        <td><span class="status-badge active">進行中</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
             <div class="info-note">
-                <strong>💡 商家功能：</strong>管理優惠券、處理訂單、查看營收統計、編輯商家資訊、回覆評價、上下架商品
+                <strong>💡 商家端功能：</strong>管理多店鋪 (stores)、新增/編輯商品 (products) 並分配到店鋪 (product_stores)、處理訂單 (orders, order_items)、查看商品評分/評論 (product_ratings)、完成商家任務 (merchant_tasks, merchant_task_logs)、偏好設定 (merchant_preferences: 語言/貨幣)、查看營收統計 (payments)、回覆顧客評論、上下架商品管理。支援 4 種商品類型：餐飲美食 (food_products)、旅遊交通 (travel_products)、飯店住宿 (hotel_products)、娛樂休閒 (entertainment_products)。
             </div>
         </div>
 
-        <!-- 運營後台 -->
-        <div id="operation" class="mockup-container">
+        <!-- 5. 管理員登入頁面 -->
+        <div id="adminLogin" class="mockup-container">
+            <div class="login-container">
+                <div class="login-logo">👨‍💼</div>
+                <h2 class="login-title">管理員登入</h2>
+                <p class="login-subtitle">管理後台系統 - 多國運營管理</p>
+
+                <form>
+                    <div class="form-group">
+                        <label class="form-label">管理員信箱</label>
+                        <input type="email" class="form-input" placeholder="請輸入管理員信箱">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">密碼</label>
+                        <input type="password" class="form-input" placeholder="請輸入密碼">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">國家/地區</label>
+                        <select class="form-input" style="cursor: pointer;">
+                            <option value="">選擇您的管理區域</option>
+                            <option value="MM">🇲🇲 Myanmar (緬甸)</option>
+                            <option value="TW">🇹🇼 Taiwan (台灣)</option>
+                            <option value="TH">🇹🇭 Thailand (泰國)</option>
+                            <option value="VN">🇻🇳 Vietnam (越南)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="remember-admin">
+                        <label for="remember-admin" style="color: #666; font-size: 0.9em;">記住我</label>
+                    </div>
+
+                    <button type="button" class="login-button">登入管理後台</button>
+                </form>
+
+                <div class="login-links">
+                    <a href="#">忘記密碼？</a> | <a href="#">聯繫超級管理員</a>
+                </div>
+            </div>
+
+            <div class="info-note" style="max-width: 800px; margin: 30px auto 0;">
+                <strong>💡 管理員登入功能：</strong>使用 admins 表進行驗證，依據 country_iso 登入對應國家的管理後台。系統使用 Laravel Permission 套件管理權限，admins 透過 model_has_roles 關聯到 roles，每個 role 擁有不同的 permissions (透過 role_has_permissions)。支援 is_super_admin 欄位區分超級管理員與一般管理員，記錄 last_login_at 和 last_login_ip 供安全稽核。
+            </div>
+        </div>
+
+        <!-- 6. 管理後台 -->
+        <div id="adminBackend" class="mockup-container">
             <div class="mockup-header">
                 <div class="mockup-title">
-                    <span>👥</span>
-                    <span>運營管理後台 - 台灣</span>
+                    <span>👨‍💼</span>
+                    <span>管理後台 - 緬甸 (Myanmar)</span>
                 </div>
                 <div class="mockup-nav">
                     <div class="nav-item active">儀表板</div>
-                    <div class="nav-item">商家管理</div>
-                    <div class="nav-item">優惠券審核</div>
                     <div class="nav-item">用戶管理</div>
+                    <div class="nav-item">商家管理</div>
+                    <div class="nav-item">商品審核</div>
+                    <div class="nav-item">內容管理</div>
+                    <div class="nav-item">權限管理</div>
                     <div class="user-info">
-                        <div class="avatar">S</div>
+                        <div class="avatar">🛡️</div>
                         <span>Super Admin</span>
                     </div>
                 </div>
             </div>
 
+            <div class="country-selector">
+                <button class="country-btn active">🇲🇲 緬甸</button>
+                <button class="country-btn">🇹🇼 台灣</button>
+                <button class="country-btn">🇹🇭 泰國</button>
+                <button class="country-btn">🇻🇳 越南</button>
+                <button class="country-btn">🌍 跨國總覽</button>
+            </div>
+
             <div class="stats-row">
                 <div class="stat-card">
-                    <div class="stat-number">1,245</div>
-                    <div class="stat-label">註冊用戶</div>
+                    <div class="stat-number">5,847</div>
+                    <div class="stat-label">註冊會員</div>
                 </div>
                 <div class="stat-card success">
-                    <div class="stat-number">89</div>
+                    <div class="stat-number">142</div>
                     <div class="stat-label">合作商家</div>
                 </div>
                 <div class="stat-card warning">
-                    <div class="stat-number">12</div>
-                    <div class="stat-label">待審核商家</div>
+                    <div class="stat-number">23</div>
+                    <div class="stat-label">待審核商品</div>
                 </div>
                 <div class="stat-card info">
-                    <div class="stat-number">$45,678</div>
-                    <div class="stat-label">本月營收</div>
+                    <div class="stat-number">8,456</div>
+                    <div class="stat-label">本月訂單</div>
                 </div>
             </div>
 
-            <h3 style="margin-bottom: 15px; color: #333;">🔍 待審核商家</h3>
+            <h3 style="margin-bottom: 15px; color: #333;">🔍 待審核商品 (Product Review)</h3>
+            <div class="quick-actions">
+                <button class="quick-action-btn">📊 查看統計</button>
+                <button class="quick-action-btn">👥 管理會員</button>
+                <button class="quick-action-btn">🏪 管理商家</button>
+                <button class="quick-action-btn">📰 內容管理 (CMS)</button>
+            </div>
+
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>商家名稱</th>
+                        <th>商品名稱</th>
                         <th>類別</th>
-                        <th>聯絡人</th>
-                        <th>申請時間</th>
+                        <th>商家</th>
+                        <th>價格 (MMK)</th>
+                        <th>提交時間</th>
                         <th>狀態</th>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>珍珠奶茶專賣店</td>
-                        <td>餐飲</td>
-                        <td>張小姐 / 0912-345-678</td>
-                        <td>2025-11-10</td>
+                        <td>茵萊湖一日遊</td>
+                        <td>✈️ 旅遊交通</td>
+                        <td>Myanmar Travel Co.</td>
+                        <td>35,000</td>
+                        <td>2025-11-15</td>
                         <td><span class="status-badge pending">待審核</span></td>
                         <td>
                             <div class="action-buttons">
@@ -803,10 +1200,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>健康養生館</td>
-                        <td>美容</td>
-                        <td>李先生 / 0923-456-789</td>
-                        <td>2025-11-11</td>
+                        <td>仰光市中心豪華酒店</td>
+                        <td>🏨 飯店住宿</td>
+                        <td>Sedona Hotel</td>
+                        <td>45,000</td>
+                        <td>2025-11-16</td>
                         <td><span class="status-badge pending">待審核</span></td>
                         <td>
                             <div class="action-buttons">
@@ -816,10 +1214,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>時尚髮廊</td>
-                        <td>美容</td>
-                        <td>王小姐 / 0934-567-890</td>
-                        <td>2025-11-12</td>
+                        <td>緬甸傳統舞蹈表演</td>
+                        <td>🎭 娛樂休閒</td>
+                        <td>Karaweik Palace</td>
+                        <td>25,000</td>
+                        <td>2025-11-17</td>
                         <td><span class="status-badge pending">待審核</span></td>
                         <td>
                             <div class="action-buttons">
@@ -831,195 +1230,113 @@
                 </tbody>
             </table>
 
-            <h3 style="margin-bottom: 15px; margin-top: 40px; color: #333;">🎫 待審核優惠券</h3>
+            <h3 style="margin-bottom: 15px; margin-top: 40px; color: #333;">👥 管理員與權限管理</h3>
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>優惠券名稱</th>
-                        <th>商家</th>
-                        <th>價格</th>
-                        <th>數量</th>
-                        <th>提交時間</th>
-                        <th>操作</th>
+                        <th>管理員</th>
+                        <th>信箱</th>
+                        <th>部門</th>
+                        <th>角色</th>
+                        <th>權限</th>
+                        <th>狀態</th>
+                        <th>最後登入</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>新店開幕優惠</td>
-                        <td>珍珠奶茶專賣店</td>
-                        <td>$5</td>
-                        <td>200</td>
-                        <td>2025-11-13</td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn approve">通過</button>
-                                <button class="action-btn reject">拒絕</button>
-                            </div>
-                        </td>
+                        <td>Aung Kyaw</td>
+                        <td>aung@myanlife.com</td>
+                        <td>運營部</td>
+                        <td>🛡️ Super Admin</td>
+                        <td>完整權限</td>
+                        <td><span class="status-badge active">啟用</span></td>
+                        <td>2025-11-18 09:30</td>
                     </tr>
                     <tr>
-                        <td>週年慶特惠</td>
-                        <td>Pizza Hut</td>
-                        <td>$20</td>
-                        <td>100</td>
-                        <td>2025-11-13</td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn approve">通過</button>
-                                <button class="action-btn reject">拒絕</button>
-                            </div>
-                        </td>
+                        <td>Thiri Maung</td>
+                        <td>thiri@myanlife.com</td>
+                        <td>客服部</td>
+                        <td>👁️ Viewer</td>
+                        <td>檢視用戶/訂單</td>
+                        <td><span class="status-badge active">啟用</span></td>
+                        <td>2025-11-18 08:15</td>
+                    </tr>
+                    <tr>
+                        <td>Min Thu</td>
+                        <td>min@myanlife.com</td>
+                        <td>商務部</td>
+                        <td>✏️ Editor</td>
+                        <td>管理商家/商品</td>
+                        <td><span class="status-badge active">啟用</span></td>
+                        <td>2025-11-17 16:45</td>
                     </tr>
                 </tbody>
             </table>
 
-            <div class="info-note">
-                <strong>💡 運營功能：</strong>審核商家申請、審核優惠券、管理用戶、查看該國數據統計、處理客訴、生成營運報表。各國運營後台由代理商或合作夥伴管理，擁有該國 Super 權限。
-            </div>
-        </div>
-
-        <!-- 中央後台 -->
-        <div id="central" class="mockup-container">
-            <div class="mockup-header">
-                <div class="mockup-title">
-                    <span>🏛️</span>
-                    <span>中央後台系統</span>
-                </div>
-                <div class="mockup-nav">
-                    <div class="nav-item active">跨國儀表板</div>
-                    <div class="nav-item">營收報表</div>
-                    <div class="nav-item">數據分析</div>
-                    <div class="nav-item">系統監控</div>
-                    <div class="user-info">
-                        <div class="avatar">C</div>
-                        <span>Central Admin</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="country-selector">
-                <button class="country-btn active">🌍 全部國家</button>
-                <button class="country-btn">🇹🇼 台灣</button>
-                <button class="country-btn">🇲🇲 緬甸</button>
-                <button class="country-btn">🇹🇭 泰國</button>
-                <button class="country-btn">🇻🇳 越南</button>
-            </div>
-
-            <div class="stats-row">
-                <div class="stat-card">
-                    <div class="stat-number">15,847</div>
-                    <div class="stat-label">總用戶數</div>
-                </div>
-                <div class="stat-card success">
-                    <div class="stat-number">342</div>
-                    <div class="stat-label">總商家數</div>
-                </div>
-                <div class="stat-card warning">
-                    <div class="stat-number">8,456</div>
-                    <div class="stat-label">本月訂單</div>
-                </div>
-                <div class="stat-card info">
-                    <div class="stat-number">$285,420</div>
-                    <div class="stat-label">本月總營收</div>
-                </div>
-            </div>
-
+            <h3 style="margin-bottom: 15px; margin-top: 40px; color: #333;">📰 內容管理系統 (CMS)</h3>
             <div class="dashboard-grid">
                 <div class="dashboard-card">
                     <div class="dashboard-card-title">
-                        <span>📊</span>
-                        <span>各國營收對比</span>
+                        <span>🖼️</span>
+                        <span>橫幅廣告管理 (Banners)</span>
                     </div>
-                    <div class="chart-placeholder">📈 營收趨勢圖表</div>
-                    <table class="data-table" style="margin-top: 15px;">
-                        <thead>
-                            <tr>
-                                <th>國家</th>
-                                <th>本月營收</th>
-                                <th>成長率</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>🇹🇼 台灣</td>
-                                <td>$125,000</td>
-                                <td style="color: #4caf50;">↑ 15%</td>
-                            </tr>
-                            <tr>
-                                <td>🇲🇲 緬甸</td>
-                                <td>$85,420</td>
-                                <td style="color: #4caf50;">↑ 22%</td>
-                            </tr>
-                            <tr>
-                                <td>🇹🇭 泰國</td>
-                                <td>$45,000</td>
-                                <td style="color: #f44336;">↓ 5%</td>
-                            </tr>
-                            <tr>
-                                <td>🇻🇳 越南</td>
-                                <td>$30,000</td>
-                                <td style="color: #4caf50;">↑ 8%</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <p style="color: #666; margin: 10px 0;">管理首頁橫幅廣告，支援分類管理</p>
+                    <button class="quick-action-btn" style="margin-top: 10px;">管理橫幅 (banners, banner_categories)</button>
                 </div>
 
                 <div class="dashboard-card">
                     <div class="dashboard-card-title">
-                        <span>👥</span>
-                        <span>用戶分佈統計</span>
+                        <span>📰</span>
+                        <span>新聞公告管理 (News)</span>
                     </div>
-                    <div class="chart-placeholder">🥧 用戶分佈圓餅圖</div>
-                    <table class="data-table" style="margin-top: 15px;">
-                        <thead>
-                            <tr>
-                                <th>國家</th>
-                                <th>用戶數</th>
-                                <th>活躍率</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>🇹🇼 台灣</td>
-                                <td>6,500</td>
-                                <td>78%</td>
-                            </tr>
-                            <tr>
-                                <td>🇲🇲 緬甸</td>
-                                <td>5,200</td>
-                                <td>82%</td>
-                            </tr>
-                            <tr>
-                                <td>🇹🇭 泰國</td>
-                                <td>2,847</td>
-                                <td>65%</td>
-                            </tr>
-                            <tr>
-                                <td>🇻🇳 越南</td>
-                                <td>1,300</td>
-                                <td>71%</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <p style="color: #666; margin: 10px 0;">發布平台新聞與公告訊息</p>
+                    <button class="quick-action-btn" style="margin-top: 10px;">管理新聞 (news, news_categories)</button>
                 </div>
-            </div>
 
-            <div class="dashboard-card" style="margin-top: 25px;">
-                <div class="dashboard-card-title">
-                    <span>🔗</span>
-                    <span>快速連結到各國運營後台</span>
+                <div class="dashboard-card">
+                    <div class="dashboard-card-title">
+                        <span>📘</span>
+                        <span>黃頁管理 (Yellow Pages)</span>
+                    </div>
+                    <p style="color: #666; margin: 10px 0;">商家目錄與服務資訊</p>
+                    <button class="quick-action-btn" style="margin-top: 10px;">管理黃頁 (yellow_pages, yellow_page_categories)</button>
                 </div>
-                <p style="color: #666; margin-bottom: 15px;">點擊按鈕可使用 Super 帳號自動登入該國運營後台進行資料修改</p>
-                <div class="quick-actions">
-                    <button class="quick-action-btn">🇹🇼 登入台灣運營後台</button>
-                    <button class="quick-action-btn">🇲🇲 登入緬甸運營後台</button>
-                    <button class="quick-action-btn">🇹🇭 登入泰國運營後台</button>
-                    <button class="quick-action-btn">🇻🇳 登入越南運營後台</button>
+
+                <div class="dashboard-card">
+                    <div class="dashboard-card-title">
+                        <span>❤️</span>
+                        <span>慈善活動管理</span>
+                    </div>
+                    <p style="color: #666; margin: 10px 0;">公益活動與慈善專案</p>
+                    <button class="quick-action-btn" style="margin-top: 10px;">管理活動 (charity_activities, charity_activity_categories)</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="dashboard-card-title">
+                        <span>💼</span>
+                        <span>職缺管理 (Vacancies)</span>
+                    </div>
+                    <p style="color: #666; margin: 10px 0;">平台與商家職缺資訊</p>
+                    <button class="quick-action-btn" style="margin-top: 10px;">管理職缺 (vacancies)</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="dashboard-card-title">
+                        <span>⭐</span>
+                        <span>商品評論審核</span>
+                    </div>
+                    <p style="color: #666; margin: 10px 0;">審核與管理商品評論</p>
+                    <button class="quick-action-btn" style="margin-top: 10px;">管理評論 (product_reviews)</button>
                 </div>
             </div>
 
             <div class="info-note">
-                <strong>💡 中央後台功能：</strong>跨國數據整合、統一報表產製、各國營收對比、用戶分析、商家統計、系統監控。<strong>主要為只讀查看</strong>，如需修改資料，透過快速連結自動登入各國運營後台操作。權限層級：中央後台 > 各國 Super 帳號 > 各國一般帳號。
+                <strong>💡 管理後台功能：</strong>依據國家 (country_iso) 管理該國的所有業務資料。<br>
+                <strong>🔵 核心管理：</strong>會員管理 (users, user_preferences)、商家管理 (merchants, stores, merchant_preferences)、管理員管理 (admins)、權限控管 (roles, permissions, model_has_roles, model_has_permissions, role_has_permissions)。<br>
+                <strong>🟢 業務管理：</strong>商品審核 (products, product_categories, 4 類商品子表, product_stores)、訂單管理 (orders, order_items, payments, order_status_logs)、核銷管理 (user_products, redemptions)、評分管理 (product_ratings)、優惠碼 (promo_codes)。<br>
+                <strong>🟡 內容管理：</strong>橫幅 (banners, banner_categories)、新聞 (news, news_categories)、黃頁 (yellow_pages, yellow_page_categories)、慈善活動 (charity_activities, charity_activity_categories)、職缺 (vacancies)、商品評論審核 (product_reviews)。<br>
+                <strong>⚙️ 系統功能：</strong>任務系統 (member_tasks, member_task_logs, merchant_tasks, merchant_task_logs)、多國切換、跨國數據總覽、報表產製、系統監控。
             </div>
         </div>
     </div>
