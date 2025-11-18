@@ -4170,6 +4170,13 @@
             if (targetView) {
                 targetView.classList.add('active');
             }
+
+            // 根據切換的視圖渲染對應的資料
+            setTimeout(() => {
+                if (viewName === 'products') {
+                    renderProducts();
+                }
+            }, 50);
         }
 
         // 商家端視圖切換功能
@@ -4198,6 +4205,15 @@
             if (targetView) {
                 targetView.classList.add('active');
             }
+
+            // 根據切換的視圖渲染對應的資料
+            setTimeout(() => {
+                if (viewName === 'products') {
+                    renderMerchantProducts();
+                } else if (viewName === 'orders') {
+                    renderMerchantOrders();
+                }
+            }, 50);
         }
 
         // 運營後台視圖切換功能
@@ -4226,6 +4242,17 @@
             if (targetView) {
                 targetView.classList.add('active');
             }
+
+            // 根據切換的視圖渲染對應的資料
+            setTimeout(() => {
+                if (viewName === 'members') {
+                    renderOperationMembers();
+                } else if (viewName === 'merchants') {
+                    renderOperationMerchants();
+                } else if (viewName === 'products') {
+                    renderOperationProducts();
+                }
+            }, 50);
         }
 
         // 中央後台視圖切換功能
@@ -4252,6 +4279,17 @@
             if (targetView) {
                 targetView.classList.add('active');
             }
+
+            // 根據切換的視圖渲染對應的資料
+            setTimeout(() => {
+                if (viewName === 'dashboard') {
+                    renderCentralDashboard();
+                } else if (viewName === 'revenue') {
+                    renderCentralRevenue();
+                } else if (viewName === 'analytics') {
+                    renderCentralAnalytics();
+                }
+            }, 50);
         }
 
         // 登入功能
@@ -5289,12 +5327,12 @@
             renderProducts();
         }
 
-        // 頁面載入時初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            initProducts();
-            initMerchantProducts();
-            initMerchantOrders();
-        });
+        // 頁面載入時初始化（已移除，改由 switchTab 時初始化）
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     initProducts();
+        //     initMerchantProducts();
+        //     initMerchantOrders();
+        // });
 
         // ============================================
         // 商家端功能
@@ -5840,11 +5878,12 @@
         let currentOperationProductFilter = 'pending';
 
         // 初始化運營後台
-        document.addEventListener('DOMContentLoaded', () => {
-            initOperationMembers();
-            initOperationMerchants();
-            initOperationProducts();
-        });
+        // 頁面載入時初始化（已移除，改由 switchTab 時初始化）
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     initOperationMembers();
+        //     initOperationMerchants();
+        //     initOperationProducts();
+        // });
 
         // ========== 會員管理 ==========
 
@@ -6729,13 +6768,30 @@
             });
         }
 
-        // 頁面載入時初始化中央後台（當切換到中央後台時）
+        // 擴展 switchTab 函數以支援各介面的初始化
         const originalSwitchTab = switchTab;
         switchTab = function(tabName) {
             originalSwitchTab.call(this, tabName);
-            if (tabName === 'central') {
-                setTimeout(() => initCentral(), 100);
-            }
+
+            // 根據切換的標籤初始化對應的資料
+            setTimeout(() => {
+                if (tabName === 'member') {
+                    // 初始化會員端
+                    initProducts();
+                } else if (tabName === 'merchant') {
+                    // 初始化商家端
+                    initMerchantProducts();
+                    initMerchantOrders();
+                } else if (tabName === 'operation') {
+                    // 初始化運營後台
+                    initOperationMembers();
+                    initOperationMerchants();
+                    initOperationProducts();
+                } else if (tabName === 'central') {
+                    // 初始化中央後台
+                    initCentral();
+                }
+            }, 100);
         };
     </script>
 </body>
