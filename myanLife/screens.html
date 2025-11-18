@@ -1272,145 +1272,15 @@
                 <h3 style="margin-bottom: 15px; color: #333;">🛍️ 所有商品</h3>
 
                 <div class="filter-tabs">
-                    <button class="filter-tab active">全部商品</button>
-                    <button class="filter-tab">🍔 餐飲美食</button>
-                    <button class="filter-tab">✈️ 旅遊交通</button>
-                    <button class="filter-tab">🏨 飯店住宿</button>
-                    <button class="filter-tab">🎭 娛樂休閒</button>
+                    <button class="filter-tab active" onclick="filterProducts('all', this)">全部商品</button>
+                    <button class="filter-tab" onclick="filterProducts(1, this)">🍔 餐飲美食</button>
+                    <button class="filter-tab" onclick="filterProducts(2, this)">✈️ 旅遊交通</button>
+                    <button class="filter-tab" onclick="filterProducts(3, this)">🏨 飯店住宿</button>
+                    <button class="filter-tab" onclick="filterProducts(4, this)">🎭 娛樂休閒</button>
                 </div>
 
-                <div class="content-grid">
-                    <div class="card">
-                        <div class="card-image">🍕</div>
-                        <div class="card-title">美味披薩 8折優惠</div>
-                        <div class="card-desc">Pizza Hut 全品項享8折，限量100張</div>
-                        <div class="card-meta">
-                            <span style="color: #f57c00; font-size: 0.85em;">🍔 餐飲美食</span>
-                            <span class="card-price">12,000 MMK</span>
-                        </div>
-                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-image">☕</div>
-                        <div class="card-title">咖啡買一送一</div>
-                        <div class="card-desc">Starbucks 中杯以上飲品適用</div>
-                        <div class="card-meta">
-                            <span style="color: #f57c00; font-size: 0.85em;">🍔 餐飲美食</span>
-                            <span class="card-price">6,500 MMK</span>
-                        </div>
-                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-image">🍜</div>
-                        <div class="card-title">緬式料理套餐</div>
-                        <div class="card-desc">傳統緬甸風味餐廳優惠套餐</div>
-                        <div class="card-meta">
-                            <span style="color: #f57c00; font-size: 0.85em;">🍔 餐飲美食</span>
-                            <span class="card-price">8,000 MMK</span>
-                        </div>
-                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-image">✈️</div>
-                        <div class="card-title">曼德勒來回機票</div>
-                        <div class="card-desc">Myanmar Airways 限時優惠</div>
-                        <div class="card-meta">
-                            <span style="color: #1976d2; font-size: 0.85em;">✈️ 旅遊交通</span>
-                            <span class="card-price">85,000 MMK</span>
-                        </div>
-                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-image">🎫</div>
-                        <div class="card-title">茵萊湖一日遊</div>
-                        <div class="card-desc">包含交通、導遊、午餐</div>
-                        <div class="card-meta">
-                            <span style="color: #1976d2; font-size: 0.85em;">✈️ 旅遊交通</span>
-                            <span class="card-price">35,000 MMK</span>
-                        </div>
-                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-image">🚌</div>
-                        <div class="card-title">觀光巴士一日券</div>
-                        <div class="card-desc">仰光市區觀光巴士無限次搭乘</div>
-                        <div class="card-meta">
-                            <span style="color: #1976d2; font-size: 0.85em;">✈️ 旅遊交通</span>
-                            <span class="card-price">15,000 MMK</span>
-                        </div>
-                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-image">🏨</div>
-                        <div class="card-title">仰光市中心酒店住宿</div>
-                        <div class="card-desc">Sedona Hotel 豪華雙人房一晚</div>
-                        <div class="card-meta">
-                            <span style="color: #7b1fa2; font-size: 0.85em;">🏨 飯店住宿</span>
-                            <span class="card-price">45,000 MMK</span>
-                        </div>
-                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-image">🛏️</div>
-                        <div class="card-title">茵萊湖畔度假村</div>
-                        <div class="card-desc">湖景房兩晚含早餐</div>
-                        <div class="card-meta">
-                            <span style="color: #7b1fa2; font-size: 0.85em;">🏨 飯店住宿</span>
-                            <span class="card-price">68,000 MMK</span>
-                        </div>
-                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-image">🎭</div>
-                        <div class="card-title">緬甸傳統舞蹈表演</div>
-                        <div class="card-desc">Karaweik Palace 晚宴表演</div>
-                        <div class="card-meta">
-                            <span style="color: #c62828; font-size: 0.85em;">🎭 娛樂休閒</span>
-                            <span class="card-price">25,000 MMK</span>
-                        </div>
-                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-image">🎬</div>
-                        <div class="card-title">電影票買一送一</div>
-                        <div class="card-desc">Junction City 影城全片適用</div>
-                        <div class="card-meta">
-                            <span style="color: #c62828; font-size: 0.85em;">🎭 娛樂休閒</span>
-                            <span class="card-price">10,000 MMK</span>
-                        </div>
-                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-image">🎪</div>
-                        <div class="card-title">茵萊湖文化節門票</div>
-                        <div class="card-desc">體驗傳統文化表演與市集</div>
-                        <div class="card-meta">
-                            <span style="color: #c62828; font-size: 0.85em;">🎭 娛樂休閒</span>
-                            <span class="card-price">18,000 MMK</span>
-                        </div>
-                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-image">🏋️</div>
-                        <div class="card-title">健身房月卡優惠</div>
-                        <div class="card-desc">Fitness First 一個月無限使用</div>
-                        <div class="card-meta">
-                            <span style="color: #c62828; font-size: 0.85em;">🎭 娛樂休閒</span>
-                            <span class="card-price">35,000 MMK</span>
-                        </div>
-                        <button class="card-button" style="margin-top: 10px;">立即購買</button>
-                    </div>
+                <div class="content-grid" id="productsGrid">
+                    <!-- 商品卡片將由 renderProducts() 函數動態生成 -->
                 </div>
             </div>
             <!-- 商品視圖結束 -->
@@ -2147,76 +2017,7 @@
                         </tr>
                     </thead>
                     <tbody id="merchantProductsTable">
-                        <tr>
-                            <td>美味披薩 8折優惠</td>
-                            <td>🍔 餐飲美食</td>
-                            <td>12,000</td>
-                            <td>45/100</td>
-                            <td>4.5 ⭐ (23 則)</td>
-                            <td><span class="status-badge active">上架中</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn edit">編輯</button>
-                                    <button class="action-btn reject">下架</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>外帶優惠套餐</td>
-                            <td>🍔 餐飲美食</td>
-                            <td>18,000</td>
-                            <td>12/50</td>
-                            <td>4.8 ⭐ (15 則)</td>
-                            <td><span class="status-badge active">上架中</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn edit">編輯</button>
-                                    <button class="action-btn reject">下架</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>週末下午茶優惠</td>
-                            <td>🍔 餐飲美食</td>
-                            <td>25,000</td>
-                            <td>89/100</td>
-                            <td>4.9 ⭐ (45 則)</td>
-                            <td><span class="status-badge active">上架中</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn edit">編輯</button>
-                                    <button class="action-btn reject">下架</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>學生專屬優惠</td>
-                            <td>🍔 餐飲美食</td>
-                            <td>10,000</td>
-                            <td>0/50</td>
-                            <td>N/A</td>
-                            <td><span class="status-badge pending">審核中</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn edit">編輯</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>家庭聚餐套餐</td>
-                            <td>🍔 餐飲美食</td>
-                            <td>45,000</td>
-                            <td>0/30</td>
-                            <td>N/A</td>
-                            <td><span class="status-badge rejected">已下架</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn edit">編輯</button>
-                                    <button class="action-btn approve">重新上架</button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
+                        <!-- 商品資料將由 renderMerchantProducts() 函數動態生成 -->
                 </table>
             </div>
             <!-- 商品管理視圖結束 -->
@@ -2247,56 +2048,7 @@
                         </tr>
                     </thead>
                     <tbody id="merchantOrdersTable">
-                        <tr>
-                            <td>ORD-20251118-001</td>
-                            <td>張小明</td>
-                            <td>美味披薩 8折優惠</td>
-                            <td>仰光總店</td>
-                            <td>12,000</td>
-                            <td>2025-11-18 14:30</td>
-                            <td><span class="status-badge pending">待核銷</span></td>
-                            <td><button class="action-btn approve">核銷</button></td>
-                        </tr>
-                        <tr>
-                            <td>ORD-20251118-015</td>
-                            <td>李美玲</td>
-                            <td>週末下午茶優惠</td>
-                            <td>曼德勒分店</td>
-                            <td>25,000</td>
-                            <td>2025-11-18 12:15</td>
-                            <td><span class="status-badge pending">待核銷</span></td>
-                            <td><button class="action-btn approve">核銷</button></td>
-                        </tr>
-                        <tr>
-                            <td>ORD-20251117-098</td>
-                            <td>王大明</td>
-                            <td>外帶優惠套餐</td>
-                            <td>仰光總店</td>
-                            <td>18,000</td>
-                            <td>2025-11-17 19:45</td>
-                            <td><span class="status-badge active">已完成</span></td>
-                            <td><button class="action-btn edit">查看</button></td>
-                        </tr>
-                        <tr>
-                            <td>ORD-20251117-085</td>
-                            <td>陳小華</td>
-                            <td>美味披薩 8折優惠 x2</td>
-                            <td>仰光總店</td>
-                            <td>24,000</td>
-                            <td>2025-11-17 18:20</td>
-                            <td><span class="status-badge active">已完成</span></td>
-                            <td><button class="action-btn edit">查看</button></td>
-                        </tr>
-                        <tr>
-                            <td>ORD-20251117-072</td>
-                            <td>林志明</td>
-                            <td>週末下午茶優惠</td>
-                            <td>曼德勒分店</td>
-                            <td>25,000</td>
-                            <td>2025-11-17 16:30</td>
-                            <td><span class="status-badge rejected">已取消</span></td>
-                            <td><button class="action-btn edit">查看</button></td>
-                        </tr>
+                        <!-- 訂單資料將由 renderMerchantOrders() 函數動態生成 -->
                     </tbody>
                 </table>
             </div>
@@ -2835,86 +2587,7 @@
                         </tr>
                     </thead>
                     <tbody id="operationMembersTable">
-                        <tr>
-                            <td>#U00523</td>
-                            <td>張小明</td>
-                            <td>zhang@example.com</td>
-                            <td>+95-9-123-456789</td>
-                            <td>2025-10-15</td>
-                            <td>12</td>
-                            <td>485,000 MMK</td>
-                            <td><span class="status-badge active">活躍</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn edit">查看</button>
-                                    <button class="action-btn reject">停用</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#U00524</td>
-                            <td>李美玲</td>
-                            <td>li@example.com</td>
-                            <td>+95-9-234-567890</td>
-                            <td>2025-10-20</td>
-                            <td>8</td>
-                            <td>320,000 MMK</td>
-                            <td><span class="status-badge active">活躍</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn edit">查看</button>
-                                    <button class="action-btn reject">停用</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#U00525</td>
-                            <td>王大明</td>
-                            <td>wang@example.com</td>
-                            <td>+95-9-345-678901</td>
-                            <td>2025-11-01</td>
-                            <td>3</td>
-                            <td>125,000 MMK</td>
-                            <td><span class="status-badge active">活躍</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn edit">查看</button>
-                                    <button class="action-btn reject">停用</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#U00526</td>
-                            <td>陳小華</td>
-                            <td>chen@example.com</td>
-                            <td>+95-9-456-789012</td>
-                            <td>2025-11-10</td>
-                            <td>1</td>
-                            <td>45,000 MMK</td>
-                            <td><span class="status-badge pending">新用戶</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn edit">查看</button>
-                                    <button class="action-btn reject">停用</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#U00320</td>
-                            <td>林志明</td>
-                            <td>lin@example.com</td>
-                            <td>+95-9-567-890123</td>
-                            <td>2025-08-15</td>
-                            <td>0</td>
-                            <td>0 MMK</td>
-                            <td><span class="status-badge rejected">已停用</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn edit">查看</button>
-                                    <button class="action-btn approve">啟用</button>
-                                </div>
-                            </td>
-                        </tr>
+                        <!-- 會員資料將由 renderOperationMembers() 函數動態生成 -->
                     </tbody>
                 </table>
 
@@ -2974,86 +2647,7 @@
                         </tr>
                     </thead>
                     <tbody id="operationMerchantsTable">
-                        <tr>
-                            <td>#M0015</td>
-                            <td>Pizza Hut Myanmar</td>
-                            <td>contact@pizzahut.mm</td>
-                            <td>3</td>
-                            <td>12</td>
-                            <td>328</td>
-                            <td>4.8 ⭐</td>
-                            <td><span class="status-badge active">營業中</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn edit">查看</button>
-                                    <button class="action-btn reject">停用</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#M0023</td>
-                            <td>Sedona Hotel Group</td>
-                            <td>info@sedona.mm</td>
-                            <td>5</td>
-                            <td>8</td>
-                            <td>156</td>
-                            <td>4.7 ⭐</td>
-                            <td><span class="status-badge active">營業中</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn edit">查看</button>
-                                    <button class="action-btn reject">停用</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#M0067</td>
-                            <td>Myanmar Airways</td>
-                            <td>service@myanair.com</td>
-                            <td>1</td>
-                            <td>15</td>
-                            <td>89</td>
-                            <td>4.5 ⭐</td>
-                            <td><span class="status-badge active">營業中</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn edit">查看</button>
-                                    <button class="action-btn reject">停用</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#M0089</td>
-                            <td>Karaweik Palace</td>
-                            <td>booking@karaweik.mm</td>
-                            <td>1</td>
-                            <td>6</td>
-                            <td>45</td>
-                            <td>4.9 ⭐</td>
-                            <td><span class="status-badge active">營業中</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn edit">查看</button>
-                                    <button class="action-btn reject">停用</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#M0125</td>
-                            <td>Golden Myanmar Restaurant</td>
-                            <td>contact@golden.mm</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>N/A</td>
-                            <td><span class="status-badge pending">待審核</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn approve">審核</button>
-                                    <button class="action-btn reject">拒絕</button>
-                                </div>
-                            </td>
-                        </tr>
+                        <!-- 商家資料將由 renderOperationMerchants() 函數動態生成 -->
                     </tbody>
                 </table>
 
@@ -3105,81 +2699,7 @@
                         </tr>
                     </thead>
                     <tbody id="operationProductsTable">
-                        <tr>
-                            <td>#P2385</td>
-                            <td>茵萊湖一日遊</td>
-                            <td>✈️ 旅遊交通</td>
-                            <td>Myanmar Travel Co.</td>
-                            <td>35,000</td>
-                            <td>2025-11-15 14:30</td>
-                            <td><span class="status-badge pending">待審核</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn approve">通過</button>
-                                    <button class="action-btn reject">拒絕</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#P2386</td>
-                            <td>仰光市中心豪華酒店</td>
-                            <td>🏨 飯店住宿</td>
-                            <td>Sedona Hotel</td>
-                            <td>45,000</td>
-                            <td>2025-11-16 09:20</td>
-                            <td><span class="status-badge pending">待審核</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn approve">通過</button>
-                                    <button class="action-btn reject">拒絕</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#P2387</td>
-                            <td>緬甸傳統舞蹈表演</td>
-                            <td>🎭 娛樂休閒</td>
-                            <td>Karaweik Palace</td>
-                            <td>25,000</td>
-                            <td>2025-11-17 11:15</td>
-                            <td><span class="status-badge pending">待審核</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn approve">通過</button>
-                                    <button class="action-btn reject">拒絕</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#P2388</td>
-                            <td>傳統緬式料理體驗</td>
-                            <td>🍔 餐飲美食</td>
-                            <td>Golden Myanmar Restaurant</td>
-                            <td>18,000</td>
-                            <td>2025-11-17 16:45</td>
-                            <td><span class="status-badge pending">待審核</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn approve">通過</button>
-                                    <button class="action-btn reject">拒絕</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#P2389</td>
-                            <td>蒲甘佛塔之旅</td>
-                            <td>✈️ 旅遊交通</td>
-                            <td>Bagan Tours</td>
-                            <td>65,000</td>
-                            <td>2025-11-18 08:30</td>
-                            <td><span class="status-badge pending">待審核</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn approve">通過</button>
-                                    <button class="action-btn reject">拒絕</button>
-                                </div>
-                            </td>
-                        </tr>
+                        <!-- 商品資料將由 renderOperationProducts() 函數動態生成 -->
                     </tbody>
                 </table>
 
