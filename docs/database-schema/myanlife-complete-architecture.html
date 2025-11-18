@@ -32,6 +32,7 @@
             color: white;
             padding: 40px;
             text-align: center;
+            position: relative;
         }
 
         header h1 {
@@ -43,6 +44,31 @@
         header p {
             font-size: 1.1em;
             opacity: 0.9;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-50%) translateX(-5px);
         }
 
         .nav-tabs {
@@ -284,6 +310,10 @@
 <body>
     <div class="container">
         <header>
+            <a href="../../myanLife/architecture.html" class="back-button">
+                <span>←</span>
+                <span>上一頁</span>
+            </a>
             <h1>🗄️ MyAnLife 完整資料庫架構設計</h1>
             <p>包含所有系統模組的完整資料庫結構視覺化文檔</p>
         </header>
