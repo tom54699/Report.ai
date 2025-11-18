@@ -809,6 +809,237 @@
                 font-size: 0.9em;
             }
         }
+
+        /* ============================================
+           通用 UI 組件樣式
+           ============================================ */
+
+        /* Toast 通知 */
+        .toast {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 16px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 300px;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .toast-icon {
+            font-size: 1.5em;
+        }
+
+        .toast-message {
+            flex: 1;
+            font-size: 0.95em;
+            color: #333;
+        }
+
+        .toast-success {
+            border-left: 4px solid #10b981;
+        }
+
+        .toast-error {
+            border-left: 4px solid #ef4444;
+        }
+
+        .toast-warning {
+            border-left: 4px solid #f59e0b;
+        }
+
+        .toast-info {
+            border-left: 4px solid #3b82f6;
+        }
+
+        /* Modal 模態框 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.4em;
+            color: #333;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2em;
+            color: #999;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: #f3f4f6;
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 25px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-footer {
+            padding: 20px 25px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* 按鈕樣式 */
+        .btn-primary, .btn-secondary {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 表單樣式 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* QR Code 樣式 */
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            font-size: 3em;
+        }
     </style>
 </head>
 <body>
@@ -892,7 +1123,7 @@
 
             <h3 style="margin-bottom: 15px; color: #333;">🔥 熱門商品</h3>
             <div class="content-grid">
-                <div class="card">
+                <div class="card" onclick="showProductDetail('美味披薩 8折優惠', '🍕', '12,000', '餐飲美食', 'Pizza Hut 全品項享受 8 折優惠，包含經典瑪格麗特、夏威夷披薩、海鮮總匯等多種口味。餅皮酥脆，料多實在，適合全家共享。限量 100 張，售完為止！', 'Pizza Hut 仰光總店', '4.5')" style="cursor: pointer;">
                     <div class="card-image">🍕</div>
                     <div class="card-title">美味披薩 8折優惠</div>
                     <div class="card-desc">Pizza Hut 全品項享8折，限量100張</div>
@@ -900,10 +1131,10 @@
                         <span style="color: #f57c00; font-size: 0.85em;">🍔 餐飲美食</span>
                         <span class="card-price">12,000 MMK</span>
                     </div>
-                    <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    <button class="card-button" style="margin-top: 10px;" onclick="event.stopPropagation(); handleBuyProduct('美味披薩 8折優惠', '12,000')">立即購買</button>
                 </div>
 
-                <div class="card">
+                <div class="card" onclick="showProductDetail('曼德勒來回機票', '✈️', '85,000', '旅遊交通', 'Myanmar Airways 推出仰光至曼德勒來回機票限時優惠。包含來回航班、20kg 托運行李、機上餐點。航班時間彈性，可自由選擇出發日期。體驗緬甸第二大城市的文化魅力！', 'Myanmar Airways', '4.7')" style="cursor: pointer;">
                     <div class="card-image">✈️</div>
                     <div class="card-title">曼德勒來回機票</div>
                     <div class="card-desc">Myanmar Airways 限時優惠</div>
@@ -911,10 +1142,10 @@
                         <span style="color: #1976d2; font-size: 0.85em;">✈️ 旅遊交通</span>
                         <span class="card-price">85,000 MMK</span>
                     </div>
-                    <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    <button class="card-button" style="margin-top: 10px;" onclick="event.stopPropagation(); handleBuyProduct('曼德勒來回機票', '85,000')">立即購買</button>
                 </div>
 
-                <div class="card">
+                <div class="card" onclick="showProductDetail('仰光五星級飯店', '🏨', '45,000', '飯店住宿', 'Sedona Hotel Yangon 一晚住宿優惠券。享受五星級服務，房間寬敞舒適，配備豪華衛浴設備。飯店設施包含游泳池、健身房、水療中心。位於市中心，交通便利，鄰近購物中心。', 'Sedona Hotel', '4.8')" style="cursor: pointer;">
                     <div class="card-image">🏨</div>
                     <div class="card-title">仰光市中心酒店住宿</div>
                     <div class="card-desc">Sedona Hotel 豪華雙人房一晚</div>
@@ -922,10 +1153,10 @@
                         <span style="color: #7b1fa2; font-size: 0.85em;">🏨 飯店住宿</span>
                         <span class="card-price">45,000 MMK</span>
                     </div>
-                    <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    <button class="card-button" style="margin-top: 10px;" onclick="event.stopPropagation(); handleBuyProduct('仰光五星級飯店', '45,000')">立即購買</button>
                 </div>
 
-                <div class="card">
+                <div class="card" onclick="showProductDetail('緬甸傳統舞蹈表演', '🎭', '25,000', '娛樂休閒', 'Karaweik Palace 晚宴表演套票，欣賞精彩的緬甸傳統舞蹈與音樂演出。在金色皇家餐廳享用緬式傳統料理自助晚餐，品嚐道地美食。體驗緬甸獨特的文化藝術，留下難忘回憶。', 'Karaweik Palace', '4.6')" style="cursor: pointer;">
                     <div class="card-image">🎭</div>
                     <div class="card-title">緬甸傳統舞蹈表演</div>
                     <div class="card-desc">Karaweik Palace 晚宴表演</div>
@@ -933,10 +1164,10 @@
                         <span style="color: #c62828; font-size: 0.85em;">🎭 娛樂休閒</span>
                         <span class="card-price">25,000 MMK</span>
                     </div>
-                    <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    <button class="card-button" style="margin-top: 10px;" onclick="event.stopPropagation(); handleBuyProduct('緬甸傳統舞蹈表演', '25,000')">立即購買</button>
                 </div>
 
-                <div class="card">
+                <div class="card" onclick="showProductDetail('咖啡買一送一', '☕', '6,500', '餐飲美食', 'Starbucks 中杯以上所有飲品買一送一優惠券。包含拿鐵、卡布奇諾、摩卡、焦糖瑪奇朵等經典飲品。可於緬甸所有 Starbucks 門市使用，有效期限 30 天。享受咖啡香醇滋味！', 'Starbucks Myanmar', '4.4')" style="cursor: pointer;">
                     <div class="card-image">☕</div>
                     <div class="card-title">咖啡買一送一</div>
                     <div class="card-desc">Starbucks 中杯以上飲品適用</div>
@@ -944,10 +1175,10 @@
                         <span style="color: #f57c00; font-size: 0.85em;">🍔 餐飲美食</span>
                         <span class="card-price">6,500 MMK</span>
                     </div>
-                    <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    <button class="card-button" style="margin-top: 10px;" onclick="event.stopPropagation(); handleBuyProduct('咖啡買一送一', '6,500')">立即購買</button>
                 </div>
 
-                <div class="card">
+                <div class="card" onclick="showProductDetail('茵萊湖一日遊', '🎫', '35,000', '旅遊交通', '茵萊湖一日遊套票，包含仰光來回交通、專業中文導遊、午餐。參觀水上市場、浮島菜園、手工藝作坊。乘坐長尾船遊覽美麗湖景，體驗獨特的單腳划船文化。適合全家出遊！', '茵萊湖旅行社', '4.9')" style="cursor: pointer;">
                     <div class="card-image">🎫</div>
                     <div class="card-title">茵萊湖一日遊</div>
                     <div class="card-desc">包含交通、導遊、午餐</div>
@@ -955,7 +1186,7 @@
                         <span style="color: #1976d2; font-size: 0.85em;">✈️ 旅遊交通</span>
                         <span class="card-price">35,000 MMK</span>
                     </div>
-                    <button class="card-button" style="margin-top: 10px;">立即購買</button>
+                    <button class="card-button" style="margin-top: 10px;" onclick="event.stopPropagation(); handleBuyProduct('茵萊湖一日遊', '35,000')">立即購買</button>
                 </div>
             </div>
 
@@ -1158,7 +1389,7 @@
                     <button class="filter-tab">已取消</button>
                 </div>
 
-                <div class="order-card">
+                <div class="order-card" onclick="showOrderDetail('ORD-20251118-001', '美味披薩 8折優惠', '🍕', '12,000', 'pending', '2025-11-18 14:30')" style="cursor: pointer;">
                     <div class="order-header">
                         <div>
                             <div class="order-number">訂單編號：ORD-20251118-001</div>
@@ -1175,11 +1406,11 @@
                     </div>
                     <div class="order-footer">
                         <div class="order-total">12,000 MMK</div>
-                        <button class="card-button">立即核銷</button>
+                        <button class="card-button" onclick="event.stopPropagation();">立即核銷</button>
                     </div>
                 </div>
 
-                <div class="order-card">
+                <div class="order-card" onclick="showOrderDetail('ORD-20251117-052', '咖啡買一送一', '☕', '13,000', 'pending', '2025-11-17 09:15')" style="cursor: pointer;">
                     <div class="order-header">
                         <div>
                             <div class="order-number">訂單編號：ORD-20251117-052</div>
@@ -1196,11 +1427,11 @@
                     </div>
                     <div class="order-footer">
                         <div class="order-total">13,000 MMK</div>
-                        <button class="card-button">立即核銷</button>
+                        <button class="card-button" onclick="event.stopPropagation();">立即核銷</button>
                     </div>
                 </div>
 
-                <div class="order-card">
+                <div class="order-card" onclick="showOrderDetail('ORD-20251116-038', '緬甸傳統舞蹈表演', '🎭', '50,000', 'completed', '2025-11-16 16:45')" style="cursor: pointer;">
                     <div class="order-header">
                         <div>
                             <div class="order-number">訂單編號：ORD-20251116-038</div>
@@ -1217,11 +1448,11 @@
                     </div>
                     <div class="order-footer">
                         <div class="order-total">50,000 MMK</div>
-                        <button class="action-btn edit">查看詳情</button>
+                        <button class="action-btn edit" onclick="event.stopPropagation();">查看詳情</button>
                     </div>
                 </div>
 
-                <div class="order-card">
+                <div class="order-card" onclick="showOrderDetail('ORD-20251115-025', '仰光市中心酒店住宿', '🏨', '45,000', 'completed', '2025-11-15 11:20')" style="cursor: pointer;">
                     <div class="order-header">
                         <div>
                             <div class="order-number">訂單編號：ORD-20251115-025</div>
@@ -1238,7 +1469,7 @@
                     </div>
                     <div class="order-footer">
                         <div class="order-total">45,000 MMK</div>
-                        <button class="action-btn edit">查看詳情</button>
+                        <button class="action-btn edit" onclick="event.stopPropagation();">查看詳情</button>
                     </div>
                 </div>
 
@@ -4025,6 +4256,346 @@
                 }, index * 100);
             });
         });
+
+        // ============================================
+        // 通用 UI 組件
+        // ============================================
+
+        // Toast 通知組件
+        function showToast(message, type = 'success') {
+            const toastContainer = document.getElementById('toastContainer') || createToastContainer();
+
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+
+            const icon = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️',
+                info: 'ℹ️'
+            }[type] || '✅';
+
+            toast.innerHTML = `
+                <span class="toast-icon">${icon}</span>
+                <span class="toast-message">${message}</span>
+            `;
+
+            toastContainer.appendChild(toast);
+
+            // 觸發動畫
+            setTimeout(() => toast.classList.add('show'), 10);
+
+            // 3秒後自動移除
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function createToastContainer() {
+            const container = document.createElement('div');
+            container.id = 'toastContainer';
+            container.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 10000;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            `;
+            document.body.appendChild(container);
+            return container;
+        }
+
+        // Modal 模態框組件
+        function showModal(title, content, footer = '') {
+            // 移除已存在的 modal
+            const existingModal = document.getElementById('globalModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            const modal = document.createElement('div');
+            modal.id = 'globalModal';
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>${title}</h3>
+                        <button class="modal-close" onclick="closeModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        ${content}
+                    </div>
+                    ${footer ? `<div class="modal-footer">${footer}</div>` : ''}
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // 點擊遮罩關閉
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // 觸發動畫
+            setTimeout(() => modal.classList.add('show'), 10);
+
+            return modal;
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('globalModal');
+            if (modal) {
+                modal.classList.remove('show');
+                setTimeout(() => modal.remove(), 300);
+            }
+        }
+
+        // Confirm 確認對話框組件
+        function showConfirm(message, onConfirm, title = '確認操作') {
+            const footer = `
+                <button class="btn-secondary" onclick="closeModal()">取消</button>
+                <button class="btn-primary" onclick="handleConfirm()">確認</button>
+            `;
+
+            showModal(title, `<p style="font-size: 1.1em; line-height: 1.6;">${message}</p>`, footer);
+
+            // 將回調函數掛載到全局
+            window.handleConfirm = function() {
+                closeModal();
+                if (onConfirm) onConfirm();
+            };
+        }
+
+        // Loading 載入狀態
+        function showLoading(button) {
+            button.disabled = true;
+            button.dataset.originalText = button.innerHTML;
+            button.innerHTML = '<span class="spinner"></span> 處理中...';
+        }
+
+        function hideLoading(button) {
+            button.disabled = false;
+            button.innerHTML = button.dataset.originalText;
+        }
+
+        // ============================================
+        // 會員端互動功能
+        // ============================================
+
+        // 商品詳情頁
+        function showProductDetail(productName, emoji, price, category, description, merchant, rating) {
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 5em; margin-bottom: 20px;">${emoji}</div>
+                    <h2 style="margin-bottom: 10px; color: #333;">${productName}</h2>
+                    <div style="color: #f57c00; margin-bottom: 20px;">🏷️ ${category}</div>
+                    <div style="font-size: 1.8em; color: #667eea; font-weight: bold; margin-bottom: 20px;">${price} MMK</div>
+                </div>
+
+                <div style="border-top: 1px solid #e5e7eb; padding-top: 20px; margin-top: 20px;">
+                    <h4 style="margin-bottom: 15px; color: #333;">📝 商品描述</h4>
+                    <p style="color: #666; line-height: 1.6;">${description}</p>
+                </div>
+
+                <div style="border-top: 1px solid #e5e7eb; padding-top: 20px; margin-top: 20px;">
+                    <h4 style="margin-bottom: 15px; color: #333;">🏪 商家資訊</h4>
+                    <p style="color: #666;"><strong>商家名稱：</strong>${merchant}</p>
+                    <p style="color: #666;"><strong>評分：</strong>${rating} ⭐</p>
+                </div>
+
+                <div style="border-top: 1px solid #e5e7eb; padding-top: 20px; margin-top: 20px;">
+                    <h4 style="margin-bottom: 15px; color: #333;">⭐ 顧客評價</h4>
+                    <div style="background: #f9fafb; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                        <div style="margin-bottom: 5px;"><strong>張小明</strong> <span style="color: #fbbf24;">⭐⭐⭐⭐⭐</span></div>
+                        <p style="color: #666; font-size: 0.95em;">非常好吃！披薩料很多，CP值很高！</p>
+                    </div>
+                    <div style="background: #f9fafb; padding: 15px; border-radius: 8px;">
+                        <div style="margin-bottom: 5px;"><strong>李小華</strong> <span style="color: #fbbf24;">⭐⭐⭐⭐</span></div>
+                        <p style="color: #666; font-size: 0.95em;">優惠很划算，會再回購！</p>
+                    </div>
+                </div>
+            `;
+
+            const footer = `
+                <button class="btn-secondary" onclick="closeModal()">返回</button>
+                <button class="btn-primary" onclick="handleBuyProduct('${productName}', '${price}')">立即購買</button>
+            `;
+
+            showModal('🛍️ 商品詳情', content, footer);
+        }
+
+        // 購買商品
+        function handleBuyProduct(productName, price) {
+            closeModal();
+            showConfirm(`確定要購買「${productName}」嗎？`, () => {
+                setTimeout(() => {
+                    showToast('購買成功！訂單已生成，請至「我的訂單」查看', 'success');
+                }, 300);
+            }, '確認購買');
+        }
+
+        // 訂單詳情頁
+        function showOrderDetail(orderId, productName, emoji, price, status, date) {
+            const statusMap = {
+                'pending': { text: '待核銷', color: '#f59e0b' },
+                'completed': { text: '已完成', color: '#10b981' },
+                'cancelled': { text: '已取消', color: '#ef4444' }
+            };
+
+            const orderStatus = statusMap[status] || statusMap['pending'];
+
+            const content = `
+                <div style="background: #f9fafb; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 15px; color: #333;">📋 訂單資訊</h4>
+                    <div style="display: grid; gap: 10px;">
+                        <div><strong>訂單編號：</strong><span style="color: #666;">${orderId}</span></div>
+                        <div><strong>訂單狀態：</strong><span style="color: ${orderStatus.color}; font-weight: 600;">${orderStatus.text}</span></div>
+                        <div><strong>訂單時間：</strong><span style="color: #666;">${date}</span></div>
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 20px; padding: 20px; background: white; border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 20px;">
+                    <div style="font-size: 4em;">${emoji}</div>
+                    <div style="flex: 1;">
+                        <h3 style="margin-bottom: 5px;">${productName}</h3>
+                        <p style="color: #666;">數量：1</p>
+                    </div>
+                    <div style="font-size: 1.5em; color: #667eea; font-weight: bold;">${price} MMK</div>
+                </div>
+
+                ${status === 'pending' ? `
+                    <div style="text-align: center; padding: 30px; background: #f9fafb; border-radius: 12px;">
+                        <h4 style="margin-bottom: 15px; color: #333;">🎫 核銷碼</h4>
+                        <div class="qr-code">📱</div>
+                        <p style="color: #666; font-size: 0.9em;">請向商家出示此 QR Code 進行核銷</p>
+                    </div>
+                ` : ''}
+            `;
+
+            const footer = status === 'pending'
+                ? `
+                    <button class="btn-secondary" onclick="handleCancelOrder('${orderId}')">取消訂單</button>
+                    <button class="btn-primary" onclick="closeModal()">確定</button>
+                `
+                : `<button class="btn-primary" onclick="closeModal()">確定</button>`;
+
+            showModal('📦 訂單詳情', content, footer);
+        }
+
+        // 取消訂單
+        function handleCancelOrder(orderId) {
+            showConfirm(`確定要取消訂單「${orderId}」嗎？\n取消後將無法恢復。`, () => {
+                closeModal();
+                setTimeout(() => {
+                    showToast('訂單已取消', 'success');
+                }, 300);
+            }, '取消訂單');
+        }
+
+        // 任務詳情頁
+        function showTaskDetail(taskName, taskType, points, description, progress) {
+            const progressPercent = progress || 0;
+
+            const content = `
+                <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 12px; margin-bottom: 20px;">
+                    <div style="font-size: 3em; margin-bottom: 10px;">🎯</div>
+                    <h2 style="margin-bottom: 10px;">${taskName}</h2>
+                    <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px;">
+                        ${taskType}
+                    </div>
+                </div>
+
+                <div style="background: #f9fafb; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
+                    <h4 style="margin-bottom: 10px; color: #333;">🎁 任務獎勵</h4>
+                    <div style="font-size: 2em; color: #667eea; font-weight: bold;">${points} 積分</div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 15px; color: #333;">📝 任務說明</h4>
+                    <p style="color: #666; line-height: 1.6;">${description}</p>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 15px; color: #333;">📊 完成進度</h4>
+                    <div style="background: #e5e7eb; height: 24px; border-radius: 12px; overflow: hidden;">
+                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); height: 100%; width: ${progressPercent}%; transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.85em; font-weight: 600;">
+                            ${progressPercent}%
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const footer = progressPercent === 100
+                ? `<button class="btn-primary" onclick="handleClaimReward('${taskName}', ${points})">領取獎勵</button>`
+                : progressPercent === 0
+                ? `<button class="btn-primary" onclick="handleAcceptTask('${taskName}')">接取任務</button>`
+                : `<button class="btn-primary" onclick="closeModal()">繼續努力</button>`;
+
+            showModal('🎯 任務詳情', content, footer);
+        }
+
+        // 接取任務
+        function handleAcceptTask(taskName) {
+            closeModal();
+            setTimeout(() => {
+                showToast(`已接取任務「${taskName}」！`, 'success');
+            }, 300);
+        }
+
+        // 領取獎勵
+        function handleClaimReward(taskName, points) {
+            closeModal();
+            setTimeout(() => {
+                showToast(`恭喜完成任務！獲得 ${points} 積分 🎉`, 'success');
+            }, 300);
+        }
+
+        // 設定編輯頁面
+        function showEditProfile() {
+            const content = `
+                <form id="profileForm" onsubmit="handleSaveProfile(event)">
+                    <div class="form-group">
+                        <label class="form-label">姓名</label>
+                        <input type="text" class="form-input" value="林小明" placeholder="請輸入姓名">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">電子信箱</label>
+                        <input type="email" class="form-input" value="ming@example.com" placeholder="請輸入電子信箱">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">手機號碼</label>
+                        <input type="tel" class="form-input" value="09xx-xxx-xxx" placeholder="請輸入手機號碼">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">地址</label>
+                        <input type="text" class="form-input" value="仰光市中心區..." placeholder="請輸入地址">
+                    </div>
+                </form>
+            `;
+
+            const footer = `
+                <button class="btn-secondary" onclick="closeModal()">取消</button>
+                <button class="btn-primary" onclick="handleSaveProfile()">儲存</button>
+            `;
+
+            showModal('✏️ 編輯個人資料', content, footer);
+        }
+
+        // 儲存個人資料
+        function handleSaveProfile() {
+            closeModal();
+            setTimeout(() => {
+                showToast('個人資料已更新！', 'success');
+            }, 300);
+        }
     </script>
 </body>
 </html>
