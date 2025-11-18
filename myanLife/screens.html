@@ -2542,19 +2542,19 @@
 
                 <div class="stats-row" style="margin-bottom: 30px;">
                     <div class="stat-card">
-                        <div class="stat-number">5,847</div>
+                        <div class="stat-number" id="operationMembersTotal">0</div>
                         <div class="stat-label">總會員數</div>
                     </div>
                     <div class="stat-card success">
-                        <div class="stat-number">3,245</div>
+                        <div class="stat-number" id="operationMembersActive">0</div>
                         <div class="stat-label">活躍會員</div>
                     </div>
                     <div class="stat-card warning">
-                        <div class="stat-number">125</div>
+                        <div class="stat-number" id="operationMembersNew">0</div>
                         <div class="stat-label">本月新增</div>
                     </div>
                     <div class="stat-card info">
-                        <div class="stat-number">18</div>
+                        <div class="stat-number" id="operationMembersDisabled">0</div>
                         <div class="stat-label">停用帳號</div>
                     </div>
                 </div>
@@ -2602,19 +2602,19 @@
 
                 <div class="stats-row" style="margin-bottom: 30px;">
                     <div class="stat-card">
-                        <div class="stat-number">142</div>
+                        <div class="stat-number" id="operationMerchantsTotal">0</div>
                         <div class="stat-label">總商家數</div>
                     </div>
                     <div class="stat-card success">
-                        <div class="stat-number">128</div>
+                        <div class="stat-number" id="operationMerchantsActive">0</div>
                         <div class="stat-label">營業中</div>
                     </div>
                     <div class="stat-card warning">
-                        <div class="stat-number">8</div>
+                        <div class="stat-number" id="operationMerchantsPending">0</div>
                         <div class="stat-label">待審核</div>
                     </div>
                     <div class="stat-card info">
-                        <div class="stat-number">285</div>
+                        <div class="stat-number" id="operationStoresTotal">0</div>
                         <div class="stat-label">總店鋪數</div>
                     </div>
                 </div>
@@ -2662,19 +2662,19 @@
 
                 <div class="stats-row" style="margin-bottom: 30px;">
                     <div class="stat-card warning">
-                        <div class="stat-number">23</div>
+                        <div class="stat-number" id="operationProductsPending">0</div>
                         <div class="stat-label">待審核商品</div>
                     </div>
                     <div class="stat-card success">
-                        <div class="stat-number">856</div>
+                        <div class="stat-number" id="operationProductsApproved">0</div>
                         <div class="stat-label">已通過</div>
                     </div>
                     <div class="stat-card info">
-                        <div class="stat-number">12</div>
-                        <div class="stat-label">待修改</div>
+                        <div class="stat-number" id="operationProductsTotal">0</div>
+                        <div class="stat-label">總商品數</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">45</div>
+                        <div class="stat-number" id="operationProductsRejected">0</div>
                         <div class="stat-label">已拒絕</div>
                     </div>
                 </div>
@@ -5408,7 +5408,33 @@
         // ========== 會員管理 ==========
 
         function initOperationMembers() {
+            updateOperationMembersStats();
             renderOperationMembers();
+        }
+
+        // 更新運營後台會員統計數字
+        function updateOperationMembersStats() {
+            const users = AppData.users || [];
+            const totalMembers = users.length;
+            const activeMembers = users.filter(u => u.is_active === 1).length;
+
+            // 計算本月新增會員
+            const oneMonthAgo = new Date();
+            oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+            const newMembers = users.filter(u => new Date(u.created_at) > oneMonthAgo).length;
+
+            const disabledMembers = users.filter(u => u.is_active === 0).length;
+
+            // 更新 DOM
+            const totalEl = document.getElementById('operationMembersTotal');
+            const activeEl = document.getElementById('operationMembersActive');
+            const newEl = document.getElementById('operationMembersNew');
+            const disabledEl = document.getElementById('operationMembersDisabled');
+
+            if (totalEl) totalEl.textContent = totalMembers.toLocaleString();
+            if (activeEl) activeEl.textContent = activeMembers.toLocaleString();
+            if (newEl) newEl.textContent = newMembers.toLocaleString();
+            if (disabledEl) disabledEl.textContent = disabledMembers.toLocaleString();
         }
 
         function renderOperationMembers() {
@@ -5555,7 +5581,30 @@
         // ========== 商家管理 ==========
 
         function initOperationMerchants() {
+            updateOperationMerchantsStats();
             renderOperationMerchants();
+        }
+
+        // 更新運營後台商家統計數字
+        function updateOperationMerchantsStats() {
+            const merchants = AppData.merchants || [];
+            const stores = AppData.stores || [];
+
+            const totalMerchants = merchants.length;
+            const activeMerchants = merchants.filter(m => m.status === 'approved' && m.is_active === 1).length;
+            const pendingMerchants = merchants.filter(m => m.status === 'pending').length;
+            const totalStores = stores.length;
+
+            // 更新 DOM
+            const totalEl = document.getElementById('operationMerchantsTotal');
+            const activeEl = document.getElementById('operationMerchantsActive');
+            const pendingEl = document.getElementById('operationMerchantsPending');
+            const storesEl = document.getElementById('operationStoresTotal');
+
+            if (totalEl) totalEl.textContent = totalMerchants.toLocaleString();
+            if (activeEl) activeEl.textContent = activeMerchants.toLocaleString();
+            if (pendingEl) pendingEl.textContent = pendingMerchants.toLocaleString();
+            if (storesEl) storesEl.textContent = totalStores.toLocaleString();
         }
 
         function renderOperationMerchants() {
@@ -5707,7 +5756,29 @@
         // ========== 商品審核 ==========
 
         function initOperationProducts() {
+            updateOperationProductsStats();
             renderOperationProducts();
+        }
+
+        // 更新運營後台商品審核統計數字
+        function updateOperationProductsStats() {
+            const products = AppData.products || [];
+
+            const pendingProducts = products.filter(p => p.review_status === 'pending').length;
+            const approvedProducts = products.filter(p => p.review_status === 'approved').length;
+            const rejectedProducts = products.filter(p => p.review_status === 'rejected').length;
+            const totalProducts = products.length;
+
+            // 更新 DOM
+            const pendingEl = document.getElementById('operationProductsPending');
+            const approvedEl = document.getElementById('operationProductsApproved');
+            const rejectedEl = document.getElementById('operationProductsRejected');
+            const totalEl = document.getElementById('operationProductsTotal');
+
+            if (pendingEl) pendingEl.textContent = pendingProducts.toLocaleString();
+            if (approvedEl) approvedEl.textContent = approvedProducts.toLocaleString();
+            if (rejectedEl) rejectedEl.textContent = rejectedProducts.toLocaleString();
+            if (totalEl) totalEl.textContent = totalProducts.toLocaleString();
         }
 
         function renderOperationProducts() {
