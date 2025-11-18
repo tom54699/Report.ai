@@ -2333,40 +2333,658 @@
             <!-- 會員管理視圖 -->
             <div id="operationMembers" class="content-view">
                 <h3 style="margin-bottom: 15px; color: #333;">👥 會員管理</h3>
-                <div class="info-note">
-                    此頁面用於管理所有會員資料 (users表)、會員偏好設定 (user_preferences表)，包含查看、編輯、停用會員等功能。
+
+                <div class="stats-row" style="margin-bottom: 30px;">
+                    <div class="stat-card">
+                        <div class="stat-number">5,847</div>
+                        <div class="stat-label">總會員數</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-number">3,245</div>
+                        <div class="stat-label">活躍會員</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-number">125</div>
+                        <div class="stat-label">本月新增</div>
+                    </div>
+                    <div class="stat-card info">
+                        <div class="stat-number">18</div>
+                        <div class="stat-label">停用帳號</div>
+                    </div>
+                </div>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active">全部會員</button>
+                    <button class="filter-tab">活躍會員</button>
+                    <button class="filter-tab">新註冊</button>
+                    <button class="filter-tab">已停用</button>
+                </div>
+
+                <div class="quick-actions" style="margin-bottom: 20px;">
+                    <button class="quick-action-btn">📊 匯出會員資料</button>
+                    <button class="quick-action-btn">📧 批次發送通知</button>
+                    <button class="quick-action-btn">⚙️ 會員設定</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>會員ID</th>
+                            <th>姓名</th>
+                            <th>電子信箱</th>
+                            <th>手機號碼</th>
+                            <th>註冊日期</th>
+                            <th>訂單數</th>
+                            <th>消費金額</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#U00523</td>
+                            <td>張小明</td>
+                            <td>zhang@example.com</td>
+                            <td>+95-9-123-456789</td>
+                            <td>2025-10-15</td>
+                            <td>12</td>
+                            <td>485,000 MMK</td>
+                            <td><span class="status-badge active">活躍</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit">查看</button>
+                                    <button class="action-btn reject">停用</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#U00524</td>
+                            <td>李美玲</td>
+                            <td>li@example.com</td>
+                            <td>+95-9-234-567890</td>
+                            <td>2025-10-20</td>
+                            <td>8</td>
+                            <td>320,000 MMK</td>
+                            <td><span class="status-badge active">活躍</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit">查看</button>
+                                    <button class="action-btn reject">停用</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#U00525</td>
+                            <td>王大明</td>
+                            <td>wang@example.com</td>
+                            <td>+95-9-345-678901</td>
+                            <td>2025-11-01</td>
+                            <td>3</td>
+                            <td>125,000 MMK</td>
+                            <td><span class="status-badge active">活躍</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit">查看</button>
+                                    <button class="action-btn reject">停用</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#U00526</td>
+                            <td>陳小華</td>
+                            <td>chen@example.com</td>
+                            <td>+95-9-456-789012</td>
+                            <td>2025-11-10</td>
+                            <td>1</td>
+                            <td>45,000 MMK</td>
+                            <td><span class="status-badge pending">新用戶</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit">查看</button>
+                                    <button class="action-btn reject">停用</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#U00320</td>
+                            <td>林志明</td>
+                            <td>lin@example.com</td>
+                            <td>+95-9-567-890123</td>
+                            <td>2025-08-15</td>
+                            <td>0</td>
+                            <td>0 MMK</td>
+                            <td><span class="status-badge rejected">已停用</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit">查看</button>
+                                    <button class="action-btn approve">啟用</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-note" style="margin-top: 20px;">
+                    <strong>💡 會員管理說明：</strong>可管理所有會員資料 (users表)、會員偏好設定 (user_preferences表)。支援查看會員詳細資訊、編輯資料、停用/啟用帳號、批次操作等功能。
                 </div>
             </div>
 
             <!-- 商家管理視圖 -->
             <div id="operationMerchants" class="content-view">
                 <h3 style="margin-bottom: 15px; color: #333;">🏪 商家管理</h3>
-                <div class="info-note">
-                    此頁面用於管理所有商家 (merchants表)、店鋪 (stores表)、商家偏好設定 (merchant_preferences表)，包含審核、編輯、停用商家等功能。
+
+                <div class="stats-row" style="margin-bottom: 30px;">
+                    <div class="stat-card">
+                        <div class="stat-number">142</div>
+                        <div class="stat-label">總商家數</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-number">128</div>
+                        <div class="stat-label">營業中</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">待審核</div>
+                    </div>
+                    <div class="stat-card info">
+                        <div class="stat-number">285</div>
+                        <div class="stat-label">總店鋪數</div>
+                    </div>
+                </div>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active">全部商家</button>
+                    <button class="filter-tab">營業中</button>
+                    <button class="filter-tab">待審核</button>
+                    <button class="filter-tab">已停用</button>
+                </div>
+
+                <div class="quick-actions" style="margin-bottom: 20px;">
+                    <button class="quick-action-btn">📊 匯出商家資料</button>
+                    <button class="quick-action-btn">📧 批次通知</button>
+                    <button class="quick-action-btn">⚙️ 商家設定</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>商家ID</th>
+                            <th>商家名稱</th>
+                            <th>聯絡信箱</th>
+                            <th>店鋪數</th>
+                            <th>商品數</th>
+                            <th>本月訂單</th>
+                            <th>評分</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#M0015</td>
+                            <td>Pizza Hut Myanmar</td>
+                            <td>contact@pizzahut.mm</td>
+                            <td>3</td>
+                            <td>12</td>
+                            <td>328</td>
+                            <td>4.8 ⭐</td>
+                            <td><span class="status-badge active">營業中</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit">查看</button>
+                                    <button class="action-btn reject">停用</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#M0023</td>
+                            <td>Sedona Hotel Group</td>
+                            <td>info@sedona.mm</td>
+                            <td>5</td>
+                            <td>8</td>
+                            <td>156</td>
+                            <td>4.7 ⭐</td>
+                            <td><span class="status-badge active">營業中</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit">查看</button>
+                                    <button class="action-btn reject">停用</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#M0067</td>
+                            <td>Myanmar Airways</td>
+                            <td>service@myanair.com</td>
+                            <td>1</td>
+                            <td>15</td>
+                            <td>89</td>
+                            <td>4.5 ⭐</td>
+                            <td><span class="status-badge active">營業中</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit">查看</button>
+                                    <button class="action-btn reject">停用</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#M0089</td>
+                            <td>Karaweik Palace</td>
+                            <td>booking@karaweik.mm</td>
+                            <td>1</td>
+                            <td>6</td>
+                            <td>45</td>
+                            <td>4.9 ⭐</td>
+                            <td><span class="status-badge active">營業中</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit">查看</button>
+                                    <button class="action-btn reject">停用</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#M0125</td>
+                            <td>Golden Myanmar Restaurant</td>
+                            <td>contact@golden.mm</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>N/A</td>
+                            <td><span class="status-badge pending">待審核</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn approve">審核</button>
+                                    <button class="action-btn reject">拒絕</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-note" style="margin-top: 20px;">
+                    <strong>💡 商家管理說明：</strong>可管理所有商家 (merchants表)、店鋪 (stores表)、商家偏好設定 (merchant_preferences表)。支援審核新商家、編輯商家資料、查看店鋪與商品、停用/啟用商家等功能。
                 </div>
             </div>
 
             <!-- 商品審核視圖 -->
             <div id="operationProducts" class="content-view">
                 <h3 style="margin-bottom: 15px; color: #333;">🔍 商品審核</h3>
-                <div class="info-note">
-                    此頁面用於審核商家提交的商品 (products表及4種子表)，包含審核通過、拒絕、要求修改等功能。審核通過後商品才會上架顯示。
+
+                <div class="stats-row" style="margin-bottom: 30px;">
+                    <div class="stat-card warning">
+                        <div class="stat-number">23</div>
+                        <div class="stat-label">待審核商品</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-number">856</div>
+                        <div class="stat-label">已通過</div>
+                    </div>
+                    <div class="stat-card info">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">待修改</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">45</div>
+                        <div class="stat-label">已拒絕</div>
+                    </div>
+                </div>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active">待審核</button>
+                    <button class="filter-tab">已通過</button>
+                    <button class="filter-tab">待修改</button>
+                    <button class="filter-tab">已拒絕</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>商品ID</th>
+                            <th>商品名稱</th>
+                            <th>類別</th>
+                            <th>商家</th>
+                            <th>價格 (MMK)</th>
+                            <th>提交時間</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#P2385</td>
+                            <td>茵萊湖一日遊</td>
+                            <td>✈️ 旅遊交通</td>
+                            <td>Myanmar Travel Co.</td>
+                            <td>35,000</td>
+                            <td>2025-11-15 14:30</td>
+                            <td><span class="status-badge pending">待審核</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn approve">通過</button>
+                                    <button class="action-btn reject">拒絕</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#P2386</td>
+                            <td>仰光市中心豪華酒店</td>
+                            <td>🏨 飯店住宿</td>
+                            <td>Sedona Hotel</td>
+                            <td>45,000</td>
+                            <td>2025-11-16 09:20</td>
+                            <td><span class="status-badge pending">待審核</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn approve">通過</button>
+                                    <button class="action-btn reject">拒絕</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#P2387</td>
+                            <td>緬甸傳統舞蹈表演</td>
+                            <td>🎭 娛樂休閒</td>
+                            <td>Karaweik Palace</td>
+                            <td>25,000</td>
+                            <td>2025-11-17 11:15</td>
+                            <td><span class="status-badge pending">待審核</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn approve">通過</button>
+                                    <button class="action-btn reject">拒絕</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#P2388</td>
+                            <td>傳統緬式料理體驗</td>
+                            <td>🍔 餐飲美食</td>
+                            <td>Golden Myanmar Restaurant</td>
+                            <td>18,000</td>
+                            <td>2025-11-17 16:45</td>
+                            <td><span class="status-badge pending">待審核</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn approve">通過</button>
+                                    <button class="action-btn reject">拒絕</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#P2389</td>
+                            <td>蒲甘佛塔之旅</td>
+                            <td>✈️ 旅遊交通</td>
+                            <td>Bagan Tours</td>
+                            <td>65,000</td>
+                            <td>2025-11-18 08:30</td>
+                            <td><span class="status-badge pending">待審核</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn approve">通過</button>
+                                    <button class="action-btn reject">拒絕</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-note" style="margin-top: 20px;">
+                    <strong>💡 商品審核說明：</strong>審核商家提交的商品 (products表及4種子表：food_products、travel_products、hotel_products、entertainment_products)。可審核通過、拒絕或要求修改。審核通過後商品才會在平台上架顯示。
                 </div>
             </div>
 
             <!-- 內容管理視圖 -->
             <div id="operationCMS" class="content-view">
                 <h3 style="margin-bottom: 15px; color: #333;">📰 內容管理系統 (CMS)</h3>
-                <div class="info-note">
-                    此頁面用於管理平台所有內容，包含：橫幅廣告 (banners)、新聞公告 (news)、黃頁 (yellow_pages)、慈善活動 (charity_activities)、職缺 (vacancies)、商品評論審核 (product_reviews)。
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>🖼️</span>
+                            <span>橫幅廣告管理</span>
+                        </div>
+                        <div class="stats-row" style="margin: 15px 0;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="font-size: 2em; font-weight: bold; color: #667eea;">12</div>
+                                <div style="color: #666; font-size: 0.9em;">啟用中</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="font-size: 2em; font-weight: bold; color: #999;">5</div>
+                                <div style="color: #666; font-size: 0.9em;">草稿</div>
+                            </div>
+                        </div>
+                        <button class="quick-action-btn" style="width: 100%;">管理橫幅 (banners, banner_categories)</button>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>📰</span>
+                            <span>新聞公告管理</span>
+                        </div>
+                        <div class="stats-row" style="margin: 15px 0;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="font-size: 2em; font-weight: bold; color: #667eea;">28</div>
+                                <div style="color: #666; font-size: 0.9em;">已發布</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="font-size: 2em; font-weight: bold; color: #999;">8</div>
+                                <div style="color: #666; font-size: 0.9em;">草稿</div>
+                            </div>
+                        </div>
+                        <button class="quick-action-btn" style="width: 100%;">管理新聞 (news, news_categories)</button>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>📘</span>
+                            <span>黃頁管理</span>
+                        </div>
+                        <div class="stats-row" style="margin: 15px 0;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="font-size: 2em; font-weight: bold; color: #667eea;">156</div>
+                                <div style="color: #666; font-size: 0.9em;">商家資訊</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="font-size: 2em; font-weight: bold; color: #999;">15</div>
+                                <div style="color: #666; font-size: 0.9em;">分類</div>
+                            </div>
+                        </div>
+                        <button class="quick-action-btn" style="width: 100%;">管理黃頁 (yellow_pages, yellow_page_categories)</button>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>❤️</span>
+                            <span>慈善活動管理</span>
+                        </div>
+                        <div class="stats-row" style="margin: 15px 0;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="font-size: 2em; font-weight: bold; color: #667eea;">8</div>
+                                <div style="color: #666; font-size: 0.9em;">進行中</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="font-size: 2em; font-weight: bold; color: #999;">23</div>
+                                <div style="color: #666; font-size: 0.9em;">已結束</div>
+                            </div>
+                        </div>
+                        <button class="quick-action-btn" style="width: 100%;">管理活動 (charity_activities, charity_activity_categories)</button>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>💼</span>
+                            <span>職缺管理</span>
+                        </div>
+                        <div class="stats-row" style="margin: 15px 0;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="font-size: 2em; font-weight: bold; color: #667eea;">45</div>
+                                <div style="color: #666; font-size: 0.9em;">招募中</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="font-size: 2em; font-weight: bold; color: #999;">12</div>
+                                <div style="color: #666; font-size: 0.9em;">已關閉</div>
+                            </div>
+                        </div>
+                        <button class="quick-action-btn" style="width: 100%;">管理職缺 (vacancies)</button>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>⭐</span>
+                            <span>商品評論審核</span>
+                        </div>
+                        <div class="stats-row" style="margin: 15px 0;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="font-size: 2em; font-weight: bold; color: #f57c00;">15</div>
+                                <div style="color: #666; font-size: 0.9em;">待審核</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="font-size: 2em; font-weight: bold; color: #4caf50;">523</div>
+                                <div style="color: #666; font-size: 0.9em;">已發布</div>
+                            </div>
+                        </div>
+                        <button class="quick-action-btn" style="width: 100%;">管理評論 (product_reviews)</button>
+                    </div>
+                </div>
+
+                <div class="info-note" style="margin-top: 20px;">
+                    <strong>💡 內容管理說明：</strong>管理平台所有內容，包含橫幅廣告 (banners)、新聞公告 (news)、黃頁 (yellow_pages)、慈善活動 (charity_activities)、職缺 (vacancies)、商品評論審核 (product_reviews)。支援新增、編輯、刪除、分類管理等功能。
                 </div>
             </div>
 
             <!-- 權限管理視圖 -->
             <div id="operationPermissions" class="content-view">
                 <h3 style="margin-bottom: 15px; color: #333;">🔐 權限管理</h3>
-                <div class="info-note">
-                    此頁面用於管理管理員帳號 (admins表)、角色 (roles表)、權限 (permissions表)，使用 Laravel Permission 套件進行細緻化的權限控管。
+
+                <div class="stats-row" style="margin-bottom: 30px;">
+                    <div class="stat-card">
+                        <div class="stat-number">15</div>
+                        <div class="stat-label">管理員總數</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">角色數量</div>
+                    </div>
+                    <div class="stat-card info">
+                        <div class="stat-number">28</div>
+                        <div class="stat-label">權限項目</div>
+                    </div>
+                </div>
+
+                <h4 style="margin-bottom: 15px; margin-top: 30px; color: #333;">👥 管理員列表</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>管理員</th>
+                            <th>電子信箱</th>
+                            <th>部門</th>
+                            <th>角色</th>
+                            <th>權限範圍</th>
+                            <th>最後登入</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Aung Kyaw</td>
+                            <td>aung@myanlife.com</td>
+                            <td>運營部</td>
+                            <td>🛡️ Super Admin</td>
+                            <td>完整權限</td>
+                            <td>2025-11-18 09:30</td>
+                            <td><span class="status-badge active">啟用</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit">編輯</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Thiri Maung</td>
+                            <td>thiri@myanlife.com</td>
+                            <td>客服部</td>
+                            <td>👁️ Viewer</td>
+                            <td>檢視用戶/訂單</td>
+                            <td>2025-11-18 08:15</td>
+                            <td><span class="status-badge active">啟用</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit">編輯</button>
+                                    <button class="action-btn reject">停用</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Min Thu</td>
+                            <td>min@myanlife.com</td>
+                            <td>商務部</td>
+                            <td>✏️ Editor</td>
+                            <td>管理商家/商品</td>
+                            <td>2025-11-17 16:45</td>
+                            <td><span class="status-badge active">啟用</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit">編輯</button>
+                                    <button class="action-btn reject">停用</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4 style="margin-bottom: 15px; margin-top: 40px; color: #333;">🎭 角色與權限</h4>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>🛡️</span>
+                            <span>Super Admin</span>
+                        </div>
+                        <p style="color: #666; margin: 10px 0;">擁有所有權限，可管理所有功能</p>
+                        <div style="margin: 15px 0;">
+                            <div style="color: #4caf50; font-weight: 600;">✓ 完整權限 (28/28)</div>
+                            <div style="color: #666; font-size: 0.9em; margin-top: 5px;">使用者數：3</div>
+                        </div>
+                        <button class="action-btn edit" style="width: 100%;">管理權限</button>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>✏️</span>
+                            <span>Editor</span>
+                        </div>
+                        <p style="color: #666; margin: 10px 0;">可管理商家、商品、內容</p>
+                        <div style="margin: 15px 0;">
+                            <div style="color: #2196f3; font-weight: 600;">權限：15/28</div>
+                            <div style="color: #666; font-size: 0.9em; margin-top: 5px;">使用者數：6</div>
+                        </div>
+                        <button class="action-btn edit" style="width: 100%;">管理權限</button>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>👁️</span>
+                            <span>Viewer</span>
+                        </div>
+                        <p style="color: #666; margin: 10px 0;">僅可查看數據，無編輯權限</p>
+                        <div style="margin: 15px 0;">
+                            <div style="color: #999; font-weight: 600;">權限：5/28</div>
+                            <div style="color: #666; font-size: 0.9em; margin-top: 5px;">使用者數：4</div>
+                        </div>
+                        <button class="action-btn edit" style="width: 100%;">管理權限</button>
+                    </div>
+                </div>
+
+                <div class="quick-actions" style="margin-top: 30px;">
+                    <button class="quick-action-btn">➕ 新增管理員</button>
+                    <button class="quick-action-btn">🎭 新增角色</button>
+                    <button class="quick-action-btn">🔑 管理權限項目</button>
+                </div>
+
+                <div class="info-note" style="margin-top: 20px;">
+                    <strong>💡 權限管理說明：</strong>使用 Laravel Permission 套件管理管理員帳號 (admins表)、角色 (roles表)、權限 (permissions表)。支援細緻化的權限控管，可為不同角色分配不同權限，確保系統安全。
                 </div>
             </div>
 
