@@ -2140,7 +2140,7 @@
                         <span>職缺管理 (Vacancies)</span>
                     </div>
                     <p style="color: #666; margin: 10px 0;">平台與商家職缺資訊</p>
-                    <button class="quick-action-btn" style="margin-top: 10px;">管理職缺 (vacancies)</button>
+                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationVacancies();">管理職缺 (vacancies)</button>
                 </div>
 
                 <div class="dashboard-card">
@@ -2149,7 +2149,7 @@
                         <span>商品評論審核</span>
                     </div>
                     <p style="color: #666; margin: 10px 0;">審核與管理商品評論</p>
-                    <button class="quick-action-btn" style="margin-top: 10px;">管理評論 (product_reviews)</button>
+                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationReviews();">管理評論 (product_reviews)</button>
                 </div>
             </div>
 
@@ -2420,7 +2420,7 @@
                                 <div style="color: #666; font-size: 0.9em;">已關閉</div>
                             </div>
                         </div>
-                        <button class="quick-action-btn" style="width: 100%;" onclick="renderCentralVacancies()">管理職缺 (vacancies)</button>
+                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationVacancies()">管理職缺 (vacancies)</button>
                     </div>
 
                     <div class="dashboard-card">
@@ -2444,6 +2444,378 @@
 
                 <div class="info-note" style="margin-top: 20px;">
                     <strong>💡 內容管理說明：</strong>管理平台所有內容，包含橫幅廣告 (banners)、新聞公告 (news)、黃頁 (yellow_pages)、慈善活動 (charity_activities)、職缺 (vacancies)、商品評論審核 (product_reviews)。支援新增、編輯、刪除、分類管理等功能。
+                </div>
+            </div>
+
+            <!-- 橫幅廣告管理詳細視圖 -->
+            <div id="operationBannersView" class="content-view">
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <button class="quick-action-btn" onclick="switchOperationView('cms')" style="margin-right: 10px;">← 返回 CMS</button>
+                    <h3 style="margin: 0; color: #333;">🖼️ 橫幅廣告管理</h3>
+                </div>
+
+                <div class="stats-row" style="margin-bottom: 30px;">
+                    <div class="stat-card">
+                        <div class="stat-number" id="bannersTotal">0</div>
+                        <div class="stat-label">總橫幅數</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-number" id="bannersActive">0</div>
+                        <div class="stat-label">啟用中</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-number" id="bannersDraft">0</div>
+                        <div class="stat-label">草稿</div>
+                    </div>
+                    <div class="stat-card info">
+                        <div class="stat-number" id="bannersExpired">0</div>
+                        <div class="stat-label">已過期</div>
+                    </div>
+                </div>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterBanners('all', this)">全部橫幅</button>
+                    <button class="filter-tab" onclick="filterBanners('active', this)">啟用中</button>
+                    <button class="filter-tab" onclick="filterBanners('draft', this)">草稿</button>
+                    <button class="filter-tab" onclick="filterBanners('expired', this)">已過期</button>
+                </div>
+
+                <div class="quick-actions" style="margin-bottom: 20px;">
+                    <button class="quick-action-btn" onclick="showToast('新增橫幅功能開發中', 'info')">➕ 新增橫幅</button>
+                    <button class="quick-action-btn" onclick="showToast('分類管理功能開發中', 'info')">📁 分類管理</button>
+                    <button class="quick-action-btn" onclick="showToast('排序功能開發中', 'info')">🔄 排序設定</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>橫幅ID</th>
+                            <th>標題</th>
+                            <th>分類</th>
+                            <th>位置</th>
+                            <th>點擊次數</th>
+                            <th>展示期間</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bannersTable">
+                        <!-- 橫幅資料將由 renderOperationBanners() 函數動態生成 -->
+                    </tbody>
+                </table>
+
+                <div class="info-note" style="margin-top: 20px;">
+                    <strong>💡 橫幅說明：</strong>管理平台首頁橫幅廣告，支援設定展示位置、時間、目標連結等。可設定優先順序控制展示順序。
+                </div>
+            </div>
+
+            <!-- 新聞公告管理詳細視圖 -->
+            <div id="operationNewsView" class="content-view">
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <button class="quick-action-btn" onclick="switchOperationView('cms')" style="margin-right: 10px;">← 返回 CMS</button>
+                    <h3 style="margin: 0; color: #333;">📰 新聞公告管理</h3>
+                </div>
+
+                <div class="stats-row" style="margin-bottom: 30px;">
+                    <div class="stat-card">
+                        <div class="stat-number" id="newsTotal">0</div>
+                        <div class="stat-label">總新聞數</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-number" id="newsPublished">0</div>
+                        <div class="stat-label">已發布</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-number" id="newsDraft">0</div>
+                        <div class="stat-label">草稿</div>
+                    </div>
+                    <div class="stat-card info">
+                        <div class="stat-number" id="newsViews">0</div>
+                        <div class="stat-label">總瀏覽數</div>
+                    </div>
+                </div>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterNews('all', this)">全部新聞</button>
+                    <button class="filter-tab" onclick="filterNews('published', this)">已發布</button>
+                    <button class="filter-tab" onclick="filterNews('draft', this)">草稿</button>
+                    <button class="filter-tab" onclick="filterNews('featured', this)">精選</button>
+                </div>
+
+                <div class="quick-actions" style="margin-bottom: 20px;">
+                    <button class="quick-action-btn" onclick="showToast('新增新聞功能開發中', 'info')">➕ 新增新聞</button>
+                    <button class="quick-action-btn" onclick="showToast('分類管理功能開發中', 'info')">📁 分類管理</button>
+                    <button class="quick-action-btn" onclick="showToast('批次發布功能開發中', 'info')">📤 批次發布</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>新聞ID</th>
+                            <th>標題</th>
+                            <th>分類</th>
+                            <th>作者</th>
+                            <th>瀏覽數</th>
+                            <th>發布時間</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="newsTable">
+                        <!-- 新聞資料將由 renderOperationNews() 函數動態生成 -->
+                    </tbody>
+                </table>
+
+                <div class="info-note" style="margin-top: 20px;">
+                    <strong>💡 新聞說明：</strong>發布平台新聞與公告訊息，支援富文本編輯、圖片上傳、分類管理、定時發布等功能。
+                </div>
+            </div>
+
+            <!-- 黃頁管理詳細視圖 -->
+            <div id="operationYellowPagesView" class="content-view">
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <button class="quick-action-btn" onclick="switchOperationView('cms')" style="margin-right: 10px;">← 返回 CMS</button>
+                    <h3 style="margin: 0; color: #333;">📘 黃頁管理</h3>
+                </div>
+
+                <div class="stats-row" style="margin-bottom: 30px;">
+                    <div class="stat-card">
+                        <div class="stat-number" id="yellowPagesTotal">0</div>
+                        <div class="stat-label">總黃頁數</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-number" id="yellowPagesActive">0</div>
+                        <div class="stat-label">啟用中</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-number" id="yellowPagesPending">0</div>
+                        <div class="stat-label">待審核</div>
+                    </div>
+                    <div class="stat-card info">
+                        <div class="stat-number" id="yellowPagesCategories">0</div>
+                        <div class="stat-label">分類數量</div>
+                    </div>
+                </div>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterYellowPages('all', this)">全部黃頁</button>
+                    <button class="filter-tab" onclick="filterYellowPages('active', this)">啟用中</button>
+                    <button class="filter-tab" onclick="filterYellowPages('pending', this)">待審核</button>
+                    <button class="filter-tab" onclick="filterYellowPages('expired', this)">已過期</button>
+                </div>
+
+                <div class="quick-actions" style="margin-bottom: 20px;">
+                    <button class="quick-action-btn" onclick="showToast('新增黃頁功能開發中', 'info')">➕ 新增黃頁</button>
+                    <button class="quick-action-btn" onclick="showToast('分類管理功能開發中', 'info')">📁 分類管理</button>
+                    <button class="quick-action-btn" onclick="showToast('匯出功能開發中', 'info')">📊 匯出資料</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>黃頁ID</th>
+                            <th>商家名稱</th>
+                            <th>分類</th>
+                            <th>聯絡電話</th>
+                            <th>地址</th>
+                            <th>瀏覽數</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="yellowPagesTable">
+                        <!-- 黃頁資料將由 renderOperationYellowPages() 函數動態生成 -->
+                    </tbody>
+                </table>
+
+                <div class="info-note" style="margin-top: 20px;">
+                    <strong>💡 黃頁說明：</strong>商家目錄與服務資訊管理，提供商家聯絡方式、營業時間、服務項目等詳細資訊。支援分類搜尋與地圖定位。
+                </div>
+            </div>
+
+            <!-- 慈善活動管理詳細視圖 -->
+            <div id="operationCharityView" class="content-view">
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <button class="quick-action-btn" onclick="switchOperationView('cms')" style="margin-right: 10px;">← 返回 CMS</button>
+                    <h3 style="margin: 0; color: #333;">❤️ 慈善活動管理</h3>
+                </div>
+
+                <div class="stats-row" style="margin-bottom: 30px;">
+                    <div class="stat-card">
+                        <div class="stat-number" id="charityTotal">0</div>
+                        <div class="stat-label">總活動數</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-number" id="charityOngoing">0</div>
+                        <div class="stat-label">進行中</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-number" id="charityUpcoming">0</div>
+                        <div class="stat-label">即將開始</div>
+                    </div>
+                    <div class="stat-card info">
+                        <div class="stat-number" id="charityCompleted">0</div>
+                        <div class="stat-label">已結束</div>
+                    </div>
+                </div>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterCharity('all', this)">全部活動</button>
+                    <button class="filter-tab" onclick="filterCharity('ongoing', this)">進行中</button>
+                    <button class="filter-tab" onclick="filterCharity('upcoming', this)">即將開始</button>
+                    <button class="filter-tab" onclick="filterCharity('completed', this)">已結束</button>
+                </div>
+
+                <div class="quick-actions" style="margin-bottom: 20px;">
+                    <button class="quick-action-btn" onclick="showToast('新增活動功能開發中', 'info')">➕ 新增活動</button>
+                    <button class="quick-action-btn" onclick="showToast('分類管理功能開發中', 'info')">📁 分類管理</button>
+                    <button class="quick-action-btn" onclick="showToast('報告功能開發中', 'info')">📊 活動報告</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>活動ID</th>
+                            <th>活動名稱</th>
+                            <th>分類</th>
+                            <th>目標金額</th>
+                            <th>已募集</th>
+                            <th>活動期間</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="charityTable">
+                        <!-- 慈善活動資料將由 renderOperationCharity() 函數動態生成 -->
+                    </tbody>
+                </table>
+
+                <div class="info-note" style="margin-top: 20px;">
+                    <strong>💡 活動說明：</strong>公益活動與慈善專案管理，支援線上募款、志工招募、活動報名等功能。可追蹤募款進度與參與人數。
+                </div>
+            </div>
+
+            <!-- 商品評論管理詳細視圖 -->
+            <div id="operationReviewsView" class="content-view">
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <button class="quick-action-btn" onclick="switchOperationView('cms')" style="margin-right: 10px;">← 返回 CMS</button>
+                    <h3 style="margin: 0; color: #333;">⭐ 商品評論管理</h3>
+                </div>
+
+                <div class="stats-row" style="margin-bottom: 30px;">
+                    <div class="stat-card">
+                        <div class="stat-number" id="reviewsTotal">0</div>
+                        <div class="stat-label">總評論數</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-number" id="reviewsPending">0</div>
+                        <div class="stat-label">待審核</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-number" id="reviewsApproved">0</div>
+                        <div class="stat-label">已發布</div>
+                    </div>
+                    <div class="stat-card danger">
+                        <div class="stat-number" id="reviewsReported">0</div>
+                        <div class="stat-label">被檢舉</div>
+                    </div>
+                </div>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterReviews('all', this)">全部評論</button>
+                    <button class="filter-tab" onclick="filterReviews('pending', this)">待審核</button>
+                    <button class="filter-tab" onclick="filterReviews('approved', this)">已發布</button>
+                    <button class="filter-tab" onclick="filterReviews('reported', this)">被檢舉</button>
+                </div>
+
+                <div class="quick-actions" style="margin-bottom: 20px;">
+                    <button class="quick-action-btn" onclick="showToast('批次審核功能開發中', 'info')">✅ 批次審核</button>
+                    <button class="quick-action-btn" onclick="showToast('檢舉處理功能開發中', 'info')">⚠️ 處理檢舉</button>
+                    <button class="quick-action-btn" onclick="showToast('匯出功能開發中', 'info')">📊 匯出報表</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>評論ID</th>
+                            <th>商品</th>
+                            <th>會員</th>
+                            <th>評分</th>
+                            <th>評論內容</th>
+                            <th>發布時間</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reviewsTable">
+                        <!-- 評論資料將由 renderOperationReviews() 函數動態生成 -->
+                    </tbody>
+                </table>
+
+                <div class="info-note" style="margin-top: 20px;">
+                    <strong>💡 評論說明：</strong>審核與管理商品評論，確保評論內容符合平台規範。可處理不當評論、回覆會員、追蹤檢舉案件等。
+                </div>
+            </div>
+
+            <!-- 職缺管理詳細視圖 -->
+            <div id="operationVacanciesView" class="content-view">
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <button class="quick-action-btn" onclick="switchOperationView('cms')" style="margin-right: 10px;">← 返回 CMS</button>
+                    <h3 style="margin: 0; color: #333;">💼 職缺管理</h3>
+                </div>
+
+                <div class="stats-row" style="margin-bottom: 30px;">
+                    <div class="stat-card">
+                        <div class="stat-number" id="vacanciesTotal">0</div>
+                        <div class="stat-label">總職缺數</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-number" id="vacanciesActive">0</div>
+                        <div class="stat-label">招募中</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-number" id="vacanciesPending">0</div>
+                        <div class="stat-label">待審核</div>
+                    </div>
+                    <div class="stat-card info">
+                        <div class="stat-number" id="vacanciesClosed">0</div>
+                        <div class="stat-label">已關閉</div>
+                    </div>
+                </div>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterVacancies('all', this)">全部職缺</button>
+                    <button class="filter-tab" onclick="filterVacancies('active', this)">招募中</button>
+                    <button class="filter-tab" onclick="filterVacancies('pending', this)">待審核</button>
+                    <button class="filter-tab" onclick="filterVacancies('closed', this)">已關閉</button>
+                </div>
+
+                <div class="quick-actions" style="margin-bottom: 20px;">
+                    <button class="quick-action-btn" onclick="showToast('新增職缺功能開發中', 'info')">➕ 新增職缺</button>
+                    <button class="quick-action-btn" onclick="showToast('應徵者管理功能開發中', 'info')">👥 應徵者管理</button>
+                    <button class="quick-action-btn" onclick="showToast('匯出功能開發中', 'info')">📊 匯出資料</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>職缺ID</th>
+                            <th>職缺名稱</th>
+                            <th>部門</th>
+                            <th>地點</th>
+                            <th>薪資範圍</th>
+                            <th>應徵人數</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vacanciesTable">
+                        <!-- 職缺資料將由 renderOperationVacancies() 函數動態生成 -->
+                    </tbody>
+                </table>
+
+                <div class="info-note" style="margin-top: 20px;">
+                    <strong>💡 職缺說明：</strong>平台與商家職缺資訊管理，支援職缺發布、應徵者篩選、面試安排等功能。可追蹤應徵進度與狀態。
                 </div>
             </div>
 
@@ -6961,48 +7333,151 @@
         // 運營後台 CMS 管理渲染函數
         // ============================================
 
-        // 渲染新聞管理（示例框架）
-        function renderOperationNews() {
-            console.log('📰 渲染新聞管理（已有 12 筆新聞資料）');
-            // 框架已建立，新聞資料可透過 AppData.news 取得
+        // 輔助函數：切換到 CMS 詳細視圖
+        function switchToCMSDetailView(viewId) {
+            const operation = document.getElementById('operation');
+            operation.querySelectorAll('.content-view').forEach(view => {
+                view.classList.remove('active');
+            });
+            const targetView = document.getElementById(viewId);
+            if (targetView) {
+                targetView.classList.add('active');
+            }
         }
 
-        // 渲染廣告管理（示例框架）
+        // 渲染橫幅廣告管理
         function renderOperationBanners() {
-            console.log('🎪 渲染廣告管理（已有 6 筆廣告資料）');
-            // 框架已建立，廣告資料可透過 AppData.banners 取得
+            console.log('🎪 渲染橫幅廣告管理');
+            switchToCMSDetailView('operationBannersView');
+
+            const banners = AppData.banners || [];
+
+            // 計算統計數據
+            const activeCount = banners.filter(b => b.is_active && new Date(b.end_date) > new Date()).length;
+            const draftCount = banners.filter(b => !b.is_active).length;
+            const expiredCount = banners.filter(b => new Date(b.end_date) <= new Date()).length;
+
+            // 更新統計卡片
+            document.getElementById('bannersTotal').textContent = banners.length;
+            document.getElementById('bannersActive').textContent = activeCount;
+            document.getElementById('bannersDraft').textContent = draftCount;
+            document.getElementById('bannersExpired').textContent = expiredCount;
+
+            console.log(`橫幅總數：${banners.length} | 啟用：${activeCount} | 草稿：${draftCount} | 過期：${expiredCount}`);
         }
 
-        // 渲染黃頁管理（示例框架）
+        // 渲染新聞公告管理
+        function renderOperationNews() {
+            console.log('📰 渲染新聞公告管理');
+            switchToCMSDetailView('operationNewsView');
+
+            const news = AppData.news || [];
+
+            // 計算統計數據
+            const publishedCount = news.filter(n => n.status === 'published').length;
+            const draftCount = news.filter(n => n.status === 'draft').length;
+            const totalViews = news.reduce((sum, n) => sum + (n.views || 0), 0);
+
+            // 更新統計卡片
+            document.getElementById('newsTotal').textContent = news.length;
+            document.getElementById('newsPublished').textContent = publishedCount;
+            document.getElementById('newsDraft').textContent = draftCount;
+            document.getElementById('newsViews').textContent = totalViews;
+
+            console.log(`新聞總數：${news.length} | 已發布：${publishedCount} | 草稿：${draftCount} | 總瀏覽：${totalViews}`);
+        }
+
+        // 渲染黃頁管理
         function renderOperationYellowPages() {
-            console.log('📒 渲染黃頁管理（已有 10 筆黃頁資料）');
-            // 框架已建立，黃頁資料可透過 AppData.yellow_pages 取得
+            console.log('📒 渲染黃頁管理');
+            switchToCMSDetailView('operationYellowPagesView');
+
+            const yellowPages = AppData.yellow_pages || [];
+
+            // 計算統計數據
+            const activeCount = yellowPages.filter(y => y.is_active).length;
+            const pendingCount = yellowPages.filter(y => y.status === 'pending').length;
+            const categoriesCount = [...new Set(yellowPages.map(y => y.category_id))].length;
+
+            // 更新統計卡片
+            document.getElementById('yellowPagesTotal').textContent = yellowPages.length;
+            document.getElementById('yellowPagesActive').textContent = activeCount;
+            document.getElementById('yellowPagesPending').textContent = pendingCount;
+            document.getElementById('yellowPagesCategories').textContent = categoriesCount;
+
+            console.log(`黃頁總數：${yellowPages.length} | 啟用：${activeCount} | 待審核：${pendingCount} | 分類：${categoriesCount}`);
         }
 
-        // 渲染公益活動管理（示例框架）
+        // 渲染慈善活動管理
         function renderOperationCharity() {
-            console.log('❤️ 渲染公益活動管理（已有 6 筆公益資料）');
-            // 框架已建立，公益資料可透過 AppData.charity_activities 取得
+            console.log('❤️ 渲染慈善活動管理');
+            switchToCMSDetailView('operationCharityView');
+
+            const charity = AppData.charity_activities || [];
+            const now = new Date();
+
+            // 計算統計數據
+            const ongoingCount = charity.filter(c =>
+                new Date(c.start_date) <= now && new Date(c.end_date) >= now
+            ).length;
+            const upcomingCount = charity.filter(c => new Date(c.start_date) > now).length;
+            const completedCount = charity.filter(c => new Date(c.end_date) < now).length;
+
+            // 更新統計卡片
+            document.getElementById('charityTotal').textContent = charity.length;
+            document.getElementById('charityOngoing').textContent = ongoingCount;
+            document.getElementById('charityUpcoming').textContent = upcomingCount;
+            document.getElementById('charityCompleted').textContent = completedCount;
+
+            console.log(`活動總數：${charity.length} | 進行中：${ongoingCount} | 即將開始：${upcomingCount} | 已結束：${completedCount}`);
+        }
+
+        // 渲染商品評論管理
+        function renderOperationReviews() {
+            console.log('⭐ 渲染商品評論管理');
+            switchToCMSDetailView('operationReviewsView');
+
+            const ratings = AppData.product_ratings || [];
+
+            // 計算統計數據（這裡假設所有評論都已審核通過，實際應該有 status 欄位）
+            const pendingCount = 0; // 待審核
+            const approvedCount = ratings.length; // 已發布
+            const reportedCount = 0; // 被檢舉
+
+            // 更新統計卡片
+            document.getElementById('reviewsTotal').textContent = ratings.length;
+            document.getElementById('reviewsPending').textContent = pendingCount;
+            document.getElementById('reviewsApproved').textContent = approvedCount;
+            document.getElementById('reviewsReported').textContent = reportedCount;
+
+            console.log(`評論總數：${ratings.length} | 待審核：${pendingCount} | 已發布：${approvedCount} | 被檢舉：${reportedCount}`);
+        }
+
+        // 渲染職缺管理
+        function renderOperationVacancies() {
+            console.log('💼 渲染職缺管理');
+            switchToCMSDetailView('operationVacanciesView');
+
+            const vacancies = AppData.vacancies || [];
+
+            // 計算統計數據
+            const activeCount = vacancies.filter(v => v.is_active).length;
+            const pendingCount = 0; // 假設沒有待審核狀態
+            const closedCount = vacancies.filter(v => !v.is_active).length;
+
+            // 更新統計卡片
+            document.getElementById('vacanciesTotal').textContent = vacancies.length;
+            document.getElementById('vacanciesActive').textContent = activeCount;
+            document.getElementById('vacanciesPending').textContent = pendingCount;
+            document.getElementById('vacanciesClosed').textContent = closedCount;
+
+            console.log(`職缺總數：${vacancies.length} | 招募中：${activeCount} | 待審核：${pendingCount} | 已關閉：${closedCount}`);
         }
 
         // 渲染訂單監控（示例框架）
         function renderOperationOrders() {
             console.log('📦 渲染訂單監控（已有 20 筆訂單資料）');
             // 框架已建立，訂單資料可透過 AppData.orders 取得
-        }
-
-        // 渲染評論管理（示例框架）
-        function renderOperationReviews() {
-            console.log('⭐ 渲染評論管理（已有 18 筆商品評價資料）');
-            const ratings = AppData.product_ratings || [];
-
-            // 統計數據
-            const withReply = ratings.filter(r => r.merchant_reply).length;
-            console.log(`評價總數：${ratings.length} 筆`);
-            console.log(`已回覆：${withReply} 筆`);
-            console.log(`待回覆：${ratings.length - withReply} 筆`);
-
-            // 框架已建立，評價資料可透過 AppData.product_ratings 取得
         }
 
         // ============================================
