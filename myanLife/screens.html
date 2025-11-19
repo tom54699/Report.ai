@@ -1297,109 +1297,8 @@
                     <button class="filter-tab">已取消</button>
                 </div>
 
-                <div class="order-card" onclick="showOrderDetail('ORD-20251118-001', '美味披薩 8折優惠', '🍕', '12,000', 'pending', '2025-11-18 14:30')" style="cursor: pointer;">
-                    <div class="order-header">
-                        <div>
-                            <div class="order-number">訂單編號：ORD-20251118-001</div>
-                            <div class="order-date">2025-11-18 14:30</div>
-                        </div>
-                        <span class="status-badge active">待核銷</span>
-                    </div>
-                    <div class="order-items">
-                        <div class="order-image">🍕</div>
-                        <div class="order-details">
-                            <div class="order-product-name">美味披薩 8折優惠</div>
-                            <div class="order-product-desc">Pizza Hut 仰光總店 | 數量：1</div>
-                        </div>
-                    </div>
-                    <div class="order-footer">
-                        <div class="order-total">12,000 MMK</div>
-                        <button class="card-button" onclick="event.stopPropagation();">立即核銷</button>
-                    </div>
-                </div>
-
-                <div class="order-card" onclick="showOrderDetail('ORD-20251117-052', '咖啡買一送一', '☕', '13,000', 'pending', '2025-11-17 09:15')" style="cursor: pointer;">
-                    <div class="order-header">
-                        <div>
-                            <div class="order-number">訂單編號：ORD-20251117-052</div>
-                            <div class="order-date">2025-11-17 09:15</div>
-                        </div>
-                        <span class="status-badge active">待核銷</span>
-                    </div>
-                    <div class="order-items">
-                        <div class="order-image">☕</div>
-                        <div class="order-details">
-                            <div class="order-product-name">咖啡買一送一</div>
-                            <div class="order-product-desc">Starbucks Downtown | 數量：2</div>
-                        </div>
-                    </div>
-                    <div class="order-footer">
-                        <div class="order-total">13,000 MMK</div>
-                        <button class="card-button" onclick="event.stopPropagation();">立即核銷</button>
-                    </div>
-                </div>
-
-                <div class="order-card" onclick="showOrderDetail('ORD-20251116-038', '緬甸傳統舞蹈表演', '🎭', '50,000', 'completed', '2025-11-16 16:45')" style="cursor: pointer;">
-                    <div class="order-header">
-                        <div>
-                            <div class="order-number">訂單編號：ORD-20251116-038</div>
-                            <div class="order-date">2025-11-16 16:45</div>
-                        </div>
-                        <span class="status-badge pending">已完成</span>
-                    </div>
-                    <div class="order-items">
-                        <div class="order-image">🎭</div>
-                        <div class="order-details">
-                            <div class="order-product-name">緬甸傳統舞蹈表演</div>
-                            <div class="order-product-desc">Karaweik Palace | 數量：2</div>
-                        </div>
-                    </div>
-                    <div class="order-footer">
-                        <div class="order-total">50,000 MMK</div>
-                        <button class="action-btn edit" onclick="event.stopPropagation();">查看詳情</button>
-                    </div>
-                </div>
-
-                <div class="order-card" onclick="showOrderDetail('ORD-20251115-025', '仰光市中心酒店住宿', '🏨', '45,000', 'completed', '2025-11-15 11:20')" style="cursor: pointer;">
-                    <div class="order-header">
-                        <div>
-                            <div class="order-number">訂單編號：ORD-20251115-025</div>
-                            <div class="order-date">2025-11-15 11:20</div>
-                        </div>
-                        <span class="status-badge pending">已完成</span>
-                    </div>
-                    <div class="order-items">
-                        <div class="order-image">🏨</div>
-                        <div class="order-details">
-                            <div class="order-product-name">仰光市中心酒店住宿</div>
-                            <div class="order-product-desc">Sedona Hotel | 數量：1</div>
-                        </div>
-                    </div>
-                    <div class="order-footer">
-                        <div class="order-total">45,000 MMK</div>
-                        <button class="action-btn edit" onclick="event.stopPropagation();">查看詳情</button>
-                    </div>
-                </div>
-
-                <div class="order-card">
-                    <div class="order-header">
-                        <div>
-                            <div class="order-number">訂單編號：ORD-20251114-019</div>
-                            <div class="order-date">2025-11-14 18:30</div>
-                        </div>
-                        <span class="status-badge rejected">已取消</span>
-                    </div>
-                    <div class="order-items">
-                        <div class="order-image">✈️</div>
-                        <div class="order-details">
-                            <div class="order-product-name">曼德勒來回機票</div>
-                            <div class="order-product-desc">Myanmar Airways | 數量：1</div>
-                        </div>
-                    </div>
-                    <div class="order-footer">
-                        <div class="order-total">85,000 MMK</div>
-                        <span style="color: #999;">已退款</span>
-                    </div>
+                <div id="ordersContainer">
+                    <!-- 訂單卡片將由 renderOrders() 函數動態生成 -->
                 </div>
             </div>
             <!-- 我的訂單視圖結束 -->
@@ -1410,15 +1309,15 @@
 
                 <div class="stats-row" style="margin-bottom: 30px;">
                     <div class="stat-card info">
-                        <div class="stat-number">850</div>
+                        <div class="stat-number" id="memberTasksTotalPoints">0</div>
                         <div class="stat-label">我的總積分</div>
                     </div>
                     <div class="stat-card warning">
-                        <div class="stat-number">3</div>
+                        <div class="stat-number" id="memberTasksActiveCount">0</div>
                         <div class="stat-label">進行中任務</div>
                     </div>
                     <div class="stat-card success">
-                        <div class="stat-number">8</div>
+                        <div class="stat-number" id="memberTasksCompletedCount">0</div>
                         <div class="stat-label">已完成任務</div>
                     </div>
                 </div>
@@ -1442,71 +1341,8 @@
                             <th>操作</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr onclick="showTaskDetail(1)" style="cursor: pointer;">
-                            <td>連續7天登入</td>
-                            <td>每日任務</td>
-                            <td>+50 分</td>
-                            <td>5/7</td>
-                            <td><span class="status-badge pending">進行中</span></td>
-                            <td><button class="action-btn edit" onclick="event.stopPropagation(); showTaskDetail(1)">查看</button></td>
-                        </tr>
-                        <tr onclick="showTaskDetail(2)" style="cursor: pointer;">
-                            <td>邀請好友註冊</td>
-                            <td>推廣任務</td>
-                            <td>+200 分</td>
-                            <td>2/5</td>
-                            <td><span class="status-badge pending">進行中</span></td>
-                            <td><button class="action-btn edit" onclick="event.stopPropagation(); showTaskDetail(2)">邀請</button></td>
-                        </tr>
-                        <tr onclick="showTaskDetail(3)" style="cursor: pointer;">
-                            <td>完成 3 次商品評分</td>
-                            <td>互動任務</td>
-                            <td>+100 分</td>
-                            <td>1/3</td>
-                            <td><span class="status-badge pending">進行中</span></td>
-                            <td><button class="action-btn edit" onclick="event.stopPropagation(); showTaskDetail(3)">前往</button></td>
-                        </tr>
-                        <tr onclick="showTaskDetail(4)" style="cursor: pointer;">
-                            <td>完成首次購物</td>
-                            <td>新手任務</td>
-                            <td>+100 分</td>
-                            <td>1/1</td>
-                            <td><span class="status-badge active">已完成</span></td>
-                            <td><span style="color: #4caf50;">✓ 已領取</span></td>
-                        </tr>
-                        <tr onclick="showTaskDetail(5)" style="cursor: pointer;">
-                            <td>完善個人資料</td>
-                            <td>新手任務</td>
-                            <td>+50 分</td>
-                            <td>1/1</td>
-                            <td><span class="status-badge active">已完成</span></td>
-                            <td><span style="color: #4caf50;">✓ 已領取</span></td>
-                        </tr>
-                        <tr onclick="showTaskDetail(6)" style="cursor: pointer;">
-                            <td>首次分享商品</td>
-                            <td>推廣任務</td>
-                            <td>+80 分</td>
-                            <td>1/1</td>
-                            <td><span class="status-badge active">已完成</span></td>
-                            <td><span style="color: #4caf50;">✓ 已領取</span></td>
-                        </tr>
-                        <tr onclick="showTaskDetail(7)" style="cursor: pointer;">
-                            <td>消費滿 100,000 MMK</td>
-                            <td>消費任務</td>
-                            <td>+500 分</td>
-                            <td>62,000/100,000</td>
-                            <td><span class="status-badge pending">進行中</span></td>
-                            <td><button class="action-btn edit" onclick="event.stopPropagation(); showTaskDetail(7)">查看</button></td>
-                        </tr>
-                        <tr onclick="showTaskDetail(8)" style="cursor: pointer;">
-                            <td>關注 5 個商家</td>
-                            <td>互動任務</td>
-                            <td>+120 分</td>
-                            <td>3/5</td>
-                            <td><span class="status-badge pending">進行中</span></td>
-                            <td><button class="action-btn edit" onclick="event.stopPropagation(); showTaskDetail(8)">前往</button></td>
-                        </tr>
+                    <tbody id="memberTasksTable">
+                        <!-- 任務資料將由 renderTasks() 函數動態生成 -->
                     </tbody>
                 </table>
 
@@ -3695,6 +3531,10 @@
             setTimeout(() => {
                 if (viewName === 'products') {
                     renderProducts();
+                } else if (viewName === 'orders') {
+                    renderOrders();
+                } else if (viewName === 'tasks') {
+                    renderTasks();
                 }
             }, 50);
         }
@@ -4151,11 +3991,40 @@
         }
 
         // 購買商品
-        function handleBuyProduct(productName, price) {
+        function handleBuyProduct(productName, price, productId) {
             closeModal();
             showConfirm(`確定要購買「${productName}」嗎？`, () => {
+                // 创建订单
+                const product = AppData.find('products', productId);
+                if (!product) {
+                    showToast('商品不存在', 'error');
+                    return;
+                }
+
+                const orderId = 'ORD-' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' + String(AppData.member_orders.length + 1).padStart(3, '0');
+                const now = new Date();
+                const dateStr = now.toISOString().slice(0, 16).replace('T', ' ');
+
+                const newOrder = {
+                    id: AppData.member_orders.length + 1,
+                    order_number: orderId,
+                    member_id: 1,  // 当前用户 ID
+                    product_id: product.id,
+                    merchant_id: product.merchant_id,
+                    quantity: 1,
+                    total_price: product.selling_price,
+                    status: 'pending',
+                    order_date: dateStr,
+                    created_at: dateStr,
+                    updated_at: dateStr
+                };
+
+                AppData.member_orders.push(newOrder);
+
                 setTimeout(() => {
                     showToast('購買成功！訂單已生成，請至「我的訂單」查看', 'success');
+                    // 刷新订单列表
+                    renderOrders();
                 }, 300);
             }, '確認購買');
         }
@@ -4721,8 +4590,11 @@
 
         // 渲染商品列表
         function renderProducts() {
-            const grid = document.getElementById('productGrid');
-            if (!grid) return;
+            const homeGrid = document.getElementById('productGrid');
+            const productsPageGrid = document.getElementById('productsGrid');
+
+            // 如果两个容器都不存在，直接返回
+            if (!homeGrid && !productsPageGrid) return;
 
             // 從 AppData 獲取商品和分類
             let products = AppData.products || [];
@@ -4756,18 +4628,21 @@
             }
 
             // 生成 HTML
+            const emptyHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #999;">
+                    <div style="font-size: 4em; margin-bottom: 20px;">🔍</div>
+                    <h3 style="color: #666; margin-bottom: 10px;">找不到符合條件的商品</h3>
+                    <p>試試調整搜索關鍵字或篩選條件</p>
+                </div>
+            `;
+
             if (products.length === 0) {
-                grid.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #999;">
-                        <div style="font-size: 4em; margin-bottom: 20px;">🔍</div>
-                        <h3 style="color: #666; margin-bottom: 10px;">找不到符合條件的商品</h3>
-                        <p>試試調整搜索關鍵字或篩選條件</p>
-                    </div>
-                `;
+                if (homeGrid) homeGrid.innerHTML = emptyHTML;
+                if (productsPageGrid) productsPageGrid.innerHTML = emptyHTML;
                 return;
             }
 
-            grid.innerHTML = products.map(product => {
+            const productsHTML = products.map(product => {
                 const categoryName = categoryMap[product.category_id] || '其他';
                 const merchantName = merchantMap[product.merchant_id] || '未知商家';
 
@@ -4792,6 +4667,10 @@
                     </div>
                 `;
             }).join('');
+
+            // 同时更新两个容器
+            if (homeGrid) homeGrid.innerHTML = productsHTML;
+            if (productsPageGrid) productsPageGrid.innerHTML = productsHTML;
         }
 
         // 從 AppData 顯示商品詳情
@@ -4839,7 +4718,256 @@
                 return;
             }
 
-            handleBuyProduct(product.product_name, product.selling_price?.toLocaleString() || '0');
+            handleBuyProduct(product.product_name, product.selling_price?.toLocaleString() || '0', productId);
+        }
+
+        // 渲染訂單列表
+        function renderOrders() {
+            const container = document.getElementById('ordersContainer');
+            if (!container) return;
+
+            // 從 AppData 獲取訂單數據
+            const orders = AppData.member_orders || [];
+            const products = AppData.products || [];
+            const merchants = AppData.merchants || [];
+
+            // 創建映射
+            const productMap = {};
+            products.forEach(p => {
+                productMap[p.id] = p;
+            });
+
+            const merchantMap = {};
+            merchants.forEach(m => {
+                merchantMap[m.id] = m;
+            });
+
+            // 如果沒有訂單
+            if (orders.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 80px 20px; color: #999;">
+                        <div style="font-size: 5em; margin-bottom: 20px;">📦</div>
+                        <h3 style="color: #666; margin-bottom: 10px;">尚無訂單記錄</h3>
+                        <p>去商品頁面購買商品吧！</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // 生成訂單卡片 HTML
+            const ordersHTML = orders.map(order => {
+                const product = productMap[order.product_id];
+                if (!product) return '';
+
+                const merchant = merchantMap[product.merchant_id];
+                const productName = product.product_name || '未知商品';
+                const merchantName = merchant?.merchant_name || '未知商家';
+                const coverImage = product.cover_image || '🛍️';
+
+                // 状态映射
+                const statusMap = {
+                    'pending': { text: '待核銷', color: '#f59e0b', badge: 'active' },
+                    'completed': { text: '已完成', color: '#10b981', badge: 'pending' },
+                    'cancelled': { text: '已取消', color: '#ef4444', badge: 'rejected' }
+                };
+
+                const statusInfo = statusMap[order.status] || statusMap['pending'];
+
+                return `
+                    <div class="order-card" onclick="showOrderDetailFromData(${order.id})" style="cursor: pointer;">
+                        <div class="order-header">
+                            <div>
+                                <div class="order-number">訂單編號：${order.order_number}</div>
+                                <div class="order-date">${order.order_date}</div>
+                            </div>
+                            <span class="status-badge ${statusInfo.badge}">${statusInfo.text}</span>
+                        </div>
+                        <div class="order-items">
+                            <div class="order-image">${coverImage}</div>
+                            <div class="order-details">
+                                <div class="order-product-name">${productName}</div>
+                                <div class="order-product-desc">${merchantName} | 數量：${order.quantity}</div>
+                            </div>
+                        </div>
+                        <div class="order-footer">
+                            <div class="order-total">${order.total_price?.toLocaleString()} MMK</div>
+                            ${order.status === 'pending' ?
+                                `<button class="card-button" onclick="event.stopPropagation();">立即核銷</button>` :
+                                order.status === 'cancelled' ?
+                                `<span style="color: #999;">已退款</span>` :
+                                `<button class="action-btn edit" onclick="event.stopPropagation();">查看詳情</button>`
+                            }
+                        </div>
+                    </div>
+                `;
+            }).filter(html => html !== '').join('');
+
+            container.innerHTML = ordersHTML;
+        }
+
+        // 從 AppData 顯示訂單詳情
+        function showOrderDetailFromData(orderId) {
+            const order = AppData.find('member_orders', orderId);
+            if (!order) {
+                showToast('訂單不存在', 'error');
+                return;
+            }
+
+            const product = AppData.find('products', order.product_id);
+            const productName = product?.product_name || '未知商品';
+            const coverImage = product?.cover_image || '🛍️';
+            const price = order.total_price?.toLocaleString() || '0';
+
+            // 状态映射
+            const statusMap = {
+                'pending': { text: '待核銷', color: '#f59e0b' },
+                'completed': { text: '已完成', color: '#10b981' },
+                'cancelled': { text: '已取消', color: '#ef4444' }
+            };
+
+            const orderStatus = statusMap[order.status] || statusMap['pending'];
+
+            const content = `
+                <div style="background: #f9fafb; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 15px; color: #333;">📋 訂單資訊</h4>
+                    <div style="display: grid; gap: 10px;">
+                        <div><strong>訂單編號：</strong><span style="color: #666;">${order.order_number}</span></div>
+                        <div><strong>訂單狀態：</strong><span style="color: ${orderStatus.color}; font-weight: 600;">${orderStatus.text}</span></div>
+                        <div><strong>訂單時間：</strong><span style="color: #666;">${order.order_date}</span></div>
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 20px; padding: 20px; background: white; border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 20px;">
+                    <div style="font-size: 4em;">${coverImage}</div>
+                    <div style="flex: 1;">
+                        <h3 style="margin-bottom: 5px;">${productName}</h3>
+                        <p style="color: #666;">數量：${order.quantity}</p>
+                    </div>
+                    <div style="font-size: 1.5em; color: #667eea; font-weight: bold;">${price} MMK</div>
+                </div>
+
+                ${order.status === 'pending' ? `
+                    <div style="text-align: center; padding: 30px; background: #f9fafb; border-radius: 12px;">
+                        <h4 style="margin-bottom: 15px; color: #333;">🎫 核銷碼</h4>
+                        <div class="qr-code">📱</div>
+                        <p style="color: #666; font-size: 0.9em;">請向商家出示此 QR Code 進行核銷</p>
+                    </div>
+                ` : ''}
+            `;
+
+            const footer = order.status === 'pending'
+                ? `
+                    <button class="btn-secondary" onclick="handleCancelOrder('${order.order_number}')">取消訂單</button>
+                    <button class="btn-primary" onclick="closeModal()">確定</button>
+                `
+                : `<button class="btn-primary" onclick="closeModal()">確定</button>`;
+
+            showModal('📦 訂單詳情', content, footer);
+        }
+
+        // 渲染任務列表
+        function renderTasks() {
+            const tbody = document.getElementById('memberTasksTable');
+            if (!tbody) return;
+
+            // 從 AppData 獲取任務數據
+            const tasks = AppData.member_tasks || [];
+
+            // 如果沒有任務
+            if (tasks.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 40px; color: #999;">
+                            <div style="font-size: 3em; margin-bottom: 10px;">✅</div>
+                            <p>尚無可用任務</p>
+                        </td>
+                    </tr>
+                `;
+                // 更新统计卡片
+                document.getElementById('memberTasksTotalPoints').textContent = '0';
+                document.getElementById('memberTasksActiveCount').textContent = '0';
+                document.getElementById('memberTasksCompletedCount').textContent = '0';
+                return;
+            }
+
+            // 計算統計數據
+            let totalPoints = 0;
+            let activeCount = 0;
+            let completedCount = 0;
+
+            tasks.forEach(task => {
+                const userProgress = task.user_progress || { status: 'not_started' };
+                if (userProgress.status === 'claimed') {
+                    totalPoints += task.reward_points;
+                    completedCount++;
+                } else if (userProgress.status === 'in_progress') {
+                    activeCount++;
+                }
+            });
+
+            // 更新统计卡片
+            document.getElementById('memberTasksTotalPoints').textContent = totalPoints;
+            document.getElementById('memberTasksActiveCount').textContent = activeCount;
+            document.getElementById('memberTasksCompletedCount').textContent = completedCount;
+
+            // 生成任務行 HTML
+            const tasksHTML = tasks.map(task => {
+                const userProgress = task.user_progress || { status: 'not_started', current: 0, total: 1 };
+                const progressText = userProgress.current !== undefined && userProgress.total !== undefined
+                    ? `${userProgress.current}/${userProgress.total}`
+                    : 'N/A';
+
+                // 状态映射
+                const statusMap = {
+                    'claimed': { text: '已完成', badge: 'active' },
+                    'completed': { text: '待領取', badge: 'success' },
+                    'in_progress': { text: '進行中', badge: 'pending' },
+                    'not_started': { text: '未開始', badge: '' }
+                };
+
+                const statusInfo = statusMap[userProgress.status] || statusMap['not_started'];
+
+                let actionButton = '';
+                if (userProgress.status === 'claimed') {
+                    actionButton = '<span style="color: #4caf50;">✓ 已領取</span>';
+                } else if (userProgress.status === 'completed') {
+                    actionButton = '<button class="action-btn approve" onclick="event.stopPropagation(); handleClaimReward(' + task.id + ')">領取獎勵</button>';
+                } else {
+                    actionButton = '<button class="action-btn edit" onclick="event.stopPropagation(); showTaskDetail(' + task.id + ')">查看</button>';
+                }
+
+                return `
+                    <tr onclick="showTaskDetail(${task.id})" style="cursor: pointer;">
+                        <td>${task.name}</td>
+                        <td>${task.task_type}</td>
+                        <td>+${task.reward_points} 分</td>
+                        <td>${progressText}</td>
+                        <td><span class="status-badge ${statusInfo.badge}">${statusInfo.text}</span></td>
+                        <td>${actionButton}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            tbody.innerHTML = tasksHTML;
+        }
+
+        // 處理領取獎勵
+        function handleClaimReward(taskId) {
+            const task = AppData.find('member_tasks', taskId);
+            if (!task) {
+                showToast('任務不存在', 'error');
+                return;
+            }
+
+            // 更新任務狀態為已領取
+            if (task.user_progress) {
+                task.user_progress.status = 'claimed';
+            }
+
+            showToast(`恭喜！成功領取 ${task.reward_points} 積分獎勵`, 'success');
+
+            // 刷新任務列表
+            renderTasks();
         }
 
         // 初始化商品列表
