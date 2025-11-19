@@ -1549,50 +1549,26 @@
             <div id="merchantDashboard" class="content-view active">
                 <div class="stats-row">
                 <div class="stat-card">
-                    <div class="stat-number">328</div>
+                    <div class="stat-number" id="merchantMonthlyOrders">0</div>
                     <div class="stat-label">本月訂單</div>
                 </div>
                 <div class="stat-card success">
-                    <div class="stat-number">8,450,000</div>
+                    <div class="stat-number" id="merchantMonthlyRevenue">0</div>
                     <div class="stat-label">本月營收 (MMK)</div>
                 </div>
                 <div class="stat-card warning">
-                    <div class="stat-number">15</div>
+                    <div class="stat-number" id="merchantPendingOrders">0</div>
                     <div class="stat-label">待處理訂單</div>
                 </div>
                 <div class="stat-card info">
-                    <div class="stat-number">4.8 ⭐</div>
+                    <div class="stat-number" id="merchantAverageRating">0 ⭐</div>
                     <div class="stat-label">平均評分</div>
                 </div>
             </div>
 
             <h3 style="margin-bottom: 15px; color: #333;">🏬 我的店鋪</h3>
-            <div class="content-grid">
-                <div class="card">
-                    <div class="card-image">🏪</div>
-                    <div class="card-title">Pizza Hut 仰光總店</div>
-                    <div class="card-desc">📍 Yangon Downtown, Myanmar<br>📞 +95-1-234-5678</div>
-                    <div class="card-meta" style="margin-top: 10px;">
-                        <span class="status-badge active">營業中</span>
-                        <button class="action-btn edit">管理</button>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-image">🏪</div>
-                    <div class="card-title">Pizza Hut 曼德勒分店</div>
-                    <div class="card-desc">📍 Mandalay City, Myanmar<br>📞 +95-2-345-6789</div>
-                    <div class="card-meta" style="margin-top: 10px;">
-                        <span class="status-badge active">營業中</span>
-                        <button class="action-btn edit">管理</button>
-                    </div>
-                </div>
-
-                <div class="card" style="border: 2px dashed #e0e0e0;">
-                    <div class="card-image" style="background: #f5f5f5; color: #999;">➕</div>
-                    <div class="card-title" style="color: #999;">新增店鋪</div>
-                    <div class="card-desc">點擊新增更多店鋪位置</div>
-                </div>
+            <div class="content-grid" id="merchantDashboardStoresGrid">
+                <!-- 店鋪卡片將由 renderMerchantDashboard() 函數動態生成 -->
             </div>
 
             <h3 style="margin-bottom: 15px; margin-top: 40px; color: #333;">🎫 商品管理</h3>
@@ -1614,62 +1590,8 @@
                         <th>操作</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>美味披薩 8折優惠</td>
-                        <td>🍔 餐飲美食</td>
-                        <td>12,000</td>
-                        <td>45/100</td>
-                        <td>4.5 ⭐ (23 則)</td>
-                        <td><span class="status-badge active">上架中</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn edit">編輯</button>
-                                <button class="action-btn reject">下架</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>外帶優惠套餐</td>
-                        <td>🍔 餐飲美食</td>
-                        <td>18,000</td>
-                        <td>12/50</td>
-                        <td>4.8 ⭐ (15 則)</td>
-                        <td><span class="status-badge active">上架中</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn edit">編輯</button>
-                                <button class="action-btn reject">下架</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>週末下午茶優惠</td>
-                        <td>🍔 餐飲美食</td>
-                        <td>25,000</td>
-                        <td>89/100</td>
-                        <td>4.9 ⭐ (45 則)</td>
-                        <td><span class="status-badge active">上架中</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn edit">編輯</button>
-                                <button class="action-btn reject">下架</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>學生專屬優惠</td>
-                        <td>🍔 餐飲美食</td>
-                        <td>10,000</td>
-                        <td>0/50</td>
-                        <td>N/A</td>
-                        <td><span class="status-badge pending">審核中</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn edit">編輯</button>
-                            </div>
-                        </td>
-                    </tr>
+                <tbody id="merchantDashboardProductsTable">
+                    <!-- 商品資料將由 renderMerchantDashboard() 函數動態生成 -->
                 </tbody>
             </table>
 
@@ -1684,28 +1606,8 @@
                         <th>狀態</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>上架第一個商品</td>
-                        <td>新手任務</td>
-                        <td>平台推薦 7 天</td>
-                        <td>1/1</td>
-                        <td><span class="status-badge active">已完成</span></td>
-                    </tr>
-                    <tr>
-                        <td>月銷售達 100 單</td>
-                        <td>業績任務</td>
-                        <td>降低平台抽成 2%</td>
-                        <td>328/100</td>
-                        <td><span class="status-badge active">已完成</span></td>
-                    </tr>
-                    <tr>
-                        <td>維持 4.5 星以上評分</td>
-                        <td>品質任務</td>
-                        <td>優質商家標章</td>
-                        <td>4.8/4.5</td>
-                        <td><span class="status-badge active">進行中</span></td>
-                    </tr>
+                <tbody id="merchantDashboardTasksTable">
+                    <!-- 任務資料將由 renderMerchantDashboard() 函數動態生成 -->
                 </tbody>
             </table>
 
@@ -1721,64 +1623,8 @@
                     <button class="quick-action-btn">📊 營業統計</button>
                 </div>
 
-                <div class="content-grid">
-                    <div class="card">
-                        <div class="card-image">🏪</div>
-                        <div class="card-title">Pizza Hut 仰光總店</div>
-                        <div class="card-desc">
-                            📍 Yangon Downtown, Myanmar<br>
-                            📞 +95-1-234-5678<br>
-                            🕒 營業時間：10:00 - 22:00
-                        </div>
-                        <div class="card-meta" style="margin-top: 15px;">
-                            <span class="status-badge active">營業中</span>
-                            <div style="margin-top: 10px; display: flex; gap: 8px;">
-                                <button class="action-btn edit">編輯資訊</button>
-                                <button class="action-btn approve">查看數據</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-image">🏪</div>
-                        <div class="card-title">Pizza Hut 曼德勒分店</div>
-                        <div class="card-desc">
-                            📍 Mandalay City, Myanmar<br>
-                            📞 +95-2-345-6789<br>
-                            🕒 營業時間：10:00 - 22:00
-                        </div>
-                        <div class="card-meta" style="margin-top: 15px;">
-                            <span class="status-badge active">營業中</span>
-                            <div style="margin-top: 10px; display: flex; gap: 8px;">
-                                <button class="action-btn edit">編輯資訊</button>
-                                <button class="action-btn approve">查看數據</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-image">🏪</div>
-                        <div class="card-title">Pizza Hut 內比都店</div>
-                        <div class="card-desc">
-                            📍 Naypyidaw, Myanmar<br>
-                            📞 +95-3-456-7890<br>
-                            🕒 營業時間：11:00 - 21:00
-                        </div>
-                        <div class="card-meta" style="margin-top: 15px;">
-                            <span class="status-badge pending">休息中</span>
-                            <div style="margin-top: 10px; display: flex; gap: 8px;">
-                                <button class="action-btn edit">編輯資訊</button>
-                                <button class="action-btn approve">查看數據</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card" style="border: 2px dashed #e0e0e0;">
-                        <div class="card-image" style="background: #f5f5f5; color: #999;">➕</div>
-                        <div class="card-title" style="color: #999;">新增店鋪</div>
-                        <div class="card-desc">點擊新增更多店鋪位置，擴展您的業務範圍</div>
-                        <button class="card-button" style="margin-top: 15px;">新增店鋪</button>
-                    </div>
+                <div class="content-grid" id="merchantStoresGrid">
+                    <!-- 店鋪卡片將由 renderMerchantStores() 函數動態生成 -->
                 </div>
 
                 <h3 style="margin-bottom: 15px; margin-top: 40px; color: #333;">📊 各店鋪營業數據</h3>
@@ -1793,31 +1639,8 @@
                             <th>操作</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Pizza Hut 仰光總店</td>
-                            <td>185</td>
-                            <td>4,820,000 MMK</td>
-                            <td>4.9 ⭐</td>
-                            <td><span class="status-badge active">營業中</span></td>
-                            <td><button class="action-btn edit">管理</button></td>
-                        </tr>
-                        <tr>
-                            <td>Pizza Hut 曼德勒分店</td>
-                            <td>98</td>
-                            <td>2,540,000 MMK</td>
-                            <td>4.7 ⭐</td>
-                            <td><span class="status-badge active">營業中</span></td>
-                            <td><button class="action-btn edit">管理</button></td>
-                        </tr>
-                        <tr>
-                            <td>Pizza Hut 內比都店</td>
-                            <td>45</td>
-                            <td>1,090,000 MMK</td>
-                            <td>4.6 ⭐</td>
-                            <td><span class="status-badge pending">休息中</span></td>
-                            <td><button class="action-btn edit">管理</button></td>
-                        </tr>
+                    <tbody id="merchantStoresStatsTable">
+                        <!-- 店鋪數據將由 renderMerchantStores() 函數動態生成 -->
                     </tbody>
                 </table>
             </div>
@@ -1896,15 +1719,15 @@
 
                 <div class="stats-row" style="margin-bottom: 30px;">
                     <div class="stat-card info">
-                        <div class="stat-number">優質商家</div>
+                        <div class="stat-number" id="merchantTasksBadge">-</div>
                         <div class="stat-label">當前標章</div>
                     </div>
                     <div class="stat-card warning">
-                        <div class="stat-number">1</div>
+                        <div class="stat-number" id="merchantTasksActive">0</div>
                         <div class="stat-label">進行中任務</div>
                     </div>
                     <div class="stat-card success">
-                        <div class="stat-number">2</div>
+                        <div class="stat-number" id="merchantTasksCompleted">0</div>
                         <div class="stat-label">已完成任務</div>
                     </div>
                 </div>
@@ -1928,47 +1751,8 @@
                             <th>操作</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>維持 4.5 星以上評分</td>
-                            <td>品質任務</td>
-                            <td>優質商家標章</td>
-                            <td>4.8/4.5</td>
-                            <td><span class="status-badge pending">進行中</span></td>
-                            <td><button class="action-btn edit">查看</button></td>
-                        </tr>
-                        <tr>
-                            <td>上架第一個商品</td>
-                            <td>新手任務</td>
-                            <td>平台推薦 7 天</td>
-                            <td>1/1</td>
-                            <td><span class="status-badge active">已完成</span></td>
-                            <td><span style="color: #4caf50;">✓ 已領取</span></td>
-                        </tr>
-                        <tr>
-                            <td>月銷售達 100 單</td>
-                            <td>業績任務</td>
-                            <td>降低平台抽成 2%</td>
-                            <td>328/100</td>
-                            <td><span class="status-badge active">已完成</span></td>
-                            <td><span style="color: #4caf50;">✓ 已領取</span></td>
-                        </tr>
-                        <tr>
-                            <td>月營收突破 10,000,000 MMK</td>
-                            <td>業績任務</td>
-                            <td>首頁推薦位 30 天</td>
-                            <td>8,450,000/10,000,000</td>
-                            <td><span class="status-badge pending">進行中</span></td>
-                            <td><button class="action-btn edit">查看</button></td>
-                        </tr>
-                        <tr>
-                            <td>回覆 90% 以上顧客評論</td>
-                            <td>品質任務</td>
-                            <td>提升店鋪曝光度</td>
-                            <td>75/83 (90%)</td>
-                            <td><span class="status-badge pending">進行中</span></td>
-                            <td><button class="action-btn edit">前往</button></td>
-                        </tr>
+                    <tbody id="merchantTasksTable">
+                        <!-- 任務資料將由 renderMerchantTasks() 函數動態生成 -->
                     </tbody>
                 </table>
 
