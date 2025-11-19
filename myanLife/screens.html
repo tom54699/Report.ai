@@ -1988,10 +1988,10 @@
 
             <h3 style="margin-bottom: 15px; color: #333;">🔍 待審核商品 (Product Review)</h3>
             <div class="quick-actions">
-                <button class="quick-action-btn">📊 查看統計</button>
-                <button class="quick-action-btn">👥 管理會員</button>
-                <button class="quick-action-btn">🏪 管理商家</button>
-                <button class="quick-action-btn">📰 內容管理 (CMS)</button>
+                <button class="quick-action-btn" onclick="switchOperationView('dashboard')">📊 查看統計</button>
+                <button class="quick-action-btn" onclick="switchOperationView('members')">👥 管理會員</button>
+                <button class="quick-action-btn" onclick="switchOperationView('merchants')">🏪 管理商家</button>
+                <button class="quick-action-btn" onclick="switchOperationView('cms')">📰 內容管理 (CMS)</button>
             </div>
 
             <table class="data-table">
@@ -2104,7 +2104,7 @@
                         <span>橫幅廣告管理 (Banners)</span>
                     </div>
                     <p style="color: #666; margin: 10px 0;">管理首頁橫幅廣告，支援分類管理</p>
-                    <button class="quick-action-btn" style="margin-top: 10px;">管理橫幅 (banners, banner_categories)</button>
+                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationBanners();">管理橫幅 (banners, banner_categories)</button>
                 </div>
 
                 <div class="dashboard-card">
@@ -2113,7 +2113,7 @@
                         <span>新聞公告管理 (News)</span>
                     </div>
                     <p style="color: #666; margin: 10px 0;">發布平台新聞與公告訊息</p>
-                    <button class="quick-action-btn" style="margin-top: 10px;">管理新聞 (news, news_categories)</button>
+                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationNews();">管理新聞 (news, news_categories)</button>
                 </div>
 
                 <div class="dashboard-card">
@@ -2122,7 +2122,7 @@
                         <span>黃頁管理 (Yellow Pages)</span>
                     </div>
                     <p style="color: #666; margin: 10px 0;">商家目錄與服務資訊</p>
-                    <button class="quick-action-btn" style="margin-top: 10px;">管理黃頁 (yellow_pages, yellow_page_categories)</button>
+                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationYellowPages();">管理黃頁 (yellow_pages, yellow_page_categories)</button>
                 </div>
 
                 <div class="dashboard-card">
@@ -2131,7 +2131,7 @@
                         <span>慈善活動管理</span>
                     </div>
                     <p style="color: #666; margin: 10px 0;">公益活動與慈善專案</p>
-                    <button class="quick-action-btn" style="margin-top: 10px;">管理活動 (charity_activities, charity_activity_categories)</button>
+                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationCharity();">管理活動 (charity_activities, charity_activity_categories)</button>
                 </div>
 
                 <div class="dashboard-card">
@@ -2348,7 +2348,7 @@
                                 <div style="color: #666; font-size: 0.9em;">草稿</div>
                             </div>
                         </div>
-                        <button class="quick-action-btn" style="width: 100%;">管理橫幅 (banners, banner_categories)</button>
+                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationBanners()">管理橫幅 (banners, banner_categories)</button>
                     </div>
 
                     <div class="dashboard-card">
@@ -2366,7 +2366,7 @@
                                 <div style="color: #666; font-size: 0.9em;">草稿</div>
                             </div>
                         </div>
-                        <button class="quick-action-btn" style="width: 100%;">管理新聞 (news, news_categories)</button>
+                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationNews()">管理新聞 (news, news_categories)</button>
                     </div>
 
                     <div class="dashboard-card">
@@ -2384,7 +2384,7 @@
                                 <div style="color: #666; font-size: 0.9em;">分類</div>
                             </div>
                         </div>
-                        <button class="quick-action-btn" style="width: 100%;">管理黃頁 (yellow_pages, yellow_page_categories)</button>
+                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationYellowPages()">管理黃頁 (yellow_pages, yellow_page_categories)</button>
                     </div>
 
                     <div class="dashboard-card">
@@ -2402,7 +2402,7 @@
                                 <div style="color: #666; font-size: 0.9em;">已結束</div>
                             </div>
                         </div>
-                        <button class="quick-action-btn" style="width: 100%;">管理活動 (charity_activities, charity_activity_categories)</button>
+                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationCharity()">管理活動 (charity_activities, charity_activity_categories)</button>
                     </div>
 
                     <div class="dashboard-card">
@@ -2420,7 +2420,7 @@
                                 <div style="color: #666; font-size: 0.9em;">已關閉</div>
                             </div>
                         </div>
-                        <button class="quick-action-btn" style="width: 100%;">管理職缺 (vacancies)</button>
+                        <button class="quick-action-btn" style="width: 100%;" onclick="renderCentralVacancies()">管理職缺 (vacancies)</button>
                     </div>
 
                     <div class="dashboard-card">
@@ -2438,7 +2438,7 @@
                                 <div style="color: #666; font-size: 0.9em;">已發布</div>
                             </div>
                         </div>
-                        <button class="quick-action-btn" style="width: 100%;">管理評論 (product_reviews)</button>
+                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationReviews()">管理評論 (product_reviews)</button>
                     </div>
                 </div>
 
@@ -6989,6 +6989,20 @@
         function renderOperationOrders() {
             console.log('📦 渲染訂單監控（已有 20 筆訂單資料）');
             // 框架已建立，訂單資料可透過 AppData.orders 取得
+        }
+
+        // 渲染評論管理（示例框架）
+        function renderOperationReviews() {
+            console.log('⭐ 渲染評論管理（已有 18 筆商品評價資料）');
+            const ratings = AppData.product_ratings || [];
+
+            // 統計數據
+            const withReply = ratings.filter(r => r.merchant_reply).length;
+            console.log(`評價總數：${ratings.length} 筆`);
+            console.log(`已回覆：${withReply} 筆`);
+            console.log(`待回覆：${ratings.length - withReply} 筆`);
+
+            // 框架已建立，評價資料可透過 AppData.product_ratings 取得
         }
 
         // ============================================
