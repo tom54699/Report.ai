@@ -1619,7 +1619,7 @@
                 <h3 style="margin-bottom: 15px; color: #333;">🏬 店鋪管理</h3>
 
                 <div class="quick-actions" style="margin-bottom: 20px;">
-                    <button class="quick-action-btn">➕ 新增店鋪</button>
+                    <button class="quick-action-btn" onclick="showAddStore()">➕ 新增店鋪</button>
                     <button class="quick-action-btn">📊 營業統計</button>
                 </div>
 
@@ -3698,6 +3698,37 @@
                 { id: 8, name: '回覆顧客評論', description: '及時回覆所有顧客評論，維持 95% 以上回覆率', task_type: '服務任務', reward_type: 'rating_boost', reward_value: 0.1, is_active: 1, merchant_progress: { merchant_id: 1, progress: 88, status: 'in_progress', current: 88, total: 95 } }
             ],
 
+            // ========== 管理員系統 ==========
+            admins: [
+                { id: 1, username: 'super_admin', email: 'super@myanlife.com', full_name: '系統超級管理員', role: 'super_admin', permissions: ['all'], status: 'active', last_login: '2024-11-19 09:30:00', created_at: '2023-01-01 00:00:00' },
+                { id: 2, username: 'operation_manager', email: 'ops@myanlife.com', full_name: '營運總監', role: 'operation_admin', permissions: ['merchants', 'products', 'orders', 'users'], status: 'active', last_login: '2024-11-19 08:15:00', created_at: '2023-06-15 10:00:00' },
+                { id: 3, username: 'content_editor', email: 'content@myanlife.com', full_name: '內容編輯', role: 'content_admin', permissions: ['news', 'banners', 'yellow_pages', 'charity'], status: 'active', last_login: '2024-11-18 16:45:00', created_at: '2023-09-20 14:30:00' },
+                { id: 4, username: 'customer_service', email: 'cs@myanlife.com', full_name: '客服主管', role: 'cs_admin', permissions: ['users', 'orders', 'complaints'], status: 'active', last_login: '2024-11-19 10:00:00', created_at: '2024-01-10 09:00:00' },
+                { id: 5, username: 'data_analyst', email: 'data@myanlife.com', full_name: '數據分析師', role: 'analyst', permissions: ['reports', 'statistics'], status: 'active', last_login: '2024-11-17 14:20:00', created_at: '2024-03-01 11:00:00' }
+            ],
+
+            // ========== 商品評價系統 ==========
+            product_ratings: [
+                { id: 1, product_id: 1, member_id: 1, rating: 5, comment: '超好吃！芝士拉絲很棒，Pizza Hut 永遠不會讓我失望！', images: [], merchant_reply: '感謝支持！歡迎再次光臨 🍕', reply_at: '2024-11-05 15:30:00', created_at: '2024-11-05 14:20:00' },
+                { id: 2, product_id: 1, member_id: 2, rating: 4, comment: '味道不錯，但配送稍微慢了一點。', images: [], merchant_reply: null, created_at: '2024-11-08 19:45:00' },
+                { id: 3, product_id: 2, member_id: 1, rating: 5, comment: '超值套餐！炸雞很脆，薯條也很新鮮。', images: ['photo1.jpg'], merchant_reply: '謝謝您的好評！我們會繼續保持品質 😊', reply_at: '2024-11-10 10:00:00', created_at: '2024-11-10 08:30:00' },
+                { id: 4, product_id: 3, member_id: 2, rating: 5, comment: '甜點超棒！提拉米蘇入口即化，強烈推薦！', images: ['dessert1.jpg', 'dessert2.jpg'], merchant_reply: null, created_at: '2024-11-12 16:20:00' },
+                { id: 5, product_id: 4, member_id: 1, rating: 5, comment: '住宿體驗一流，房間很乾淨，服務人員態度超好！', images: ['room1.jpg'], merchant_reply: '感謝您選擇 Sedona Hotel！期待您的再次光臨 🏨', reply_at: '2024-11-02 11:00:00', created_at: '2024-11-01 22:30:00' },
+                { id: 6, product_id: 4, member_id: 2, rating: 4, comment: '整體不錯，就是早餐種類可以更豐富一些。', images: [], merchant_reply: '感謝您的建議！我們會持續改進早餐菜單。', reply_at: '2024-11-06 09:00:00', created_at: '2024-11-05 18:15:00' },
+                { id: 7, product_id: 5, member_id: 1, rating: 5, comment: 'SPA 體驗太棒了！按摩師手法專業，環境很放鬆。', images: [], merchant_reply: null, created_at: '2024-11-08 20:00:00' },
+                { id: 8, product_id: 6, member_id: 2, rating: 5, comment: '會議室設備齊全，商務會議很順利！', images: ['meeting1.jpg'], merchant_reply: '感謝支持！歡迎下次繼續預訂我們的會議服務。', reply_at: '2024-11-11 14:00:00', created_at: '2024-11-11 12:30:00' },
+                { id: 9, product_id: 1, member_id: 1, rating: 5, comment: '第二次訂了，依然好吃！', images: [], merchant_reply: null, created_at: '2024-11-13 19:00:00' },
+                { id: 10, product_id: 2, member_id: 2, rating: 5, comment: '家人聚餐的好選擇，份量十足！', images: ['family_meal.jpg'], merchant_reply: '謝謝支持！歡迎帶全家一起來 👨‍👩‍👧‍👦', reply_at: '2024-11-14 10:30:00', created_at: '2024-11-14 09:00:00' },
+                { id: 11, product_id: 7, member_id: 1, rating: 4, comment: '義大利麵很道地，但分量對我來說稍微小了一點。', images: [], merchant_reply: null, created_at: '2024-11-09 13:45:00' },
+                { id: 12, product_id: 8, member_id: 2, rating: 5, comment: '沙拉很新鮮，醬料也很特別，健康又美味！', images: [], merchant_reply: null, created_at: '2024-11-11 12:20:00' },
+                { id: 13, product_id: 3, member_id: 1, rating: 5, comment: '慶祝生日訂的，甜點美味又精緻！', images: ['birthday.jpg'], merchant_reply: '生日快樂！🎂 感謝選擇我們的甜點！', reply_at: '2024-11-15 16:00:00', created_at: '2024-11-15 15:30:00' },
+                { id: 14, product_id: 5, member_id: 2, rating: 5, comment: '工作壓力大，來這裡放鬆一下真的很舒服！', images: [], merchant_reply: null, created_at: '2024-11-16 18:00:00' },
+                { id: 15, product_id: 6, member_id: 1, rating: 5, comment: '商務活動辦得很成功，會議室設備完善！', images: [], merchant_reply: '感謝信任！期待下次合作。', reply_at: '2024-11-17 09:00:00', created_at: '2024-11-16 22:00:00' },
+                { id: 16, product_id: 7, member_id: 2, rating: 5, comment: '義大利麵煮得剛剛好，醬汁濃郁！', images: ['pasta.jpg'], merchant_reply: null, created_at: '2024-11-17 20:30:00' },
+                { id: 17, product_id: 8, member_id: 1, rating: 4, comment: '沙拉很棒，但希望可以加更多堅果類配料。', images: [], merchant_reply: '感謝建議！我們會考慮增加更多配料選項。', reply_at: '2024-11-18 11:00:00', created_at: '2024-11-18 10:15:00' },
+                { id: 18, product_id: 4, member_id: 2, rating: 5, comment: '週末度假的完美選擇！服務一流，環境優美。', images: ['hotel_view.jpg'], merchant_reply: '感謝您的五星好評！期待您的再次光臨 ⭐', reply_at: '2024-11-19 09:00:00', created_at: '2024-11-18 21:00:00' }
+            ],
+
             // ========== 當前狀態 ==========
             currentUser: null,
             currentMerchant: null,
@@ -5537,7 +5568,7 @@
                         <div class="card-image" style="background: #f5f5f5; color: #999;">➕</div>
                         <div class="card-title" style="color: #999;">新增店鋪</div>
                         <div class="card-desc">點擊新增更多店鋪位置，擴展您的業務範圍</div>
-                        <button class="card-button" style="margin-top: 15px;">新增店鋪</button>
+                        <button class="card-button" style="margin-top: 15px;" onclick="showAddStore()">新增店鋪</button>
                     </div>
                 `;
 
@@ -5590,6 +5621,163 @@
                     }).join('');
                 }
             }
+        }
+
+        // 顯示新增店鋪表單
+        function showAddStore() {
+            const merchantId = 1; // 當前商家 ID
+
+            // 創建彈窗覆蓋層
+            const overlay = document.createElement('div');
+            overlay.id = 'addStoreOverlay';
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+            `;
+
+            overlay.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+                    <h3 style="margin: 0 0 20px 0; color: #333; font-size: 22px;">➕ 新增店鋪</h3>
+
+                    <form id="addStoreForm" onsubmit="event.preventDefault(); handleSaveStore();">
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; color: #555; font-weight: 500;">店鋪名稱 <span style="color: red;">*</span></label>
+                            <input type="text" id="storeName" required
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;"
+                                   placeholder="例如：Pizza Hut 內比都分店">
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; color: #555; font-weight: 500;">店鋪地址 <span style="color: red;">*</span></label>
+                            <input type="text" id="storeAddress" required
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;"
+                                   placeholder="例如：內比都市 Yarza Thingaha Road 100號">
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; color: #555; font-weight: 500;">聯絡電話 <span style="color: red;">*</span></label>
+                            <input type="tel" id="storePhone" required
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;"
+                                   placeholder="例如：09-123-456-789">
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; color: #555; font-weight: 500;">營業時間 <span style="color: red;">*</span></label>
+                            <input type="text" id="storeHours" required
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;"
+                                   placeholder="例如：10:00-22:00">
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; color: #555; font-weight: 500;">GPS 緯度</label>
+                            <input type="number" step="0.0001" id="storeLatitude"
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;"
+                                   placeholder="例如：19.7450（選填）">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 5px; color: #555; font-weight: 500;">GPS 經度</label>
+                            <input type="number" step="0.0001" id="storeLongitude"
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;"
+                                   placeholder="例如：96.1297（選填）">
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: flex; align-items: center; cursor: pointer;">
+                                <input type="checkbox" id="storeIsOpen" checked
+                                       style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
+                                <span style="color: #555; font-weight: 500;">店鋪目前營業中</span>
+                            </label>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; margin-top: 25px;">
+                            <button type="submit"
+                                    style="flex: 1; padding: 12px; background: #4CAF50; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 500; cursor: pointer;">
+                                💾 儲存店鋪
+                            </button>
+                            <button type="button" onclick="closeAddStoreForm()"
+                                    style="flex: 1; padding: 12px; background: #f44336; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 500; cursor: pointer;">
+                                ❌ 取消
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.body.appendChild(overlay);
+
+            // 聚焦第一個輸入框
+            setTimeout(() => {
+                document.getElementById('storeName').focus();
+            }, 100);
+        }
+
+        // 關閉新增店鋪表單
+        function closeAddStoreForm() {
+            const overlay = document.getElementById('addStoreOverlay');
+            if (overlay) {
+                overlay.remove();
+            }
+        }
+
+        // 處理儲存新店鋪
+        function handleSaveStore() {
+            const merchantId = 1; // 當前商家 ID
+
+            // 獲取表單數據
+            const storeName = document.getElementById('storeName').value.trim();
+            const storeAddress = document.getElementById('storeAddress').value.trim();
+            const storePhone = document.getElementById('storePhone').value.trim();
+            const storeHours = document.getElementById('storeHours').value.trim();
+            const storeLatitude = parseFloat(document.getElementById('storeLatitude').value) || null;
+            const storeLongitude = parseFloat(document.getElementById('storeLongitude').value) || null;
+            const storeIsOpen = document.getElementById('storeIsOpen').checked ? 1 : 0;
+
+            // 驗證必填欄位
+            if (!storeName || !storeAddress || !storePhone || !storeHours) {
+                alert('⚠️ 請填寫所有必填欄位（標記 * 的欄位）');
+                return;
+            }
+
+            // 生成新的店鋪 ID
+            const stores = AppData.stores || [];
+            const newId = stores.length > 0 ? Math.max(...stores.map(s => s.id)) + 1 : 1;
+
+            // 建立新店鋪物件
+            const newStore = {
+                id: newId,
+                merchant_id: merchantId,
+                store_name: storeName,
+                address: storeAddress,
+                phone: storePhone,
+                business_hours: storeHours,
+                latitude: storeLatitude,
+                longitude: storeLongitude,
+                is_open: storeIsOpen,
+                created_at: new Date().toISOString().replace('T', ' ').substring(0, 19)
+            };
+
+            // 新增到 AppData
+            AppData.create('stores', newStore);
+
+            // 顯示成功訊息
+            alert(`✅ 店鋪「${storeName}」新增成功！`);
+
+            // 關閉表單
+            closeAddStoreForm();
+
+            // 重新渲染店鋪列表
+            renderMerchantStores();
+
+            console.log('✅ 新店鋪已新增:', newStore);
         }
 
         // 渲染商家端任务中心
