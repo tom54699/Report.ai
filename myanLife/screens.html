@@ -6957,6 +6957,67 @@
             });
         }
 
+        // ============================================
+        // 運營後台 CMS 管理渲染函數
+        // ============================================
+
+        // 渲染新聞管理（示例框架）
+        function renderOperationNews() {
+            console.log('📰 渲染新聞管理（已有 12 筆新聞資料）');
+            // 框架已建立，新聞資料可透過 AppData.news 取得
+        }
+
+        // 渲染廣告管理（示例框架）
+        function renderOperationBanners() {
+            console.log('🎪 渲染廣告管理（已有 6 筆廣告資料）');
+            // 框架已建立，廣告資料可透過 AppData.banners 取得
+        }
+
+        // 渲染黃頁管理（示例框架）
+        function renderOperationYellowPages() {
+            console.log('📒 渲染黃頁管理（已有 10 筆黃頁資料）');
+            // 框架已建立，黃頁資料可透過 AppData.yellow_pages 取得
+        }
+
+        // 渲染公益活動管理（示例框架）
+        function renderOperationCharity() {
+            console.log('❤️ 渲染公益活動管理（已有 6 筆公益資料）');
+            // 框架已建立，公益資料可透過 AppData.charity_activities 取得
+        }
+
+        // 渲染訂單監控（示例框架）
+        function renderOperationOrders() {
+            console.log('📦 渲染訂單監控（已有 20 筆訂單資料）');
+            // 框架已建立，訂單資料可透過 AppData.orders 取得
+        }
+
+        // ============================================
+        // 中央後台管理渲染函數
+        // ============================================
+
+        // 渲染管理員列表
+        function renderCentralAdmins() {
+            console.log('👥 渲染管理員列表（已有 5 筆管理員資料）');
+            const admins = AppData.admins || [];
+
+            // 如果有對應的 DOM 容器，可以在這裡渲染
+            console.log(`管理員總數：${admins.length} 人`);
+            admins.forEach(admin => {
+                console.log(`  - ${admin.full_name} (${admin.role}): ${admin.email}`);
+            });
+        }
+
+        // 渲染職缺管理
+        function renderCentralVacancies() {
+            console.log('💼 渲染職缺管理（已有 8 筆職缺資料）');
+            const vacancies = AppData.vacancies || [];
+
+            // 統計數據
+            const activeVacancies = vacancies.filter(v => v.is_active).length;
+            console.log(`職缺總數：${vacancies.length} 個`);
+            console.log(`開放中職缺：${activeVacancies} 個`);
+        }
+
         // 擴展 switchTab 函數以支援各介面的初始化
         const originalSwitchTab = switchTab;
         switchTab = function(tabName) {
