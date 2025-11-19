@@ -2588,6 +2588,8 @@
                 <strong>🟡 內容管理：</strong>橫幅 (banners, banner_categories)、新聞 (news, news_categories)、黃頁 (yellow_pages, yellow_page_categories)、慈善活動 (charity_activities, charity_activity_categories)、職缺 (vacancies)、商品評論審核 (product_reviews)。<br>
                 <strong>⚙️ 系統功能：</strong>任務系統 (member_tasks, member_task_logs, merchant_tasks, merchant_task_logs)、多國切換、報表產製、系統監控。各國運營後台由當地團隊或合作夥伴管理，擁有該國 Super 權限。
             </div>
+            <!-- 主要內容結束 -->
+            </div>
         </div>
 
         <!-- 4. 中央後台 -->
@@ -3261,8 +3263,8 @@
             <div class="info-note">
                 <strong>💡 中央後台功能：</strong>跨國數據整合、統一報表產製、各國營收對比、會員分析、商家統計、系統監控。<strong>主要為只讀查看</strong>，如需修改資料，透過快速連結自動登入各國運營後台操作。權限層級：中央後台 (最高權限) > 各國 Super Admin > 各國一般管理員。
             </div>
-            </div>
             <!-- 主要內容結束 -->
+            </div>
         </div>
     </div>
 
@@ -3276,9 +3278,19 @@
                 container.classList.remove('active');
             });
 
-            // 添加 active class 到選中的標籤和內容
-            event.target.classList.add('active');
-            document.getElementById(tabName).classList.add('active');
+            // 添加 active class 到選中的標籤
+            document.querySelectorAll('.tab').forEach(tab => {
+                const onclick = tab.getAttribute('onclick');
+                if (onclick && onclick.includes(`'${tabName}'`)) {
+                    tab.classList.add('active');
+                }
+            });
+
+            // 顯示對應的內容容器
+            const container = document.getElementById(tabName);
+            if (container) {
+                container.classList.add('active');
+            }
         }
 
         // 會員端視圖切換功能
