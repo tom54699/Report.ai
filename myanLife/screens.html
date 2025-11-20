@@ -1509,8 +1509,8 @@
 
             <h3 style="margin-bottom: 15px; margin-top: 40px; color: #333;">🎫 商品管理</h3>
             <div class="quick-actions">
-                <button class="quick-action-btn">➕ 新增商品</button>
-                <button class="quick-action-btn">📊 銷售統計</button>
+                <button class="quick-action-btn" onclick="showAddProduct()">➕ 新增商品</button>
+                <button class="quick-action-btn" onclick="showSalesStats()">📊 銷售統計</button>
                 <button class="quick-action-btn">⚙️ 偏好設定</button>
             </div>
 
@@ -6015,6 +6015,7 @@
             closeModal();
             setTimeout(() => {
                 renderMerchantProducts();
+                renderMerchantDashboard(); // 同時更新儀表板商品列表
                 renderProducts(); // 同時更新會員端商品列表
             }, 300);
         }
@@ -6045,6 +6046,7 @@
 
                 setTimeout(() => {
                     renderMerchantProducts();
+                    renderMerchantDashboard(); // 同時更新儀表板商品列表
                     renderProducts(); // 同時更新會員端商品列表
                 }, 300);
             }, newStatus === 'rejected' ? '下架商品' : '確認操作');
