@@ -4014,9 +4014,9 @@
 
             // ========== 任務系統 ==========
             member_tasks: [
-                { id: 1, name: '連續7天登入', description: '連續 7 天每日登入系統，即可獲得 50 積分獎勵', task_type: '每日任務', reward_points: 50, is_active: 1, user_progress: { member_id: 1, progress: 71, status: 'in_progress', current: 5, total: 7 } },
+                { id: 1, name: '連續7天登入', description: '連續 7 天每日登入系統，即可獲得 50 積分獎勵', task_type: '每日任務', reward_points: 50, is_active: 1, user_progress: { member_id: 1, progress: 100, status: 'completed', current: 7, total: 7 } },
                 { id: 2, name: '邀請好友註冊', description: '邀請好友註冊並完成首次購物，每成功邀請 1 位好友獲得 40 積分', task_type: '推廣任務', reward_points: 200, is_active: 1, user_progress: { member_id: 1, progress: 40, status: 'in_progress', current: 2, total: 5 } },
-                { id: 3, name: '完成 3 次商品評分', description: '完成 3 次商品購買後的評分，即可獲得 100 積分獎勵', task_type: '互動任務', reward_points: 100, is_active: 1, user_progress: { member_id: 1, progress: 33, status: 'in_progress', current: 1, total: 3 } },
+                { id: 3, name: '完成 3 次商品評分', description: '完成 3 次商品購買後的評分，即可獲得 100 積分獎勵', task_type: '互動任務', reward_points: 100, is_active: 1, user_progress: { member_id: 1, progress: 100, status: 'completed', current: 3, total: 3 } },
                 { id: 4, name: '完成首次購物', description: '完成第一筆訂單即可獲得 100 積分獎勵', task_type: '新手任務', reward_points: 100, is_active: 1, user_progress: { member_id: 1, progress: 100, status: 'claimed', current: 1, total: 1 } },
                 { id: 5, name: '完善個人資料', description: '完善個人資料（包含頭像、暱稱、手機、地址），即可獲得 50 積分獎勵', task_type: '新手任務', reward_points: 50, is_active: 1, user_progress: { member_id: 1, progress: 100, status: 'claimed', current: 1, total: 1 } },
                 { id: 6, name: '首次分享商品', description: '首次分享商品到社群媒體，即可獲得 80 積分獎勵', task_type: '推廣任務', reward_points: 80, is_active: 1, user_progress: { member_id: 1, progress: 100, status: 'claimed', current: 1, total: 1 } },
@@ -5317,7 +5317,7 @@
                                 `<button class="card-button" onclick="event.stopPropagation(); showVerificationQRCode(${order.id})">立即核銷</button>` :
                                 order.status === 'cancelled' ?
                                 `<span style="color: #999;">已退款</span>` :
-                                `<button class="action-btn edit" onclick="event.stopPropagation();">查看詳情</button>`
+                                `<button class="action-btn edit" onclick="event.stopPropagation(); showOrderDetailFromData(${order.id})">查看詳情</button>`
                             }
                         </div>
                     </div>
