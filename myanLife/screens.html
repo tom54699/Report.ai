@@ -5051,7 +5051,7 @@
             if (totalOrdersElem) totalOrdersElem.textContent = totalOrders;
 
             // 待核銷訂單
-            const pendingOrders = orders.filter(o => o.status === 'pending' || o.order_status === 'pending').length;
+            const pendingOrders = orders.filter(o => o.status === 'pending').length;
             const pendingOrdersElem = document.getElementById('memberStatPendingOrders');
             if (pendingOrdersElem) pendingOrdersElem.textContent = pendingOrders;
 
@@ -6227,7 +6227,7 @@
                             </div>
                             <div>
                                 <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">訂單狀態</div>
-                                <div style="font-weight: 600; color: #4caf50;">${order.order_status === 'completed' ? '已完成' : order.order_status}</div>
+                                <div style="font-weight: 600; color: #4caf50;">${order.status === 'completed' ? '已完成' : order.status}</div>
                             </div>
                             <div>
                                 <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">下單時間</div>
@@ -6277,7 +6277,7 @@
                     if (order) {
                         const now = new Date().toISOString().replace('T', ' ').substring(0, 19);
                         AppData.update('orders', orderId, {
-                            order_status: 'completed',
+                            status: 'completed',
                             completed_at: now
                         });
 
