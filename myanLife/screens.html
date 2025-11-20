@@ -1127,19 +1127,19 @@
             <div id="memberHome" class="content-view active">
                 <div class="stats-row">
                 <div class="stat-card">
-                    <div class="stat-number">12</div>
-                    <div class="stat-label">我的商品</div>
+                    <div class="stat-number" id="memberStatTotalOrders">0</div>
+                    <div class="stat-label">我的訂單</div>
                 </div>
                 <div class="stat-card success">
-                    <div class="stat-number">5</div>
+                    <div class="stat-number" id="memberStatPendingOrders">0</div>
                     <div class="stat-label">待核銷</div>
                 </div>
                 <div class="stat-card warning">
-                    <div class="stat-number">3</div>
+                    <div class="stat-number" id="memberStatActiveTasks">0</div>
                     <div class="stat-label">進行中任務</div>
                 </div>
                 <div class="stat-card info">
-                    <div class="stat-number">850</div>
+                    <div class="stat-number" id="memberStatPoints">0</div>
                     <div class="stat-label">任務積分</div>
                 </div>
             </div>
@@ -3634,6 +3634,7 @@
             // 根據切換的視圖渲染對應的資料
             setTimeout(() => {
                 if (viewName === 'home') {
+                    updateMemberStats();  // 更新統計數字
                     renderProducts();  // 首頁也需要渲染商品
                 } else if (viewName === 'products') {
                     renderProducts();
@@ -3803,9 +3804,10 @@
                 }, index * 100);
             });
 
-            // 初始化會員端首頁商品列表
+            // 初始化會員端首頁
             setTimeout(() => {
-                renderProducts();
+                updateMemberStats();  // 更新統計數字
+                renderProducts();  // 渲染商品列表
             }, 100);
         });
 
@@ -4004,28 +4006,7 @@
             ],
 
             // ========== 訂單系統 ==========
-            member_orders: [
-                { id: 1, order_number: 'ORD-20251118-001', member_id: 1, merchant_id: 1, product_id: 1, product_name: '美味披薩 8折優惠', product_image: '🍕', final_amount: 12000, currency: 'MMK', payment_status: 'paid', order_status: 'pending', created_at: '2025-11-18 14:30:00' },
-                { id: 2, order_number: 'ORD-20251117-052', member_id: 1, merchant_id: 1, product_id: 2, product_name: '咖啡買一送一', product_image: '☕', final_amount: 13000, currency: 'MMK', payment_status: 'paid', order_status: 'pending', created_at: '2025-11-17 09:15:00' },
-                { id: 3, order_number: 'ORD-20251116-038', member_id: 1, merchant_id: 1, product_id: 4, product_name: '緬甸傳統舞蹈表演', product_image: '🎭', final_amount: 50000, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-11-16 18:00:00', created_at: '2025-11-16 16:45:00' },
-                { id: 4, order_number: 'ORD-20251115-025', member_id: 1, merchant_id: 2, product_id: 3, product_name: '仰光五星級飯店', product_image: '🏨', final_amount: 45000, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-11-15 20:00:00', created_at: '2025-11-15 11:20:00' },
-                { id: 5, order_number: 'ORD-20251114-012', member_id: 2, merchant_id: 3, product_id: 9, product_name: 'KFC 炸雞套餐', product_image: '🍗', final_amount: 15000, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-11-14 19:30:00', created_at: '2025-11-14 18:00:00' },
-                { id: 6, order_number: 'ORD-20251113-045', member_id: 3, merchant_id: 4, product_id: 11, product_name: '中式合菜套餐', product_image: '🍜', final_amount: 42000, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-11-13 20:00:00', created_at: '2025-11-13 17:30:00' },
-                { id: 7, order_number: 'ORD-20251112-089', member_id: 4, merchant_id: 5, product_id: 13, product_name: '茵萊湖高級湖景房', product_image: '🌅', final_amount: 95000, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-11-12 22:00:00', created_at: '2025-11-12 10:15:00' },
-                { id: 8, order_number: 'ORD-20251111-034', member_id: 5, merchant_id: 6, product_id: 15, product_name: '精油芳療 SPA', product_image: '🧖', final_amount: 38000, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-11-11 16:30:00', created_at: '2025-11-11 13:00:00' },
-                { id: 9, order_number: 'ORD-20251110-067', member_id: 6, merchant_id: 7, product_id: 17, product_name: '蒲甘三日遊', product_image: '🏛️', final_amount: 135000, currency: 'MMK', payment_status: 'paid', order_status: 'pending', created_at: '2025-11-10 14:20:00' },
-                { id: 10, order_number: 'ORD-20251109-023', member_id: 3, merchant_id: 3, product_id: 10, product_name: '雞米花大包裝', product_image: '🍿', final_amount: 10000, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-11-09 17:00:00', created_at: '2025-11-09 16:15:00' },
-                { id: 11, order_number: 'ORD-20251108-056', member_id: 7, merchant_id: 4, product_id: 12, product_name: '港式飲茶券', product_image: '🥟', final_amount: 20000, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-11-08 13:00:00', created_at: '2025-11-08 10:30:00' },
-                { id: 12, order_number: 'ORD-20251107-091', member_id: 8, merchant_id: 5, product_id: 14, product_name: '茵萊湖兩日遊', product_image: '🛶', final_amount: 68000, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-11-07 19:00:00', created_at: '2025-11-07 09:45:00' },
-                { id: 13, order_number: 'ORD-20251106-042', member_id: 2, merchant_id: 6, product_id: 16, product_name: '情侶 SPA 套餐', product_image: '💑', final_amount: 70000, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-11-06 18:30:00', created_at: '2025-11-06 15:00:00' },
-                { id: 14, order_number: 'ORD-20251105-078', member_id: 9, merchant_id: 7, product_id: 18, product_name: '仰光城市半日遊', product_image: '🕌', final_amount: 25000, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-11-05 14:00:00', created_at: '2025-11-05 08:30:00' },
-                { id: 15, order_number: 'ORD-20251104-015', member_id: 5, merchant_id: 4, product_id: 19, product_name: '海鮮火鍋吃到飽', product_image: '🦞', final_amount: 32000, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-11-04 20:30:00', created_at: '2025-11-04 18:45:00' },
-                { id: 16, order_number: 'ORD-20251103-063', member_id: 10, merchant_id: 3, product_id: 20, product_name: '早餐全餐優惠', product_image: '🥐', final_amount: 8000, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-11-03 09:00:00', created_at: '2025-11-03 08:15:00' },
-                { id: 17, order_number: 'ORD-20251102-089', member_id: 4, merchant_id: 1, product_id: 21, product_name: 'Pizza Hut 甜點組合', product_image: '🍰', final_amount: 9500, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-11-02 16:00:00', created_at: '2025-11-02 14:30:00' },
-                { id: 18, order_number: 'ORD-20251101-034', member_id: 6, merchant_id: 2, product_id: 22, product_name: 'Sedona 商務套房', product_image: '🏢', final_amount: 75000, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-11-01 21:00:00', created_at: '2025-11-01 11:00:00' },
-                { id: 19, order_number: 'ORD-20251031-072', member_id: 7, merchant_id: 6, product_id: 23, product_name: '足部按摩套餐', product_image: '🦶', final_amount: 16000, currency: 'MMK', payment_status: 'paid', order_status: 'completed', completed_at: '2025-10-31 19:00:00', created_at: '2025-10-31 17:30:00' },
-                { id: 20, order_number: 'ORD-20251030-056', member_id: 3, merchant_id: 7, product_id: 24, product_name: '曼德勒一日遊', product_image: '🌉', final_amount: 48000, currency: 'MMK', payment_status: 'paid', order_status: 'pending', created_at: '2025-10-30 10:00:00' }
-            ],
+            member_orders: [],
 
             // ========== 任務系統 ==========
             member_tasks: [
@@ -4301,7 +4282,8 @@
 
                 setTimeout(() => {
                     showToast('購買成功！訂單已生成，請至「我的訂單」查看', 'success');
-                    // 刷新订单列表
+                    // 刷新订单列表和統計數字
+                    updateMemberStats();
                     renderOrders();
                 }, 300);
             }, '確認購買');
@@ -4867,6 +4849,33 @@
         }
 
         // 渲染商品列表
+        // 更新會員端統計數字
+        function updateMemberStats() {
+            const orders = AppData.member_orders || [];
+            const tasks = AppData.member_tasks || [];
+            const currentUser = AppData.users?.[0];
+
+            // 我的訂單總數
+            const totalOrders = orders.length;
+            const totalOrdersElem = document.getElementById('memberStatTotalOrders');
+            if (totalOrdersElem) totalOrdersElem.textContent = totalOrders;
+
+            // 待核銷訂單
+            const pendingOrders = orders.filter(o => o.status === 'pending' || o.order_status === 'pending').length;
+            const pendingOrdersElem = document.getElementById('memberStatPendingOrders');
+            if (pendingOrdersElem) pendingOrdersElem.textContent = pendingOrders;
+
+            // 進行中任務
+            const activeTasks = tasks.filter(t => t.user_progress?.status === 'in_progress').length;
+            const activeTasksElem = document.getElementById('memberStatActiveTasks');
+            if (activeTasksElem) activeTasksElem.textContent = activeTasks;
+
+            // 任務積分
+            const points = currentUser?.points || 0;
+            const pointsElem = document.getElementById('memberStatPoints');
+            if (pointsElem) pointsElem.textContent = points;
+        }
+
         function renderProducts() {
             const homeGrid = document.getElementById('productGrid');
             const productsPageGrid = document.getElementById('productsGrid');
