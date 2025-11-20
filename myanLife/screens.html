@@ -2351,8 +2351,8 @@
 
                 <div class="quick-actions" style="margin-bottom: 20px;">
                     <button class="quick-action-btn" onclick="showAddBannerForm()">➕ 新增橫幅</button>
-                    <button class="quick-action-btn" onclick="showBannerCategoryManagement()">📁 分類管理</button>
-                    <button class="quick-action-btn" onclick="showBannerSortSettings()">🔄 排序設定</button>
+                    <button class="quick-action-btn" onclick="switchOperationView('bannerCategories'); renderBannerCategoriesView();">📁 分類管理</button>
+                    <button class="quick-action-btn" onclick="switchOperationView('bannerSort'); renderBannerSortView();">🔄 排序設定</button>
                 </div>
 
                 <table class="data-table">
@@ -2375,6 +2375,66 @@
 
                 <div class="info-note" style="margin-top: 20px;">
                     <strong>💡 橫幅說明：</strong>管理平台首頁橫幅廣告，支援設定展示位置、時間、目標連結等。可設定優先順序控制展示順序。
+                </div>
+            </div>
+
+            <!-- 橫幅分類管理視圖 -->
+            <div id="operationBannerCategoriesView" class="content-view">
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <button class="quick-action-btn" onclick="switchOperationView('operationBanners'); renderOperationBanners();" style="margin-right: 10px;">← 返回橫幅管理</button>
+                    <h3 style="margin: 0; color: #333;">📁 橫幅分類管理</h3>
+                </div>
+
+                <div style="background: #f0f9ff; padding: 20px; border-radius: 12px; border-left: 4px solid #3b82f6; margin-bottom: 20px;">
+                    <h4 style="margin: 0 0 10px 0; color: #1e40af;">📋 橫幅分類管理</h4>
+                    <p style="margin: 0; color: #1e40af; line-height: 1.6;">
+                        管理橫幅廣告的分類，每個分類都有對應的 URL 路徑。新增橫幅時可以選擇分類，系統會自動填入對應的 URL。
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 20px; text-align: right;">
+                    <button class="quick-action-btn" onclick="showAddCategoryForm()">➕ 新增分類</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>圖示</th>
+                            <th>分類名稱</th>
+                            <th>識別碼</th>
+                            <th>URL 路徑</th>
+                            <th>描述</th>
+                            <th>排序</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bannerCategoriesTable">
+                        <!-- 分類資料將由 renderBannerCategoriesView() 函數動態生成 -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 橫幅排序設定視圖 -->
+            <div id="operationBannerSortView" class="content-view">
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <button class="quick-action-btn" onclick="switchOperationView('operationBanners'); renderOperationBanners();" style="margin-right: 10px;">← 返回橫幅管理</button>
+                    <h3 style="margin: 0; color: #333;">🔄 橫幅排序設定</h3>
+                </div>
+
+                <div style="background: #f0f9ff; padding: 20px; border-radius: 12px; border-left: 4px solid #3b82f6; margin-bottom: 20px;">
+                    <h4 style="margin: 0 0 10px 0; color: #1e40af;">📋 拖曳排序說明</h4>
+                    <p style="margin: 0; color: #1e40af; line-height: 1.6;">
+                        拖曳橫幅以調整顯示順序，數字越小越靠前顯示。修改後點擊「儲存排序」按鈕保存。
+                    </p>
+                </div>
+
+                <div id="bannerSortList" style="margin-bottom: 20px;">
+                    <!-- 排序列表將由 renderBannerSortView() 函數動態生成 -->
+                </div>
+
+                <div style="text-align: right;">
+                    <button class="quick-action-btn" onclick="saveBannerSort()" style="background: #10b981;">💾 儲存排序</button>
                 </div>
             </div>
 
@@ -3895,7 +3955,7 @@
         // 全局數據存儲
         const AppData = {
             // 數據版本（用於控制 localStorage 更新）
-            _version: '2.3',
+            _version: '2.4',
 
             // ========== 會員系統 ==========
             users: [
@@ -8352,7 +8412,7 @@
             const activeCategories = categories.filter(cat => cat.is_active);
 
             const categoryOptions = activeCategories.map(cat =>
-                `<option value="${cat.slug}">${cat.icon} ${cat.name}</option>`
+                `<option value="${cat.url}">${cat.icon} ${cat.name}</option>`
             ).join('');
 
             const content = `
@@ -8463,15 +8523,11 @@
             const categorySelect = document.getElementById('bannerCategorySelect');
             if (!categorySelect) return;
 
-            const selectedSlug = categorySelect.value;
-            const categories = AppData.banner_categories || [];
-            const category = categories.find(cat => cat.slug === selectedSlug);
-
-            if (category) {
-                const linkTargetInput = document.getElementById('bannerLinkTarget');
-                if (linkTargetInput) {
-                    linkTargetInput.value = category.slug;
-                }
+            // 選擇框的 value 已經是完整的 URL，直接填入即可
+            const selectedUrl = categorySelect.value;
+            const linkTargetInput = document.getElementById('bannerLinkTarget');
+            if (linkTargetInput) {
+                linkTargetInput.value = selectedUrl;
             }
         }
 
@@ -8538,7 +8594,7 @@
             const activeCategories = categories.filter(cat => cat.is_active);
 
             const categoryOptions = activeCategories.map(cat =>
-                `<option value="${cat.slug}" ${banner.link_type === 'category' && banner.link_target === cat.slug ? 'selected' : ''}>${cat.icon} ${cat.name}</option>`
+                `<option value="${cat.url}" ${banner.link_type === 'category' && banner.link_target === cat.url ? 'selected' : ''}>${cat.icon} ${cat.name}</option>`
             ).join('');
 
             const content = `
@@ -8646,15 +8702,11 @@
             const categorySelect = document.getElementById('editBannerCategorySelect');
             if (!categorySelect) return;
 
-            const selectedSlug = categorySelect.value;
-            const categories = AppData.banner_categories || [];
-            const category = categories.find(cat => cat.slug === selectedSlug);
-
-            if (category) {
-                const linkTargetInput = document.getElementById('editBannerLinkTarget');
-                if (linkTargetInput) {
-                    linkTargetInput.value = category.slug;
-                }
+            // 選擇框的 value 已經是完整的 URL，直接填入即可
+            const selectedUrl = categorySelect.value;
+            const linkTargetInput = document.getElementById('editBannerLinkTarget');
+            if (linkTargetInput) {
+                linkTargetInput.value = selectedUrl;
             }
         }
 
@@ -8740,51 +8792,9 @@
             );
         }
 
-        // 顯示分類管理
-        function showBannerCategoryManagement() {
-            const categories = AppData.banner_categories || [];
-
-            const content = `
-                <div style="padding: 20px;">
-                    <div style="background: #f0f9ff; padding: 20px; border-radius: 12px; border-left: 4px solid #3b82f6; margin-bottom: 20px;">
-                        <h4 style="margin: 0 0 10px 0; color: #1e40af;">📋 橫幅分類管理</h4>
-                        <p style="margin: 0; color: #1e40af; line-height: 1.6;">
-                            管理橫幅廣告的分類，每個分類都有對應的 URL 路徑。新增橫幅時可以選擇分類，系統會自動填入對應的 URL。
-                        </p>
-                    </div>
-
-                    <div style="margin-bottom: 20px; text-align: right;">
-                        <button class="quick-action-btn" onclick="showAddCategoryForm()">➕ 新增分類</button>
-                    </div>
-
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>圖示</th>
-                                <th>分類名稱</th>
-                                <th>識別碼</th>
-                                <th>URL 路徑</th>
-                                <th>描述</th>
-                                <th>排序</th>
-                                <th>狀態</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody id="categoriesTableBody">
-                        </tbody>
-                    </table>
-                </div>
-            `;
-
-            showModal('📁 橫幅分類管理', content);
-
-            // 渲染分類列表
-            renderCategoriesTable();
-        }
-
-        // 渲染分類表格
-        function renderCategoriesTable() {
-            const tbody = document.getElementById('categoriesTableBody');
+        // 渲染橫幅分類管理視圖
+        function renderBannerCategoriesView() {
+            const tbody = document.getElementById('bannerCategoriesTable');
             if (!tbody) return;
 
             const categories = AppData.banner_categories || [];
@@ -8926,7 +8936,7 @@
             AppData.create('banner_categories', newCategory);
             showToast('分類新增成功！', 'success');
             closeModal();
-            showBannerCategoryManagement();
+            renderBannerCategoriesView();
         }
 
         // 編輯分類
@@ -8979,7 +8989,7 @@
                         </div>
 
                         <div style="display: flex; gap: 10px; justify-content: flex-end;">
-                            <button type="button" onclick="closeModal(); showBannerCategoryManagement();" style="padding: 10px 20px; background: #e5e7eb; border: none; border-radius: 8px; cursor: pointer;">取消</button>
+                            <button type="button" onclick="closeModal();" style="padding: 10px 20px; background: #e5e7eb; border: none; border-radius: 8px; cursor: pointer;">取消</button>
                             <button type="submit" style="padding: 10px 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">確認更新</button>
                         </div>
                     </form>
@@ -9029,7 +9039,7 @@
 
             showToast('分類更新成功！', 'success');
             closeModal();
-            showBannerCategoryManagement();
+            renderBannerCategoriesView();
         }
 
         // 切換分類狀態
@@ -9045,7 +9055,7 @@
 
             AppData.update('banner_categories', categoryId, { is_active: newStatus });
             showToast(`分類已${action}`, 'success');
-            renderCategoriesTable();
+            renderBannerCategoriesView();
         }
 
         // 刪除分類
@@ -9058,7 +9068,7 @@
 
             // 檢查是否有橫幅使用此分類
             const banners = AppData.banners || [];
-            const usedInBanners = banners.filter(b => b.link_type === 'category' && b.link_target === category.slug);
+            const usedInBanners = banners.filter(b => b.link_type === 'category' && b.link_target === category.url);
 
             if (usedInBanners.length > 0) {
                 showToast(`此分類正被 ${usedInBanners.length} 個橫幅使用，無法刪除`, 'error');
@@ -9070,53 +9080,37 @@
                 () => {
                     AppData.delete('banner_categories', categoryId);
                     showToast('分類已刪除', 'success');
-                    renderCategoriesTable();
+                    renderBannerCategoriesView();
                 },
                 '刪除分類'
             );
         }
 
-        // 顯示排序設定
-        function showBannerSortSettings() {
+        // 渲染橫幅排序設定視圖
+        function renderBannerSortView() {
+            const container = document.getElementById('bannerSortList');
+            if (!container) return;
+
             const banners = AppData.banners || [];
 
             if (banners.length === 0) {
-                showToast('尚無橫幅資料可排序', 'info');
+                container.innerHTML = '<p style="text-align: center; color: #999; padding: 40px;">尚無橫幅資料可排序</p>';
                 return;
             }
 
             // 按當前順序排序
             const sortedBanners = [...banners].sort((a, b) => (a.display_order || 999) - (b.display_order || 999));
 
-            const content = `
-                <div style="padding: 20px;">
-                    <div style="background: #f0f9ff; padding: 15px; border-radius: 12px; border-left: 4px solid #3b82f6; margin-bottom: 20px;">
-                        <p style="margin: 0; color: #1e40af;">
-                            拖曳橫幅以調整顯示順序，數字越小越靠前顯示。
-                        </p>
+            container.innerHTML = sortedBanners.map((banner, index) => `
+                <div class="sort-item" data-id="${banner.id}" style="display: flex; align-items: center; padding: 15px; background: white; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 10px; cursor: move;">
+                    <div style="width: 40px; text-align: center; font-weight: 700; color: #667eea; font-size: 1.2em;">${index + 1}</div>
+                    <div style="flex: 1; margin: 0 15px;">
+                        <div style="font-weight: 600; margin-bottom: 5px;">${banner.title}</div>
+                        <div style="font-size: 0.9em; color: #666;">當前順序：${banner.display_order || '未設定'}</div>
                     </div>
-
-                    <div id="bannerSortList" style="max-height: 500px; overflow-y: auto;">
-                        ${sortedBanners.map((banner, index) => `
-                            <div class="sort-item" data-id="${banner.id}" style="display: flex; align-items: center; padding: 15px; background: white; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 10px; cursor: move;">
-                                <div style="width: 40px; text-align: center; font-weight: 700; color: #667eea; font-size: 1.2em;">${index + 1}</div>
-                                <div style="flex: 1; margin: 0 15px;">
-                                    <div style="font-weight: 600; margin-bottom: 5px;">${banner.title}</div>
-                                    <div style="font-size: 0.9em; color: #666;">當前順序：${banner.display_order || '未設定'}</div>
-                                </div>
-                                <div style="color: #999;">⋮⋮</div>
-                            </div>
-                        `).join('')}
-                    </div>
-
-                    <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
-                        <button class="quick-action-btn" onclick="closeModal()" style="background: #999;">取消</button>
-                        <button class="quick-action-btn" onclick="saveBannerSort()" style="background: #667eea;">儲存排序</button>
-                    </div>
+                    <div style="color: #999;">⋮⋮</div>
                 </div>
-            `;
-
-            showModal('🔄 橫幅排序設定', content);
+            `).join('');
 
             // 實現簡易拖曳排序
             initSimpleDragSort('bannerSortList');
@@ -9193,8 +9187,8 @@
                 AppData.update('banners', update.id, { display_order: update.order });
             });
 
-            closeModal();
             showToast('排序已儲存', 'success');
+            switchOperationView('operationBanners');
             renderOperationBanners();
         }
 
