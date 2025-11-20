@@ -2472,7 +2472,7 @@
                 </div>
 
                 <div class="quick-actions" style="margin-bottom: 20px;">
-                    <button class="quick-action-btn" onclick="showToast('新增新聞功能開發中', 'info')">➕ 新增新聞</button>
+                    <button class="quick-action-btn" onclick="showAddNewsForm()">➕ 新增新聞</button>
                     <button class="quick-action-btn" onclick="showToast('分類管理功能開發中', 'info')">📁 分類管理</button>
                     <button class="quick-action-btn" onclick="showToast('批次發布功能開發中', 'info')">📤 批次發布</button>
                 </div>
@@ -2534,7 +2534,7 @@
                 </div>
 
                 <div class="quick-actions" style="margin-bottom: 20px;">
-                    <button class="quick-action-btn" onclick="showToast('新增黃頁功能開發中', 'info')">➕ 新增黃頁</button>
+                    <button class="quick-action-btn" onclick="showAddYellowPageForm()">➕ 新增黃頁</button>
                     <button class="quick-action-btn" onclick="showToast('分類管理功能開發中', 'info')">📁 分類管理</button>
                     <button class="quick-action-btn" onclick="showToast('匯出功能開發中', 'info')">📊 匯出資料</button>
                 </div>
@@ -2596,7 +2596,7 @@
                 </div>
 
                 <div class="quick-actions" style="margin-bottom: 20px;">
-                    <button class="quick-action-btn" onclick="showToast('新增活動功能開發中', 'info')">➕ 新增活動</button>
+                    <button class="quick-action-btn" onclick="showAddCharityForm()">➕ 新增活動</button>
                     <button class="quick-action-btn" onclick="showToast('分類管理功能開發中', 'info')">📁 分類管理</button>
                     <button class="quick-action-btn" onclick="showToast('報告功能開發中', 'info')">📊 活動報告</button>
                 </div>
@@ -2720,7 +2720,7 @@
                 </div>
 
                 <div class="quick-actions" style="margin-bottom: 20px;">
-                    <button class="quick-action-btn" onclick="showToast('新增職缺功能開發中', 'info')">➕ 新增職缺</button>
+                    <button class="quick-action-btn" onclick="showAddVacancyForm()">➕ 新增職缺</button>
                     <button class="quick-action-btn" onclick="showToast('應徵者管理功能開發中', 'info')">👥 應徵者管理</button>
                     <button class="quick-action-btn" onclick="showToast('匯出功能開發中', 'info')">📊 匯出資料</button>
                 </div>
@@ -3955,7 +3955,7 @@
         // 全局數據存儲
         const AppData = {
             // 數據版本（用於控制 localStorage 更新）
-            _version: '2.4',
+            _version: '2.5',
 
             // ========== 會員系統 ==========
             users: [
@@ -9190,6 +9190,1079 @@
             showToast('排序已儲存', 'success');
             switchOperationView('operationBanners');
             renderOperationBanners();
+        }
+
+        // ============================================
+        // 新聞公告管理 CRUD 操作
+        // ============================================
+
+        // 顯示新增新聞表單
+        function showAddNewsForm() {
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 700px;">
+                        <div class="modal-header">
+                            <h3>➕ 新增新聞公告</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>分類 *</label>
+                                <select id="newsCategory" class="form-control" required>
+                                    <option value="平台公告">平台公告</option>
+                                    <option value="商家新聞">商家新聞</option>
+                                    <option value="優惠活動">優惠活動</option>
+                                    <option value="產品資訊">產品資訊</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>標題 *</label>
+                                <input type="text" id="newsTitle" class="form-control" placeholder="請輸入新聞標題" required>
+                            </div>
+                            <div class="form-group">
+                                <label>摘要 *</label>
+                                <input type="text" id="newsSummary" class="form-control" placeholder="請輸入新聞摘要" required>
+                            </div>
+                            <div class="form-group">
+                                <label>內容 *</label>
+                                <textarea id="newsContent" class="form-control" rows="6" placeholder="請輸入新聞內容" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>封面圖片</label>
+                                <input type="text" id="newsCoverImage" class="form-control" placeholder="例如：news_cover.jpg">
+                            </div>
+                            <div class="form-group">
+                                <label>作者</label>
+                                <input type="text" id="newsAuthor" class="form-control" placeholder="請輸入作者名稱" value="myanLife">
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="newsIsFeatured" style="width: auto;">
+                                    <span>設為精選</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>狀態 *</label>
+                                <select id="newsStatus" class="form-control" required>
+                                    <option value="draft">草稿</option>
+                                    <option value="published">已發布</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="saveNews()" style="background: #10b981;">💾 儲存</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 顯示編輯新聞表單
+        function showEditNewsForm(newsId) {
+            const news = AppData.news.find(n => n.id === newsId);
+            if (!news) {
+                showToast('找不到該新聞', 'error');
+                return;
+            }
+
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 700px;">
+                        <div class="modal-header">
+                            <h3>✏️ 編輯新聞公告</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="newsId" value="${news.id}">
+                            <div class="form-group">
+                                <label>分類 *</label>
+                                <select id="newsCategory" class="form-control" required>
+                                    <option value="平台公告" ${news.category === '平台公告' ? 'selected' : ''}>平台公告</option>
+                                    <option value="商家新聞" ${news.category === '商家新聞' ? 'selected' : ''}>商家新聞</option>
+                                    <option value="優惠活動" ${news.category === '優惠活動' ? 'selected' : ''}>優惠活動</option>
+                                    <option value="產品資訊" ${news.category === '產品資訊' ? 'selected' : ''}>產品資訊</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>標題 *</label>
+                                <input type="text" id="newsTitle" class="form-control" value="${news.title}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>摘要 *</label>
+                                <input type="text" id="newsSummary" class="form-control" value="${news.summary}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>內容 *</label>
+                                <textarea id="newsContent" class="form-control" rows="6" required>${news.content}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>封面圖片</label>
+                                <input type="text" id="newsCoverImage" class="form-control" value="${news.cover_image || ''}">
+                            </div>
+                            <div class="form-group">
+                                <label>作者</label>
+                                <input type="text" id="newsAuthor" class="form-control" value="${news.author || 'myanLife'}">
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="newsIsFeatured" ${news.is_featured ? 'checked' : ''} style="width: auto;">
+                                    <span>設為精選</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>狀態 *</label>
+                                <select id="newsStatus" class="form-control" required>
+                                    <option value="draft" ${news.status === 'draft' ? 'selected' : ''}>草稿</option>
+                                    <option value="published" ${news.status === 'published' ? 'selected' : ''}>已發布</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="color: #666; font-size: 0.9em;">
+                                <p>建立時間：${news.created_at}</p>
+                                <p>瀏覽次數：${news.views || 0}</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="saveNews(${news.id})" style="background: #10b981;">💾 更新</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 儲存新聞（新增或更新）
+        function saveNews(newsId = null) {
+            const category = document.getElementById('newsCategory').value;
+            const title = document.getElementById('newsTitle').value.trim();
+            const summary = document.getElementById('newsSummary').value.trim();
+            const content = document.getElementById('newsContent').value.trim();
+            const coverImage = document.getElementById('newsCoverImage').value.trim();
+            const author = document.getElementById('newsAuthor').value.trim() || 'myanLife';
+            const isFeatured = document.getElementById('newsIsFeatured').checked ? 1 : 0;
+            const status = document.getElementById('newsStatus').value;
+
+            if (!title || !summary || !content) {
+                showToast('請填寫必填欄位', 'error');
+                return;
+            }
+
+            if (newsId) {
+                // 更新現有新聞
+                const index = AppData.news.findIndex(n => n.id === newsId);
+                if (index !== -1) {
+                    AppData.news[index] = {
+                        ...AppData.news[index],
+                        category,
+                        title,
+                        summary,
+                        content,
+                        cover_image: coverImage,
+                        author,
+                        is_featured: isFeatured,
+                        status,
+                        published_at: status === 'published' && !AppData.news[index].published_at ?
+                            new Date().toISOString().slice(0, 19).replace('T', ' ') :
+                            AppData.news[index].published_at
+                    };
+                    saveAppData();
+                    showToast('新聞已更新', 'success');
+                }
+            } else {
+                // 新增新聞
+                const newNews = {
+                    id: AppData.getNextId('news'),
+                    category,
+                    title,
+                    summary,
+                    content,
+                    cover_image: coverImage,
+                    author,
+                    views: 0,
+                    is_featured: isFeatured,
+                    status,
+                    published_at: status === 'published' ? new Date().toISOString().slice(0, 19).replace('T', ' ') : null,
+                    created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+                };
+                AppData.news.push(newNews);
+                saveAppData();
+                showToast('新聞已新增', 'success');
+            }
+
+            closeModal();
+            renderOperationNews();
+        }
+
+        // 刪除新聞
+        function deleteNews(newsId) {
+            if (!confirm('確定要刪除此新聞嗎？此操作無法復原。')) {
+                return;
+            }
+
+            const index = AppData.news.findIndex(n => n.id === newsId);
+            if (index !== -1) {
+                AppData.news.splice(index, 1);
+                saveAppData();
+                showToast('新聞已刪除', 'success');
+                renderOperationNews();
+            } else {
+                showToast('找不到該新聞', 'error');
+            }
+        }
+
+        // ============================================
+        // 黃頁管理 CRUD 操作
+        // ============================================
+
+        // 顯示新增黃頁表單
+        function showAddYellowPageForm() {
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 700px;">
+                        <div class="modal-header">
+                            <h3>➕ 新增黃頁商家</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>分類 *</label>
+                                <select id="yellowPageCategory" class="form-control" required>
+                                    <option value="醫療診所">醫療診所</option>
+                                    <option value="汽車維修">汽車維修</option>
+                                    <option value="教育補習">教育補習</option>
+                                    <option value="法律服務">法律服務</option>
+                                    <option value="房屋仲介">房屋仲介</option>
+                                    <option value="搬家物流">搬家物流</option>
+                                    <option value="清潔服務">清潔服務</option>
+                                    <option value="美容美髮">美容美髮</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>商家名稱 *</label>
+                                <input type="text" id="yellowPageBusinessName" class="form-control" placeholder="請輸入商家名稱" required>
+                            </div>
+                            <div class="form-group">
+                                <label>商家描述 *</label>
+                                <textarea id="yellowPageDescription" class="form-control" rows="3" placeholder="請輸入商家描述" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>地址 *</label>
+                                <input type="text" id="yellowPageAddress" class="form-control" placeholder="請輸入商家地址" required>
+                            </div>
+                            <div class="form-group">
+                                <label>電話 *</label>
+                                <input type="text" id="yellowPagePhone" class="form-control" placeholder="例如：09-400-100-100" required>
+                            </div>
+                            <div class="form-group">
+                                <label>營業時間</label>
+                                <input type="text" id="yellowPageBusinessHours" class="form-control" placeholder="例如：週一至週六 08:00-20:00">
+                            </div>
+                            <div class="form-group">
+                                <label>網站</label>
+                                <input type="text" id="yellowPageWebsite" class="form-control" placeholder="例如：www.example.com">
+                            </div>
+                            <div class="form-group">
+                                <label>評分 (0-5)</label>
+                                <input type="number" id="yellowPageRating" class="form-control" min="0" max="5" step="0.1" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="yellowPageIsVerified" style="width: auto;">
+                                    <span>認證商家</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="yellowPageIsActive" checked style="width: auto;">
+                                    <span>啟用狀態</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="saveYellowPage()" style="background: #10b981;">💾 儲存</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 顯示編輯黃頁表單
+        function showEditYellowPageForm(yellowPageId) {
+            const yellowPage = AppData.yellow_pages.find(y => y.id === yellowPageId);
+            if (!yellowPage) {
+                showToast('找不到該黃頁', 'error');
+                return;
+            }
+
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 700px;">
+                        <div class="modal-header">
+                            <h3>✏️ 編輯黃頁商家</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="yellowPageId" value="${yellowPage.id}">
+                            <div class="form-group">
+                                <label>分類 *</label>
+                                <select id="yellowPageCategory" class="form-control" required>
+                                    <option value="醫療診所" ${yellowPage.category === '醫療診所' ? 'selected' : ''}>醫療診所</option>
+                                    <option value="汽車維修" ${yellowPage.category === '汽車維修' ? 'selected' : ''}>汽車維修</option>
+                                    <option value="教育補習" ${yellowPage.category === '教育補習' ? 'selected' : ''}>教育補習</option>
+                                    <option value="法律服務" ${yellowPage.category === '法律服務' ? 'selected' : ''}>法律服務</option>
+                                    <option value="房屋仲介" ${yellowPage.category === '房屋仲介' ? 'selected' : ''}>房屋仲介</option>
+                                    <option value="搬家物流" ${yellowPage.category === '搬家物流' ? 'selected' : ''}>搬家物流</option>
+                                    <option value="清潔服務" ${yellowPage.category === '清潔服務' ? 'selected' : ''}>清潔服務</option>
+                                    <option value="美容美髮" ${yellowPage.category === '美容美髮' ? 'selected' : ''}>美容美髮</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>商家名稱 *</label>
+                                <input type="text" id="yellowPageBusinessName" class="form-control" value="${yellowPage.business_name}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>商家描述 *</label>
+                                <textarea id="yellowPageDescription" class="form-control" rows="3" required>${yellowPage.description}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>地址 *</label>
+                                <input type="text" id="yellowPageAddress" class="form-control" value="${yellowPage.address}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>電話 *</label>
+                                <input type="text" id="yellowPagePhone" class="form-control" value="${yellowPage.phone}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>營業時間</label>
+                                <input type="text" id="yellowPageBusinessHours" class="form-control" value="${yellowPage.business_hours || ''}">
+                            </div>
+                            <div class="form-group">
+                                <label>網站</label>
+                                <input type="text" id="yellowPageWebsite" class="form-control" value="${yellowPage.website || ''}">
+                            </div>
+                            <div class="form-group">
+                                <label>評分 (0-5)</label>
+                                <input type="number" id="yellowPageRating" class="form-control" min="0" max="5" step="0.1" value="${yellowPage.rating || 0}">
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="yellowPageIsVerified" ${yellowPage.is_verified ? 'checked' : ''} style="width: auto;">
+                                    <span>認證商家</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="yellowPageIsActive" ${yellowPage.is_active ? 'checked' : ''} style="width: auto;">
+                                    <span>啟用狀態</span>
+                                </label>
+                            </div>
+                            <div class="form-group" style="color: #666; font-size: 0.9em;">
+                                <p>建立時間：${yellowPage.created_at}</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="saveYellowPage(${yellowPage.id})" style="background: #10b981;">💾 更新</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 儲存黃頁（新增或更新）
+        function saveYellowPage(yellowPageId = null) {
+            const category = document.getElementById('yellowPageCategory').value;
+            const businessName = document.getElementById('yellowPageBusinessName').value.trim();
+            const description = document.getElementById('yellowPageDescription').value.trim();
+            const address = document.getElementById('yellowPageAddress').value.trim();
+            const phone = document.getElementById('yellowPagePhone').value.trim();
+            const businessHours = document.getElementById('yellowPageBusinessHours').value.trim();
+            const website = document.getElementById('yellowPageWebsite').value.trim();
+            const rating = parseFloat(document.getElementById('yellowPageRating').value) || 0;
+            const isVerified = document.getElementById('yellowPageIsVerified').checked ? 1 : 0;
+            const isActive = document.getElementById('yellowPageIsActive').checked ? 1 : 0;
+
+            if (!businessName || !description || !address || !phone) {
+                showToast('請填寫必填欄位', 'error');
+                return;
+            }
+
+            if (yellowPageId) {
+                // 更新現有黃頁
+                const index = AppData.yellow_pages.findIndex(y => y.id === yellowPageId);
+                if (index !== -1) {
+                    AppData.yellow_pages[index] = {
+                        ...AppData.yellow_pages[index],
+                        category,
+                        business_name: businessName,
+                        description,
+                        address,
+                        phone,
+                        business_hours: businessHours,
+                        website: website || null,
+                        rating,
+                        is_verified: isVerified,
+                        is_active: isActive,
+                        status: isActive ? 'active' : 'pending'
+                    };
+                    saveAppData();
+                    showToast('黃頁已更新', 'success');
+                }
+            } else {
+                // 新增黃頁
+                const newYellowPage = {
+                    id: AppData.getNextId('yellow_pages'),
+                    category,
+                    business_name: businessName,
+                    description,
+                    address,
+                    phone,
+                    business_hours: businessHours,
+                    website: website || null,
+                    rating,
+                    is_verified: isVerified,
+                    is_active: isActive,
+                    status: isActive ? 'active' : 'pending',
+                    created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+                };
+                AppData.yellow_pages.push(newYellowPage);
+                saveAppData();
+                showToast('黃頁已新增', 'success');
+            }
+
+            closeModal();
+            renderOperationYellowPages();
+        }
+
+        // 刪除黃頁
+        function deleteYellowPage(yellowPageId) {
+            if (!confirm('確定要刪除此黃頁嗎？此操作無法復原。')) {
+                return;
+            }
+
+            const index = AppData.yellow_pages.findIndex(y => y.id === yellowPageId);
+            if (index !== -1) {
+                AppData.yellow_pages.splice(index, 1);
+                saveAppData();
+                showToast('黃頁已刪除', 'success');
+                renderOperationYellowPages();
+            } else {
+                showToast('找不到該黃頁', 'error');
+            }
+        }
+
+        // ============================================
+        // 慈善活動管理 CRUD 操作
+        // ============================================
+
+        // 顯示新增慈善活動表單
+        function showAddCharityForm() {
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 700px;">
+                        <div class="modal-header">
+                            <h3>➕ 新增慈善活動</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>活動標題 *</label>
+                                <input type="text" id="charityTitle" class="form-control" placeholder="請輸入活動標題" required>
+                            </div>
+                            <div class="form-group">
+                                <label>活動描述 *</label>
+                                <textarea id="charityDescription" class="form-control" rows="4" placeholder="請輸入活動描述" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>主辦單位 *</label>
+                                <input type="text" id="charityOrganization" class="form-control" placeholder="請輸入主辦單位名稱" required>
+                            </div>
+                            <div class="form-group">
+                                <label>目標金額 (MMK) *</label>
+                                <input type="number" id="charityTargetAmount" class="form-control" min="0" placeholder="例如：5000000" required>
+                            </div>
+                            <div class="form-group">
+                                <label>目前金額 (MMK)</label>
+                                <input type="number" id="charityCurrentAmount" class="form-control" min="0" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label>捐款人數</label>
+                                <input type="number" id="charityDonorCount" class="form-control" min="0" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label>開始日期 *</label>
+                                <input type="datetime-local" id="charityStartDate" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>結束日期 *</label>
+                                <input type="datetime-local" id="charityEndDate" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>封面圖片</label>
+                                <input type="text" id="charityCoverImage" class="form-control" placeholder="例如：charity_cover.jpg">
+                            </div>
+                            <div class="form-group">
+                                <label>狀態 *</label>
+                                <select id="charityStatus" class="form-control" required>
+                                    <option value="active">進行中</option>
+                                    <option value="pending">籌備中</option>
+                                    <option value="completed">已結束</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="saveCharity()" style="background: #10b981;">💾 儲存</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 顯示編輯慈善活動表單
+        function showEditCharityForm(charityId) {
+            const charity = AppData.charity_activities.find(c => c.id === charityId);
+            if (!charity) {
+                showToast('找不到該慈善活動', 'error');
+                return;
+            }
+
+            // 轉換日期格式為 datetime-local 格式
+            const startDate = charity.start_date.replace(' ', 'T').slice(0, 16);
+            const endDate = charity.end_date.replace(' ', 'T').slice(0, 16);
+
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 700px;">
+                        <div class="modal-header">
+                            <h3>✏️ 編輯慈善活動</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="charityId" value="${charity.id}">
+                            <div class="form-group">
+                                <label>活動標題 *</label>
+                                <input type="text" id="charityTitle" class="form-control" value="${charity.title}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>活動描述 *</label>
+                                <textarea id="charityDescription" class="form-control" rows="4" required>${charity.description}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>主辦單位 *</label>
+                                <input type="text" id="charityOrganization" class="form-control" value="${charity.organization}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>目標金額 (MMK) *</label>
+                                <input type="number" id="charityTargetAmount" class="form-control" min="0" value="${charity.target_amount}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>目前金額 (MMK)</label>
+                                <input type="number" id="charityCurrentAmount" class="form-control" min="0" value="${charity.current_amount}">
+                            </div>
+                            <div class="form-group">
+                                <label>捐款人數</label>
+                                <input type="number" id="charityDonorCount" class="form-control" min="0" value="${charity.donor_count}">
+                            </div>
+                            <div class="form-group">
+                                <label>開始日期 *</label>
+                                <input type="datetime-local" id="charityStartDate" class="form-control" value="${startDate}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>結束日期 *</label>
+                                <input type="datetime-local" id="charityEndDate" class="form-control" value="${endDate}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>封面圖片</label>
+                                <input type="text" id="charityCoverImage" class="form-control" value="${charity.cover_image || ''}">
+                            </div>
+                            <div class="form-group">
+                                <label>狀態 *</label>
+                                <select id="charityStatus" class="form-control" required>
+                                    <option value="active" ${charity.status === 'active' ? 'selected' : ''}>進行中</option>
+                                    <option value="pending" ${charity.status === 'pending' ? 'selected' : ''}>籌備中</option>
+                                    <option value="completed" ${charity.status === 'completed' ? 'selected' : ''}>已結束</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="color: #666; font-size: 0.9em;">
+                                <p>建立時間：${charity.created_at}</p>
+                                <p>募資進度：${((charity.current_amount / charity.target_amount) * 100).toFixed(1)}%</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="saveCharity(${charity.id})" style="background: #10b981;">💾 更新</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 儲存慈善活動（新增或更新）
+        function saveCharity(charityId = null) {
+            const title = document.getElementById('charityTitle').value.trim();
+            const description = document.getElementById('charityDescription').value.trim();
+            const organization = document.getElementById('charityOrganization').value.trim();
+            const targetAmount = parseInt(document.getElementById('charityTargetAmount').value) || 0;
+            const currentAmount = parseInt(document.getElementById('charityCurrentAmount').value) || 0;
+            const donorCount = parseInt(document.getElementById('charityDonorCount').value) || 0;
+            const startDate = document.getElementById('charityStartDate').value;
+            const endDate = document.getElementById('charityEndDate').value;
+            const coverImage = document.getElementById('charityCoverImage').value.trim();
+            const status = document.getElementById('charityStatus').value;
+
+            if (!title || !description || !organization || !targetAmount || !startDate || !endDate) {
+                showToast('請填寫必填欄位', 'error');
+                return;
+            }
+
+            // 轉換日期格式
+            const formattedStartDate = startDate.replace('T', ' ') + ':00';
+            const formattedEndDate = endDate.replace('T', ' ') + ':59';
+
+            if (charityId) {
+                // 更新現有慈善活動
+                const index = AppData.charity_activities.findIndex(c => c.id === charityId);
+                if (index !== -1) {
+                    AppData.charity_activities[index] = {
+                        ...AppData.charity_activities[index],
+                        title,
+                        description,
+                        organization,
+                        target_amount: targetAmount,
+                        current_amount: currentAmount,
+                        donor_count: donorCount,
+                        start_date: formattedStartDate,
+                        end_date: formattedEndDate,
+                        cover_image: coverImage,
+                        status
+                    };
+                    saveAppData();
+                    showToast('慈善活動已更新', 'success');
+                }
+            } else {
+                // 新增慈善活動
+                const newCharity = {
+                    id: AppData.getNextId('charity_activities'),
+                    title,
+                    description,
+                    organization,
+                    target_amount: targetAmount,
+                    current_amount: currentAmount,
+                    donor_count: donorCount,
+                    start_date: formattedStartDate,
+                    end_date: formattedEndDate,
+                    cover_image: coverImage,
+                    status,
+                    created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+                };
+                AppData.charity_activities.push(newCharity);
+                saveAppData();
+                showToast('慈善活動已新增', 'success');
+            }
+
+            closeModal();
+            renderOperationCharity();
+        }
+
+        // 刪除慈善活動
+        function deleteCharity(charityId) {
+            if (!confirm('確定要刪除此慈善活動嗎？此操作無法復原。')) {
+                return;
+            }
+
+            const index = AppData.charity_activities.findIndex(c => c.id === charityId);
+            if (index !== -1) {
+                AppData.charity_activities.splice(index, 1);
+                saveAppData();
+                showToast('慈善活動已刪除', 'success');
+                renderOperationCharity();
+            } else {
+                showToast('找不到該慈善活動', 'error');
+            }
+        }
+
+        // ============================================
+        // 職缺管理 CRUD 操作
+        // ============================================
+
+        // 顯示新增職缺表單
+        function showAddVacancyForm() {
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 700px;">
+                        <div class="modal-header">
+                            <h3>➕ 新增職缺</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>職缺類型 *</label>
+                                <select id="vacancyType" class="form-control" required>
+                                    <option value="platform">平台職缺</option>
+                                    <option value="merchant">商家職缺</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>職位名稱 *</label>
+                                <input type="text" id="vacancyTitle" class="form-control" placeholder="請輸入職位名稱" required>
+                            </div>
+                            <div class="form-group">
+                                <label>公司名稱 *</label>
+                                <input type="text" id="vacancyCompany" class="form-control" placeholder="請輸入公司名稱" required>
+                            </div>
+                            <div class="form-group">
+                                <label>工作地點 *</label>
+                                <input type="text" id="vacancyLocation" class="form-control" placeholder="請輸入工作地點" required>
+                            </div>
+                            <div class="form-group">
+                                <label>職位類別 *</label>
+                                <select id="vacancyCategory" class="form-control" required>
+                                    <option value="技術">技術</option>
+                                    <option value="業務">業務</option>
+                                    <option value="行銷">行銷</option>
+                                    <option value="客服">客服</option>
+                                    <option value="行政">行政</option>
+                                    <option value="財務">財務</option>
+                                    <option value="設計">設計</option>
+                                    <option value="其他">其他</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>薪資範圍</label>
+                                <input type="text" id="vacancySalary" class="form-control" placeholder="例如：500,000 - 800,000 MMK/月">
+                            </div>
+                            <div class="form-group">
+                                <label>職位描述 *</label>
+                                <textarea id="vacancyDescription" class="form-control" rows="4" placeholder="請輸入職位描述" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>職位要求 *</label>
+                                <textarea id="vacancyRequirements" class="form-control" rows="3" placeholder="請輸入職位要求" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>聯絡方式 *</label>
+                                <input type="text" id="vacancyContact" class="form-control" placeholder="請輸入聯絡方式" required>
+                            </div>
+                            <div class="form-group">
+                                <label>申請人數</label>
+                                <input type="number" id="vacancyApplicants" class="form-control" min="0" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="vacancyIsActive" checked style="width: auto;">
+                                    <span>啟用狀態</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="saveVacancy()" style="background: #10b981;">💾 儲存</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 顯示編輯職缺表單
+        function showEditVacancyForm(vacancyId) {
+            const vacancy = AppData.vacancies.find(v => v.id === vacancyId);
+            if (!vacancy) {
+                showToast('找不到該職缺', 'error');
+                return;
+            }
+
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 700px;">
+                        <div class="modal-header">
+                            <h3>✏️ 編輯職缺</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="vacancyId" value="${vacancy.id}">
+                            <div class="form-group">
+                                <label>職缺類型 *</label>
+                                <select id="vacancyType" class="form-control" required>
+                                    <option value="platform" ${vacancy.type === 'platform' ? 'selected' : ''}>平台職缺</option>
+                                    <option value="merchant" ${vacancy.type === 'merchant' ? 'selected' : ''}>商家職缺</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>職位名稱 *</label>
+                                <input type="text" id="vacancyTitle" class="form-control" value="${vacancy.title}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>公司名稱 *</label>
+                                <input type="text" id="vacancyCompany" class="form-control" value="${vacancy.company}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>工作地點 *</label>
+                                <input type="text" id="vacancyLocation" class="form-control" value="${vacancy.location}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>職位類別 *</label>
+                                <select id="vacancyCategory" class="form-control" required>
+                                    <option value="技術" ${vacancy.category === '技術' ? 'selected' : ''}>技術</option>
+                                    <option value="業務" ${vacancy.category === '業務' ? 'selected' : ''}>業務</option>
+                                    <option value="行銷" ${vacancy.category === '行銷' ? 'selected' : ''}>行銷</option>
+                                    <option value="客服" ${vacancy.category === '客服' ? 'selected' : ''}>客服</option>
+                                    <option value="行政" ${vacancy.category === '行政' ? 'selected' : ''}>行政</option>
+                                    <option value="財務" ${vacancy.category === '財務' ? 'selected' : ''}>財務</option>
+                                    <option value="設計" ${vacancy.category === '設計' ? 'selected' : ''}>設計</option>
+                                    <option value="其他" ${vacancy.category === '其他' ? 'selected' : ''}>其他</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>薪資範圍</label>
+                                <input type="text" id="vacancySalary" class="form-control" value="${vacancy.salary || ''}">
+                            </div>
+                            <div class="form-group">
+                                <label>職位描述 *</label>
+                                <textarea id="vacancyDescription" class="form-control" rows="4" required>${vacancy.description}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>職位要求 *</label>
+                                <textarea id="vacancyRequirements" class="form-control" rows="3" required>${vacancy.requirements}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>聯絡方式 *</label>
+                                <input type="text" id="vacancyContact" class="form-control" value="${vacancy.contact}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>申請人數</label>
+                                <input type="number" id="vacancyApplicants" class="form-control" min="0" value="${vacancy.applicants || 0}">
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="vacancyIsActive" ${vacancy.is_active ? 'checked' : ''} style="width: auto;">
+                                    <span>啟用狀態</span>
+                                </label>
+                            </div>
+                            <div class="form-group" style="color: #666; font-size: 0.9em;">
+                                <p>建立時間：${vacancy.created_at}</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="saveVacancy(${vacancy.id})" style="background: #10b981;">💾 更新</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 儲存職缺（新增或更新）
+        function saveVacancy(vacancyId = null) {
+            const type = document.getElementById('vacancyType').value;
+            const title = document.getElementById('vacancyTitle').value.trim();
+            const company = document.getElementById('vacancyCompany').value.trim();
+            const location = document.getElementById('vacancyLocation').value.trim();
+            const category = document.getElementById('vacancyCategory').value;
+            const salary = document.getElementById('vacancySalary').value.trim();
+            const description = document.getElementById('vacancyDescription').value.trim();
+            const requirements = document.getElementById('vacancyRequirements').value.trim();
+            const contact = document.getElementById('vacancyContact').value.trim();
+            const applicants = parseInt(document.getElementById('vacancyApplicants').value) || 0;
+            const isActive = document.getElementById('vacancyIsActive').checked ? 1 : 0;
+
+            if (!title || !company || !location || !description || !requirements || !contact) {
+                showToast('請填寫必填欄位', 'error');
+                return;
+            }
+
+            if (vacancyId) {
+                // 更新現有職缺
+                const index = AppData.vacancies.findIndex(v => v.id === vacancyId);
+                if (index !== -1) {
+                    AppData.vacancies[index] = {
+                        ...AppData.vacancies[index],
+                        type,
+                        title,
+                        company,
+                        location,
+                        category,
+                        salary: salary || null,
+                        description,
+                        requirements,
+                        contact,
+                        applicants,
+                        is_active: isActive
+                    };
+                    saveAppData();
+                    showToast('職缺已更新', 'success');
+                }
+            } else {
+                // 新增職缺
+                const newVacancy = {
+                    id: AppData.getNextId('vacancies'),
+                    type,
+                    title,
+                    company,
+                    location,
+                    category,
+                    salary: salary || null,
+                    description,
+                    requirements,
+                    contact,
+                    applicants,
+                    is_active: isActive,
+                    created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+                };
+                AppData.vacancies.push(newVacancy);
+                saveAppData();
+                showToast('職缺已新增', 'success');
+            }
+
+            closeModal();
+            renderOperationVacancies();
+        }
+
+        // 刪除職缺
+        function deleteVacancy(vacancyId) {
+            if (!confirm('確定要刪除此職缺嗎？此操作無法復原。')) {
+                return;
+            }
+
+            const index = AppData.vacancies.findIndex(v => v.id === vacancyId);
+            if (index !== -1) {
+                AppData.vacancies.splice(index, 1);
+                saveAppData();
+                showToast('職缺已刪除', 'success');
+                renderOperationVacancies();
+            } else {
+                showToast('找不到該職缺', 'error');
+            }
+        }
+
+        // ============================================
+        // 商品評論審核 CRUD 操作
+        // ============================================
+
+        // 顯示審核評論詳情
+        function showReviewDetail(reviewId) {
+            const review = AppData.product_ratings.find(r => r.id === reviewId);
+            if (!review) {
+                showToast('找不到該評論', 'error');
+                return;
+            }
+
+            // 找到對應的商品資訊
+            const product = AppData.products.find(p => p.id === review.product_id);
+            const productName = product ? product.name : `商品 ID ${review.product_id}`;
+
+            // 找到對應的會員資訊
+            const member = AppData.members.find(m => m.id === review.member_id);
+            const memberName = member ? member.name : `會員 ID ${review.member_id}`;
+
+            const statusBadge = review.status === 'approved' ?
+                '<span style="background: #10b981; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.85em;">已發布</span>' :
+                review.status === 'rejected' ?
+                '<span style="background: #ef4444; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.85em;">已拒絕</span>' :
+                '<span style="background: #f59e0b; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.85em;">待審核</span>';
+
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 700px;">
+                        <div class="modal-header">
+                            <h3>⭐ 評論詳情</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <div style="margin-bottom: 20px; padding: 15px; background: #f3f4f6; border-radius: 8px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                    <strong>商品：${productName}</strong>
+                                    ${statusBadge}
+                                </div>
+                                <p style="color: #666; margin: 5px 0;">評論者：${memberName}</p>
+                                <p style="color: #666; margin: 5px 0;">評分：${'⭐'.repeat(review.rating)}</p>
+                                <p style="color: #666; margin: 5px 0;">時間：${review.created_at}</p>
+                            </div>
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="margin-bottom: 10px;">評論內容</h4>
+                                <p style="padding: 15px; background: #f9fafb; border-radius: 8px; line-height: 1.6;">${review.comment}</p>
+                            </div>
+                            ${review.merchant_reply ? `
+                                <div style="margin-bottom: 20px;">
+                                    <h4 style="margin-bottom: 10px;">商家回覆</h4>
+                                    <p style="padding: 15px; background: #fef3c7; border-radius: 8px; line-height: 1.6;">${review.merchant_reply}</p>
+                                    <p style="color: #666; font-size: 0.9em; margin-top: 5px;">回覆時間：${review.reply_at}</p>
+                                </div>
+                            ` : ''}
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="margin-bottom: 10px;">審核操作</h4>
+                                <div class="form-group">
+                                    <label>審核狀態</label>
+                                    <select id="reviewStatus" class="form-control">
+                                        <option value="pending" ${!review.status || review.status === 'pending' ? 'selected' : ''}>待審核</option>
+                                        <option value="approved" ${review.status === 'approved' ? 'selected' : ''}>已發布</option>
+                                        <option value="rejected" ${review.status === 'rejected' ? 'selected' : ''}>已拒絕</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>審核備註</label>
+                                    <textarea id="reviewNote" class="form-control" rows="3" placeholder="填寫審核備註（選填）">${review.admin_note || ''}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">關閉</button>
+                            <button class="quick-action-btn" onclick="saveReviewStatus(${review.id})" style="background: #10b981;">💾 儲存審核結果</button>
+                            <button class="quick-action-btn" onclick="deleteReview(${review.id})" style="background: #ef4444;">🗑️ 刪除評論</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 儲存評論審核狀態
+        function saveReviewStatus(reviewId) {
+            const status = document.getElementById('reviewStatus').value;
+            const adminNote = document.getElementById('reviewNote').value.trim();
+
+            const index = AppData.product_ratings.findIndex(r => r.id === reviewId);
+            if (index !== -1) {
+                AppData.product_ratings[index] = {
+                    ...AppData.product_ratings[index],
+                    status: status,
+                    admin_note: adminNote || null,
+                    reviewed_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+                };
+                saveAppData();
+                showToast('審核結果已儲存', 'success');
+                closeModal();
+                renderOperationReviews();
+            } else {
+                showToast('找不到該評論', 'error');
+            }
+        }
+
+        // 刪除評論
+        function deleteReview(reviewId) {
+            if (!confirm('確定要刪除此評論嗎？此操作無法復原。')) {
+                return;
+            }
+
+            const index = AppData.product_ratings.findIndex(r => r.id === reviewId);
+            if (index !== -1) {
+                AppData.product_ratings.splice(index, 1);
+                saveAppData();
+                showToast('評論已刪除', 'success');
+                closeModal();
+                renderOperationReviews();
+            } else {
+                showToast('找不到該評論', 'error');
+            }
         }
 
         // 渲染新聞公告管理
