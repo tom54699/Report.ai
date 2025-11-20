@@ -6928,7 +6928,9 @@
                 if (progress.status === 'claimed') {
                     completedCount++;
                     // 检查是否有标章奖励
-                    if (task.reward_description && task.reward_description.includes('標章')) {
+                    if (task.reward_type === 'badge') {
+                        currentBadge = task.reward_value || '商家標章';
+                    } else if (task.reward_description && task.reward_description.includes('標章')) {
                         currentBadge = task.reward_description.replace(/.*標章/g, '').trim() || task.reward_description;
                     }
                 } else if (progress.status === 'in_progress') {
@@ -6968,6 +6970,20 @@
                         };
                         const statusInfo = statusMap[progress.status] || statusMap['not_started'];
 
+                        // 根據獎勵類型生成獎勵描述
+                        let rewardDescription = task.reward_description;
+                        if (!rewardDescription && task.reward_type && task.reward_value) {
+                            const rewardTypeMap = {
+                                'exposure': '曝光度',
+                                'points': '積分',
+                                'discount': '折扣券',
+                                'badge': '標章',
+                                'commission': '佣金優惠'
+                            };
+                            const rewardTypeName = rewardTypeMap[task.reward_type] || task.reward_type;
+                            rewardDescription = `${rewardTypeName} +${task.reward_value}`;
+                        }
+
                         let actionButton = '';
                         if (progress.status === 'claimed') {
                             actionButton = '<span style="color: #4caf50;">✓ 已領取</span>';
@@ -6981,7 +6997,7 @@
                             <tr>
                                 <td>${task.name}</td>
                                 <td>${task.task_type}</td>
-                                <td>${task.reward_description}</td>
+                                <td>${rewardDescription || '未設定'}</td>
                                 <td>${progressText}</td>
                                 <td><span class="status-badge ${statusInfo.class}">${statusInfo.text}</span></td>
                                 <td>${actionButton}</td>
@@ -7000,12 +7016,26 @@
                 return;
             }
 
+            // 生成獎勵描述
+            let rewardDescription = task.reward_description;
+            if (!rewardDescription && task.reward_type && task.reward_value) {
+                const rewardTypeMap = {
+                    'exposure': '曝光度',
+                    'points': '積分',
+                    'discount': '折扣券',
+                    'badge': '標章',
+                    'commission': '佣金優惠'
+                };
+                const rewardTypeName = rewardTypeMap[task.reward_type] || task.reward_type;
+                rewardDescription = `${rewardTypeName} +${task.reward_value}`;
+            }
+
             // 更新任务状态为已领取
             if (task.merchant_progress) {
                 task.merchant_progress.status = 'claimed';
             }
 
-            showToast(`恭喜！成功領取「${task.reward_description}」獎勵`, 'success');
+            showToast(`恭喜！成功領取「${rewardDescription || '獎勵'}」`, 'success');
 
             // 刷新任务列表
             renderMerchantTasks();
