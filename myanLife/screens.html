@@ -3863,7 +3863,7 @@
         }
 
         // Modal 模態框組件
-        function showModal(title, content, footer = '') {
+        function showModal(title, content, footer = '', noClose = false) {
             // 移除已存在的 modal
             const existingModal = document.getElementById('globalModal');
             if (existingModal) {
@@ -3875,10 +3875,12 @@
             modal.className = 'modal-overlay';
             modal.innerHTML = `
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h3>${title}</h3>
-                        <button class="modal-close" onclick="closeModal()">&times;</button>
-                    </div>
+                    ${title || !noClose ? `
+                        <div class="modal-header">
+                            <h3>${title}</h3>
+                            ${!noClose ? `<button class="modal-close" onclick="closeModal()">&times;</button>` : ''}
+                        </div>
+                    ` : ''}
                     <div class="modal-body">
                         ${content}
                     </div>
@@ -3888,12 +3890,14 @@
 
             document.body.appendChild(modal);
 
-            // 點擊遮罩關閉
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    closeModal();
-                }
-            });
+            // 點擊遮罩關閉（如果允許的話）
+            if (!noClose) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        closeModal();
+                    }
+                });
+            }
 
             // 觸發動畫
             setTimeout(() => modal.classList.add('show'), 10);
@@ -4249,44 +4253,271 @@
             showModal('🛍️ 商品詳情', content, footer);
         }
 
-        // 購買商品
+        // 購買商品 - 顯示付款頁面
         function handleBuyProduct(productName, price, productId) {
             closeModal();
-            showConfirm(`確定要購買「${productName}」嗎？`, () => {
-                // 创建订单
-                const product = AppData.find('products', productId);
-                if (!product) {
-                    showToast('商品不存在', 'error');
-                    return;
-                }
 
-                const orderId = 'ORD-' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' + String(AppData.member_orders.length + 1).padStart(3, '0');
-                const now = new Date();
-                const dateStr = now.toISOString().slice(0, 16).replace('T', ' ');
+            const product = AppData.find('products', productId);
+            if (!product) {
+                showToast('商品不存在', 'error');
+                return;
+            }
 
-                const newOrder = {
-                    id: AppData.member_orders.length + 1,
-                    order_number: orderId,
-                    member_id: 1,  // 当前用户 ID
-                    product_id: product.id,
-                    merchant_id: product.merchant_id,
-                    quantity: 1,
-                    total_price: product.selling_price,
-                    status: 'pending',
-                    order_date: dateStr,
-                    created_at: dateStr,
-                    updated_at: dateStr
-                };
+            showPaymentPage(product);
+        }
 
-                AppData.member_orders.push(newOrder);
+        // 顯示付款頁面
+        function showPaymentPage(product) {
+            const categories = AppData.product_categories || [];
+            const category = categories.find(cat => cat.id === product.category_id);
+            const categoryName = category?.category_name || '其他';
 
-                setTimeout(() => {
-                    showToast('購買成功！訂單已生成，請至「我的訂單」查看', 'success');
-                    // 刷新订单列表和統計數字
-                    updateMemberStats();
-                    renderOrders();
-                }, 300);
-            }, '確認購買');
+            const content = `
+                <div style="margin-bottom: 25px;">
+                    <h3 style="margin-bottom: 20px; color: #333; border-bottom: 2px solid #667eea; padding-bottom: 10px;">📦 訂單確認</h3>
+
+                    <!-- 商品資訊 -->
+                    <div style="background: #f9fafb; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <div style="display: flex; gap: 20px; align-items: center;">
+                            <div style="font-size: 4em;">${product.cover_image || '🛍️'}</div>
+                            <div style="flex: 1;">
+                                <h4 style="margin-bottom: 8px; color: #333;">${product.product_name}</h4>
+                                <p style="color: #666; font-size: 0.9em; margin-bottom: 8px;">🏷️ ${categoryName}</p>
+                                <p style="color: #999; font-size: 0.85em;">數量：1</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 1.5em; color: #667eea; font-weight: bold;">${product.selling_price?.toLocaleString()} MMK</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 價格明細 -->
+                    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 25px;">
+                        <h4 style="margin-bottom: 15px; color: #333;">💰 價格明細</h4>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #e5e7eb;">
+                            <span style="color: #666;">商品價格</span>
+                            <span style="color: #333;">${product.selling_price?.toLocaleString()} MMK</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #e5e7eb;">
+                            <span style="color: #666;">服務費</span>
+                            <span style="color: #10b981;">免費</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 1.2em; font-weight: bold; margin-top: 15px;">
+                            <span style="color: #333;">總計</span>
+                            <span style="color: #667eea;">${product.selling_price?.toLocaleString()} MMK</span>
+                        </div>
+                    </div>
+
+                    <!-- 付款方式選擇 -->
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="margin-bottom: 15px; color: #333;">💳 選擇付款方式</h4>
+                        <div id="paymentMethods">
+                            <label class="payment-option" style="display: flex; align-items: center; padding: 15px; border: 2px solid #e5e7eb; border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: all 0.3s;" onclick="selectPaymentMethod(this, 'kbz')">
+                                <input type="radio" name="payment" value="kbz" style="margin-right: 15px; width: 20px; height: 20px; cursor: pointer;">
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; color: #333; margin-bottom: 3px;">💰 KBZ Pay</div>
+                                    <div style="font-size: 0.85em; color: #666;">緬甸最受歡迎的行動支付</div>
+                                </div>
+                            </label>
+
+                            <label class="payment-option" style="display: flex; align-items: center; padding: 15px; border: 2px solid #e5e7eb; border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: all 0.3s;" onclick="selectPaymentMethod(this, 'wave')">
+                                <input type="radio" name="payment" value="wave" style="margin-right: 15px; width: 20px; height: 20px; cursor: pointer;">
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; color: #333; margin-bottom: 3px;">📱 Wave Pay</div>
+                                    <div style="font-size: 0.85em; color: #666;">快速安全的行動支付</div>
+                                </div>
+                            </label>
+
+                            <label class="payment-option" style="display: flex; align-items: center; padding: 15px; border: 2px solid #e5e7eb; border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: all 0.3s;" onclick="selectPaymentMethod(this, 'cb')">
+                                <input type="radio" name="payment" value="cb" style="margin-right: 15px; width: 20px; height: 20px; cursor: pointer;">
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; color: #333; margin-bottom: 3px;">💵 CB Pay</div>
+                                    <div style="font-size: 0.85em; color: #666;">CB Bank 行動支付</div>
+                                </div>
+                            </label>
+
+                            <label class="payment-option" style="display: flex; align-items: center; padding: 15px; border: 2px solid #e5e7eb; border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: all 0.3s;" onclick="selectPaymentMethod(this, 'card')">
+                                <input type="radio" name="payment" value="card" style="margin-right: 15px; width: 20px; height: 20px; cursor: pointer;">
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; color: #333; margin-bottom: 3px;">💳 信用卡 / 簽帳卡</div>
+                                    <div style="font-size: 0.85em; color: #666;">Visa、Mastercard、JCB</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div style="background: #fef3c7; padding: 12px 16px; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                        <p style="color: #92400e; font-size: 0.9em; margin: 0;">
+                            <strong>💡 提示：</strong>請確認訂單資訊無誤後再進行付款。付款成功後，訂單將立即生成。
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            const footer = `
+                <button class="btn-secondary" onclick="closeModal()">取消</button>
+                <button class="btn-primary" onclick="confirmPayment(${product.id})" id="confirmPaymentBtn" disabled style="opacity: 0.5; cursor: not-allowed;">確認付款</button>
+            `;
+
+            showModal('💳 付款結帳', content, footer);
+        }
+
+        // 選擇付款方式
+        function selectPaymentMethod(element, method) {
+            // 移除所有選項的選中樣式
+            const options = document.querySelectorAll('.payment-option');
+            options.forEach(opt => {
+                opt.style.borderColor = '#e5e7eb';
+                opt.style.background = 'white';
+            });
+
+            // 設置當前選項的樣式
+            element.style.borderColor = '#667eea';
+            element.style.background = '#f0f4ff';
+
+            // 勾選 radio button
+            element.querySelector('input[type="radio"]').checked = true;
+
+            // 啟用確認付款按鈕
+            const confirmBtn = document.getElementById('confirmPaymentBtn');
+            if (confirmBtn) {
+                confirmBtn.disabled = false;
+                confirmBtn.style.opacity = '1';
+                confirmBtn.style.cursor = 'pointer';
+            }
+
+            // 保存選擇的付款方式
+            window.selectedPaymentMethod = method;
+        }
+
+        // 確認付款
+        function confirmPayment(productId) {
+            if (!window.selectedPaymentMethod) {
+                showToast('請選擇付款方式', 'warning');
+                return;
+            }
+
+            const product = AppData.find('products', productId);
+            if (!product) {
+                showToast('商品不存在', 'error');
+                return;
+            }
+
+            closeModal();
+
+            // 顯示付款處理動畫
+            showPaymentProcessing(product);
+        }
+
+        // 顯示付款處理動畫
+        function showPaymentProcessing(product) {
+            const paymentMethodNames = {
+                'kbz': 'KBZ Pay',
+                'wave': 'Wave Pay',
+                'cb': 'CB Pay',
+                'card': '信用卡'
+            };
+
+            const methodName = paymentMethodNames[window.selectedPaymentMethod] || '付款方式';
+
+            const content = `
+                <div style="text-align: center; padding: 40px 20px;">
+                    <div class="spinner" style="margin: 0 auto 25px; width: 60px; height: 60px; border: 4px solid #f3f3f3; border-top: 4px solid #667eea; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                    <h3 style="color: #333; margin-bottom: 15px;">處理付款中...</h3>
+                    <p style="color: #666; font-size: 0.95em; margin-bottom: 10px;">正在使用 ${methodName} 進行付款</p>
+                    <p style="color: #999; font-size: 0.85em;">請稍候，不要關閉頁面</p>
+                </div>
+            `;
+
+            showModal('', content, '', true); // 第4個參數表示不顯示關閉按鈕
+
+            // 模擬付款處理（2秒後完成）
+            setTimeout(() => {
+                processPaymentSuccess(product);
+            }, 2000);
+        }
+
+        // 付款成功，創建訂單
+        function processPaymentSuccess(product) {
+            const orderId = 'ORD-' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' + String(AppData.member_orders.length + 1).padStart(3, '0');
+            const now = new Date();
+            const dateStr = now.toISOString().slice(0, 16).replace('T', ' ');
+
+            const newOrder = {
+                id: AppData.member_orders.length + 1,
+                order_number: orderId,
+                member_id: 1,  // 当前用户 ID
+                product_id: product.id,
+                merchant_id: product.merchant_id,
+                quantity: 1,
+                total_price: product.selling_price,
+                status: 'pending',
+                payment_method: window.selectedPaymentMethod,
+                order_date: dateStr,
+                created_at: dateStr,
+                updated_at: dateStr
+            };
+
+            AppData.member_orders.push(newOrder);
+
+            // 清除選擇的付款方式
+            window.selectedPaymentMethod = null;
+
+            closeModal();
+
+            // 顯示付款成功動畫
+            showPaymentSuccessAnimation(orderId, product);
+        }
+
+        // 顯示付款成功動畫
+        function showPaymentSuccessAnimation(orderId, product) {
+            const content = `
+                <div style="text-align: center; padding: 40px 20px;">
+                    <div style="width: 80px; height: 80px; background: #10b981; border-radius: 50%; margin: 0 auto 25px; display: flex; align-items: center; justify-content: center; animation: successPulse 0.6s ease-out;">
+                        <span style="font-size: 3em; color: white;">✓</span>
+                    </div>
+                    <h2 style="color: #10b981; margin-bottom: 15px;">付款成功！</h2>
+                    <p style="color: #666; margin-bottom: 25px;">訂單已生成，感謝您的購買</p>
+
+                    <div style="background: #f9fafb; padding: 20px; border-radius: 12px; margin-bottom: 25px; text-align: left;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="color: #666;">訂單編號</span>
+                            <span style="color: #333; font-weight: 600;">${orderId}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="color: #666;">商品名稱</span>
+                            <span style="color: #333;">${product.product_name}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: #666;">付款金額</span>
+                            <span style="color: #667eea; font-weight: 600;">${product.selling_price?.toLocaleString()} MMK</span>
+                        </div>
+                    </div>
+
+                    <p style="color: #999; font-size: 0.9em;">您可以在「我的訂單」查看訂單詳情</p>
+                </div>
+
+                <style>
+                    @keyframes successPulse {
+                        0% { transform: scale(0); opacity: 0; }
+                        50% { transform: scale(1.1); }
+                        100% { transform: scale(1); opacity: 1; }
+                    }
+                </style>
+            `;
+
+            const footer = `
+                <button class="btn-secondary" onclick="closeModal()">繼續購物</button>
+                <button class="btn-primary" onclick="closeModal(); switchMemberView('orders');">查看訂單</button>
+            `;
+
+            showModal('', content, footer);
+
+            // 更新統計數字和訂單列表
+            setTimeout(() => {
+                updateMemberStats();
+                renderOrders();
+            }, 300);
         }
 
         // 訂單詳情頁
