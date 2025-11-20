@@ -3947,6 +3947,9 @@
 
         // 全局數據存儲
         const AppData = {
+            // 數據版本（用於控制 localStorage 更新）
+            _version: '2.0',
+
             // ========== 會員系統 ==========
             users: [
                 { id: 1, member_id: 10001, email: 'ming@example.com', nickname: '林小明', password_hash: 'hash', gender: '男', birthday: '1990-05-15', nationality_iso: 'TW', phone_country_iso: 'MM', phone_number: '09xx-xxx-xxx', region: '仰光', address: '市中心區...', preferences: {currency: 'MMK', lang: 'zh-TW'}, is_active: 1, registered_at: '2024-01-15 10:00:00', points: 850, orders_count: 15, total_spent: 125000 },
@@ -4130,8 +4133,16 @@
                 if (savedData) {
                     try {
                         const parsed = JSON.parse(savedData);
+
+                        // 檢查版本號，如果不匹配則清除舊數據
+                        if (parsed._version !== this._version) {
+                            console.log('🔄 數據版本不匹配，清除舊數據並使用新版本');
+                            localStorage.removeItem('myanlife_data');
+                            return;
+                        }
+
                         Object.assign(this, parsed);
-                        console.log('✅ 數據已從 LocalStorage 載入');
+                        console.log('✅ 數據已從 LocalStorage 載入 (版本: ' + this._version + ')');
                     } catch (e) {
                         console.error('❌ 載入數據失敗:', e);
                     }
