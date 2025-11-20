@@ -1905,19 +1905,19 @@
 
             <div class="stats-row">
                 <div class="stat-card">
-                    <div class="stat-number">5,847</div>
+                    <div class="stat-number" id="operationDashboardMembers">0</div>
                     <div class="stat-label">註冊會員</div>
                 </div>
                 <div class="stat-card success">
-                    <div class="stat-number">142</div>
+                    <div class="stat-number" id="operationDashboardMerchants">0</div>
                     <div class="stat-label">合作商家</div>
                 </div>
                 <div class="stat-card warning">
-                    <div class="stat-number">23</div>
+                    <div class="stat-number" id="operationDashboardPendingProducts">0</div>
                     <div class="stat-label">待審核商品</div>
                 </div>
                 <div class="stat-card info">
-                    <div class="stat-number">8,456</div>
+                    <div class="stat-number" id="operationDashboardOrders">0</div>
                     <div class="stat-label">本月訂單</div>
                 </div>
             </div>
@@ -1942,49 +1942,8 @@
                         <th>操作</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>茵萊湖一日遊</td>
-                        <td>✈️ 旅遊交通</td>
-                        <td>Myanmar Travel Co.</td>
-                        <td>35,000</td>
-                        <td>2025-11-15</td>
-                        <td><span class="status-badge pending">待審核</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn approve">通過</button>
-                                <button class="action-btn reject">拒絕</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>仰光市中心豪華酒店</td>
-                        <td>🏨 飯店住宿</td>
-                        <td>Sedona Hotel</td>
-                        <td>45,000</td>
-                        <td>2025-11-16</td>
-                        <td><span class="status-badge pending">待審核</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn approve">通過</button>
-                                <button class="action-btn reject">拒絕</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>緬甸傳統舞蹈表演</td>
-                        <td>🎭 娛樂休閒</td>
-                        <td>Karaweik Palace</td>
-                        <td>25,000</td>
-                        <td>2025-11-17</td>
-                        <td><span class="status-badge pending">待審核</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn approve">通過</button>
-                                <button class="action-btn reject">拒絕</button>
-                            </div>
-                        </td>
-                    </tr>
+                <tbody id="operationDashboardPendingProductsTable">
+                    <!-- 待審核商品將由 renderOperationDashboard() 動態生成 -->
                 </tbody>
             </table>
 
@@ -3718,7 +3677,9 @@
 
             // 根據切換的視圖渲染對應的資料
             setTimeout(() => {
-                if (viewName === 'members') {
+                if (viewName === 'dashboard') {
+                    renderOperationDashboard();
+                } else if (viewName === 'members') {
                     renderOperationMembers();
                 } else if (viewName === 'merchants') {
                     renderOperationMerchants();
@@ -3775,6 +3736,13 @@
             }
             if (mainContent) {
                 mainContent.classList.add('active');
+            }
+
+            // 根據登入類型初始化對應的視圖
+            if (type === 'operation') {
+                setTimeout(() => {
+                    renderOperationDashboard();
+                }, 100);
             }
         }
 
@@ -5999,13 +5967,13 @@
             } else {
                 // 新增商品
                 productData.merchant_id = 1; // 當前商家 ID
-                productData.review_status = 'approved'; // 自動審核通過（Demo模式）
+                productData.review_status = 'pending'; // 送審核（需運營後台審核）
                 productData.rating_average = 0;
                 productData.rating_count = 0;
                 productData.purchase_count = 0;
 
                 AppData.create('products', productData);
-                showToast('商品已成功上架', 'success');
+                showToast('商品已送審，等待運營後台審核通過後上架', 'success');
             }
 
             closeModal();
@@ -6013,6 +5981,7 @@
                 renderMerchantProducts();
                 renderMerchantDashboard(); // 同時更新儀表板商品列表
                 renderProducts(); // 同時更新會員端商品列表
+                renderOperationProducts(); // 同時更新運營後台待審核列表
             }, 300);
         }
 
@@ -7429,13 +7398,115 @@
             if (totalEl) totalEl.textContent = totalProducts.toLocaleString();
         }
 
+        // 渲染運營後台儀表板統計數據
+        function renderOperationDashboard() {
+            const members = AppData.users || [];
+            const merchants = AppData.merchants || [];
+            const products = AppData.products || [];
+            const orders = AppData.member_orders || [];
+            const categories = AppData.product_categories || [];
+
+            // 計算統計數據
+            const memberCount = members.length;
+            const merchantCount = merchants.length;
+            const pendingProducts = products.filter(p => p.review_status === 'pending');
+            const pendingProductCount = pendingProducts.length;
+            const orderCount = orders.length;
+
+            // 更新儀表板統計卡片
+            const membersEl = document.getElementById('operationDashboardMembers');
+            const merchantsEl = document.getElementById('operationDashboardMerchants');
+            const pendingProductsEl = document.getElementById('operationDashboardPendingProducts');
+            const ordersEl = document.getElementById('operationDashboardOrders');
+
+            if (membersEl) membersEl.textContent = memberCount.toLocaleString();
+            if (merchantsEl) merchantsEl.textContent = merchantCount.toLocaleString();
+            if (pendingProductsEl) pendingProductsEl.textContent = pendingProductCount;
+            if (ordersEl) ordersEl.textContent = orderCount.toLocaleString();
+
+            // 渲染待審核商品表格（顯示前5個）
+            const tbody = document.getElementById('operationDashboardPendingProductsTable');
+            if (tbody) {
+                if (pendingProducts.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 40px; color: #999;">
+                                <div style="font-size: 3em; margin-bottom: 10px;">✅</div>
+                                <p>目前沒有待審核商品</p>
+                            </td>
+                        </tr>
+                    `;
+                } else {
+                    // 創建映射
+                    const categoryMap = {};
+                    categories.forEach(cat => {
+                        categoryMap[cat.id] = { name: cat.category_name, icon: cat.icon };
+                    });
+
+                    const merchantMap = {};
+                    merchants.forEach(m => {
+                        merchantMap[m.id] = m.merchant_name;
+                    });
+
+                    // 只顯示前5個待審核商品
+                    const displayProducts = pendingProducts.slice(0, 5);
+
+                    tbody.innerHTML = displayProducts.map(product => {
+                        const catInfo = categoryMap[product.category_id] || { name: '其他', icon: '🎁' };
+                        const merchantName = merchantMap[product.merchant_id] || '未知商家';
+
+                        return `
+                            <tr>
+                                <td>${product.product_name}</td>
+                                <td>${catInfo.icon} ${catInfo.name}</td>
+                                <td>${merchantName}</td>
+                                <td>${product.selling_price?.toLocaleString()}</td>
+                                <td>${product.created_at?.substring(0, 10) || '-'}</td>
+                                <td><span class="status-badge pending">待審核</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn approve" onclick="approveProduct(${product.id})">通過</button>
+                                        <button class="action-btn reject" onclick="rejectProduct(${product.id})">拒絕</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+
+                    // 如果有更多商品，顯示提示
+                    if (pendingProducts.length > 5) {
+                        tbody.innerHTML += `
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 20px; background: #f9fafb;">
+                                    <button class="quick-action-btn" onclick="switchOperationView('products')">
+                                        查看全部 ${pendingProducts.length} 個待審核商品 →
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                }
+            }
+        }
+
         function renderOperationProducts() {
             const tbody = document.getElementById('operationProductsTable');
             if (!tbody) return;
 
-            let products = AppData.products || [];
+            const allProducts = AppData.products || [];
             const categories = AppData.product_categories || [];
             const merchants = AppData.merchants || [];
+
+            // 更新統計數據
+            const pendingCount = allProducts.filter(p => p.review_status === 'pending').length;
+            const approvedCount = allProducts.filter(p => p.review_status === 'approved').length;
+            const rejectedCount = allProducts.filter(p => p.review_status === 'rejected').length;
+            const totalCount = allProducts.length;
+
+            document.getElementById('operationProductsPending').textContent = pendingCount;
+            document.getElementById('operationProductsApproved').textContent = approvedCount;
+            document.getElementById('operationProductsRejected').textContent = rejectedCount;
+            document.getElementById('operationProductsTotal').textContent = totalCount;
 
             // 創建映射
             const categoryMap = {};
@@ -7449,7 +7520,7 @@
             });
 
             // 按篩選條件過濾
-            products = products.filter(p => p.review_status === currentOperationProductFilter);
+            let products = allProducts.filter(p => p.review_status === currentOperationProductFilter);
 
             // 生成 HTML
             if (products.length === 0) {
@@ -7579,7 +7650,9 @@
                     showToast('商品已通過審核並上架', 'success');
                     setTimeout(() => {
                         renderOperationProducts();
+                        renderOperationDashboard(); // 更新運營後台儀表板統計
                         renderMerchantProducts(); // 同時更新商家端列表
+                        renderMerchantDashboard(); // 更新商家端儀表板
                         renderProducts(); // 同時更新會員端列表
                     }, 300);
                 },
@@ -7598,7 +7671,9 @@
                     showToast('商品已拒絕', 'info');
                     setTimeout(() => {
                         renderOperationProducts();
+                        renderOperationDashboard(); // 更新運營後台儀表板統計
                         renderMerchantProducts(); // 同時更新商家端列表
+                        renderMerchantDashboard(); // 更新商家端儀表板
                     }, 300);
                 },
                 '拒絕審核'
