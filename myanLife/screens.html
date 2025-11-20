@@ -2350,9 +2350,9 @@
                 </div>
 
                 <div class="quick-actions" style="margin-bottom: 20px;">
-                    <button class="quick-action-btn" onclick="showToast('新增橫幅功能開發中', 'info')">➕ 新增橫幅</button>
-                    <button class="quick-action-btn" onclick="showToast('分類管理功能開發中', 'info')">📁 分類管理</button>
-                    <button class="quick-action-btn" onclick="showToast('排序功能開發中', 'info')">🔄 排序設定</button>
+                    <button class="quick-action-btn" onclick="showAddBannerForm()">➕ 新增橫幅</button>
+                    <button class="quick-action-btn" onclick="showBannerCategoryManagement()">📁 分類管理</button>
+                    <button class="quick-action-btn" onclick="showBannerSortSettings()">🔄 排序設定</button>
                 </div>
 
                 <table class="data-table">
@@ -8218,6 +8218,9 @@
             }
         }
 
+        // 當前橫幅篩選條件
+        let currentBannerFilter = 'all';
+
         // 渲染橫幅廣告管理
         function renderOperationBanners() {
             console.log('🎪 渲染橫幅廣告管理');
@@ -8226,9 +8229,10 @@
             const banners = AppData.banners || [];
 
             // 計算統計數據
-            const activeCount = banners.filter(b => b.is_active && new Date(b.end_date) > new Date()).length;
+            const now = new Date();
+            const activeCount = banners.filter(b => b.is_active && new Date(b.end_date) > now).length;
             const draftCount = banners.filter(b => !b.is_active).length;
-            const expiredCount = banners.filter(b => new Date(b.end_date) <= new Date()).length;
+            const expiredCount = banners.filter(b => b.is_active && new Date(b.end_date) <= now).length;
 
             // 更新統計卡片
             document.getElementById('bannersTotal').textContent = banners.length;
@@ -8237,6 +8241,549 @@
             document.getElementById('bannersExpired').textContent = expiredCount;
 
             console.log(`橫幅總數：${banners.length} | 啟用：${activeCount} | 草稿：${draftCount} | 過期：${expiredCount}`);
+
+            // 渲染橫幅列表
+            renderBannersList();
+        }
+
+        // 渲染橫幅列表
+        function renderBannersList() {
+            const tbody = document.getElementById('bannersTable');
+            if (!tbody) return;
+
+            let banners = AppData.banners || [];
+            const now = new Date();
+
+            // 根據篩選條件過濾
+            if (currentBannerFilter === 'active') {
+                banners = banners.filter(b => b.is_active && new Date(b.end_date) > now);
+            } else if (currentBannerFilter === 'draft') {
+                banners = banners.filter(b => !b.is_active);
+            } else if (currentBannerFilter === 'expired') {
+                banners = banners.filter(b => b.is_active && new Date(b.end_date) <= now);
+            }
+
+            // 按 display_order 排序
+            banners.sort((a, b) => (a.display_order || 999) - (b.display_order || 999));
+
+            if (banners.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 40px; color: #999;">
+                            <div style="font-size: 3em; margin-bottom: 10px;">🖼️</div>
+                            <p>${currentBannerFilter === 'all' ? '尚無橫幅資料' : '沒有符合條件的橫幅'}</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = banners.map(banner => {
+                const endDate = new Date(banner.end_date);
+                const isActive = banner.is_active && endDate > now;
+                const isExpired = banner.is_active && endDate <= now;
+
+                let statusBadge = '';
+                if (!banner.is_active) {
+                    statusBadge = '<span class="status-badge pending">草稿</span>';
+                } else if (isExpired) {
+                    statusBadge = '<span class="status-badge rejected">已過期</span>';
+                } else {
+                    statusBadge = '<span class="status-badge active">啟用中</span>';
+                }
+
+                // 連結類型映射
+                const linkTypeMap = {
+                    'task': '任務',
+                    'merchant': '商家',
+                    'product': '商品',
+                    'news': '新聞',
+                    'charity': '公益',
+                    'yellow_pages': '黃頁',
+                    'vacancies': '職缺',
+                    'external': '外部連結'
+                };
+
+                return `
+                    <tr>
+                        <td>#${banner.id}</td>
+                        <td>${banner.title}</td>
+                        <td>${linkTypeMap[banner.link_type] || banner.link_type}</td>
+                        <td>第 ${banner.display_order || '-'} 位</td>
+                        <td>${banner.clicks || 0}</td>
+                        <td>${banner.start_date?.substring(0, 10)} ~ ${banner.end_date?.substring(0, 10)}</td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn edit" onclick="editBanner(${banner.id})">編輯</button>
+                                ${isActive ? `<button class="action-btn edit" onclick="toggleBannerStatus(${banner.id})">停用</button>` : ''}
+                                ${!banner.is_active ? `<button class="action-btn approve" onclick="toggleBannerStatus(${banner.id})">啟用</button>` : ''}
+                                <button class="action-btn reject" onclick="deleteBanner(${banner.id})">刪除</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // 篩選橫幅
+        function filterBanners(filter, btn) {
+            currentBannerFilter = filter;
+
+            // 更新按鈕樣式
+            btn.parentElement.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            renderBannersList();
+        }
+
+        // 顯示新增橫幅表單
+        function showAddBannerForm() {
+            const today = new Date().toISOString().substring(0, 10);
+            const nextMonth = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().substring(0, 10);
+
+            const content = `
+                <div style="padding: 20px;">
+                    <form id="addBannerForm">
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600;">標題 *</label>
+                            <input type="text" id="bannerTitle" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;" placeholder="橫幅標題">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600;">副標題</label>
+                            <input type="text" id="bannerSubtitle" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;" placeholder="橫幅副標題">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600;">連結類型 *</label>
+                            <select id="bannerLinkType" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                                <option value="task">任務</option>
+                                <option value="merchant">商家</option>
+                                <option value="product">商品</option>
+                                <option value="news">新聞</option>
+                                <option value="charity">公益活動</option>
+                                <option value="yellow_pages">黃頁</option>
+                                <option value="vacancies">職缺</option>
+                                <option value="external">外部連結</option>
+                            </select>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600;">連結目標</label>
+                            <input type="text" id="bannerLinkTarget" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;" placeholder="例如：商家ID、商品ID、外部URL">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600;">顯示順序</label>
+                            <input type="number" id="bannerDisplayOrder" min="1" value="1" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">開始日期 *</label>
+                                <input type="date" id="bannerStartDate" required value="${today}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">結束日期 *</label>
+                                <input type="date" id="bannerEndDate" required value="${nextMonth}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: flex; align-items: center; cursor: pointer;">
+                                <input type="checkbox" id="bannerIsActive" checked style="margin-right: 10px;">
+                                <span style="font-weight: 600;">啟用橫幅</span>
+                            </label>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                            <button type="button" class="quick-action-btn" onclick="closeModal()" style="background: #999;">取消</button>
+                            <button type="submit" class="quick-action-btn" style="background: #667eea;">確認新增</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            showModal('➕ 新增橫幅', content);
+
+            // 綁定表單提交事件
+            document.getElementById('addBannerForm').onsubmit = function(e) {
+                e.preventDefault();
+                handleAddBanner();
+            };
+        }
+
+        // 處理新增橫幅
+        function handleAddBanner() {
+            const title = document.getElementById('bannerTitle').value.trim();
+            const subtitle = document.getElementById('bannerSubtitle').value.trim();
+            const linkType = document.getElementById('bannerLinkType').value;
+            const linkTarget = document.getElementById('bannerLinkTarget').value.trim();
+            const displayOrder = parseInt(document.getElementById('bannerDisplayOrder').value) || 1;
+            const startDate = document.getElementById('bannerStartDate').value;
+            const endDate = document.getElementById('bannerEndDate').value;
+            const isActive = document.getElementById('bannerIsActive').checked;
+
+            if (!title || !linkType || !startDate || !endDate) {
+                showToast('請填寫所有必填欄位', 'error');
+                return;
+            }
+
+            // 驗證日期
+            if (new Date(endDate) <= new Date(startDate)) {
+                showToast('結束日期必須晚於開始日期', 'error');
+                return;
+            }
+
+            const newBanner = {
+                title,
+                subtitle,
+                link_type: linkType,
+                link_target: linkTarget,
+                is_active: isActive ? 1 : 0,
+                display_order: displayOrder,
+                start_date: startDate + ' 00:00:00',
+                end_date: endDate + ' 23:59:59',
+                image_url: 'banner_default.jpg',
+                clicks: 0,
+                created_at: new Date().toISOString().replace('T', ' ').substring(0, 19)
+            };
+
+            AppData.create('banners', newBanner);
+            closeModal();
+            showToast('橫幅新增成功！', 'success');
+            renderOperationBanners();
+        }
+
+        // 編輯橫幅
+        function editBanner(bannerId) {
+            const banner = AppData.find('banners', bannerId);
+            if (!banner) {
+                showToast('橫幅不存在', 'error');
+                return;
+            }
+
+            const content = `
+                <div style="padding: 20px;">
+                    <form id="editBannerForm">
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600;">標題 *</label>
+                            <input type="text" id="editBannerTitle" required value="${banner.title}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600;">副標題</label>
+                            <input type="text" id="editBannerSubtitle" value="${banner.subtitle || ''}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600;">連結類型 *</label>
+                            <select id="editBannerLinkType" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                                <option value="task" ${banner.link_type === 'task' ? 'selected' : ''}>任務</option>
+                                <option value="merchant" ${banner.link_type === 'merchant' ? 'selected' : ''}>商家</option>
+                                <option value="product" ${banner.link_type === 'product' ? 'selected' : ''}>商品</option>
+                                <option value="news" ${banner.link_type === 'news' ? 'selected' : ''}>新聞</option>
+                                <option value="charity" ${banner.link_type === 'charity' ? 'selected' : ''}>公益活動</option>
+                                <option value="yellow_pages" ${banner.link_type === 'yellow_pages' ? 'selected' : ''}>黃頁</option>
+                                <option value="vacancies" ${banner.link_type === 'vacancies' ? 'selected' : ''}>職缺</option>
+                                <option value="external" ${banner.link_type === 'external' ? 'selected' : ''}>外部連結</option>
+                            </select>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600;">連結目標</label>
+                            <input type="text" id="editBannerLinkTarget" value="${banner.link_target || ''}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600;">顯示順序</label>
+                            <input type="number" id="editBannerDisplayOrder" min="1" value="${banner.display_order || 1}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">開始日期 *</label>
+                                <input type="date" id="editBannerStartDate" required value="${banner.start_date?.substring(0, 10)}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">結束日期 *</label>
+                                <input type="date" id="editBannerEndDate" required value="${banner.end_date?.substring(0, 10)}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: flex; align-items: center; cursor: pointer;">
+                                <input type="checkbox" id="editBannerIsActive" ${banner.is_active ? 'checked' : ''} style="margin-right: 10px;">
+                                <span style="font-weight: 600;">啟用橫幅</span>
+                            </label>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                            <button type="button" class="quick-action-btn" onclick="closeModal()" style="background: #999;">取消</button>
+                            <button type="submit" class="quick-action-btn" style="background: #667eea;">確認更新</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            showModal('✏️ 編輯橫幅', content);
+
+            // 綁定表單提交事件
+            document.getElementById('editBannerForm').onsubmit = function(e) {
+                e.preventDefault();
+                handleEditBanner(bannerId);
+            };
+        }
+
+        // 處理編輯橫幅
+        function handleEditBanner(bannerId) {
+            const title = document.getElementById('editBannerTitle').value.trim();
+            const subtitle = document.getElementById('editBannerSubtitle').value.trim();
+            const linkType = document.getElementById('editBannerLinkType').value;
+            const linkTarget = document.getElementById('editBannerLinkTarget').value.trim();
+            const displayOrder = parseInt(document.getElementById('editBannerDisplayOrder').value) || 1;
+            const startDate = document.getElementById('editBannerStartDate').value;
+            const endDate = document.getElementById('editBannerEndDate').value;
+            const isActive = document.getElementById('editBannerIsActive').checked;
+
+            if (!title || !linkType || !startDate || !endDate) {
+                showToast('請填寫所有必填欄位', 'error');
+                return;
+            }
+
+            // 驗證日期
+            if (new Date(endDate) <= new Date(startDate)) {
+                showToast('結束日期必須晚於開始日期', 'error');
+                return;
+            }
+
+            AppData.update('banners', bannerId, {
+                title,
+                subtitle,
+                link_type: linkType,
+                link_target: linkTarget,
+                is_active: isActive ? 1 : 0,
+                display_order: displayOrder,
+                start_date: startDate + ' 00:00:00',
+                end_date: endDate + ' 23:59:59'
+            });
+
+            closeModal();
+            showToast('橫幅更新成功！', 'success');
+            renderOperationBanners();
+        }
+
+        // 切換橫幅狀態
+        function toggleBannerStatus(bannerId) {
+            const banner = AppData.find('banners', bannerId);
+            if (!banner) {
+                showToast('橫幅不存在', 'error');
+                return;
+            }
+
+            const newStatus = banner.is_active ? 0 : 1;
+            const action = newStatus ? '啟用' : '停用';
+
+            AppData.update('banners', bannerId, { is_active: newStatus });
+            showToast(`橫幅已${action}`, 'success');
+            renderOperationBanners();
+        }
+
+        // 刪除橫幅
+        function deleteBanner(bannerId) {
+            const banner = AppData.find('banners', bannerId);
+            if (!banner) {
+                showToast('橫幅不存在', 'error');
+                return;
+            }
+
+            showConfirm(
+                `確定要刪除橫幅「${banner.title}」嗎？此操作無法復原。`,
+                () => {
+                    AppData.delete('banners', bannerId);
+                    showToast('橫幅已刪除', 'success');
+                    renderOperationBanners();
+                },
+                '刪除橫幅'
+            );
+        }
+
+        // 顯示分類管理
+        function showBannerCategoryManagement() {
+            const content = `
+                <div style="padding: 20px;">
+                    <div style="background: #f0f9ff; padding: 20px; border-radius: 12px; border-left: 4px solid #3b82f6; margin-bottom: 20px;">
+                        <h4 style="margin: 0 0 10px 0; color: #1e40af;">📋 橫幅分類說明</h4>
+                        <p style="margin: 0; color: #1e40af; line-height: 1.6;">
+                            橫幅已按連結類型自動分類：任務、商家、商品、新聞、公益活動、黃頁、職缺、外部連結。
+                            您可以透過「連結類型」欄位來管理橫幅的分類。
+                        </p>
+                    </div>
+
+                    <h4 style="margin-bottom: 15px;">現有分類統計</h4>
+                    <div id="bannerCategoryStats"></div>
+
+                    <div style="margin-top: 30px; text-align: right;">
+                        <button class="quick-action-btn" onclick="closeModal()">關閉</button>
+                    </div>
+                </div>
+            `;
+
+            showModal('📁 橫幅分類管理', content);
+
+            // 統計各分類數量
+            const banners = AppData.banners || [];
+            const stats = {};
+            const linkTypeMap = {
+                'task': '任務',
+                'merchant': '商家',
+                'product': '商品',
+                'news': '新聞',
+                'charity': '公益活動',
+                'yellow_pages': '黃頁',
+                'vacancies': '職缺',
+                'external': '外部連結'
+            };
+
+            banners.forEach(banner => {
+                const type = banner.link_type || 'unknown';
+                stats[type] = (stats[type] || 0) + 1;
+            });
+
+            const statsHtml = Object.entries(stats).map(([type, count]) => {
+                const typeName = linkTypeMap[type] || type;
+                return `
+                    <div style="display: flex; justify-content: space-between; padding: 12px 15px; background: #f9fafb; border-radius: 8px; margin-bottom: 10px;">
+                        <span style="font-weight: 600;">${typeName}</span>
+                        <span style="color: #667eea; font-weight: 700;">${count} 個橫幅</span>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('bannerCategoryStats').innerHTML = statsHtml || '<p style="color: #999; text-align: center;">尚無橫幅資料</p>';
+        }
+
+        // 顯示排序設定
+        function showBannerSortSettings() {
+            const banners = AppData.banners || [];
+
+            if (banners.length === 0) {
+                showToast('尚無橫幅資料可排序', 'info');
+                return;
+            }
+
+            // 按當前順序排序
+            const sortedBanners = [...banners].sort((a, b) => (a.display_order || 999) - (b.display_order || 999));
+
+            const content = `
+                <div style="padding: 20px;">
+                    <div style="background: #f0f9ff; padding: 15px; border-radius: 12px; border-left: 4px solid #3b82f6; margin-bottom: 20px;">
+                        <p style="margin: 0; color: #1e40af;">
+                            拖曳橫幅以調整顯示順序，數字越小越靠前顯示。
+                        </p>
+                    </div>
+
+                    <div id="bannerSortList" style="max-height: 500px; overflow-y: auto;">
+                        ${sortedBanners.map((banner, index) => `
+                            <div class="sort-item" data-id="${banner.id}" style="display: flex; align-items: center; padding: 15px; background: white; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 10px; cursor: move;">
+                                <div style="width: 40px; text-align: center; font-weight: 700; color: #667eea; font-size: 1.2em;">${index + 1}</div>
+                                <div style="flex: 1; margin: 0 15px;">
+                                    <div style="font-weight: 600; margin-bottom: 5px;">${banner.title}</div>
+                                    <div style="font-size: 0.9em; color: #666;">當前順序：${banner.display_order || '未設定'}</div>
+                                </div>
+                                <div style="color: #999;">⋮⋮</div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
+                        <button class="quick-action-btn" onclick="closeModal()" style="background: #999;">取消</button>
+                        <button class="quick-action-btn" onclick="saveBannerSort()" style="background: #667eea;">儲存排序</button>
+                    </div>
+                </div>
+            `;
+
+            showModal('🔄 橫幅排序設定', content);
+
+            // 實現簡易拖曳排序
+            initSimpleDragSort('bannerSortList');
+        }
+
+        // 初始化簡易拖曳排序
+        function initSimpleDragSort(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            let draggedElement = null;
+
+            const items = container.querySelectorAll('.sort-item');
+            items.forEach((item, index) => {
+                item.draggable = true;
+
+                item.addEventListener('dragstart', function(e) {
+                    draggedElement = this;
+                    this.style.opacity = '0.5';
+                });
+
+                item.addEventListener('dragend', function(e) {
+                    this.style.opacity = '1';
+                });
+
+                item.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    if (draggedElement !== this) {
+                        const rect = this.getBoundingClientRect();
+                        const midpoint = rect.top + rect.height / 2;
+                        if (e.clientY < midpoint) {
+                            this.parentNode.insertBefore(draggedElement, this);
+                        } else {
+                            this.parentNode.insertBefore(draggedElement, this.nextSibling);
+                        }
+                    }
+                });
+            });
+
+            // 更新顯示順序
+            updateSortNumbers(containerId);
+        }
+
+        // 更新排序數字顯示
+        function updateSortNumbers(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            const items = container.querySelectorAll('.sort-item');
+            items.forEach((item, index) => {
+                const numberDiv = item.querySelector('div');
+                if (numberDiv) {
+                    numberDiv.textContent = index + 1;
+                }
+            });
+        }
+
+        // 儲存橫幅排序
+        function saveBannerSort() {
+            const container = document.getElementById('bannerSortList');
+            if (!container) return;
+
+            const items = container.querySelectorAll('.sort-item');
+            const updates = [];
+
+            items.forEach((item, index) => {
+                const bannerId = parseInt(item.getAttribute('data-id'));
+                const newOrder = index + 1;
+                updates.push({ id: bannerId, order: newOrder });
+            });
+
+            // 批次更新排序
+            updates.forEach(update => {
+                AppData.update('banners', update.id, { display_order: update.order });
+            });
+
+            closeModal();
+            showToast('排序已儲存', 'success');
+            renderOperationBanners();
         }
 
         // 渲染新聞公告管理
