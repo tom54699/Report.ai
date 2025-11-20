@@ -3895,7 +3895,7 @@
         // 全局數據存儲
         const AppData = {
             // 數據版本（用於控制 localStorage 更新）
-            _version: '2.2',
+            _version: '2.3',
 
             // ========== 會員系統 ==========
             users: [
@@ -4013,6 +4013,13 @@
                 { id: 4, title: '公益捐款活動', subtitle: '您的愛心，他們的希望', image_url: 'banner_charity.jpg', link_type: 'charity', link_target: 'all', is_active: 1, display_order: 4, start_date: '2024-11-01 00:00:00', end_date: '2024-12-31 23:59:59', created_at: '2024-10-28 11:00:00' },
                 { id: 5, title: '黃頁商家入駐', subtitle: '免費刊登您的商家資訊', image_url: 'banner_yellowpages.jpg', link_type: 'yellow_pages', link_target: 'all', is_active: 1, display_order: 5, start_date: '2024-11-01 00:00:00', end_date: '2025-01-31 23:59:59', created_at: '2024-10-20 15:00:00' },
                 { id: 6, title: '職缺招募中', subtitle: '加入 MyanLife 團隊', image_url: 'banner_jobs.jpg', link_type: 'vacancies', link_target: 'all', is_active: 1, display_order: 6, start_date: '2024-11-15 00:00:00', end_date: '2024-12-31 23:59:59', created_at: '2024-11-12 10:00:00' }
+            ],
+
+            banner_categories: [
+                { id: 1, name: '美食優惠', slug: 'food', url: '/categories/food', icon: '🍔', description: '餐飲美食相關優惠活動', is_active: 1, display_order: 1, created_at: '2024-11-01 10:00:00' },
+                { id: 2, name: '旅遊住宿', slug: 'travel', url: '/categories/travel', icon: '✈️', description: '旅遊與住宿優惠', is_active: 1, display_order: 2, created_at: '2024-11-01 10:00:00' },
+                { id: 3, name: '生活服務', slug: 'lifestyle', url: '/categories/lifestyle', icon: '🛍️', description: '生活服務相關優惠', is_active: 1, display_order: 3, created_at: '2024-11-01 10:00:00' },
+                { id: 4, name: '娛樂休閒', slug: 'entertainment', url: '/categories/entertainment', icon: '🎭', description: '娛樂休閒活動', is_active: 1, display_order: 4, created_at: '2024-11-01 10:00:00' }
             ],
 
             // ========== 新聞資訊系統 ==========
@@ -8341,6 +8348,12 @@
         function showAddBannerForm() {
             const today = new Date().toISOString().substring(0, 10);
             const nextMonth = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().substring(0, 10);
+            const categories = AppData.banner_categories || [];
+            const activeCategories = categories.filter(cat => cat.is_active);
+
+            const categoryOptions = activeCategories.map(cat =>
+                `<option value="${cat.slug}">${cat.icon} ${cat.name}</option>`
+            ).join('');
 
             const content = `
                 <div style="padding: 20px;">
@@ -8357,7 +8370,8 @@
 
                         <div style="margin-bottom: 20px;">
                             <label style="display: block; margin-bottom: 5px; font-weight: 600;">連結類型 *</label>
-                            <select id="bannerLinkType" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                            <select id="bannerLinkType" required onchange="updateBannerLinkTarget()" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                                <option value="category">分類</option>
                                 <option value="task">任務</option>
                                 <option value="merchant">商家</option>
                                 <option value="product">商品</option>
@@ -8369,7 +8383,15 @@
                             </select>
                         </div>
 
-                        <div style="margin-bottom: 20px;">
+                        <div id="categorySelectContainer" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600;">選擇分類 *</label>
+                            <select id="bannerCategorySelect" onchange="updateCategoryUrl()" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                                ${categoryOptions}
+                            </select>
+                            <small style="color: #666; display: block; margin-top: 5px;">選擇分類後會自動填入對應的 URL</small>
+                        </div>
+
+                        <div id="linkTargetContainer" style="margin-bottom: 20px; display: none;">
                             <label style="display: block; margin-bottom: 5px; font-weight: 600;">連結目標</label>
                             <input type="text" id="bannerLinkTarget" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;" placeholder="例如：商家ID、商品ID、外部URL">
                         </div>
@@ -8412,6 +8434,45 @@
                 e.preventDefault();
                 handleAddBanner();
             };
+
+            // 初始化：預設選擇分類時顯示對應的輸入框
+            updateBannerLinkTarget();
+        }
+
+        // 更新連結目標輸入框顯示/隱藏
+        function updateBannerLinkTarget() {
+            const linkType = document.getElementById('bannerLinkType')?.value;
+            const categoryContainer = document.getElementById('categorySelectContainer');
+            const linkTargetContainer = document.getElementById('linkTargetContainer');
+
+            if (!categoryContainer || !linkTargetContainer) return;
+
+            if (linkType === 'category') {
+                categoryContainer.style.display = 'block';
+                linkTargetContainer.style.display = 'none';
+                // 自動填入分類 URL
+                updateCategoryUrl();
+            } else {
+                categoryContainer.style.display = 'none';
+                linkTargetContainer.style.display = 'block';
+            }
+        }
+
+        // 更新分類 URL
+        function updateCategoryUrl() {
+            const categorySelect = document.getElementById('bannerCategorySelect');
+            if (!categorySelect) return;
+
+            const selectedSlug = categorySelect.value;
+            const categories = AppData.banner_categories || [];
+            const category = categories.find(cat => cat.slug === selectedSlug);
+
+            if (category) {
+                const linkTargetInput = document.getElementById('bannerLinkTarget');
+                if (linkTargetInput) {
+                    linkTargetInput.value = category.slug;
+                }
+            }
         }
 
         // 處理新增橫幅
@@ -8419,7 +8480,16 @@
             const title = document.getElementById('bannerTitle').value.trim();
             const subtitle = document.getElementById('bannerSubtitle').value.trim();
             const linkType = document.getElementById('bannerLinkType').value;
-            const linkTarget = document.getElementById('bannerLinkTarget').value.trim();
+
+            // 如果是分類類型，從分類選擇框獲取值
+            let linkTarget;
+            if (linkType === 'category') {
+                const categorySelect = document.getElementById('bannerCategorySelect');
+                linkTarget = categorySelect ? categorySelect.value : '';
+            } else {
+                linkTarget = document.getElementById('bannerLinkTarget').value.trim();
+            }
+
             const displayOrder = parseInt(document.getElementById('bannerDisplayOrder').value) || 1;
             const startDate = document.getElementById('bannerStartDate').value;
             const endDate = document.getElementById('bannerEndDate').value;
@@ -8464,6 +8534,13 @@
                 return;
             }
 
+            const categories = AppData.banner_categories || [];
+            const activeCategories = categories.filter(cat => cat.is_active);
+
+            const categoryOptions = activeCategories.map(cat =>
+                `<option value="${cat.slug}" ${banner.link_type === 'category' && banner.link_target === cat.slug ? 'selected' : ''}>${cat.icon} ${cat.name}</option>`
+            ).join('');
+
             const content = `
                 <div style="padding: 20px;">
                     <form id="editBannerForm">
@@ -8479,7 +8556,8 @@
 
                         <div style="margin-bottom: 20px;">
                             <label style="display: block; margin-bottom: 5px; font-weight: 600;">連結類型 *</label>
-                            <select id="editBannerLinkType" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                            <select id="editBannerLinkType" required onchange="updateEditBannerLinkTarget()" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                                <option value="category" ${banner.link_type === 'category' ? 'selected' : ''}>分類</option>
                                 <option value="task" ${banner.link_type === 'task' ? 'selected' : ''}>任務</option>
                                 <option value="merchant" ${banner.link_type === 'merchant' ? 'selected' : ''}>商家</option>
                                 <option value="product" ${banner.link_type === 'product' ? 'selected' : ''}>商品</option>
@@ -8491,7 +8569,15 @@
                             </select>
                         </div>
 
-                        <div style="margin-bottom: 20px;">
+                        <div id="editCategorySelectContainer" style="margin-bottom: 20px; display: ${banner.link_type === 'category' ? 'block' : 'none'};">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600;">選擇分類 *</label>
+                            <select id="editBannerCategorySelect" onchange="updateEditCategoryUrl()" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                                ${categoryOptions}
+                            </select>
+                            <small style="color: #666; display: block; margin-top: 5px;">選擇分類後會自動填入對應的 URL</small>
+                        </div>
+
+                        <div id="editLinkTargetContainer" style="margin-bottom: 20px; display: ${banner.link_type === 'category' ? 'none' : 'block'};">
                             <label style="display: block; margin-bottom: 5px; font-weight: 600;">連結目標</label>
                             <input type="text" id="editBannerLinkTarget" value="${banner.link_target || ''}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
                         </div>
@@ -8536,12 +8622,57 @@
             };
         }
 
+        // 更新編輯橫幅的連結目標輸入框顯示/隱藏
+        function updateEditBannerLinkTarget() {
+            const linkType = document.getElementById('editBannerLinkType')?.value;
+            const categoryContainer = document.getElementById('editCategorySelectContainer');
+            const linkTargetContainer = document.getElementById('editLinkTargetContainer');
+
+            if (!categoryContainer || !linkTargetContainer) return;
+
+            if (linkType === 'category') {
+                categoryContainer.style.display = 'block';
+                linkTargetContainer.style.display = 'none';
+                // 自動填入分類 URL
+                updateEditCategoryUrl();
+            } else {
+                categoryContainer.style.display = 'none';
+                linkTargetContainer.style.display = 'block';
+            }
+        }
+
+        // 更新編輯分類 URL
+        function updateEditCategoryUrl() {
+            const categorySelect = document.getElementById('editBannerCategorySelect');
+            if (!categorySelect) return;
+
+            const selectedSlug = categorySelect.value;
+            const categories = AppData.banner_categories || [];
+            const category = categories.find(cat => cat.slug === selectedSlug);
+
+            if (category) {
+                const linkTargetInput = document.getElementById('editBannerLinkTarget');
+                if (linkTargetInput) {
+                    linkTargetInput.value = category.slug;
+                }
+            }
+        }
+
         // 處理編輯橫幅
         function handleEditBanner(bannerId) {
             const title = document.getElementById('editBannerTitle').value.trim();
             const subtitle = document.getElementById('editBannerSubtitle').value.trim();
             const linkType = document.getElementById('editBannerLinkType').value;
-            const linkTarget = document.getElementById('editBannerLinkTarget').value.trim();
+
+            // 如果是分類類型，從分類選擇框獲取值
+            let linkTarget;
+            if (linkType === 'category') {
+                const categorySelect = document.getElementById('editBannerCategorySelect');
+                linkTarget = categorySelect ? categorySelect.value : '';
+            } else {
+                linkTarget = document.getElementById('editBannerLinkTarget').value.trim();
+            }
+
             const displayOrder = parseInt(document.getElementById('editBannerDisplayOrder').value) || 1;
             const startDate = document.getElementById('editBannerStartDate').value;
             const endDate = document.getElementById('editBannerEndDate').value;
@@ -8611,57 +8742,338 @@
 
         // 顯示分類管理
         function showBannerCategoryManagement() {
+            const categories = AppData.banner_categories || [];
+
             const content = `
                 <div style="padding: 20px;">
                     <div style="background: #f0f9ff; padding: 20px; border-radius: 12px; border-left: 4px solid #3b82f6; margin-bottom: 20px;">
-                        <h4 style="margin: 0 0 10px 0; color: #1e40af;">📋 橫幅分類說明</h4>
+                        <h4 style="margin: 0 0 10px 0; color: #1e40af;">📋 橫幅分類管理</h4>
                         <p style="margin: 0; color: #1e40af; line-height: 1.6;">
-                            橫幅已按連結類型自動分類：任務、商家、商品、新聞、公益活動、黃頁、職缺、外部連結。
-                            您可以透過「連結類型」欄位來管理橫幅的分類。
+                            管理橫幅廣告的分類，每個分類都有對應的 URL 路徑。新增橫幅時可以選擇分類，系統會自動填入對應的 URL。
                         </p>
                     </div>
 
-                    <h4 style="margin-bottom: 15px;">現有分類統計</h4>
-                    <div id="bannerCategoryStats"></div>
-
-                    <div style="margin-top: 30px; text-align: right;">
-                        <button class="quick-action-btn" onclick="closeModal()">關閉</button>
+                    <div style="margin-bottom: 20px; text-align: right;">
+                        <button class="quick-action-btn" onclick="showAddCategoryForm()">➕ 新增分類</button>
                     </div>
+
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>圖示</th>
+                                <th>分類名稱</th>
+                                <th>識別碼</th>
+                                <th>URL 路徑</th>
+                                <th>描述</th>
+                                <th>排序</th>
+                                <th>狀態</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categoriesTableBody">
+                        </tbody>
+                    </table>
                 </div>
             `;
 
             showModal('📁 橫幅分類管理', content);
 
-            // 統計各分類數量
-            const banners = AppData.banners || [];
-            const stats = {};
-            const linkTypeMap = {
-                'task': '任務',
-                'merchant': '商家',
-                'product': '商品',
-                'news': '新聞',
-                'charity': '公益活動',
-                'yellow_pages': '黃頁',
-                'vacancies': '職缺',
-                'external': '外部連結'
+            // 渲染分類列表
+            renderCategoriesTable();
+        }
+
+        // 渲染分類表格
+        function renderCategoriesTable() {
+            const tbody = document.getElementById('categoriesTableBody');
+            if (!tbody) return;
+
+            const categories = AppData.banner_categories || [];
+
+            if (categories.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 40px; color: #999;">
+                            <p>尚無分類資料</p>
+                            <p style="font-size: 0.9em; margin-top: 10px;">點擊「新增分類」按鈕來建立第一個分類</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const sortedCategories = [...categories].sort((a, b) => (a.display_order || 999) - (b.display_order || 999));
+
+            tbody.innerHTML = sortedCategories.map(cat => `
+                <tr>
+                    <td style="font-size: 1.5em;">${cat.icon}</td>
+                    <td><strong>${cat.name}</strong></td>
+                    <td><code>${cat.slug}</code></td>
+                    <td><code>${cat.url}</code></td>
+                    <td>${cat.description || '-'}</td>
+                    <td>${cat.display_order}</td>
+                    <td>
+                        <span class="status-badge ${cat.is_active ? 'active' : 'pending'}">
+                            ${cat.is_active ? '啟用' : '停用'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn edit" onclick="editCategory(${cat.id})">編輯</button>
+                            <button class="action-btn ${cat.is_active ? 'reject' : 'approve'}" onclick="toggleCategoryStatus(${cat.id})">
+                                ${cat.is_active ? '停用' : '啟用'}
+                            </button>
+                            <button class="action-btn reject" onclick="deleteCategory(${cat.id})">刪除</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // 顯示新增分類表單
+        function showAddCategoryForm() {
+            const content = `
+                <div style="padding: 20px;">
+                    <form id="addCategoryForm" style="max-width: 600px;">
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">分類名稱 *</label>
+                            <input type="text" id="categoryName" required placeholder="例如：美食優惠" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">識別碼（slug）*</label>
+                            <input type="text" id="categorySlug" required placeholder="例如：food（只能使用英文小寫、數字、連字號）" pattern="[a-z0-9-]+" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                            <small style="color: #666;">只能使用英文小寫字母、數字和連字號（-）</small>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">URL 路徑 *</label>
+                            <input type="text" id="categoryUrl" required placeholder="例如：/categories/food" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                            <small style="color: #666;">橫幅點擊後會連結到此 URL</small>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">圖示（emoji）*</label>
+                            <input type="text" id="categoryIcon" required placeholder="例如：🍔" maxlength="2" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">描述</label>
+                            <textarea id="categoryDescription" rows="3" placeholder="分類描述..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;"></textarea>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">排序順序</label>
+                            <input type="number" id="categoryOrder" min="1" value="1" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: flex; align-items: center; cursor: pointer;">
+                                <input type="checkbox" id="categoryIsActive" checked style="margin-right: 10px;">
+                                <span style="font-weight: 600;">啟用分類</span>
+                            </label>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                            <button type="button" onclick="closeModal(); showBannerCategoryManagement();" style="padding: 10px 20px; background: #e5e7eb; border: none; border-radius: 8px; cursor: pointer;">取消</button>
+                            <button type="submit" style="padding: 10px 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">確認新增</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            showModal('➕ 新增分類', content);
+
+            document.getElementById('addCategoryForm').addEventListener('submit', handleAddCategory);
+        }
+
+        // 處理新增分類
+        function handleAddCategory(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('categoryName').value.trim();
+            const slug = document.getElementById('categorySlug').value.trim().toLowerCase();
+            const url = document.getElementById('categoryUrl').value.trim();
+            const icon = document.getElementById('categoryIcon').value.trim();
+            const description = document.getElementById('categoryDescription').value.trim();
+            const displayOrder = parseInt(document.getElementById('categoryOrder').value) || 1;
+            const isActive = document.getElementById('categoryIsActive').checked ? 1 : 0;
+
+            // 驗證 slug 格式
+            if (!/^[a-z0-9-]+$/.test(slug)) {
+                showToast('識別碼格式錯誤，只能使用英文小寫字母、數字和連字號', 'error');
+                return;
+            }
+
+            // 檢查 slug 是否已存在
+            const categories = AppData.banner_categories || [];
+            if (categories.some(cat => cat.slug === slug)) {
+                showToast('識別碼已存在，請使用其他識別碼', 'error');
+                return;
+            }
+
+            const newCategory = {
+                id: AppData.getNextId('banner_categories'),
+                name,
+                slug,
+                url,
+                icon,
+                description,
+                is_active: isActive,
+                display_order: displayOrder,
+                created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
             };
 
-            banners.forEach(banner => {
-                const type = banner.link_type || 'unknown';
-                stats[type] = (stats[type] || 0) + 1;
+            AppData.create('banner_categories', newCategory);
+            showToast('分類新增成功！', 'success');
+            closeModal();
+            showBannerCategoryManagement();
+        }
+
+        // 編輯分類
+        function editCategory(categoryId) {
+            const category = AppData.find('banner_categories', categoryId);
+            if (!category) {
+                showToast('分類不存在', 'error');
+                return;
+            }
+
+            const content = `
+                <div style="padding: 20px;">
+                    <form id="editCategoryForm" style="max-width: 600px;">
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">分類名稱 *</label>
+                            <input type="text" id="editCategoryName" required value="${category.name}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">識別碼（slug）*</label>
+                            <input type="text" id="editCategorySlug" required value="${category.slug}" pattern="[a-z0-9-]+" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                            <small style="color: #666;">只能使用英文小寫字母、數字和連字號（-）</small>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">URL 路徑 *</label>
+                            <input type="text" id="editCategoryUrl" required value="${category.url}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">圖示（emoji）*</label>
+                            <input type="text" id="editCategoryIcon" required value="${category.icon}" maxlength="2" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">描述</label>
+                            <textarea id="editCategoryDescription" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">${category.description || ''}</textarea>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">排序順序</label>
+                            <input type="number" id="editCategoryOrder" min="1" value="${category.display_order}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: flex; align-items: center; cursor: pointer;">
+                                <input type="checkbox" id="editCategoryIsActive" ${category.is_active ? 'checked' : ''} style="margin-right: 10px;">
+                                <span style="font-weight: 600;">啟用分類</span>
+                            </label>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                            <button type="button" onclick="closeModal(); showBannerCategoryManagement();" style="padding: 10px 20px; background: #e5e7eb; border: none; border-radius: 8px; cursor: pointer;">取消</button>
+                            <button type="submit" style="padding: 10px 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">確認更新</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            showModal('✏️ 編輯分類', content);
+
+            document.getElementById('editCategoryForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                handleEditCategory(categoryId);
+            });
+        }
+
+        // 處理編輯分類
+        function handleEditCategory(categoryId) {
+            const name = document.getElementById('editCategoryName').value.trim();
+            const slug = document.getElementById('editCategorySlug').value.trim().toLowerCase();
+            const url = document.getElementById('editCategoryUrl').value.trim();
+            const icon = document.getElementById('editCategoryIcon').value.trim();
+            const description = document.getElementById('editCategoryDescription').value.trim();
+            const displayOrder = parseInt(document.getElementById('editCategoryOrder').value) || 1;
+            const isActive = document.getElementById('editCategoryIsActive').checked ? 1 : 0;
+
+            // 驗證 slug 格式
+            if (!/^[a-z0-9-]+$/.test(slug)) {
+                showToast('識別碼格式錯誤，只能使用英文小寫字母、數字和連字號', 'error');
+                return;
+            }
+
+            // 檢查 slug 是否與其他分類重複
+            const categories = AppData.banner_categories || [];
+            if (categories.some(cat => cat.slug === slug && cat.id !== categoryId)) {
+                showToast('識別碼已存在，請使用其他識別碼', 'error');
+                return;
+            }
+
+            AppData.update('banner_categories', categoryId, {
+                name,
+                slug,
+                url,
+                icon,
+                description,
+                is_active: isActive,
+                display_order: displayOrder
             });
 
-            const statsHtml = Object.entries(stats).map(([type, count]) => {
-                const typeName = linkTypeMap[type] || type;
-                return `
-                    <div style="display: flex; justify-content: space-between; padding: 12px 15px; background: #f9fafb; border-radius: 8px; margin-bottom: 10px;">
-                        <span style="font-weight: 600;">${typeName}</span>
-                        <span style="color: #667eea; font-weight: 700;">${count} 個橫幅</span>
-                    </div>
-                `;
-            }).join('');
+            showToast('分類更新成功！', 'success');
+            closeModal();
+            showBannerCategoryManagement();
+        }
 
-            document.getElementById('bannerCategoryStats').innerHTML = statsHtml || '<p style="color: #999; text-align: center;">尚無橫幅資料</p>';
+        // 切換分類狀態
+        function toggleCategoryStatus(categoryId) {
+            const category = AppData.find('banner_categories', categoryId);
+            if (!category) {
+                showToast('分類不存在', 'error');
+                return;
+            }
+
+            const newStatus = category.is_active ? 0 : 1;
+            const action = newStatus ? '啟用' : '停用';
+
+            AppData.update('banner_categories', categoryId, { is_active: newStatus });
+            showToast(`分類已${action}`, 'success');
+            renderCategoriesTable();
+        }
+
+        // 刪除分類
+        function deleteCategory(categoryId) {
+            const category = AppData.find('banner_categories', categoryId);
+            if (!category) {
+                showToast('分類不存在', 'error');
+                return;
+            }
+
+            // 檢查是否有橫幅使用此分類
+            const banners = AppData.banners || [];
+            const usedInBanners = banners.filter(b => b.link_type === 'category' && b.link_target === category.slug);
+
+            if (usedInBanners.length > 0) {
+                showToast(`此分類正被 ${usedInBanners.length} 個橫幅使用，無法刪除`, 'error');
+                return;
+            }
+
+            showConfirm(
+                `確定要刪除分類「${category.name}」嗎？此操作無法復原。`,
+                () => {
+                    AppData.delete('banner_categories', categoryId);
+                    showToast('分類已刪除', 'success');
+                    renderCategoriesTable();
+                },
+                '刪除分類'
+            );
         }
 
         // 顯示排序設定
