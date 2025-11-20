@@ -3948,7 +3948,7 @@
         // 全局數據存儲
         const AppData = {
             // 數據版本（用於控制 localStorage 更新）
-            _version: '2.0',
+            _version: '2.1',
 
             // ========== 會員系統 ==========
             users: [
@@ -4011,23 +4011,15 @@
 
             // ========== 店鋪系統 ==========
             stores: [
-                { id: 1, merchant_id: 1, store_name: 'Pizza Hut 仰光總店', address: '仰光市中心區 Sule Pagoda Road 123號', phone: '09-111-111-111', business_hours: '10:00-22:00', latitude: 16.7834, longitude: 96.1652, is_open: 1, created_at: '2024-01-10 09:00:00' },
-                { id: 2, merchant_id: 1, store_name: 'Pizza Hut 曼德勒分店', address: '曼德勒市 26th Street 456號', phone: '09-111-222-222', business_hours: '10:00-22:00', latitude: 21.9588, longitude: 96.0891, is_open: 1, created_at: '2024-02-15 10:00:00' },
-                { id: 3, merchant_id: 1, store_name: 'Pizza Hut 蒲甘分店', address: '蒲甘古城區 Anawrahta Road 789號', phone: '09-111-333-333', business_hours: '11:00-21:00', latitude: 21.1717, longitude: 94.8579, is_open: 0, created_at: '2024-03-01 11:00:00' },
-                { id: 4, merchant_id: 2, store_name: 'Sedona Hotel Yangon', address: '仰光市 Kaba Aye Pagoda Road 1號', phone: '09-222-111-111', business_hours: '24小時營業', latitude: 16.8193, longitude: 96.1352, is_open: 1, created_at: '2023-12-01 08:00:00' },
-                { id: 5, merchant_id: 2, store_name: 'Sedona Hotel Mandalay', address: '曼德勒市 66th Street 2號', phone: '09-222-222-222', business_hours: '24小時營業', latitude: 21.9747, longitude: 96.0836, is_open: 1, created_at: '2024-01-20 08:00:00' }
+                // 商家 1 的示範店鋪 - 只保留1個
+                { id: 1, merchant_id: 1, store_name: 'Pizza Hut 仰光總店', address: '仰光市中心區 Sule Pagoda Road 123號', phone: '09-111-111-111', business_hours: '10:00-22:00', latitude: 16.7834, longitude: 96.1652, is_open: 1, created_at: '2024-01-10 09:00:00' }
             ],
 
             // ========== 商家任務系統 ==========
             merchant_tasks: [
+                // 商家任務示範 - 只保留2個
                 { id: 1, name: '完成店鋪資料', description: '完善店鋪基本資料（地址、電話、營業時間），即可獲得首次獎勵', task_type: '新手任務', reward_type: 'exposure', reward_value: 100, is_active: 1, merchant_progress: { merchant_id: 1, progress: 100, status: 'claimed', completed_at: '2024-01-15 12:00:00' } },
-                { id: 2, name: '上架 10 個商品', description: '成功上架 10 個商品並通過審核，提升商家曝光度', task_type: '新手任務', reward_type: 'exposure', reward_value: 200, is_active: 1, merchant_progress: { merchant_id: 1, progress: 80, status: 'in_progress', current: 8, total: 10 } },
-                { id: 3, name: '完成 50 筆訂單', description: '累計完成 50 筆訂單交易，獲得平台推薦資格', task_type: '營運任務', reward_type: 'featured', reward_value: 7, is_active: 1, merchant_progress: { merchant_id: 1, progress: 66, status: 'in_progress', current: 33, total: 50 } },
-                { id: 4, name: '獲得 100 個好評', description: '累計獲得 100 個 5 星好評，提升商家信譽等級', task_type: '營運任務', reward_type: 'badge', reward_value: 1, is_active: 1, merchant_progress: { merchant_id: 1, progress: 45, status: 'in_progress', current: 45, total: 100 } },
-                { id: 5, name: '月營收達 500 萬', description: '單月營收達到 500 萬 MMK，獲得金牌商家徽章', task_type: '營運任務', reward_type: 'badge', reward_value: 2, is_active: 1, merchant_progress: { merchant_id: 1, progress: 92, status: 'in_progress', current: 4600000, total: 5000000 } },
-                { id: 6, name: '分享到社群媒體', description: '將店鋪或商品分享到 Facebook/LINE 等社群平台 5 次', task_type: '推廣任務', reward_type: 'exposure', reward_value: 150, is_active: 1, merchant_progress: { merchant_id: 1, progress: 40, status: 'in_progress', current: 2, total: 5 } },
-                { id: 7, name: '設定優惠活動', description: '創建並執行至少 3 個優惠促銷活動', task_type: '推廣任務', reward_type: 'traffic', reward_value: 500, is_active: 1, merchant_progress: { merchant_id: 1, progress: 33, status: 'in_progress', current: 1, total: 3 } },
-                { id: 8, name: '回覆顧客評論', description: '及時回覆所有顧客評論，維持 95% 以上回覆率', task_type: '服務任務', reward_type: 'rating_boost', reward_value: 0.1, is_active: 1, merchant_progress: { merchant_id: 1, progress: 88, status: 'in_progress', current: 88, total: 95 } }
+                { id: 2, name: '上架 10 個商品', description: '成功上架 10 個商品並通過審核，提升商家曝光度', task_type: '新手任務', reward_type: 'exposure', reward_value: 200, is_active: 1, merchant_progress: { merchant_id: 1, progress: 20, status: 'in_progress', current: 2, total: 10 } }
             ],
 
             // ========== 管理員系統 ==========
