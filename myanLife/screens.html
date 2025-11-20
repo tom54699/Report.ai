@@ -3968,7 +3968,12 @@
             ],
 
             // ========== 訂單系統 ==========
-            member_orders: [],
+            member_orders: [
+                { id: 1, order_number: 'ORD-20241120-001', member_id: 1, product_id: 1, merchant_id: 1, quantity: 1, total_price: 12000, status: 'pending', payment_method: 'KBZ Pay', order_date: '2024-11-20 10:30:00', created_at: '2024-11-20 10:30:00', updated_at: '2024-11-20 10:30:00' },
+                { id: 2, order_number: 'ORD-20241120-002', member_id: 2, product_id: 1, merchant_id: 1, quantity: 1, total_price: 12000, status: 'pending', payment_method: 'Wave Pay', order_date: '2024-11-20 11:15:00', created_at: '2024-11-20 11:15:00', updated_at: '2024-11-20 11:15:00' },
+                { id: 3, order_number: 'ORD-20241120-003', member_id: 3, product_id: 2, merchant_id: 1, quantity: 1, total_price: 9500, status: 'completed', payment_method: 'CB Pay', order_date: '2024-11-19 14:20:00', created_at: '2024-11-19 14:20:00', updated_at: '2024-11-19 15:00:00', completed_at: '2024-11-19 15:00:00' },
+                { id: 4, order_number: 'ORD-20241120-004', member_id: 4, product_id: 1, merchant_id: 1, quantity: 1, total_price: 12000, status: 'pending', payment_method: 'KBZ Pay', order_date: '2024-11-20 09:45:00', created_at: '2024-11-20 09:45:00', updated_at: '2024-11-20 09:45:00' }
+            ],
 
             // ========== 任務系統 ==========
             member_tasks: [
@@ -6207,7 +6212,7 @@
 
         // 顯示訂單詳情
         function showMerchantOrderDetail(orderId) {
-            const order = AppData.find('orders', orderId);
+            const order = AppData.find('member_orders', orderId);
             if (!order) {
                 showToast('訂單不存在', 'error');
                 return;
@@ -6273,10 +6278,10 @@
             showConfirm(
                 '確定要核銷此訂單嗎？核銷後訂單將標記為已完成。',
                 () => {
-                    const order = AppData.find('orders', orderId);
+                    const order = AppData.find('member_orders', orderId);
                     if (order) {
                         const now = new Date().toISOString().replace('T', ' ').substring(0, 19);
-                        AppData.update('orders', orderId, {
+                        AppData.update('member_orders', orderId, {
                             status: 'completed',
                             completed_at: now
                         });
