@@ -1953,71 +1953,45 @@
                     <tr>
                         <th>管理員</th>
                         <th>信箱</th>
-                        <th>部門</th>
                         <th>角色</th>
-                        <th>權限</th>
+                        <th>權限範圍</th>
                         <th>狀態</th>
                         <th>最後登入</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Aung Kyaw</td>
-                        <td>aung@myanlife.com</td>
-                        <td>運營部</td>
-                        <td>🛡️ Super Admin</td>
-                        <td>完整權限</td>
-                        <td><span class="status-badge active">啟用</span></td>
-                        <td>2025-11-18 09:30</td>
-                    </tr>
-                    <tr>
-                        <td>Thiri Maung</td>
-                        <td>thiri@myanlife.com</td>
-                        <td>客服部</td>
-                        <td>👁️ Viewer</td>
-                        <td>檢視用戶/訂單</td>
-                        <td><span class="status-badge active">啟用</span></td>
-                        <td>2025-11-18 08:15</td>
-                    </tr>
-                    <tr>
-                        <td>Min Thu</td>
-                        <td>min@myanlife.com</td>
-                        <td>商務部</td>
-                        <td>✏️ Editor</td>
-                        <td>管理商家/商品</td>
-                        <td><span class="status-badge active">啟用</span></td>
-                        <td>2025-11-17 16:45</td>
-                    </tr>
+                <tbody id="adminManagementTable">
+                    <!-- 管理員資料將由 renderAdminManagement() 函數動態生成 -->
                 </tbody>
             </table>
 
-            <h3 style="margin-bottom: 15px; margin-top: 40px; color: #333;">📰 內容管理系統 (CMS)</h3>
+            <h3 style="margin-bottom: 15px; margin-top: 40px; color: #333;">📰 內容管理系統</h3>
             <div class="dashboard-grid">
                 <div class="dashboard-card">
                     <div class="dashboard-card-title">
                         <span>🖼️</span>
-                        <span>橫幅廣告管理 (Banners)</span>
+                        <span>橫幅廣告管理</span>
                     </div>
                     <p style="color: #666; margin: 10px 0;">管理首頁橫幅廣告，支援分類管理</p>
-                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationBanners();">管理橫幅 (banners, banner_categories)</button>
+                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationBanners();">管理橫幅廣告</button>
                 </div>
 
                 <div class="dashboard-card">
                     <div class="dashboard-card-title">
                         <span>📰</span>
-                        <span>新聞公告管理 (News)</span>
+                        <span>新聞公告管理</span>
                     </div>
                     <p style="color: #666; margin: 10px 0;">發布平台新聞與公告訊息</p>
-                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationNews();">管理新聞 (news, news_categories)</button>
+                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationNews();">管理新聞公告</button>
                 </div>
 
                 <div class="dashboard-card">
                     <div class="dashboard-card-title">
                         <span>📘</span>
-                        <span>黃頁管理 (Yellow Pages)</span>
+                        <span>黃頁管理</span>
                     </div>
                     <p style="color: #666; margin: 10px 0;">商家目錄與服務資訊</p>
-                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationYellowPages();">管理黃頁 (yellow_pages, yellow_page_categories)</button>
+                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationYellowPages();">管理黃頁服務</button>
                 </div>
 
                 <div class="dashboard-card">
@@ -2026,16 +2000,16 @@
                         <span>慈善活動管理</span>
                     </div>
                     <p style="color: #666; margin: 10px 0;">公益活動與慈善專案</p>
-                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationCharity();">管理活動 (charity_activities, charity_activity_categories)</button>
+                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationCharity();">管理慈善活動</button>
                 </div>
 
                 <div class="dashboard-card">
                     <div class="dashboard-card-title">
                         <span>💼</span>
-                        <span>職缺管理 (Vacancies)</span>
+                        <span>職缺管理</span>
                     </div>
                     <p style="color: #666; margin: 10px 0;">平台與商家職缺資訊</p>
-                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationVacancies();">管理職缺 (vacancies)</button>
+                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationVacancies();">管理職缺資訊</button>
                 </div>
 
                 <div class="dashboard-card">
@@ -2044,7 +2018,7 @@
                         <span>商品評論審核</span>
                     </div>
                     <p style="color: #666; margin: 10px 0;">審核與管理商品評論</p>
-                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationReviews();">管理評論 (product_reviews)</button>
+                    <button class="quick-action-btn" style="margin-top: 10px;" onclick="switchOperationView('cms'); renderOperationReviews();">管理商品評論</button>
                 </div>
             </div>
 
@@ -2243,7 +2217,7 @@
                                 <div style="color: #666; font-size: 0.9em;">草稿</div>
                             </div>
                         </div>
-                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationBanners()">管理橫幅 (banners, banner_categories)</button>
+                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationBanners()">管理橫幅廣告</button>
                     </div>
 
                     <div class="dashboard-card">
@@ -2261,7 +2235,7 @@
                                 <div style="color: #666; font-size: 0.9em;">草稿</div>
                             </div>
                         </div>
-                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationNews()">管理新聞 (news, news_categories)</button>
+                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationNews()">管理新聞公告</button>
                     </div>
 
                     <div class="dashboard-card">
@@ -2279,7 +2253,7 @@
                                 <div style="color: #666; font-size: 0.9em;">分類</div>
                             </div>
                         </div>
-                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationYellowPages()">管理黃頁 (yellow_pages, yellow_page_categories)</button>
+                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationYellowPages()">管理黃頁服務</button>
                     </div>
 
                     <div class="dashboard-card">
@@ -2297,7 +2271,7 @@
                                 <div style="color: #666; font-size: 0.9em;">已結束</div>
                             </div>
                         </div>
-                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationCharity()">管理活動 (charity_activities, charity_activity_categories)</button>
+                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationCharity()">管理慈善活動</button>
                     </div>
 
                     <div class="dashboard-card">
@@ -2315,7 +2289,7 @@
                                 <div style="color: #666; font-size: 0.9em;">已關閉</div>
                             </div>
                         </div>
-                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationVacancies()">管理職缺 (vacancies)</button>
+                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationVacancies()">管理職缺資訊</button>
                     </div>
 
                     <div class="dashboard-card">
@@ -2333,7 +2307,7 @@
                                 <div style="color: #666; font-size: 0.9em;">已發布</div>
                             </div>
                         </div>
-                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationReviews()">管理評論 (product_reviews)</button>
+                        <button class="quick-action-btn" style="width: 100%;" onclick="renderOperationReviews()">管理商品評論</button>
                     </div>
                 </div>
 
@@ -7522,6 +7496,117 @@
                     }
                 }
             }
+
+            // 渲染管理員列表
+            renderAdminManagement();
+        }
+
+        // 渲染管理員與權限管理
+        function renderAdminManagement() {
+            const tbody = document.getElementById('adminManagementTable');
+            if (!tbody) return;
+
+            const admins = AppData.admins || [];
+
+            if (admins.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px; color: #999;">
+                            <div style="font-size: 3em; margin-bottom: 10px;">👥</div>
+                            <p>尚無管理員資料</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            // 角色圖標映射
+            const roleIconMap = {
+                'super_admin': '🛡️',
+                'operation_admin': '⚙️',
+                'content_admin': '✏️',
+                'cs_admin': '💬',
+                'analyst': '📊'
+            };
+
+            // 角色名稱映射
+            const roleNameMap = {
+                'super_admin': '超級管理員',
+                'operation_admin': '運營管理員',
+                'content_admin': '內容管理員',
+                'cs_admin': '客服管理員',
+                'analyst': '數據分析師'
+            };
+
+            // 權限描述映射
+            const permissionsDescMap = {
+                'super_admin': '完整權限',
+                'operation_admin': '商家/商品/訂單/會員',
+                'content_admin': '新聞/橫幅/黃頁/公益',
+                'cs_admin': '會員/訂單/投訴',
+                'analyst': '報表/統計'
+            };
+
+            tbody.innerHTML = admins.map(admin => {
+                const roleIcon = roleIconMap[admin.role] || '👤';
+                const roleName = roleNameMap[admin.role] || admin.role;
+                const permissionsDesc = admin.permissions.includes('all') ? '完整權限' :
+                    (permissionsDescMap[admin.role] || admin.permissions.join(', '));
+
+                const isActive = admin.status === 'active';
+                const statusBadge = isActive ?
+                    '<span class="status-badge active">啟用</span>' :
+                    '<span class="status-badge rejected">停用</span>';
+
+                const actionButton = isActive ?
+                    `<button class="action-btn edit" onclick="toggleAdminStatus(${admin.id})">停用</button>` :
+                    `<button class="action-btn approve" onclick="toggleAdminStatus(${admin.id})">啟用</button>`;
+
+                return `
+                    <tr>
+                        <td>${admin.full_name}</td>
+                        <td>${admin.email}</td>
+                        <td>${roleIcon} ${roleName}</td>
+                        <td>${permissionsDesc}</td>
+                        <td>${statusBadge}</td>
+                        <td>${admin.last_login || '-'}</td>
+                        <td>${actionButton}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // 切換管理員狀態（啟用/停用）
+        function toggleAdminStatus(adminId) {
+            const admin = AppData.find('admins', adminId);
+            if (!admin) {
+                showToast('管理員不存在', 'error');
+                return;
+            }
+
+            // 防止停用超級管理員
+            if (admin.role === 'super_admin' && admin.status === 'active') {
+                showConfirm(
+                    '確定要停用超級管理員嗎？這可能影響系統管理功能。',
+                    () => {
+                        executeToggleAdminStatus(admin);
+                    },
+                    '停用超級管理員'
+                );
+                return;
+            }
+
+            executeToggleAdminStatus(admin);
+        }
+
+        function executeToggleAdminStatus(admin) {
+            const newStatus = admin.status === 'active' ? 'inactive' : 'active';
+            const action = newStatus === 'active' ? '啟用' : '停用';
+
+            AppData.update('admins', admin.id, { status: newStatus });
+
+            showToast(`已${action}管理員「${admin.full_name}」`, 'success');
+            renderAdminManagement();
         }
 
         function renderOperationProducts() {
