@@ -4449,6 +4449,7 @@
             };
 
             AppData.member_orders.push(newOrder);
+            AppData.save(); // 保存數據
 
             // 清除選擇的付款方式
             window.selectedPaymentMethod = null;
@@ -6109,8 +6110,23 @@
             if (!tbody) return;
 
             const merchantId = 1;
-            let orders = AppData.orders.filter(o => o.merchant_id === merchantId);
+
+            // 從 member_orders 獲取訂單並根據商品的 merchant_id 過濾
+            const allOrders = AppData.member_orders || [];
+            const products = AppData.products || [];
             const users = AppData.users || [];
+
+            // 創建商品映射
+            const productMap = {};
+            products.forEach(p => {
+                productMap[p.id] = p;
+            });
+
+            // 過濾出屬於當前商家的訂單
+            let orders = allOrders.filter(o => {
+                const product = productMap[o.product_id];
+                return product && product.merchant_id === merchantId;
+            });
 
             // 創建 user_id 到 nickname 的映射
             const userMap = {};
@@ -6120,7 +6136,7 @@
 
             // 按篩選條件過濾
             if (currentMerchantOrderFilter !== 'all') {
-                orders = orders.filter(o => o.order_status === currentMerchantOrderFilter);
+                orders = orders.filter(o => o.status === currentMerchantOrderFilter);
             }
 
             // 生成 HTML
@@ -6136,18 +6152,23 @@
             }
 
             tbody.innerHTML = orders.map(order => {
+                const product = productMap[order.product_id];
+                const productName = product?.product_name || '未知商品';
+
                 const statusMap = {
                     'pending': { text: '待核銷', class: 'pending' },
                     'processing': { text: '處理中', class: 'warning' },
                     'completed': { text: '已完成', class: 'active' },
                     'cancelled': { text: '已取消', class: 'rejected' }
                 };
-                const status = statusMap[order.order_status] || { text: '未知', class: 'pending' };
+                const status = statusMap[order.status] || { text: '未知', class: 'pending' };
                 const customerName = userMap[order.member_id] || '未知顧客';
 
                 let button = '';
-                if (order.order_status === 'pending') {
+                if (order.status === 'pending') {
                     button = `<button class="action-btn approve" onclick="handleRedeemOrder(${order.id})">核銷</button>`;
+                } else if (order.status === 'completed') {
+                    button = `<button class="action-btn edit" onclick="showMerchantOrderDetail(${order.id})">查看詳情</button>`;
                 } else {
                     button = `<button class="action-btn edit" onclick="showMerchantOrderDetail(${order.id})">查看</button>`;
                 }
@@ -6156,10 +6177,10 @@
                     <tr>
                         <td>${order.order_number}</td>
                         <td>${customerName}</td>
-                        <td>${order.product_name}</td>
+                        <td>${productName}</td>
                         <td>仰光總店</td>
-                        <td>${order.final_amount?.toLocaleString()}</td>
-                        <td>${order.created_at}</td>
+                        <td>${order.total_price?.toLocaleString()}</td>
+                        <td>${order.order_date}</td>
                         <td><span class="status-badge ${status.class}">${status.text}</span></td>
                         <td>${button}</td>
                     </tr>
@@ -6662,13 +6683,16 @@
             AppData.create('stores', newStore);
 
             // 顯示成功訊息
-            alert(`✅ 店鋪「${storeName}」新增成功！`);
+            showToast(`店鋪「${storeName}」新增成功！`, 'success');
 
             // 關閉表單
             closeAddStoreForm();
 
-            // 重新渲染店鋪列表
-            renderMerchantStores();
+            // 重新渲染店鋪列表和儀表板
+            setTimeout(() => {
+                renderMerchantStores();
+                renderMerchantDashboard(); // 同時更新儀表板
+            }, 300);
 
             console.log('✅ 新店鋪已新增:', newStore);
         }
