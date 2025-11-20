@@ -3809,6 +3809,11 @@
                 updateMemberStats();  // 更新統計數字
                 renderProducts();  // 渲染商品列表
             }, 100);
+
+            // 初始化商家端儀表板
+            setTimeout(() => {
+                renderMerchantDashboard();  // 渲染商家端儀表板
+            }, 100);
         });
 
         // ============================================
