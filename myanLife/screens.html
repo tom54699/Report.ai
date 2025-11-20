@@ -5711,6 +5711,14 @@
                 task.user_progress.status = 'claimed';
             }
 
+            // 更新用戶積分
+            if (AppData.users[0]) {
+                AppData.users[0].points += task.reward_points;
+            }
+
+            // 保存數據
+            AppData.save();
+
             showToast(`恭喜！成功領取 ${task.reward_points} 積分獎勵`, 'success');
 
             // 刷新任務列表
