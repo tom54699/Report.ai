@@ -5790,14 +5790,19 @@
                     buttons = `
                         <button class="action-btn edit" onclick="showEditProduct(${product.id})">編輯</button>
                         <button class="action-btn reject" onclick="handleToggleProductStatus(${product.id}, 'rejected')">下架</button>
+                        <button class="action-btn delete" onclick="handleDeleteProduct(${product.id})" style="background: #ef4444;">刪除</button>
                     `;
                 } else if (product.review_status === 'rejected') {
                     buttons = `
                         <button class="action-btn edit" onclick="showEditProduct(${product.id})">編輯</button>
                         <button class="action-btn approve" onclick="handleToggleProductStatus(${product.id}, 'pending')">重新上架</button>
+                        <button class="action-btn delete" onclick="handleDeleteProduct(${product.id})" style="background: #ef4444;">刪除</button>
                     `;
                 } else {
-                    buttons = `<button class="action-btn edit" onclick="showEditProduct(${product.id})">編輯</button>`;
+                    buttons = `
+                        <button class="action-btn edit" onclick="showEditProduct(${product.id})">編輯</button>
+                        <button class="action-btn delete" onclick="handleDeleteProduct(${product.id})" style="background: #ef4444;">刪除</button>
+                    `;
                 }
 
                 return `
@@ -6041,6 +6046,38 @@
                     renderProducts(); // 同時更新會員端商品列表
                 }, 300);
             }, newStatus === 'rejected' ? '下架商品' : '確認操作');
+        }
+
+        // 處理刪除商品
+        function handleDeleteProduct(productId) {
+            const product = AppData.find('products', productId);
+            if (!product) {
+                showToast('商品不存在', 'error');
+                return;
+            }
+
+            // 確認刪除
+            if (!confirm(`確定要刪除商品「${product.product_name}」嗎？\n此操作無法復原。`)) {
+                return;
+            }
+
+            // 從 AppData 中刪除
+            const index = AppData.products.findIndex(p => p.id === productId);
+            if (index !== -1) {
+                AppData.products.splice(index, 1);
+                AppData.save();
+
+                showToast(`商品「${product.product_name}」已刪除`, 'success');
+
+                // 重新渲染商品列表和儀表板
+                setTimeout(() => {
+                    renderMerchantProducts();
+                    renderMerchantDashboard(); // 更新儀表板
+                    renderProducts(); // 更新會員端商品列表
+                }, 300);
+
+                console.log('✅ 商品已刪除:', product);
+            }
         }
 
         // 顯示銷售統計
@@ -6335,14 +6372,18 @@
                             <div class="card-desc">📍 ${store.address || '未提供地址'}<br>📞 ${store.phone || '未提供電話'}</div>
                             <div class="card-meta" style="margin-top: 10px;">
                                 <span class="status-badge ${statusClass}">${statusText}</span>
-                                <button class="action-btn edit">管理</button>
+                                <button class="action-btn edit" onclick="showEditStore(${store.id})">編輯</button>
+                                <button class="action-btn delete" onclick="handleDeleteStore(${store.id})" style="background: #ef4444;">刪除</button>
                             </div>
                         </div>
                     `;
                 }).join('');
 
                 const addStoreCard = `
-                    <div class="card" style="border: 2px dashed #e0e0e0;">
+                    <div class="card" style="border: 2px dashed #e0e0e0; cursor: pointer; transition: all 0.3s;"
+                         onclick="showAddStore()"
+                         onmouseover="this.style.borderColor='#667eea'; this.style.background='#f0f4ff';"
+                         onmouseout="this.style.borderColor='#e0e0e0'; this.style.background='white';">
                         <div class="card-image" style="background: #f5f5f5; color: #999;">➕</div>
                         <div class="card-title" style="color: #999;">新增店鋪</div>
                         <div class="card-desc">點擊新增更多店鋪位置</div>
@@ -6469,8 +6510,8 @@
                             <div class="card-meta" style="margin-top: 15px;">
                                 <span class="status-badge ${statusClass}">${statusText}</span>
                                 <div style="margin-top: 10px; display: flex; gap: 8px;">
-                                    <button class="action-btn edit">編輯資訊</button>
-                                    <button class="action-btn approve">查看數據</button>
+                                    <button class="action-btn edit" onclick="showEditStore(${store.id})">編輯</button>
+                                    <button class="action-btn delete" onclick="handleDeleteStore(${store.id})" style="background: #ef4444;">刪除</button>
                                 </div>
                             </div>
                         </div>
@@ -6529,7 +6570,12 @@
                                 <td>${storeRevenue.toLocaleString()} MMK</td>
                                 <td>${avgRating} ⭐</td>
                                 <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-                                <td><button class="action-btn edit">管理</button></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn edit" onclick="showEditStore(${store.id})">編輯</button>
+                                        <button class="action-btn delete" onclick="handleDeleteStore(${store.id})" style="background: #ef4444;">刪除</button>
+                                    </div>
+                                </td>
                             </tr>
                         `;
                     }).join('');
@@ -6639,6 +6685,202 @@
             const overlay = document.getElementById('addStoreOverlay');
             if (overlay) {
                 overlay.remove();
+            }
+        }
+
+        // 關閉編輯店鋪表單
+        function closeEditStoreForm() {
+            const overlay = document.getElementById('editStoreOverlay');
+            if (overlay) {
+                overlay.remove();
+            }
+        }
+
+        // 顯示編輯店鋪表單
+        function showEditStore(storeId) {
+            const store = AppData.find('stores', storeId);
+            if (!store) {
+                showToast('店鋪不存在', 'error');
+                return;
+            }
+
+            // 創建彈窗覆蓋層
+            const overlay = document.createElement('div');
+            overlay.id = 'editStoreOverlay';
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+            `;
+
+            overlay.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+                    <h3 style="margin: 0 0 20px 0; color: #333; font-size: 22px;">✏️ 編輯店鋪</h3>
+
+                    <form id="editStoreForm" onsubmit="event.preventDefault(); handleUpdateStore(${storeId});">
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; color: #555; font-weight: 500;">店鋪名稱 <span style="color: red;">*</span></label>
+                            <input type="text" id="editStoreName" required
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;"
+                                   placeholder="例如：Pizza Hut 內比都分店"
+                                   value="${store.store_name || ''}">
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; color: #555; font-weight: 500;">店鋪地址 <span style="color: red;">*</span></label>
+                            <input type="text" id="editStoreAddress" required
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;"
+                                   placeholder="例如：內比都市 Yarza Thingaha Road 100號"
+                                   value="${store.address || ''}">
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; color: #555; font-weight: 500;">聯絡電話 <span style="color: red;">*</span></label>
+                            <input type="tel" id="editStorePhone" required
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;"
+                                   placeholder="例如：09-123-456-789"
+                                   value="${store.phone || ''}">
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; color: #555; font-weight: 500;">營業時間 <span style="color: red;">*</span></label>
+                            <input type="text" id="editStoreHours" required
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;"
+                                   placeholder="例如：10:00-22:00"
+                                   value="${store.business_hours || ''}">
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; color: #555; font-weight: 500;">GPS 緯度</label>
+                            <input type="number" step="0.0001" id="editStoreLatitude"
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;"
+                                   placeholder="例如：19.7450（選填）"
+                                   value="${store.latitude || ''}">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 5px; color: #555; font-weight: 500;">GPS 經度</label>
+                            <input type="number" step="0.0001" id="editStoreLongitude"
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;"
+                                   placeholder="例如：96.1297（選填）"
+                                   value="${store.longitude || ''}">
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: flex; align-items: center; cursor: pointer;">
+                                <input type="checkbox" id="editStoreIsOpen" ${store.is_open ? 'checked' : ''}
+                                       style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
+                                <span style="color: #555; font-weight: 500;">店鋪目前營業中</span>
+                            </label>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; margin-top: 25px;">
+                            <button type="submit"
+                                    style="flex: 1; padding: 12px; background: #2196F3; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 500; cursor: pointer;">
+                                💾 更新店鋪
+                            </button>
+                            <button type="button" onclick="closeEditStoreForm()"
+                                    style="flex: 1; padding: 12px; background: #757575; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 500; cursor: pointer;">
+                                ❌ 取消
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.body.appendChild(overlay);
+
+            // 聚焦第一個輸入框
+            setTimeout(() => {
+                document.getElementById('editStoreName').focus();
+            }, 100);
+        }
+
+        // 處理更新店鋪
+        function handleUpdateStore(storeId) {
+            const store = AppData.find('stores', storeId);
+            if (!store) {
+                showToast('店鋪不存在', 'error');
+                return;
+            }
+
+            // 獲取表單數據
+            const storeName = document.getElementById('editStoreName').value.trim();
+            const storeAddress = document.getElementById('editStoreAddress').value.trim();
+            const storePhone = document.getElementById('editStorePhone').value.trim();
+            const storeHours = document.getElementById('editStoreHours').value.trim();
+            const storeLatitude = parseFloat(document.getElementById('editStoreLatitude').value) || null;
+            const storeLongitude = parseFloat(document.getElementById('editStoreLongitude').value) || null;
+            const storeIsOpen = document.getElementById('editStoreIsOpen').checked ? 1 : 0;
+
+            // 驗證必填欄位
+            if (!storeName || !storeAddress || !storePhone || !storeHours) {
+                showToast('⚠️ 請填寫所有必填欄位', 'error');
+                return;
+            }
+
+            // 更新店鋪資料
+            store.store_name = storeName;
+            store.address = storeAddress;
+            store.phone = storePhone;
+            store.business_hours = storeHours;
+            store.latitude = storeLatitude;
+            store.longitude = storeLongitude;
+            store.is_open = storeIsOpen;
+
+            // 保存數據
+            AppData.save();
+
+            // 顯示成功訊息
+            showToast(`店鋪「${storeName}」已更新！`, 'success');
+
+            // 關閉表單
+            closeEditStoreForm();
+
+            // 重新渲染店鋪列表和儀表板
+            setTimeout(() => {
+                renderMerchantStores();
+                renderMerchantDashboard();
+            }, 300);
+
+            console.log('✅ 店鋪已更新:', store);
+        }
+
+        // 處理刪除店鋪
+        function handleDeleteStore(storeId) {
+            const store = AppData.find('stores', storeId);
+            if (!store) {
+                showToast('店鋪不存在', 'error');
+                return;
+            }
+
+            // 確認刪除
+            if (!confirm(`確定要刪除店鋪「${store.store_name}」嗎？\n此操作無法復原。`)) {
+                return;
+            }
+
+            // 從 AppData 中刪除
+            const index = AppData.stores.findIndex(s => s.id === storeId);
+            if (index !== -1) {
+                AppData.stores.splice(index, 1);
+                AppData.save();
+
+                showToast(`店鋪「${store.store_name}」已刪除`, 'success');
+
+                // 重新渲染店鋪列表和儀表板
+                setTimeout(() => {
+                    renderMerchantStores();
+                    renderMerchantDashboard();
+                }, 300);
+
+                console.log('✅ 店鋪已刪除:', store);
             }
         }
 
