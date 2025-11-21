@@ -4191,6 +4191,21 @@
                     });
                 }
 
+                // 遷移職缺數據：添加 category 和 applicants 欄位
+                if (this.vacancies && Array.isArray(this.vacancies)) {
+                    this.vacancies.forEach(item => {
+                        if (item.category === undefined) {
+                            // 根據工作性質推測分類，默認為「其他」
+                            item.category = '其他';
+                            migrated = true;
+                        }
+                        if (item.applicants === undefined) {
+                            item.applicants = 0;
+                            migrated = true;
+                        }
+                    });
+                }
+
                 // 如果有數據被遷移，保存到 localStorage
                 if (migrated) {
                     console.log('✅ 數據遷移完成，已補充缺失欄位');
@@ -10046,13 +10061,13 @@
                             <div class="form-group">
                                 <label>職缺類型 *</label>
                                 <select id="vacancyType" class="form-control" required>
-                                    <option value="platform" ${vacancy.type === 'platform' ? 'selected' : ''}>平台職缺</option>
-                                    <option value="merchant" ${vacancy.type === 'merchant' ? 'selected' : ''}>商家職缺</option>
+                                    <option value="platform" ${vacancy.job_type === 'platform' ? 'selected' : ''}>平台職缺</option>
+                                    <option value="merchant" ${vacancy.job_type === 'merchant' ? 'selected' : ''}>商家職缺</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>職位名稱 *</label>
-                                <input type="text" id="vacancyTitle" class="form-control" value="${vacancy.title}" required>
+                                <input type="text" id="vacancyTitle" class="form-control" value="${vacancy.job_title}" required>
                             </div>
                             <div class="form-group">
                                 <label>公司名稱 *</label>
@@ -10077,7 +10092,7 @@
                             </div>
                             <div class="form-group">
                                 <label>薪資範圍</label>
-                                <input type="text" id="vacancySalary" class="form-control" value="${vacancy.salary || ''}">
+                                <input type="text" id="vacancySalary" class="form-control" value="${vacancy.salary_range || ''}">
                             </div>
                             <div class="form-group">
                                 <label>職位描述 *</label>
@@ -10089,7 +10104,7 @@
                             </div>
                             <div class="form-group">
                                 <label>聯絡方式 *</label>
-                                <input type="text" id="vacancyContact" class="form-control" value="${vacancy.contact}" required>
+                                <input type="text" id="vacancyContact" class="form-control" value="${vacancy.contact_email}" required>
                             </div>
                             <div class="form-group">
                                 <label>申請人數</label>
@@ -10117,19 +10132,19 @@
 
         // 儲存職缺（新增或更新）
         function saveVacancy(vacancyId = null) {
-            const type = document.getElementById('vacancyType').value;
-            const title = document.getElementById('vacancyTitle').value.trim();
+            const jobType = document.getElementById('vacancyType').value;
+            const jobTitle = document.getElementById('vacancyTitle').value.trim();
             const company = document.getElementById('vacancyCompany').value.trim();
             const location = document.getElementById('vacancyLocation').value.trim();
             const category = document.getElementById('vacancyCategory').value;
-            const salary = document.getElementById('vacancySalary').value.trim();
+            const salaryRange = document.getElementById('vacancySalary').value.trim();
             const description = document.getElementById('vacancyDescription').value.trim();
             const requirements = document.getElementById('vacancyRequirements').value.trim();
-            const contact = document.getElementById('vacancyContact').value.trim();
+            const contactEmail = document.getElementById('vacancyContact').value.trim();
             const applicants = parseInt(document.getElementById('vacancyApplicants').value) || 0;
             const isActive = document.getElementById('vacancyIsActive').checked ? 1 : 0;
 
-            if (!title || !company || !location || !description || !requirements || !contact) {
+            if (!jobTitle || !company || !location || !description || !requirements || !contactEmail) {
                 showToast('請填寫必填欄位', 'error');
                 return;
             }
@@ -10140,15 +10155,15 @@
                 if (index !== -1) {
                     AppData.vacancies[index] = {
                         ...AppData.vacancies[index],
-                        type,
-                        title,
+                        job_type: jobType,
+                        job_title: jobTitle,
                         company,
                         location,
                         category,
-                        salary: salary || null,
+                        salary_range: salaryRange || null,
                         description,
                         requirements,
-                        contact,
+                        contact_email: contactEmail,
                         applicants,
                         is_active: isActive
                     };
@@ -10159,16 +10174,16 @@
                 // 新增職缺
                 const newVacancy = {
                     id: AppData.getNextId('vacancies'),
-                    type,
-                    title,
+                    job_type: jobType,
+                    job_title: jobTitle,
                     company,
                     location,
                     category,
-                    salary: salary || null,
+                    salary_range: salaryRange || null,
                     description,
                     requirements,
-                    contact,
-                    applicants,
+                    contact_email: contactEmail,
+                    applicants: applicants || 0,
                     is_active: isActive,
                     created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
                 };
@@ -10350,7 +10365,7 @@
             // 計算統計數據
             const activeCount = yellowPages.filter(y => y.is_active).length;
             const pendingCount = yellowPages.filter(y => y.status === 'pending').length;
-            const categoriesCount = [...new Set(yellowPages.map(y => y.category_id))].length;
+            const categoriesCount = [...new Set(yellowPages.map(y => y.category))].length;
 
             // 更新統計卡片
             document.getElementById('yellowPagesTotal').textContent = yellowPages.length;
