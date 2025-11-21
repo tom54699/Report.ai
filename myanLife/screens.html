@@ -2541,7 +2541,7 @@
 
                 <div class="quick-actions" style="margin-bottom: 20px;">
                     <button class="quick-action-btn" onclick="showAddNewsForm()">➕ 新增新聞</button>
-                    <button class="quick-action-btn" onclick="switchOperationView('newsCategories'); renderNewsCategoriesView();">📁 分類管理</button>
+                    <button class="quick-action-btn" onclick="renderNewsCategoriesView()">📁 分類管理</button>
                     <button class="quick-action-btn" onclick="showToast('批次發布功能開發中', 'info')">📤 批次發布</button>
                 </div>
 
@@ -2571,7 +2571,7 @@
             <!-- 新聞分類管理視圖 -->
             <div id="operationNewsCategoriesView" class="content-view">
                 <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                    <button class="quick-action-btn" onclick="switchOperationView('operationNews'); renderOperationNews();" style="margin-right: 10px;">← 返回新聞管理</button>
+                    <button class="quick-action-btn" onclick="renderOperationNews()" style="margin-right: 10px;">← 返回新聞管理</button>
                     <h3 style="margin: 0; color: #333;">📁 新聞分類管理</h3>
                 </div>
 
@@ -9631,6 +9631,9 @@
 
         // 渲染新聞分類管理視圖
         function renderNewsCategoriesView() {
+            console.log('📁 渲染新聞分類管理');
+            switchToCMSDetailView('operationNewsCategoriesView');
+
             const tbody = document.getElementById('newsCategoriesTable');
             if (!tbody) return;
 
