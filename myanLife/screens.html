@@ -3879,6 +3879,25 @@
 
             const modal = document.createElement('div');
             modal.id = 'globalModal';
+
+            // 如果 title 包含 'modal-overlay' 或 'modal-content'，說明是完整的 HTML
+            if (typeof title === 'string' && (title.includes('modal-overlay') || title.includes('modal-content'))) {
+                // 直接使用完整的 HTML（用於 CMS 表單）
+                modal.outerHTML = `<div id="globalModal">${title}</div>`;
+                // 重新獲取插入後的元素
+                const insertedModal = document.getElementById('globalModal');
+                if (insertedModal) {
+                    insertedModal.remove();
+                }
+                document.body.insertAdjacentHTML('beforeend', `<div id="globalModal">${title}</div>`);
+                const newModal = document.getElementById('globalModal');
+                setTimeout(() => {
+                    if (newModal) newModal.classList.add('show');
+                }, 10);
+                return newModal;
+            }
+
+            // 原始的標準用法（用於其他地方）
             modal.className = 'modal-overlay';
             modal.innerHTML = `
                 <div class="modal-content">
