@@ -2957,7 +2957,7 @@
                             <th>操作</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="adminsTable">
                         <tr>
                             <td>Aung Kyaw</td>
                             <td>aung@myanlife.com</td>
@@ -3006,7 +3006,7 @@
                 </table>
 
                 <h4 style="margin-bottom: 15px; margin-top: 40px; color: #333;">🎭 角色與權限</h4>
-                <div class="dashboard-grid">
+                <div class="dashboard-grid" id="rolesGrid">
                     <div class="dashboard-card">
                         <div class="dashboard-card-title">
                             <span>🛡️</span>
@@ -3048,9 +3048,9 @@
                 </div>
 
                 <div class="quick-actions" style="margin-top: 30px;">
-                    <button class="quick-action-btn">➕ 新增管理員</button>
-                    <button class="quick-action-btn">🎭 新增角色</button>
-                    <button class="quick-action-btn">🔑 管理權限項目</button>
+                    <button class="quick-action-btn" onclick="showAddAdminForm()">➕ 新增管理員</button>
+                    <button class="quick-action-btn" onclick="showAddRoleForm()">🎭 新增角色</button>
+                    <button class="quick-action-btn" onclick="showPermissionsManager()">🔑 管理權限項目</button>
                 </div>
 
                 <div class="info-note" style="margin-top: 20px;">
@@ -10553,6 +10553,749 @@
                     AppData.delete('charity_activity_categories', categoryId);
                     showToast('分類已刪除', 'success');
                     renderCharityCategoriesView();
+                }
+            );
+        }
+
+        // ============================================
+        // 權限管理 CRUD 操作
+        // ============================================
+
+        // 渲染權限管理頁面
+        function renderPermissionsManagement() {
+            renderAdminsList();
+            renderRolesList();
+        }
+
+        // 渲染管理員列表
+        function renderAdminsList() {
+            const tbody = document.getElementById('adminsTable');
+            if (!tbody) return;
+
+            const admins = AppData.admins || [];
+
+            if (admins.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 40px; color: #999;">
+                            <p>尚無管理員資料</p>
+                            <p style="font-size: 0.9em; margin-top: 10px;">點擊「新增管理員」按鈕來建立第一個管理員</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const roleIconMap = {
+                'super_admin': '🛡️',
+                'editor': '✏️',
+                'viewer': '👁️',
+                'moderator': '⚖️'
+            };
+
+            const roleNameMap = {
+                'super_admin': 'Super Admin',
+                'editor': 'Editor',
+                'viewer': 'Viewer',
+                'moderator': 'Moderator'
+            };
+
+            const permissionsDescMap = {
+                'super_admin': '完整權限',
+                'editor': '管理商家/商品',
+                'viewer': '檢視用戶/訂單',
+                'moderator': '審核內容'
+            };
+
+            tbody.innerHTML = admins.map(admin => {
+                const roleIcon = roleIconMap[admin.role] || '👤';
+                const roleName = roleNameMap[admin.role] || admin.role;
+                const permDesc = permissionsDescMap[admin.role] || '-';
+                const statusClass = admin.is_active ? 'active' : 'pending';
+                const statusText = admin.is_active ? '啟用' : '停用';
+
+                return `
+                    <tr>
+                        <td>${admin.name}</td>
+                        <td>${admin.email}</td>
+                        <td>${admin.department || '-'}</td>
+                        <td>${roleIcon} ${roleName}</td>
+                        <td>${permDesc}</td>
+                        <td>${admin.last_login || '-'}</td>
+                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn edit" onclick="showEditAdminForm(${admin.id})">編輯</button>
+                                ${admin.is_active ?
+                                    `<button class="action-btn reject" onclick="toggleAdminStatus(${admin.id})">停用</button>` :
+                                    `<button class="action-btn approve" onclick="toggleAdminStatus(${admin.id})">啟用</button>`
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // 渲染角色列表
+        function renderRolesList() {
+            const container = document.getElementById('rolesGrid');
+            if (!container) return;
+
+            const roles = AppData.roles || [];
+
+            if (roles.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #999;">
+                        <p>尚無角色資料</p>
+                        <p style="font-size: 0.9em; margin-top: 10px;">點擊「新增角色」按鈕來建立第一個角色</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const roleIconMap = {
+                'super_admin': '🛡️',
+                'editor': '✏️',
+                'viewer': '👁️',
+                'moderator': '⚖️'
+            };
+
+            container.innerHTML = roles.map(role => {
+                const icon = roleIconMap[role.slug] || '🎭';
+                const adminCount = (AppData.admins || []).filter(a => a.role === role.slug).length;
+                const permCount = role.permissions ? role.permissions.length : 0;
+                const totalPerms = 28; // 假設總權限數
+
+                return `
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <span>${icon}</span>
+                            <span>${role.name}</span>
+                        </div>
+                        <p style="color: #666; margin: 10px 0;">${role.description || '角色描述'}</p>
+                        <div style="margin: 15px 0;">
+                            <div style="color: ${permCount === totalPerms ? '#4caf50' : '#2196f3'}; font-weight: 600;">
+                                ${permCount === totalPerms ? '✓ 完整權限' : '權限：'} (${permCount}/${totalPerms})
+                            </div>
+                            <div style="color: #666; font-size: 0.9em; margin-top: 5px;">使用者數：${adminCount}</div>
+                        </div>
+                        <button class="action-btn edit" style="width: 100%;" onclick="showManageRolePermissions(${role.id})">管理權限</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 顯示新增管理員表單
+        function showAddAdminForm() {
+            const roles = AppData.roles || [];
+            const roleOptions = roles.map(r => `<option value="${r.slug}">${r.name}</option>`).join('');
+
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 600px;">
+                        <div class="modal-header">
+                            <h3>➕ 新增管理員</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>姓名 *</label>
+                                <input type="text" id="adminName" class="form-control" placeholder="請輸入管理員姓名" required>
+                            </div>
+                            <div class="form-group">
+                                <label>電子信箱 *</label>
+                                <input type="email" id="adminEmail" class="form-control" placeholder="admin@myanlife.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label>部門</label>
+                                <input type="text" id="adminDepartment" class="form-control" placeholder="例如：運營部">
+                            </div>
+                            <div class="form-group">
+                                <label>角色 *</label>
+                                <select id="adminRole" class="form-control" required>
+                                    <option value="">請選擇角色</option>
+                                    ${roleOptions || `
+                                        <option value="super_admin">Super Admin</option>
+                                        <option value="editor">Editor</option>
+                                        <option value="viewer">Viewer</option>
+                                    `}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>密碼 *</label>
+                                <input type="password" id="adminPassword" class="form-control" placeholder="請輸入密碼" required>
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="adminIsActive" checked>
+                                    <span>啟用帳號</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="saveAdmin()" style="background: #10b981;">💾 儲存</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 儲存管理員
+        function saveAdmin() {
+            const name = document.getElementById('adminName').value.trim();
+            const email = document.getElementById('adminEmail').value.trim();
+            const department = document.getElementById('adminDepartment').value.trim();
+            const role = document.getElementById('adminRole').value;
+            const password = document.getElementById('adminPassword').value;
+            const isActive = document.getElementById('adminIsActive').checked ? 1 : 0;
+
+            if (!name || !email || !role || !password) {
+                showToast('請填寫所有必填欄位', 'error');
+                return;
+            }
+
+            // 檢查 email 是否重複
+            const admins = AppData.admins || [];
+            if (admins.some(a => a.email === email)) {
+                showToast('此電子信箱已被使用', 'error');
+                return;
+            }
+
+            const newAdmin = {
+                id: AppData.getNextId('admins'),
+                name,
+                email,
+                department,
+                role,
+                is_active: isActive,
+                last_login: null,
+                created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+            };
+
+            if (!AppData.admins) {
+                AppData.admins = [];
+            }
+            AppData.admins.push(newAdmin);
+            saveAppData();
+            showToast('管理員已新增', 'success');
+            closeModal();
+            renderAdminsList();
+        }
+
+        // 顯示編輯管理員表單
+        function showEditAdminForm(adminId) {
+            const admin = AppData.find('admins', adminId);
+            if (!admin) {
+                showToast('管理員不存在', 'error');
+                return;
+            }
+
+            const roles = AppData.roles || [];
+            const roleOptions = roles.map(r =>
+                `<option value="${r.slug}" ${admin.role === r.slug ? 'selected' : ''}>${r.name}</option>`
+            ).join('');
+
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 600px;">
+                        <div class="modal-header">
+                            <h3>✏️ 編輯管理員</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="editAdminId" value="${admin.id}">
+                            <div class="form-group">
+                                <label>姓名 *</label>
+                                <input type="text" id="editAdminName" class="form-control" value="${admin.name}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>電子信箱 *</label>
+                                <input type="email" id="editAdminEmail" class="form-control" value="${admin.email}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>部門</label>
+                                <input type="text" id="editAdminDepartment" class="form-control" value="${admin.department || ''}">
+                            </div>
+                            <div class="form-group">
+                                <label>角色 *</label>
+                                <select id="editAdminRole" class="form-control" required>
+                                    ${roleOptions || `
+                                        <option value="super_admin" ${admin.role === 'super_admin' ? 'selected' : ''}>Super Admin</option>
+                                        <option value="editor" ${admin.role === 'editor' ? 'selected' : ''}>Editor</option>
+                                        <option value="viewer" ${admin.role === 'viewer' ? 'selected' : ''}>Viewer</option>
+                                    `}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>新密碼（留空表示不修改）</label>
+                                <input type="password" id="editAdminPassword" class="form-control" placeholder="如需修改請輸入新密碼">
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="editAdminIsActive" ${admin.is_active ? 'checked' : ''}>
+                                    <span>啟用帳號</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="updateAdmin()" style="background: #10b981;">💾 更新</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 更新管理員
+        function updateAdmin() {
+            const adminId = parseInt(document.getElementById('editAdminId').value);
+            const name = document.getElementById('editAdminName').value.trim();
+            const email = document.getElementById('editAdminEmail').value.trim();
+            const department = document.getElementById('editAdminDepartment').value.trim();
+            const role = document.getElementById('editAdminRole').value;
+            const password = document.getElementById('editAdminPassword').value;
+            const isActive = document.getElementById('editAdminIsActive').checked ? 1 : 0;
+
+            if (!name || !email || !role) {
+                showToast('請填寫所有必填欄位', 'error');
+                return;
+            }
+
+            // 檢查 email 是否與其他管理員重複
+            const admins = AppData.admins || [];
+            const duplicate = admins.find(a => a.email === email && a.id !== adminId);
+            if (duplicate) {
+                showToast('此電子信箱已被使用', 'error');
+                return;
+            }
+
+            const updateData = {
+                name,
+                email,
+                department,
+                role,
+                is_active: isActive
+            };
+
+            AppData.update('admins', adminId, updateData);
+            showToast('管理員已更新', 'success');
+            closeModal();
+            renderAdminsList();
+        }
+
+        // 切換管理員狀態
+        function toggleAdminStatus(adminId) {
+            const admin = AppData.find('admins', adminId);
+            if (!admin) {
+                showToast('管理員不存在', 'error');
+                return;
+            }
+
+            const newStatus = admin.is_active ? 0 : 1;
+            const action = newStatus ? '啟用' : '停用';
+
+            AppData.update('admins', adminId, { is_active: newStatus });
+            showToast(`管理員已${action}`, 'success');
+            renderAdminsList();
+        }
+
+        // 顯示新增角色表單
+        function showAddRoleForm() {
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 600px;">
+                        <div class="modal-header">
+                            <h3>🎭 新增角色</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>角色名稱 *</label>
+                                <input type="text" id="roleName" class="form-control" placeholder="例如：內容管理員" required>
+                            </div>
+                            <div class="form-group">
+                                <label>識別碼（slug）*</label>
+                                <input type="text" id="roleSlug" class="form-control" placeholder="例如：content_manager（只能使用英文小寫、數字、底線）" pattern="[a-z0-9_]+" required>
+                                <small style="color: #666;">只能使用英文小寫字母、數字和底線（_）</small>
+                            </div>
+                            <div class="form-group">
+                                <label>描述</label>
+                                <textarea id="roleDescription" class="form-control" rows="3" placeholder="角色描述..."></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="saveRole()" style="background: #10b981;">💾 儲存</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 儲存角色
+        function saveRole() {
+            const name = document.getElementById('roleName').value.trim();
+            const slug = document.getElementById('roleSlug').value.trim().toLowerCase();
+            const description = document.getElementById('roleDescription').value.trim();
+
+            if (!name || !slug) {
+                showToast('請填寫所有必填欄位', 'error');
+                return;
+            }
+
+            if (!/^[a-z0-9_]+$/.test(slug)) {
+                showToast('識別碼格式錯誤，只能使用英文小寫字母、數字和底線', 'error');
+                return;
+            }
+
+            // 檢查 slug 是否重複
+            const roles = AppData.roles || [];
+            if (roles.some(r => r.slug === slug)) {
+                showToast('識別碼已存在，請使用其他識別碼', 'error');
+                return;
+            }
+
+            const newRole = {
+                id: AppData.getNextId('roles'),
+                name,
+                slug,
+                description,
+                permissions: [],
+                created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+            };
+
+            if (!AppData.roles) {
+                AppData.roles = [];
+            }
+            AppData.roles.push(newRole);
+            saveAppData();
+            showToast('角色已新增', 'success');
+            closeModal();
+            renderRolesList();
+        }
+
+        // 顯示管理角色權限
+        function showManageRolePermissions(roleId) {
+            const role = AppData.find('roles', roleId);
+            if (!role) {
+                showToast('角色不存在', 'error');
+                return;
+            }
+
+            const allPermissions = AppData.permissions || [];
+            const rolePermissions = role.permissions || [];
+
+            const permissionCheckboxes = allPermissions.map(perm => {
+                const checked = rolePermissions.includes(perm.slug) ? 'checked' : '';
+                return `
+                    <div style="padding: 10px; border-bottom: 1px solid #eee;">
+                        <label style="display: flex; align-items: center; cursor: pointer;">
+                            <input type="checkbox" value="${perm.slug}" ${checked} style="margin-right: 10px; width: 18px; height: 18px;">
+                            <div>
+                                <div style="font-weight: 600;">${perm.name}</div>
+                                <div style="color: #666; font-size: 0.9em;">${perm.description || ''}</div>
+                            </div>
+                        </label>
+                    </div>
+                `;
+            }).join('');
+
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 700px;">
+                        <div class="modal-header">
+                            <h3>🔑 管理權限 - ${role.name}</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="roleId" value="${role.id}">
+                            <div id="permissionsContainer" style="max-height: 400px; overflow-y: auto;">
+                                ${allPermissions.length > 0 ? permissionCheckboxes : '<p style="text-align: center; color: #999; padding: 40px;">尚無權限項目，請先建立權限</p>'}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="updateRolePermissions()" style="background: #10b981;">💾 儲存</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 更新角色權限
+        function updateRolePermissions() {
+            const roleId = parseInt(document.getElementById('roleId').value);
+            const container = document.getElementById('permissionsContainer');
+            const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+
+            const selectedPermissions = Array.from(checkboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value);
+
+            AppData.update('roles', roleId, { permissions: selectedPermissions });
+            showToast('權限已更新', 'success');
+            closeModal();
+            renderRolesList();
+        }
+
+        // 顯示權限管理器
+        function showPermissionsManager() {
+            const permissions = AppData.permissions || [];
+
+            const permissionsList = permissions.map(perm => `
+                <tr>
+                    <td><strong>${perm.name}</strong></td>
+                    <td><code>${perm.slug}</code></td>
+                    <td>${perm.description || '-'}</td>
+                    <td>${perm.category || '其他'}</td>
+                    <td>
+                        <button class="action-btn edit" onclick="editPermission(${perm.id})">編輯</button>
+                        <button class="action-btn reject" onclick="deletePermission(${perm.id})">刪除</button>
+                    </td>
+                </tr>
+            `).join('');
+
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 900px;">
+                        <div class="modal-header">
+                            <h3>🔑 權限項目管理</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <div style="margin-bottom: 20px;">
+                                <button class="quick-action-btn" onclick="closeModal(); showAddPermissionForm();">➕ 新增權限項目</button>
+                            </div>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>權限名稱</th>
+                                        <th>識別碼</th>
+                                        <th>描述</th>
+                                        <th>分類</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${permissions.length > 0 ? permissionsList : '<tr><td colspan="5" style="text-align: center; padding: 40px; color: #999;">尚無權限項目</td></tr>'}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">關閉</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 顯示新增權限表單
+        function showAddPermissionForm() {
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 600px;">
+                        <div class="modal-header">
+                            <h3>➕ 新增權限項目</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>權限名稱 *</label>
+                                <input type="text" id="permName" class="form-control" placeholder="例如：管理商家" required>
+                            </div>
+                            <div class="form-group">
+                                <label>識別碼（slug）*</label>
+                                <input type="text" id="permSlug" class="form-control" placeholder="例如：manage_merchants（只能使用英文小寫、數字、底線）" pattern="[a-z0-9_]+" required>
+                                <small style="color: #666;">只能使用英文小寫字母、數字和底線（_）</small>
+                            </div>
+                            <div class="form-group">
+                                <label>分類</label>
+                                <select id="permCategory" class="form-control">
+                                    <option value="content">內容管理</option>
+                                    <option value="business">業務管理</option>
+                                    <option value="user">用戶管理</option>
+                                    <option value="system">系統管理</option>
+                                    <option value="other">其他</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>描述</label>
+                                <textarea id="permDescription" class="form-control" rows="3" placeholder="權限描述..."></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="savePermission()" style="background: #10b981;">💾 儲存</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 儲存權限
+        function savePermission() {
+            const name = document.getElementById('permName').value.trim();
+            const slug = document.getElementById('permSlug').value.trim().toLowerCase();
+            const category = document.getElementById('permCategory').value;
+            const description = document.getElementById('permDescription').value.trim();
+
+            if (!name || !slug) {
+                showToast('請填寫所有必填欄位', 'error');
+                return;
+            }
+
+            if (!/^[a-z0-9_]+$/.test(slug)) {
+                showToast('識別碼格式錯誤，只能使用英文小寫字母、數字和底線', 'error');
+                return;
+            }
+
+            // 檢查 slug 是否重複
+            const permissions = AppData.permissions || [];
+            if (permissions.some(p => p.slug === slug)) {
+                showToast('識別碼已存在，請使用其他識別碼', 'error');
+                return;
+            }
+
+            const newPermission = {
+                id: AppData.getNextId('permissions'),
+                name,
+                slug,
+                category,
+                description,
+                created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+            };
+
+            if (!AppData.permissions) {
+                AppData.permissions = [];
+            }
+            AppData.permissions.push(newPermission);
+            saveAppData();
+            showToast('權限已新增', 'success');
+            closeModal();
+            showPermissionsManager();
+        }
+
+        // 編輯權限
+        function editPermission(permId) {
+            const perm = AppData.find('permissions', permId);
+            if (!perm) {
+                showToast('權限不存在', 'error');
+                return;
+            }
+
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 600px;">
+                        <div class="modal-header">
+                            <h3>✏️ 編輯權限項目</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="editPermId" value="${perm.id}">
+                            <div class="form-group">
+                                <label>權限名稱 *</label>
+                                <input type="text" id="editPermName" class="form-control" value="${perm.name}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>識別碼（slug）*</label>
+                                <input type="text" id="editPermSlug" class="form-control" value="${perm.slug}" pattern="[a-z0-9_]+" required>
+                                <small style="color: #666;">只能使用英文小寫字母、數字和底線（_）</small>
+                            </div>
+                            <div class="form-group">
+                                <label>分類</label>
+                                <select id="editPermCategory" class="form-control">
+                                    <option value="content" ${perm.category === 'content' ? 'selected' : ''}>內容管理</option>
+                                    <option value="business" ${perm.category === 'business' ? 'selected' : ''}>業務管理</option>
+                                    <option value="user" ${perm.category === 'user' ? 'selected' : ''}>用戶管理</option>
+                                    <option value="system" ${perm.category === 'system' ? 'selected' : ''}>系統管理</option>
+                                    <option value="other" ${perm.category === 'other' ? 'selected' : ''}>其他</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>描述</label>
+                                <textarea id="editPermDescription" class="form-control" rows="3">${perm.description || ''}</textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="updatePermission()" style="background: #10b981;">💾 更新</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 更新權限
+        function updatePermission() {
+            const permId = parseInt(document.getElementById('editPermId').value);
+            const name = document.getElementById('editPermName').value.trim();
+            const slug = document.getElementById('editPermSlug').value.trim().toLowerCase();
+            const category = document.getElementById('editPermCategory').value;
+            const description = document.getElementById('editPermDescription').value.trim();
+
+            if (!name || !slug) {
+                showToast('請填寫所有必填欄位', 'error');
+                return;
+            }
+
+            if (!/^[a-z0-9_]+$/.test(slug)) {
+                showToast('識別碼格式錯誤，只能使用英文小寫字母、數字和底線', 'error');
+                return;
+            }
+
+            // 檢查 slug 是否與其他權限重複
+            const permissions = AppData.permissions || [];
+            const duplicate = permissions.find(p => p.slug === slug && p.id !== permId);
+            if (duplicate) {
+                showToast('識別碼已存在，請使用其他識別碼', 'error');
+                return;
+            }
+
+            AppData.update('permissions', permId, {
+                name,
+                slug,
+                category,
+                description
+            });
+
+            showToast('權限已更新', 'success');
+            closeModal();
+            showPermissionsManager();
+        }
+
+        // 刪除權限
+        function deletePermission(permId) {
+            const perm = AppData.find('permissions', permId);
+            if (!perm) {
+                showToast('權限不存在', 'error');
+                return;
+            }
+
+            // 檢查是否有角色使用此權限
+            const roles = AppData.roles || [];
+            const usedInRoles = roles.filter(r => r.permissions && r.permissions.includes(perm.slug));
+
+            if (usedInRoles.length > 0) {
+                showToast(`此權限正被 ${usedInRoles.length} 個角色使用，無法刪除`, 'error');
+                return;
+            }
+
+            showConfirm(
+                `確定要刪除權限「${perm.name}」嗎？此操作無法復原。`,
+                () => {
+                    AppData.delete('permissions', permId);
+                    showToast('權限已刪除', 'success');
+                    closeModal();
+                    showPermissionsManager();
                 }
             );
         }
