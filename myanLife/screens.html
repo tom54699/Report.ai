@@ -2541,7 +2541,7 @@
 
                 <div class="quick-actions" style="margin-bottom: 20px;">
                     <button class="quick-action-btn" onclick="showAddNewsForm()">➕ 新增新聞</button>
-                    <button class="quick-action-btn" onclick="showToast('分類管理功能開發中', 'info')">📁 分類管理</button>
+                    <button class="quick-action-btn" onclick="switchOperationView('newsCategories'); renderNewsCategoriesView();">📁 分類管理</button>
                     <button class="quick-action-btn" onclick="showToast('批次發布功能開發中', 'info')">📤 批次發布</button>
                 </div>
 
@@ -2566,6 +2566,42 @@
                 <div class="info-note" style="margin-top: 20px;">
                     <strong>💡 新聞說明：</strong>發布平台新聞與公告訊息，支援富文本編輯、圖片上傳、分類管理、定時發布等功能。
                 </div>
+            </div>
+
+            <!-- 新聞分類管理視圖 -->
+            <div id="operationNewsCategoriesView" class="content-view">
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <button class="quick-action-btn" onclick="switchOperationView('operationNews'); renderOperationNews();" style="margin-right: 10px;">← 返回新聞管理</button>
+                    <h3 style="margin: 0; color: #333;">📁 新聞分類管理</h3>
+                </div>
+
+                <div style="background: #f0f9ff; padding: 20px; border-radius: 12px; border-left: 4px solid #3b82f6; margin-bottom: 20px;">
+                    <h4 style="margin: 0 0 10px 0; color: #1e40af;">📋 新聞分類管理</h4>
+                    <p style="margin: 0; color: #1e40af; line-height: 1.6;">
+                        管理新聞公告的分類，讓新聞內容更有條理。新增新聞時可以選擇分類，方便用戶篩選和瀏覽。
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 20px; text-align: right;">
+                    <button class="quick-action-btn" onclick="showAddNewsCategoryForm()">➕ 新增分類</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>圖示</th>
+                            <th>分類名稱</th>
+                            <th>識別碼</th>
+                            <th>描述</th>
+                            <th>排序</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="newsCategoriesTable">
+                        <!-- 分類資料將由 renderNewsCategoriesView() 函數動態生成 -->
+                    </tbody>
+                </table>
             </div>
 
             <!-- 黃頁管理詳細視圖 -->
@@ -9356,8 +9392,30 @@
         // 新聞公告管理 CRUD 操作
         // ============================================
 
+        // 獲取新聞分類選項
+        function getNewsCategoryOptions(selectedCategory = '') {
+            const categories = (AppData.news_categories || []).filter(cat => cat.is_active);
+
+            if (categories.length === 0) {
+                return `
+                    <option value="">請先建立分類</option>
+                    <option value="平台公告">平台公告（預設）</option>
+                    <option value="商家新聞">商家新聞（預設）</option>
+                    <option value="優惠活動">優惠活動（預設）</option>
+                    <option value="產品資訊">產品資訊（預設）</option>
+                `;
+            }
+
+            const sortedCategories = [...categories].sort((a, b) => (a.display_order || 999) - (b.display_order || 999));
+
+            return sortedCategories.map(cat =>
+                `<option value="${cat.name}" ${selectedCategory === cat.name ? 'selected' : ''}>${cat.icon} ${cat.name}</option>`
+            ).join('');
+        }
+
         // 顯示新增新聞表單
         function showAddNewsForm() {
+            const categoryOptions = getNewsCategoryOptions();
             const modalHtml = `
                 <div class="modal-overlay" onclick="closeModal()">
                     <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 700px;">
@@ -9369,10 +9427,7 @@
                             <div class="form-group">
                                 <label>分類 *</label>
                                 <select id="newsCategory" class="form-control" required>
-                                    <option value="平台公告">平台公告</option>
-                                    <option value="商家新聞">商家新聞</option>
-                                    <option value="優惠活動">優惠活動</option>
-                                    <option value="產品資訊">產品資訊</option>
+                                    ${categoryOptions}
                                 </select>
                             </div>
                             <div class="form-group">
@@ -9427,6 +9482,7 @@
                 return;
             }
 
+            const categoryOptions = getNewsCategoryOptions(news.category);
             const modalHtml = `
                 <div class="modal-overlay" onclick="closeModal()">
                     <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 700px;">
@@ -9439,10 +9495,7 @@
                             <div class="form-group">
                                 <label>分類 *</label>
                                 <select id="newsCategory" class="form-control" required>
-                                    <option value="平台公告" ${news.category === '平台公告' ? 'selected' : ''}>平台公告</option>
-                                    <option value="商家新聞" ${news.category === '商家新聞' ? 'selected' : ''}>商家新聞</option>
-                                    <option value="優惠活動" ${news.category === '優惠活動' ? 'selected' : ''}>優惠活動</option>
-                                    <option value="產品資訊" ${news.category === '產品資訊' ? 'selected' : ''}>產品資訊</option>
+                                    ${categoryOptions}
                                 </select>
                             </div>
                             <div class="form-group">
@@ -9570,6 +9623,293 @@
             } else {
                 showToast('找不到該新聞', 'error');
             }
+        }
+
+        // ============================================
+        // 新聞分類管理 CRUD 操作
+        // ============================================
+
+        // 渲染新聞分類管理視圖
+        function renderNewsCategoriesView() {
+            const tbody = document.getElementById('newsCategoriesTable');
+            if (!tbody) return;
+
+            const categories = AppData.news_categories || [];
+
+            if (categories.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px; color: #999;">
+                            <p>尚無分類資料</p>
+                            <p style="font-size: 0.9em; margin-top: 10px;">點擊「新增分類」按鈕來建立第一個分類</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const sortedCategories = [...categories].sort((a, b) => (a.display_order || 999) - (b.display_order || 999));
+
+            tbody.innerHTML = sortedCategories.map(cat => `
+                <tr>
+                    <td style="font-size: 1.5em;">${cat.icon}</td>
+                    <td><strong>${cat.name}</strong></td>
+                    <td><code>${cat.slug}</code></td>
+                    <td>${cat.description || '-'}</td>
+                    <td>${cat.display_order}</td>
+                    <td>
+                        <span class="status-badge ${cat.is_active ? 'active' : 'pending'}">
+                            ${cat.is_active ? '啟用' : '停用'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn edit" onclick="editNewsCategory(${cat.id})">編輯</button>
+                            <button class="action-btn ${cat.is_active ? 'reject' : 'approve'}" onclick="toggleNewsCategoryStatus(${cat.id})">
+                                ${cat.is_active ? '停用' : '啟用'}
+                            </button>
+                            <button class="action-btn reject" onclick="deleteNewsCategory(${cat.id})">刪除</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // 顯示新增新聞分類表單
+        function showAddNewsCategoryForm() {
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 600px;">
+                        <div class="modal-header">
+                            <h3>➕ 新增新聞分類</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>分類名稱 *</label>
+                                <input type="text" id="newsCategoryName" class="form-control" placeholder="例如：平台公告" required>
+                            </div>
+                            <div class="form-group">
+                                <label>識別碼（slug）*</label>
+                                <input type="text" id="newsCategorySlug" class="form-control" placeholder="例如：announcement（只能使用英文小寫、數字、連字號）" pattern="[a-z0-9-]+" required>
+                                <small style="color: #666;">只能使用英文小寫字母、數字和連字號（-）</small>
+                            </div>
+                            <div class="form-group">
+                                <label>圖示（emoji）*</label>
+                                <input type="text" id="newsCategoryIcon" class="form-control" placeholder="例如：📢" maxlength="2" required>
+                            </div>
+                            <div class="form-group">
+                                <label>描述</label>
+                                <textarea id="newsCategoryDescription" class="form-control" rows="3" placeholder="分類描述..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>排序順序</label>
+                                <input type="number" id="newsCategoryOrder" class="form-control" min="1" value="1">
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="newsCategoryIsActive" checked>
+                                    <span>啟用分類</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="saveNewsCategory()" style="background: #10b981;">💾 儲存</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 儲存新聞分類
+        function saveNewsCategory() {
+            const name = document.getElementById('newsCategoryName').value.trim();
+            const slug = document.getElementById('newsCategorySlug').value.trim().toLowerCase();
+            const icon = document.getElementById('newsCategoryIcon').value.trim();
+            const description = document.getElementById('newsCategoryDescription').value.trim();
+            const displayOrder = parseInt(document.getElementById('newsCategoryOrder').value) || 1;
+            const isActive = document.getElementById('newsCategoryIsActive').checked ? 1 : 0;
+
+            if (!name || !slug || !icon) {
+                showToast('請填寫所有必填欄位', 'error');
+                return;
+            }
+
+            // 驗證 slug 格式
+            if (!/^[a-z0-9-]+$/.test(slug)) {
+                showToast('識別碼格式錯誤，只能使用英文小寫字母、數字和連字號', 'error');
+                return;
+            }
+
+            // 檢查 slug 是否重複
+            const categories = AppData.news_categories || [];
+            if (categories.some(cat => cat.slug === slug)) {
+                showToast('識別碼已存在，請使用其他識別碼', 'error');
+                return;
+            }
+
+            const newCategory = {
+                id: AppData.getNextId('news_categories'),
+                name,
+                slug,
+                icon,
+                description,
+                display_order: displayOrder,
+                is_active: isActive,
+                created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+            };
+
+            if (!AppData.news_categories) {
+                AppData.news_categories = [];
+            }
+            AppData.news_categories.push(newCategory);
+            saveAppData();
+            showToast('分類已新增', 'success');
+            closeModal();
+            renderNewsCategoriesView();
+        }
+
+        // 編輯新聞分類
+        function editNewsCategory(categoryId) {
+            const category = AppData.find('news_categories', categoryId);
+            if (!category) {
+                showToast('分類不存在', 'error');
+                return;
+            }
+
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 600px;">
+                        <div class="modal-header">
+                            <h3>✏️ 編輯新聞分類</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="editNewsCategoryId" value="${category.id}">
+                            <div class="form-group">
+                                <label>分類名稱 *</label>
+                                <input type="text" id="editNewsCategoryName" class="form-control" value="${category.name}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>識別碼（slug）*</label>
+                                <input type="text" id="editNewsCategorySlug" class="form-control" value="${category.slug}" pattern="[a-z0-9-]+" required>
+                                <small style="color: #666;">只能使用英文小寫字母、數字和連字號（-）</small>
+                            </div>
+                            <div class="form-group">
+                                <label>圖示（emoji）*</label>
+                                <input type="text" id="editNewsCategoryIcon" class="form-control" value="${category.icon}" maxlength="2" required>
+                            </div>
+                            <div class="form-group">
+                                <label>描述</label>
+                                <textarea id="editNewsCategoryDescription" class="form-control" rows="3">${category.description || ''}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>排序順序</label>
+                                <input type="number" id="editNewsCategoryOrder" class="form-control" min="1" value="${category.display_order}">
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="editNewsCategoryIsActive" ${category.is_active ? 'checked' : ''}>
+                                    <span>啟用分類</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="updateNewsCategory()" style="background: #10b981;">💾 更新</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 更新新聞分類
+        function updateNewsCategory() {
+            const categoryId = parseInt(document.getElementById('editNewsCategoryId').value);
+            const name = document.getElementById('editNewsCategoryName').value.trim();
+            const slug = document.getElementById('editNewsCategorySlug').value.trim().toLowerCase();
+            const icon = document.getElementById('editNewsCategoryIcon').value.trim();
+            const description = document.getElementById('editNewsCategoryDescription').value.trim();
+            const displayOrder = parseInt(document.getElementById('editNewsCategoryOrder').value) || 1;
+            const isActive = document.getElementById('editNewsCategoryIsActive').checked ? 1 : 0;
+
+            if (!name || !slug || !icon) {
+                showToast('請填寫所有必填欄位', 'error');
+                return;
+            }
+
+            // 驗證 slug 格式
+            if (!/^[a-z0-9-]+$/.test(slug)) {
+                showToast('識別碼格式錯誤，只能使用英文小寫字母、數字和連字號', 'error');
+                return;
+            }
+
+            // 檢查 slug 是否與其他分類重複
+            const categories = AppData.news_categories || [];
+            const duplicate = categories.find(cat => cat.slug === slug && cat.id !== categoryId);
+            if (duplicate) {
+                showToast('識別碼已存在，請使用其他識別碼', 'error');
+                return;
+            }
+
+            AppData.update('news_categories', categoryId, {
+                name,
+                slug,
+                icon,
+                description,
+                display_order: displayOrder,
+                is_active: isActive
+            });
+
+            showToast('分類已更新', 'success');
+            closeModal();
+            renderNewsCategoriesView();
+        }
+
+        // 切換新聞分類狀態
+        function toggleNewsCategoryStatus(categoryId) {
+            const category = AppData.find('news_categories', categoryId);
+            if (!category) {
+                showToast('分類不存在', 'error');
+                return;
+            }
+
+            const newStatus = category.is_active ? 0 : 1;
+            const action = newStatus ? '啟用' : '停用';
+
+            AppData.update('news_categories', categoryId, { is_active: newStatus });
+            showToast(`分類已${action}`, 'success');
+            renderNewsCategoriesView();
+        }
+
+        // 刪除新聞分類
+        function deleteNewsCategory(categoryId) {
+            const category = AppData.find('news_categories', categoryId);
+            if (!category) {
+                showToast('分類不存在', 'error');
+                return;
+            }
+
+            // 檢查是否有新聞使用此分類
+            const news = AppData.news || [];
+            const usedInNews = news.filter(n => n.category === category.name);
+
+            if (usedInNews.length > 0) {
+                showToast(`此分類正被 ${usedInNews.length} 則新聞使用，無法刪除`, 'error');
+                return;
+            }
+
+            showConfirm(
+                `確定要刪除分類「${category.name}」嗎？此操作無法復原。`,
+                () => {
+                    AppData.delete('news_categories', categoryId);
+                    showToast('分類已刪除', 'success');
+                    renderNewsCategoriesView();
+                }
+            );
         }
 
         // ============================================
