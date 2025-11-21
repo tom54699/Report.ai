@@ -4169,6 +4169,7 @@
                     delete dataToSave.create;
                     delete dataToSave.update;
                     delete dataToSave.delete;
+                    delete dataToSave.getNextId;
                     localStorage.setItem('myanlife_data', JSON.stringify(dataToSave));
                 } catch (e) {
                     console.error('❌ 保存數據失敗:', e);
@@ -4205,11 +4206,25 @@
                     return true;
                 }
                 return false;
+            },
+
+            getNextId(table) {
+                if (!this[table] || !Array.isArray(this[table])) {
+                    console.error(`❌ 找不到表格: ${table}`);
+                    return 1;
+                }
+                const maxId = Math.max(...this[table].map(item => item.id), 0);
+                return maxId + 1;
             }
         };
 
         // 初始化數據
         AppData.init();
+
+        // 保存數據的輔助函數
+        function saveAppData() {
+            AppData.save();
+        }
 
         // ============================================
         // 會員端互動功能
