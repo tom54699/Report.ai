@@ -3883,8 +3883,13 @@
                 // 使用字符串拼接而非模板字符串，避免解析 HTML 中的 ${} 語法
                 document.body.insertAdjacentHTML('beforeend', '<div id="globalModal">' + title + '</div>');
                 const newModal = document.getElementById('globalModal');
+                const modalOverlay = newModal.querySelector('.modal-overlay');
                 setTimeout(() => {
-                    if (newModal) newModal.classList.add('show');
+                    if (modalOverlay) {
+                        modalOverlay.classList.add('show');
+                    } else if (newModal) {
+                        newModal.classList.add('show');
+                    }
                 }, 10);
                 return newModal;
             }
@@ -3928,7 +3933,12 @@
         function closeModal() {
             const modal = document.getElementById('globalModal');
             if (modal) {
-                modal.classList.remove('show');
+                const modalOverlay = modal.querySelector('.modal-overlay');
+                if (modalOverlay) {
+                    modalOverlay.classList.remove('show');
+                } else {
+                    modal.classList.remove('show');
+                }
                 setTimeout(() => modal.remove(), 300);
             }
         }
