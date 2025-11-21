@@ -10352,6 +10352,28 @@
             document.getElementById('newsDraft').textContent = draftCount;
             document.getElementById('newsViews').textContent = totalViews;
 
+            // 渲染新聞表格
+            const newsTableBody = document.getElementById('newsTable');
+            if (news.length === 0) {
+                newsTableBody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: #999;">尚無新聞資料</td></tr>';
+            } else {
+                newsTableBody.innerHTML = news.map(n => `
+                    <tr>
+                        <td>${n.id}</td>
+                        <td>${n.title}</td>
+                        <td>${n.category}</td>
+                        <td>${n.author || '-'}</td>
+                        <td>${n.views || 0}</td>
+                        <td>${n.published_at || '-'}</td>
+                        <td><span class="status-badge ${n.status === 'published' ? 'success' : 'warning'}">${n.status === 'published' ? '已發布' : '草稿'}</span></td>
+                        <td>
+                            <button class="action-btn" onclick="showEditNewsForm(${n.id})">✏️ 編輯</button>
+                            <button class="action-btn danger" onclick="deleteNews(${n.id})">🗑️ 刪除</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
             console.log(`新聞總數：${news.length} | 已發布：${publishedCount} | 草稿：${draftCount} | 總瀏覽：${totalViews}`);
         }
 
@@ -10372,6 +10394,28 @@
             document.getElementById('yellowPagesActive').textContent = activeCount;
             document.getElementById('yellowPagesPending').textContent = pendingCount;
             document.getElementById('yellowPagesCategories').textContent = categoriesCount;
+
+            // 渲染黃頁表格
+            const yellowPagesTableBody = document.getElementById('yellowPagesTable');
+            if (yellowPages.length === 0) {
+                yellowPagesTableBody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: #999;">尚無黃頁資料</td></tr>';
+            } else {
+                yellowPagesTableBody.innerHTML = yellowPages.map(y => `
+                    <tr>
+                        <td>${y.id}</td>
+                        <td>${y.business_name}</td>
+                        <td>${y.category}</td>
+                        <td>${y.phone}</td>
+                        <td>${y.address}</td>
+                        <td>${y.rating || 0}</td>
+                        <td><span class="status-badge ${y.is_active ? 'success' : 'warning'}">${y.is_active ? '啟用' : '待審核'}</span></td>
+                        <td>
+                            <button class="action-btn" onclick="showEditYellowPageForm(${y.id})">✏️ 編輯</button>
+                            <button class="action-btn danger" onclick="deleteYellowPage(${y.id})">🗑️ 刪除</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
 
             console.log(`黃頁總數：${yellowPages.length} | 啟用：${activeCount} | 待審核：${pendingCount} | 分類：${categoriesCount}`);
         }
@@ -10396,6 +10440,43 @@
             document.getElementById('charityOngoing').textContent = ongoingCount;
             document.getElementById('charityUpcoming').textContent = upcomingCount;
             document.getElementById('charityCompleted').textContent = completedCount;
+
+            // 渲染慈善活動表格
+            const charityTableBody = document.getElementById('charityTable');
+            if (charity.length === 0) {
+                charityTableBody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: #999;">尚無慈善活動資料</td></tr>';
+            } else {
+                charityTableBody.innerHTML = charity.map(c => {
+                    const progress = c.target_amount > 0 ? Math.round((c.current_amount / c.target_amount) * 100) : 0;
+                    const startDate = new Date(c.start_date);
+                    const endDate = new Date(c.end_date);
+                    let statusClass = 'info';
+                    let statusText = '籌備中';
+                    if (startDate <= now && endDate >= now) {
+                        statusClass = 'success';
+                        statusText = '進行中';
+                    } else if (endDate < now) {
+                        statusClass = 'secondary';
+                        statusText = '已結束';
+                    }
+
+                    return `
+                        <tr>
+                            <td>${c.id}</td>
+                            <td>${c.title}</td>
+                            <td>${c.organization}</td>
+                            <td>${c.target_amount.toLocaleString()} MMK</td>
+                            <td>${c.current_amount.toLocaleString()} MMK (${progress}%)</td>
+                            <td>${c.start_date.split(' ')[0]} ~ ${c.end_date.split(' ')[0]}</td>
+                            <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                            <td>
+                                <button class="action-btn" onclick="showEditCharityForm(${c.id})">✏️ 編輯</button>
+                                <button class="action-btn danger" onclick="deleteCharity(${c.id})">🗑️ 刪除</button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
 
             console.log(`活動總數：${charity.length} | 進行中：${ongoingCount} | 即將開始：${upcomingCount} | 已結束：${completedCount}`);
         }
@@ -10438,6 +10519,28 @@
             document.getElementById('vacanciesActive').textContent = activeCount;
             document.getElementById('vacanciesPending').textContent = pendingCount;
             document.getElementById('vacanciesClosed').textContent = closedCount;
+
+            // 渲染職缺表格
+            const vacanciesTableBody = document.getElementById('vacanciesTable');
+            if (vacancies.length === 0) {
+                vacanciesTableBody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: #999;">尚無職缺資料</td></tr>';
+            } else {
+                vacanciesTableBody.innerHTML = vacancies.map(v => `
+                    <tr>
+                        <td>${v.id}</td>
+                        <td>${v.job_title}</td>
+                        <td>${v.category || '-'}</td>
+                        <td>${v.location}</td>
+                        <td>${v.salary_range || '-'}</td>
+                        <td>${v.applicants || 0}</td>
+                        <td><span class="status-badge ${v.is_active ? 'success' : 'secondary'}">${v.is_active ? '招募中' : '已關閉'}</span></td>
+                        <td>
+                            <button class="action-btn" onclick="showEditVacancyForm(${v.id})">✏️ 編輯</button>
+                            <button class="action-btn danger" onclick="deleteVacancy(${v.id})">🗑️ 刪除</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
 
             console.log(`職缺總數：${vacancies.length} | 招募中：${activeCount} | 待審核：${pendingCount} | 已關閉：${closedCount}`);
         }
