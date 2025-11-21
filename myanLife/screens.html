@@ -3880,7 +3880,8 @@
             // 如果 title 包含 'modal-overlay' 或 'modal-content'，說明是完整的 HTML
             if (typeof title === 'string' && (title.includes('modal-overlay') || title.includes('modal-content'))) {
                 // 直接使用完整的 HTML（用於 CMS 表單）
-                document.body.insertAdjacentHTML('beforeend', `<div id="globalModal">${title}</div>`);
+                // 使用字符串拼接而非模板字符串，避免解析 HTML 中的 ${} 語法
+                document.body.insertAdjacentHTML('beforeend', '<div id="globalModal">' + title + '</div>');
                 const newModal = document.getElementById('globalModal');
                 setTimeout(() => {
                     if (newModal) newModal.classList.add('show');
