@@ -4158,12 +4158,51 @@
                         console.error('❌ 載入數據失敗:', e);
                     }
                 }
+
+                // 數據遷移：為舊記錄補充缺失的欄位
+                this.migrateData();
+            },
+
+            // 數據遷移函數
+            migrateData() {
+                let migrated = false;
+
+                // 遷移新聞數據：添加 status 欄位
+                if (this.news && Array.isArray(this.news)) {
+                    this.news.forEach(item => {
+                        if (item.status === undefined) {
+                            item.status = item.published_at ? 'published' : 'draft';
+                            migrated = true;
+                        }
+                    });
+                }
+
+                // 遷移黃頁數據：添加 is_active 和 status 欄位
+                if (this.yellow_pages && Array.isArray(this.yellow_pages)) {
+                    this.yellow_pages.forEach(item => {
+                        if (item.is_active === undefined) {
+                            item.is_active = item.is_verified || 1;
+                            migrated = true;
+                        }
+                        if (item.status === undefined) {
+                            item.status = item.is_verified ? 'active' : 'pending';
+                            migrated = true;
+                        }
+                    });
+                }
+
+                // 如果有數據被遷移，保存到 localStorage
+                if (migrated) {
+                    console.log('✅ 數據遷移完成，已補充缺失欄位');
+                    this.save();
+                }
             },
 
             save() {
                 try {
                     const dataToSave = { ...this };
                     delete dataToSave.init;
+                    delete dataToSave.migrateData;
                     delete dataToSave.save;
                     delete dataToSave.find;
                     delete dataToSave.create;
