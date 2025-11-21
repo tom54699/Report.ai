@@ -2639,7 +2639,7 @@
 
                 <div class="quick-actions" style="margin-bottom: 20px;">
                     <button class="quick-action-btn" onclick="showAddYellowPageForm()">➕ 新增黃頁</button>
-                    <button class="quick-action-btn" onclick="showToast('分類管理功能開發中', 'info')">📁 分類管理</button>
+                    <button class="quick-action-btn" onclick="renderYellowPageCategoriesView()">📁 分類管理</button>
                     <button class="quick-action-btn" onclick="showToast('匯出功能開發中', 'info')">📊 匯出資料</button>
                 </div>
 
@@ -2664,6 +2664,42 @@
                 <div class="info-note" style="margin-top: 20px;">
                     <strong>💡 黃頁說明：</strong>商家目錄與服務資訊管理，提供商家聯絡方式、營業時間、服務項目等詳細資訊。支援分類搜尋與地圖定位。
                 </div>
+            </div>
+
+            <!-- 黃頁分類管理視圖 -->
+            <div id="operationYellowPageCategoriesView" class="content-view">
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <button class="quick-action-btn" onclick="renderOperationYellowPages()" style="margin-right: 10px;">← 返回黃頁管理</button>
+                    <h3 style="margin: 0; color: #333;">📁 黃頁分類管理</h3>
+                </div>
+
+                <div style="background: #f0f9ff; padding: 20px; border-radius: 12px; border-left: 4px solid #3b82f6; margin-bottom: 20px;">
+                    <h4 style="margin: 0 0 10px 0; color: #1e40af;">📋 黃頁分類管理</h4>
+                    <p style="margin: 0; color: #1e40af; line-height: 1.6;">
+                        管理商家黃頁的分類，方便用戶快速找到所需的商家和服務。
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 20px; text-align: right;">
+                    <button class="quick-action-btn" onclick="showAddYellowPageCategoryForm()">➕ 新增分類</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>圖示</th>
+                            <th>分類名稱</th>
+                            <th>識別碼</th>
+                            <th>描述</th>
+                            <th>排序</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="yellowPageCategoriesTable">
+                        <!-- 分類資料將由 renderYellowPageCategoriesView() 函數動態生成 -->
+                    </tbody>
+                </table>
             </div>
 
             <!-- 慈善活動管理詳細視圖 -->
@@ -2701,7 +2737,7 @@
 
                 <div class="quick-actions" style="margin-bottom: 20px;">
                     <button class="quick-action-btn" onclick="showAddCharityForm()">➕ 新增活動</button>
-                    <button class="quick-action-btn" onclick="showToast('分類管理功能開發中', 'info')">📁 分類管理</button>
+                    <button class="quick-action-btn" onclick="renderCharityCategoriesView()">📁 分類管理</button>
                     <button class="quick-action-btn" onclick="showToast('報告功能開發中', 'info')">📊 活動報告</button>
                 </div>
 
@@ -2726,6 +2762,42 @@
                 <div class="info-note" style="margin-top: 20px;">
                     <strong>💡 活動說明：</strong>公益活動與慈善專案管理，支援線上募款、志工招募、活動報名等功能。可追蹤募款進度與參與人數。
                 </div>
+            </div>
+
+            <!-- 慈善活動分類管理視圖 -->
+            <div id="operationCharityCategoriesView" class="content-view">
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <button class="quick-action-btn" onclick="renderOperationCharity()" style="margin-right: 10px;">← 返回慈善活動管理</button>
+                    <h3 style="margin: 0; color: #333;">📁 慈善活動分類管理</h3>
+                </div>
+
+                <div style="background: #f0f9ff; padding: 20px; border-radius: 12px; border-left: 4px solid #3b82f6; margin-bottom: 20px;">
+                    <h4 style="margin: 0 0 10px 0; color: #1e40af;">📋 慈善活動分類管理</h4>
+                    <p style="margin: 0; color: #1e40af; line-height: 1.6;">
+                        管理慈善活動的分類，讓用戶能夠快速找到感興趣的公益活動類型。
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 20px; text-align: right;">
+                    <button class="quick-action-btn" onclick="showAddCharityCategoryForm()">➕ 新增分類</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>圖示</th>
+                            <th>分類名稱</th>
+                            <th>識別碼</th>
+                            <th>描述</th>
+                            <th>排序</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="charityCategoriesTable">
+                        <!-- 分類資料將由 renderCharityCategoriesView() 函數動態生成 -->
+                    </tbody>
+                </table>
             </div>
 
             <!-- 商品評論管理詳細視圖 -->
@@ -9911,6 +9983,576 @@
                     AppData.delete('news_categories', categoryId);
                     showToast('分類已刪除', 'success');
                     renderNewsCategoriesView();
+                }
+            );
+        }
+
+        // ============================================
+        // 黃頁分類管理 CRUD 操作
+        // ============================================
+
+        // 渲染黃頁分類管理視圖
+        function renderYellowPageCategoriesView() {
+            console.log('📁 渲染黃頁分類管理');
+            switchToCMSDetailView('operationYellowPageCategoriesView');
+
+            const tbody = document.getElementById('yellowPageCategoriesTable');
+            if (!tbody) return;
+
+            const categories = AppData.yellow_page_categories || [];
+
+            if (categories.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px; color: #999;">
+                            <p>尚無分類資料</p>
+                            <p style="font-size: 0.9em; margin-top: 10px;">點擊「新增分類」按鈕來建立第一個分類</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const sortedCategories = [...categories].sort((a, b) => (a.display_order || 999) - (b.display_order || 999));
+
+            tbody.innerHTML = sortedCategories.map(cat => `
+                <tr>
+                    <td style="font-size: 1.5em;">${cat.icon}</td>
+                    <td><strong>${cat.name}</strong></td>
+                    <td><code>${cat.slug}</code></td>
+                    <td>${cat.description || '-'}</td>
+                    <td>${cat.display_order}</td>
+                    <td>
+                        <span class="status-badge ${cat.is_active ? 'active' : 'pending'}">
+                            ${cat.is_active ? '啟用' : '停用'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn edit" onclick="editYellowPageCategory(${cat.id})">編輯</button>
+                            <button class="action-btn ${cat.is_active ? 'reject' : 'approve'}" onclick="toggleYellowPageCategoryStatus(${cat.id})">
+                                ${cat.is_active ? '停用' : '啟用'}
+                            </button>
+                            <button class="action-btn reject" onclick="deleteYellowPageCategory(${cat.id})">刪除</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // 顯示新增黃頁分類表單
+        function showAddYellowPageCategoryForm() {
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 600px;">
+                        <div class="modal-header">
+                            <h3>➕ 新增黃頁分類</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>分類名稱 *</label>
+                                <input type="text" id="yellowPageCategoryName" class="form-control" placeholder="例如：醫療診所" required>
+                            </div>
+                            <div class="form-group">
+                                <label>識別碼（slug）*</label>
+                                <input type="text" id="yellowPageCategorySlug" class="form-control" placeholder="例如：medical（只能使用英文小寫、數字、連字號）" pattern="[a-z0-9-]+" required>
+                                <small style="color: #666;">只能使用英文小寫字母、數字和連字號（-）</small>
+                            </div>
+                            <div class="form-group">
+                                <label>圖示（emoji）*</label>
+                                <input type="text" id="yellowPageCategoryIcon" class="form-control" placeholder="例如：🏥" maxlength="2" required>
+                            </div>
+                            <div class="form-group">
+                                <label>描述</label>
+                                <textarea id="yellowPageCategoryDescription" class="form-control" rows="3" placeholder="分類描述..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>排序順序</label>
+                                <input type="number" id="yellowPageCategoryOrder" class="form-control" min="1" value="1">
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="yellowPageCategoryIsActive" checked>
+                                    <span>啟用分類</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="saveYellowPageCategory()" style="background: #10b981;">💾 儲存</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 儲存黃頁分類
+        function saveYellowPageCategory() {
+            const name = document.getElementById('yellowPageCategoryName').value.trim();
+            const slug = document.getElementById('yellowPageCategorySlug').value.trim().toLowerCase();
+            const icon = document.getElementById('yellowPageCategoryIcon').value.trim();
+            const description = document.getElementById('yellowPageCategoryDescription').value.trim();
+            const displayOrder = parseInt(document.getElementById('yellowPageCategoryOrder').value) || 1;
+            const isActive = document.getElementById('yellowPageCategoryIsActive').checked ? 1 : 0;
+
+            if (!name || !slug || !icon) {
+                showToast('請填寫所有必填欄位', 'error');
+                return;
+            }
+
+            if (!/^[a-z0-9-]+$/.test(slug)) {
+                showToast('識別碼格式錯誤，只能使用英文小寫字母、數字和連字號', 'error');
+                return;
+            }
+
+            const categories = AppData.yellow_page_categories || [];
+            if (categories.some(cat => cat.slug === slug)) {
+                showToast('識別碼已存在，請使用其他識別碼', 'error');
+                return;
+            }
+
+            const newCategory = {
+                id: AppData.getNextId('yellow_page_categories'),
+                name,
+                slug,
+                icon,
+                description,
+                display_order: displayOrder,
+                is_active: isActive,
+                created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+            };
+
+            if (!AppData.yellow_page_categories) {
+                AppData.yellow_page_categories = [];
+            }
+            AppData.yellow_page_categories.push(newCategory);
+            saveAppData();
+            showToast('分類已新增', 'success');
+            closeModal();
+            renderYellowPageCategoriesView();
+        }
+
+        // 編輯黃頁分類
+        function editYellowPageCategory(categoryId) {
+            const category = AppData.find('yellow_page_categories', categoryId);
+            if (!category) {
+                showToast('分類不存在', 'error');
+                return;
+            }
+
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 600px;">
+                        <div class="modal-header">
+                            <h3>✏️ 編輯黃頁分類</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="editYellowPageCategoryId" value="${category.id}">
+                            <div class="form-group">
+                                <label>分類名稱 *</label>
+                                <input type="text" id="editYellowPageCategoryName" class="form-control" value="${category.name}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>識別碼（slug）*</label>
+                                <input type="text" id="editYellowPageCategorySlug" class="form-control" value="${category.slug}" pattern="[a-z0-9-]+" required>
+                                <small style="color: #666;">只能使用英文小寫字母、數字和連字號（-）</small>
+                            </div>
+                            <div class="form-group">
+                                <label>圖示（emoji）*</label>
+                                <input type="text" id="editYellowPageCategoryIcon" class="form-control" value="${category.icon}" maxlength="2" required>
+                            </div>
+                            <div class="form-group">
+                                <label>描述</label>
+                                <textarea id="editYellowPageCategoryDescription" class="form-control" rows="3">${category.description || ''}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>排序順序</label>
+                                <input type="number" id="editYellowPageCategoryOrder" class="form-control" min="1" value="${category.display_order}">
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="editYellowPageCategoryIsActive" ${category.is_active ? 'checked' : ''}>
+                                    <span>啟用分類</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="updateYellowPageCategory()" style="background: #10b981;">💾 更新</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 更新黃頁分類
+        function updateYellowPageCategory() {
+            const categoryId = parseInt(document.getElementById('editYellowPageCategoryId').value);
+            const name = document.getElementById('editYellowPageCategoryName').value.trim();
+            const slug = document.getElementById('editYellowPageCategorySlug').value.trim().toLowerCase();
+            const icon = document.getElementById('editYellowPageCategoryIcon').value.trim();
+            const description = document.getElementById('editYellowPageCategoryDescription').value.trim();
+            const displayOrder = parseInt(document.getElementById('editYellowPageCategoryOrder').value) || 1;
+            const isActive = document.getElementById('editYellowPageCategoryIsActive').checked ? 1 : 0;
+
+            if (!name || !slug || !icon) {
+                showToast('請填寫所有必填欄位', 'error');
+                return;
+            }
+
+            if (!/^[a-z0-9-]+$/.test(slug)) {
+                showToast('識別碼格式錯誤，只能使用英文小寫字母、數字和連字號', 'error');
+                return;
+            }
+
+            const categories = AppData.yellow_page_categories || [];
+            const duplicate = categories.find(cat => cat.slug === slug && cat.id !== categoryId);
+            if (duplicate) {
+                showToast('識別碼已存在，請使用其他識別碼', 'error');
+                return;
+            }
+
+            AppData.update('yellow_page_categories', categoryId, {
+                name,
+                slug,
+                icon,
+                description,
+                display_order: displayOrder,
+                is_active: isActive
+            });
+
+            showToast('分類已更新', 'success');
+            closeModal();
+            renderYellowPageCategoriesView();
+        }
+
+        // 切換黃頁分類狀態
+        function toggleYellowPageCategoryStatus(categoryId) {
+            const category = AppData.find('yellow_page_categories', categoryId);
+            if (!category) {
+                showToast('分類不存在', 'error');
+                return;
+            }
+
+            const newStatus = category.is_active ? 0 : 1;
+            const action = newStatus ? '啟用' : '停用';
+
+            AppData.update('yellow_page_categories', categoryId, { is_active: newStatus });
+            showToast(`分類已${action}`, 'success');
+            renderYellowPageCategoriesView();
+        }
+
+        // 刪除黃頁分類
+        function deleteYellowPageCategory(categoryId) {
+            const category = AppData.find('yellow_page_categories', categoryId);
+            if (!category) {
+                showToast('分類不存在', 'error');
+                return;
+            }
+
+            const yellowPages = AppData.yellow_pages || [];
+            const usedInPages = yellowPages.filter(yp => yp.category === category.name);
+
+            if (usedInPages.length > 0) {
+                showToast(`此分類正被 ${usedInPages.length} 個黃頁使用，無法刪除`, 'error');
+                return;
+            }
+
+            showConfirm(
+                `確定要刪除分類「${category.name}」嗎？此操作無法復原。`,
+                () => {
+                    AppData.delete('yellow_page_categories', categoryId);
+                    showToast('分類已刪除', 'success');
+                    renderYellowPageCategoriesView();
+                }
+            );
+        }
+
+        // ============================================
+        // 慈善活動分類管理 CRUD 操作
+        // ============================================
+
+        // 渲染慈善活動分類管理視圖
+        function renderCharityCategoriesView() {
+            console.log('📁 渲染慈善活動分類管理');
+            switchToCMSDetailView('operationCharityCategoriesView');
+
+            const tbody = document.getElementById('charityCategoriesTable');
+            if (!tbody) return;
+
+            const categories = AppData.charity_activity_categories || [];
+
+            if (categories.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px; color: #999;">
+                            <p>尚無分類資料</p>
+                            <p style="font-size: 0.9em; margin-top: 10px;">點擊「新增分類」按鈕來建立第一個分類</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const sortedCategories = [...categories].sort((a, b) => (a.display_order || 999) - (b.display_order || 999));
+
+            tbody.innerHTML = sortedCategories.map(cat => `
+                <tr>
+                    <td style="font-size: 1.5em;">${cat.icon}</td>
+                    <td><strong>${cat.name}</strong></td>
+                    <td><code>${cat.slug}</code></td>
+                    <td>${cat.description || '-'}</td>
+                    <td>${cat.display_order}</td>
+                    <td>
+                        <span class="status-badge ${cat.is_active ? 'active' : 'pending'}">
+                            ${cat.is_active ? '啟用' : '停用'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn edit" onclick="editCharityCategory(${cat.id})">編輯</button>
+                            <button class="action-btn ${cat.is_active ? 'reject' : 'approve'}" onclick="toggleCharityCategoryStatus(${cat.id})">
+                                ${cat.is_active ? '停用' : '啟用'}
+                            </button>
+                            <button class="action-btn reject" onclick="deleteCharityCategory(${cat.id})">刪除</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // 顯示新增慈善活動分類表單
+        function showAddCharityCategoryForm() {
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 600px;">
+                        <div class="modal-header">
+                            <h3>➕ 新增慈善活動分類</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>分類名稱 *</label>
+                                <input type="text" id="charityCategoryName" class="form-control" placeholder="例如：環保公益" required>
+                            </div>
+                            <div class="form-group">
+                                <label>識別碼（slug）*</label>
+                                <input type="text" id="charityCategorySlug" class="form-control" placeholder="例如：environment（只能使用英文小寫、數字、連字號）" pattern="[a-z0-9-]+" required>
+                                <small style="color: #666;">只能使用英文小寫字母、數字和連字號（-）</small>
+                            </div>
+                            <div class="form-group">
+                                <label>圖示（emoji）*</label>
+                                <input type="text" id="charityCategoryIcon" class="form-control" placeholder="例如：🌱" maxlength="2" required>
+                            </div>
+                            <div class="form-group">
+                                <label>描述</label>
+                                <textarea id="charityCategoryDescription" class="form-control" rows="3" placeholder="分類描述..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>排序順序</label>
+                                <input type="number" id="charityCategoryOrder" class="form-control" min="1" value="1">
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="charityCategoryIsActive" checked>
+                                    <span>啟用分類</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="saveCharityCategory()" style="background: #10b981;">💾 儲存</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 儲存慈善活動分類
+        function saveCharityCategory() {
+            const name = document.getElementById('charityCategoryName').value.trim();
+            const slug = document.getElementById('charityCategorySlug').value.trim().toLowerCase();
+            const icon = document.getElementById('charityCategoryIcon').value.trim();
+            const description = document.getElementById('charityCategoryDescription').value.trim();
+            const displayOrder = parseInt(document.getElementById('charityCategoryOrder').value) || 1;
+            const isActive = document.getElementById('charityCategoryIsActive').checked ? 1 : 0;
+
+            if (!name || !slug || !icon) {
+                showToast('請填寫所有必填欄位', 'error');
+                return;
+            }
+
+            if (!/^[a-z0-9-]+$/.test(slug)) {
+                showToast('識別碼格式錯誤，只能使用英文小寫字母、數字和連字號', 'error');
+                return;
+            }
+
+            const categories = AppData.charity_activity_categories || [];
+            if (categories.some(cat => cat.slug === slug)) {
+                showToast('識別碼已存在，請使用其他識別碼', 'error');
+                return;
+            }
+
+            const newCategory = {
+                id: AppData.getNextId('charity_activity_categories'),
+                name,
+                slug,
+                icon,
+                description,
+                display_order: displayOrder,
+                is_active: isActive,
+                created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+            };
+
+            if (!AppData.charity_activity_categories) {
+                AppData.charity_activity_categories = [];
+            }
+            AppData.charity_activity_categories.push(newCategory);
+            saveAppData();
+            showToast('分類已新增', 'success');
+            closeModal();
+            renderCharityCategoriesView();
+        }
+
+        // 編輯慈善活動分類
+        function editCharityCategory(categoryId) {
+            const category = AppData.find('charity_activity_categories', categoryId);
+            if (!category) {
+                showToast('分類不存在', 'error');
+                return;
+            }
+
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 600px;">
+                        <div class="modal-header">
+                            <h3>✏️ 編輯慈善活動分類</h3>
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="editCharityCategoryId" value="${category.id}">
+                            <div class="form-group">
+                                <label>分類名稱 *</label>
+                                <input type="text" id="editCharityCategoryName" class="form-control" value="${category.name}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>識別碼（slug）*</label>
+                                <input type="text" id="editCharityCategorySlug" class="form-control" value="${category.slug}" pattern="[a-z0-9-]+" required>
+                                <small style="color: #666;">只能使用英文小寫字母、數字和連字號（-）</small>
+                            </div>
+                            <div class="form-group">
+                                <label>圖示（emoji）*</label>
+                                <input type="text" id="editCharityCategoryIcon" class="form-control" value="${category.icon}" maxlength="2" required>
+                            </div>
+                            <div class="form-group">
+                                <label>描述</label>
+                                <textarea id="editCharityCategoryDescription" class="form-control" rows="3">${category.description || ''}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>排序順序</label>
+                                <input type="number" id="editCharityCategoryOrder" class="form-control" min="1" value="${category.display_order}">
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="editCharityCategoryIsActive" ${category.is_active ? 'checked' : ''}>
+                                    <span>啟用分類</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="quick-action-btn" onclick="closeModal()" style="background: #6c757d;">取消</button>
+                            <button class="quick-action-btn" onclick="updateCharityCategory()" style="background: #10b981;">💾 更新</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml);
+        }
+
+        // 更新慈善活動分類
+        function updateCharityCategory() {
+            const categoryId = parseInt(document.getElementById('editCharityCategoryId').value);
+            const name = document.getElementById('editCharityCategoryName').value.trim();
+            const slug = document.getElementById('editCharityCategorySlug').value.trim().toLowerCase();
+            const icon = document.getElementById('editCharityCategoryIcon').value.trim();
+            const description = document.getElementById('editCharityCategoryDescription').value.trim();
+            const displayOrder = parseInt(document.getElementById('editCharityCategoryOrder').value) || 1;
+            const isActive = document.getElementById('editCharityCategoryIsActive').checked ? 1 : 0;
+
+            if (!name || !slug || !icon) {
+                showToast('請填寫所有必填欄位', 'error');
+                return;
+            }
+
+            if (!/^[a-z0-9-]+$/.test(slug)) {
+                showToast('識別碼格式錯誤，只能使用英文小寫字母、數字和連字號', 'error');
+                return;
+            }
+
+            const categories = AppData.charity_activity_categories || [];
+            const duplicate = categories.find(cat => cat.slug === slug && cat.id !== categoryId);
+            if (duplicate) {
+                showToast('識別碼已存在，請使用其他識別碼', 'error');
+                return;
+            }
+
+            AppData.update('charity_activity_categories', categoryId, {
+                name,
+                slug,
+                icon,
+                description,
+                display_order: displayOrder,
+                is_active: isActive
+            });
+
+            showToast('分類已更新', 'success');
+            closeModal();
+            renderCharityCategoriesView();
+        }
+
+        // 切換慈善活動分類狀態
+        function toggleCharityCategoryStatus(categoryId) {
+            const category = AppData.find('charity_activity_categories', categoryId);
+            if (!category) {
+                showToast('分類不存在', 'error');
+                return;
+            }
+
+            const newStatus = category.is_active ? 0 : 1;
+            const action = newStatus ? '啟用' : '停用';
+
+            AppData.update('charity_activity_categories', categoryId, { is_active: newStatus });
+            showToast(`分類已${action}`, 'success');
+            renderCharityCategoriesView();
+        }
+
+        // 刪除慈善活動分類
+        function deleteCharityCategory(categoryId) {
+            const category = AppData.find('charity_activity_categories', categoryId);
+            if (!category) {
+                showToast('分類不存在', 'error');
+                return;
+            }
+
+            const charityActivities = AppData.charity_activities || [];
+            const usedInActivities = charityActivities.filter(ca => ca.category === category.name);
+
+            if (usedInActivities.length > 0) {
+                showToast(`此分類正被 ${usedInActivities.length} 個慈善活動使用，無法刪除`, 'error');
+                return;
+            }
+
+            showConfirm(
+                `確定要刪除分類「${category.name}」嗎？此操作無法復原。`,
+                () => {
+                    AppData.delete('charity_activity_categories', categoryId);
+                    showToast('分類已刪除', 'success');
+                    renderCharityCategoriesView();
                 }
             );
         }
