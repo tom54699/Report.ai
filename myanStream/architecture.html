@@ -375,10 +375,12 @@
             <div class="tech-badges">
                 <span class="tech-badge">SRS (RTMP Server)</span>
                 <span class="tech-badge">FFmpeg</span>
-                <span class="tech-badge">Laravel Octane</span>
+                <span class="tech-badge">Laravel Octane (核心)</span>
+                <span class="tech-badge">Go/Node.js (即時層)</span>
+                <span class="tech-badge">Redis Streams</span>
+                <span class="tech-badge">WebSocket</span>
                 <span class="tech-badge">Docker</span>
                 <span class="tech-badge">AWS ECS (選配)</span>
-                <span class="tech-badge">WebSocket</span>
                 <span class="tech-badge">MySQL</span>
                 <span class="tech-badge">Redis</span>
             </div>
@@ -386,10 +388,12 @@
 
         <div class="tabs">
             <button class="tab active" onclick="showTab('overview', this)">系統總覽</button>
+            <button class="tab" onclick="showTab('backend', this)">後端架構分層</button>
             <button class="tab" onclick="showTab('docker', this)">自架 Docker</button>
             <button class="tab" onclick="showTab('ecs', this)">AWS ECS</button>
             <button class="tab" onclick="showTab('flow', this)">完整流程</button>
             <button class="tab" onclick="showTab('database', this)">資料庫設計</button>
+            <button class="tab" onclick="showTab('system', this)">系統層設計</button>
             <button class="tab" onclick="showTab('comparison', this)">方案比較</button>
         </div>
 
@@ -402,9 +406,11 @@
                     <h4>💡 核心概念</h4>
                     <ul>
                         <li><strong>一推多發：</strong>使用者只需推一路流到 SRS，系統自動轉推到 YouTube、Facebook、Instagram</li>
-                        <li><strong>職責分離：</strong>SRS 處理媒體流，Laravel 處理業務邏輯，FFmpeg 負責轉推</li>
+                        <li><strong>分層架構：</strong>Laravel Octane 處理核心業務邏輯（商品、訂單、金流、物流），Go/Node.js 處理即時層（WebSocket、平台整合、訊息匯流）</li>
+                        <li><strong>事件驅動：</strong>透過 Event Bus（Redis Streams）解耦核心層與即時層，確保高可用與水平擴展</li>
+                        <li><strong>職責分離：</strong>SRS 處理媒體流，Laravel 處理業務邏輯，FFmpeg 負責轉推，Go/Node.js 處理即時通訊</li>
                         <li><strong>按需擴充：</strong>FFmpeg 按需啟動，每場直播一個執行個體</li>
-                        <li><strong>統一聊天：</strong>整合三個平台的聊天室，透過 WebSocket 推送給 App</li>
+                        <li><strong>多渠道收單：</strong>整合 12 種收單渠道（直播聊天室、LINE 群組、FB 社團、Messenger、商城等），透過 Polling + WebSocket 即時收單</li>
                     </ul>
                 </div>
 
@@ -461,6 +467,253 @@ graph LR
                         <li><strong>高可用性：</strong>組件獨立部署，單一平台失敗不影響其他平台</li>
                         <li><strong>易擴充：</strong>新增第四、第五個平台只需修改設定</li>
                         <li><strong>成本最佳化：</strong>FFmpeg 按需啟動，使用完即停止</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 後端架構分層 Tab -->
+        <div id="backend" class="tab-content">
+            <div class="diagram-section">
+                <h2>🏗️ 後端架構分層設計</h2>
+
+                <div class="warning-box">
+                    <h4>⚠️ 為什麼要分層？單一框架全包不行嗎？</h4>
+                    <p><strong>直播電商系統的特性：</strong></p>
+                    <ul>
+                        <li>✅ 核心交易邏輯複雜（商品、訂單、金流、物流、會員、權限、報表）</li>
+                        <li>✅ 即時性要求高（留言收單、WebSocket 推送、多平台訊息匯流）</li>
+                        <li>✅ IO 密集（多平台 API 輪詢、長連線）</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>單一框架全包的問題：</strong></p>
+                    <ul>
+                        <li>❌ Laravel 處理長連線/WebSocket 不是強項（效能瓶頸）</li>
+                        <li>❌ Go/Node.js 處理複雜商務邏輯、ORM、權限不如成熟 Web 框架</li>
+                        <li>❌ 混在一起難以水平擴展（交易層和即時層的擴展需求不同）</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>分層架構的優勢：</strong></p>
+                    <ul>
+                        <li>✅ 各層使用最適合的技術棧（Laravel 做它擅長的，Go/Node.js 做它擅長的）</li>
+                        <li>✅ 獨立擴展（即時層需要更多實例，交易層可能不需要）</li>
+                        <li>✅ 職責清晰、易維護（核心邏輯變更不影響即時層）</li>
+                    </ul>
+                </div>
+
+                <h3>🎯 架構分層總覽</h3>
+                <pre class="mermaid">
+graph TB
+    subgraph clients["📱 客戶端層"]
+        APP[使用者 App<br/>React Native / Flutter]
+        ADMIN[運營後台<br/>React Admin]
+    end
+
+    subgraph realtime["⚡ 即時/整合層（Go/Node.js）"]
+        WS[WebSocket Server<br/>長連線管理]
+        CONN[Platform Connectors<br/>FB/YouTube/LINE API Polling]
+        AGG[Message Aggregator<br/>訊息匯流引擎]
+    end
+
+    subgraph eventbus["🔄 事件匯流排"]
+        REDIS[Redis Streams<br/>Event Bus]
+    end
+
+    subgraph core["🏢 核心交易層（Laravel Octane）"]
+        OMS[訂單管理 OMS]
+        PROD[商品/庫存]
+        PAY[金流整合]
+        SHIP[物流整合]
+        CRM[會員 CRM]
+        RBAC[權限管理 RBAC]
+        RPT[報表/分析]
+    end
+
+    subgraph data["🗄️ 資料層"]
+        MYSQL[(MySQL 8.0<br/>核心資料庫)]
+        REDISDB[(Redis<br/>快取/Session)]
+        S3[(S3/OSS<br/>檔案儲存)]
+    end
+
+    APP -->|WebSocket| WS
+    APP -->|HTTPS API| OMS
+    ADMIN -->|HTTPS API| OMS
+
+    CONN -->|輪詢平台 API| PLATFORMS[第三方平台]
+    CONN -->|發布事件| REDIS
+    WS -->|訂閱事件| REDIS
+    REDIS -->|消費事件| OMS
+
+    OMS --> MYSQL
+    OMS --> REDISDB
+    PROD --> MYSQL
+    CRM --> MYSQL
+    RPT --> MYSQL
+
+    WS -.->|推送訊息| APP
+
+    classDef clientStyle fill:#bbdefb,stroke:#1976d2,stroke-width:2px
+    classDef realtimeStyle fill:#c8e6c9,stroke:#388e3c,stroke-width:2px
+    classDef eventStyle fill:#fff9c4,stroke:#f57c00,stroke-width:2px
+    classDef coreStyle fill:#e1bee7,stroke:#7b1fa2,stroke-width:2px
+    classDef dataStyle fill:#ffccbc,stroke:#d84315,stroke-width:2px
+
+    class APP,ADMIN clientStyle
+    class WS,CONN,AGG realtimeStyle
+    class REDIS eventStyle
+    class OMS,PROD,PAY,SHIP,CRM,RBAC,RPT coreStyle
+    class MYSQL,REDISDB,S3 dataStyle
+                </pre>
+
+                <h3>📊 各層職責清單</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>⚡ 即時/整合層（Go/Node.js）</h4>
+                        <p><strong>技術選擇：</strong>Go (高效能) 或 Node.js (生態豐富)</p>
+                        <ul>
+                            <li>WebSocket Server（長連線管理）</li>
+                            <li>平台 API Polling（FB/YouTube/LINE）</li>
+                            <li>訊息匯流與分發</li>
+                            <li>即時通知推送</li>
+                            <li>Event Bus 生產者/消費者</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>🏢 核心交易層（Laravel Octane）</h4>
+                        <p><strong>技術選擇：</strong>Laravel 12 + Octane (Swoole)</p>
+                        <ul>
+                            <li>商品管理（SPU/SKU、庫存、價格）</li>
+                            <li>訂單管理 OMS（收單池、訂單、候補單）</li>
+                            <li>金流整合（藍新、綠界、Stripe）</li>
+                            <li>物流整合（黑貓、新竹、超商取貨）</li>
+                            <li>會員 CRM（會員、標籤、分群）</li>
+                            <li>權限管理 RBAC</li>
+                            <li>報表與數據分析</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>🔄 Event Bus（Redis Streams）</h4>
+                        <p><strong>技術選擇：</strong>Redis Streams → RabbitMQ → Kafka</p>
+                        <ul>
+                            <li>解耦核心層與即時層</li>
+                            <li>非同步事件處理</li>
+                            <li>訊息持久化與重試</li>
+                            <li>水平擴展支援</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-size: 0.9em; opacity: 0.9;">
+                            <strong>選型策略：</strong><br/>
+                            初期用 Redis Streams（簡單、低成本）<br/>
+                            成長期用 RabbitMQ（功能完整、易維護）<br/>
+                            大規模用 Kafka（高吞吐、分散式）
+                        </p>
+                    </div>
+                </div>
+
+                <h3>🔄 事件驅動流程範例：FB 留言收單</h3>
+                <pre class="mermaid">
+sequenceDiagram
+    participant FB as Facebook Live
+    participant CONN as Connector<br/>(Go/Node.js)
+    participant BUS as Event Bus<br/>(Redis Streams)
+    participant CORE as Laravel Core
+    participant WS as WebSocket Server
+    participant APP as 使用者 App
+
+    loop 每 2-5 秒
+        CONN->>FB: Polling API 拉取留言
+        FB-->>CONN: 新留言資料
+    end
+
+    CONN->>BUS: 發布事件：NewCommentEvent
+    BUS->>CORE: 消費事件
+    CORE->>CORE: 解析留言、比對商品、建立暫存單
+    CORE->>BUS: 發布事件：OrderCreatedEvent
+    BUS->>WS: 消費事件
+    WS->>APP: WebSocket 推送通知
+                </pre>
+
+                <h3>💡 技術選型理由</h3>
+                <div class="info-box">
+                    <h4>🤔 為什麼核心層選 Laravel？</h4>
+                    <ul>
+                        <li><strong>ORM 成熟：</strong>Eloquent 處理複雜關聯查詢、事務管理非常方便</li>
+                        <li><strong>生態豐富：</strong>金流、物流、第三方 API SDK 完整</li>
+                        <li><strong>權限管理：</strong>Laravel 內建 Policy、Gate，RBAC 實現容易</li>
+                        <li><strong>開發效率：</strong>商務邏輯變更頻繁，Laravel 開發速度快</li>
+                        <li><strong>Octane 加持：</strong>結合 Swoole/RoadRunner，效能大幅提升</li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h4>🤔 為什麼即時層選 Go/Node.js？</h4>
+                    <p><strong>Go 的優勢：</strong></p>
+                    <ul>
+                        <li>原生 Goroutine，處理高並發長連線效能優異</li>
+                        <li>記憶體佔用低（適合大量 WebSocket 連線）</li>
+                        <li>編譯型語言，部署簡單（單一執行檔）</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Node.js 的優勢：</strong></p>
+                    <ul>
+                        <li>生態豐富（各平台 API SDK 齊全）</li>
+                        <li>開發速度快（TypeScript 支援佳）</li>
+                        <li>團隊熟悉度（如果前端團隊用 React）</li>
+                    </ul>
+                    <p style="margin-top: 15px; font-size: 0.95em; color: #667eea;">
+                        <strong>💡 建議：</strong>如果團隊熟悉 Go 且追求極致效能，選 Go；如果追求開發速度與生態，選 Node.js（兩者都可以）
+                    </p>
+                </div>
+
+                <h3>🔌 通訊模式</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>通訊場景</th>
+                            <th>通訊方式</th>
+                            <th>說明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>即時層 → 核心層</strong></td>
+                            <td>Event Bus（非同步）</td>
+                            <td>新留言、新訂單等事件透過 Redis Streams 發布</td>
+                        </tr>
+                        <tr>
+                            <td><strong>核心層 → 即時層</strong></td>
+                            <td>Event Bus（非同步）</td>
+                            <td>訂單狀態變更、庫存更新等事件發布給 WebSocket Server</td>
+                        </tr>
+                        <tr>
+                            <td><strong>即時層 → 平台 API</strong></td>
+                            <td>HTTP Polling（2-5 秒）</td>
+                            <td>主動拉取 FB/YouTube/LINE 聊天室訊息</td>
+                        </tr>
+                        <tr>
+                            <td><strong>核心層 → 平台 API</strong></td>
+                            <td>HTTP REST API</td>
+                            <td>建立直播間、發送通知等操作</td>
+                        </tr>
+                        <tr>
+                            <td><strong>即時層 → App</strong></td>
+                            <td>WebSocket（長連線）</td>
+                            <td>即時推送留言、訂單通知、庫存變動</td>
+                        </tr>
+                        <tr>
+                            <td><strong>App/後台 → 核心層</strong></td>
+                            <td>HTTPS REST API</td>
+                            <td>CRUD 操作、查詢報表</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="success-box">
+                    <h4>✅ 分層架構的好處</h4>
+                    <ul>
+                        <li><strong>技術適配：</strong>Laravel 做複雜商務邏輯，Go/Node.js 做高並發即時通訊，各司其職</li>
+                        <li><strong>獨立擴展：</strong>即時層可以開 10 個實例處理 WebSocket，核心層只需 2-3 個實例</li>
+                        <li><strong>故障隔離：</strong>即時層掛掉不影響核心業務（訂單仍可從後台建立）</li>
+                        <li><strong>易於測試：</strong>核心邏輯與即時邏輯分離，單元測試更容易</li>
+                        <li><strong>團隊協作：</strong>前端團隊可以維護 Node.js 即時層，後端團隊維護 Laravel 核心層</li>
                     </ul>
                 </div>
             </div>
@@ -993,6 +1246,325 @@ stateDiagram-v2
     ENDED --> [*]
     FAILED --> [*]
                 </pre>
+            </div>
+        </div>
+
+        <!-- 系統層設計 Tab -->
+        <div id="system" class="tab-content">
+            <div class="diagram-section">
+                <h2>⚙️ 系統層設計（非功能需求）</h2>
+
+                <div class="info-box">
+                    <h4>💡 什麼是系統層？</h4>
+                    <p>系統層設計關注的是「非功能需求」，不是具體業務邏輯，而是系統整體的品質屬性，包括：</p>
+                    <ul>
+                        <li><strong>即時性（Real-time）：</strong>訊息收單、WebSocket 推送的延遲要求</li>
+                        <li><strong>可用性（Availability）：</strong>系統正常運行時間、容錯能力</li>
+                        <li><strong>可擴展性（Scalability）：</strong>水平擴展、應對流量激增</li>
+                        <li><strong>安全性（Security）：</strong>認證授權、資料加密、防護攻擊</li>
+                        <li><strong>可觀測性（Observability）：</strong>日誌、監控、追蹤、告警</li>
+                    </ul>
+                </div>
+
+                <h3>⚡ 即時性設計</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🔄 API Polling 策略</h4>
+                        <p><strong>目標：</strong>2-5 秒內拿到新留言</p>
+                        <ul>
+                            <li>輪詢間隔：2-5 秒（可依平台調整）</li>
+                            <li>指數退避：無留言時逐漸降低頻率</li>
+                            <li>速率限制：避免超過平台 API Quota</li>
+                            <li>並發控制：多場直播並發拉取</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>📡 WebSocket 推送</h4>
+                        <p><strong>目標：</strong>< 500ms 推送延遲</p>
+                        <ul>
+                            <li>長連線維持：心跳機制（30 秒）</li>
+                            <li>斷線重連：指數退避重連</li>
+                            <li>訊息確認：ACK 機制確保送達</li>
+                            <li>房間隔離：每場直播獨立房間</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>🚀 Event Bus 效能</h4>
+                        <p><strong>目標：</strong>< 100ms 事件傳遞</p>
+                        <ul>
+                            <li>Redis Streams：初期足夠（< 1 萬 TPS）</li>
+                            <li>RabbitMQ：成長期（< 10 萬 TPS）</li>
+                            <li>Kafka：大規模（> 10 萬 TPS）</li>
+                            <li>消費者群組：水平擴展消費能力</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>🛡️ 可用性與容錯</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🏥 健康檢查</h4>
+                        <ul>
+                            <li><strong>Liveness Probe：</strong>服務是否存活</li>
+                            <li><strong>Readiness Probe：</strong>是否準備好接收流量</li>
+                            <li><strong>檢查端點：</strong>GET /health 回傳 200 OK</li>
+                            <li><strong>檢查項目：</strong>資料庫、Redis、Event Bus 連線</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>🔄 故障恢復</h4>
+                        <ul>
+                            <li><strong>自動重啟：</strong>容器異常時自動重啟</li>
+                            <li><strong>優雅關閉：</strong>SIGTERM 信號處理，完成當前請求</li>
+                            <li><strong>Circuit Breaker：</strong>外部 API 失敗時熔斷</li>
+                            <li><strong>重試機制：</strong>指數退避重試（最多 3 次）</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>💾 資料備份</h4>
+                        <ul>
+                            <li><strong>資料庫備份：</strong>每日全量 + 每小時增量</li>
+                            <li><strong>保留策略：</strong>30 天內可恢復任意時間點</li>
+                            <li><strong>異地備份：</strong>備份檔案存至 S3（跨區域）</li>
+                            <li><strong>定期演練：</strong>每季測試備份恢復流程</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>📈 可擴展性設計</h3>
+                <div class="success-box">
+                    <h4>✅ 水平擴展策略</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>組件</th>
+                                <th>擴展觸發條件</th>
+                                <th>擴展方式</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Laravel Octane</strong></td>
+                                <td>CPU > 70%</td>
+                                <td>Auto Scaling (2-10 Tasks)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>WebSocket Server</strong></td>
+                                <td>連線數 > 5000/實例</td>
+                                <td>Auto Scaling (水平擴展)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Platform Connectors</strong></td>
+                                <td>直播場次 > 50 場</td>
+                                <td>增加實例（每實例處理 50 場）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>FFmpeg Tasks</strong></td>
+                                <td>每場直播 1 個 Task</td>
+                                <td>按需啟動（RunTask）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>資料庫</strong></td>
+                                <td>連線數 > 80%</td>
+                                <td>讀寫分離 + Read Replicas</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="info-box">
+                    <h4>💡 無狀態設計原則</h4>
+                    <ul>
+                        <li><strong>Session 外部化：</strong>使用 Redis 儲存 Session，不存在應用程式記憶體</li>
+                        <li><strong>檔案上傳：</strong>直接上傳到 S3/OSS，不經過應用伺服器</li>
+                        <li><strong>WebSocket 房間：</strong>房間資訊存 Redis，任一實例都可處理</li>
+                        <li><strong>FFmpeg 狀態：</strong>狀態寫入資料庫，不依賴特定節點</li>
+                    </ul>
+                </div>
+
+                <h3>🔒 安全性設計</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🔐 認證與授權</h4>
+                        <ul>
+                            <li><strong>JWT Token：</strong>API 認證（短期 Token + Refresh Token）</li>
+                            <li><strong>RBAC：</strong>角色權限管理（Laravel Policy）</li>
+                            <li><strong>API Key：</strong>第三方整合使用 API Key</li>
+                            <li><strong>OAuth 2.0：</strong>FB/YouTube 平台授權</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>🛡️ 資料加密</h4>
+                        <ul>
+                            <li><strong>傳輸加密：</strong>HTTPS/TLS 1.3（強制）</li>
+                            <li><strong>資料庫加密：</strong>敏感欄位 AES-256 加密</li>
+                            <li><strong>環境變數：</strong>機敏資訊用 AWS Secrets Manager</li>
+                            <li><strong>RTMPS：</strong>直播推流使用加密協議</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>🚨 安全防護</h4>
+                        <ul>
+                            <li><strong>Rate Limiting：</strong>API 速率限制（100 req/min）</li>
+                            <li><strong>CORS 設定：</strong>限制來源域名</li>
+                            <li><strong>XSS 防護：</strong>輸入驗證 + CSP Header</li>
+                            <li><strong>SQL Injection：</strong>ORM + Prepared Statements</li>
+                            <li><strong>DDoS 防護：</strong>CloudFlare / AWS Shield</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>📊 可觀測性（Observability）</h3>
+                <div class="info-box">
+                    <h4>🔍 三大支柱：Logs、Metrics、Traces</h4>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>📝 日誌（Logs）</h4>
+                        <ul>
+                            <li><strong>結構化日誌：</strong>JSON 格式（方便解析）</li>
+                            <li><strong>日誌等級：</strong>DEBUG / INFO / WARNING / ERROR</li>
+                            <li><strong>集中管理：</strong>ELK Stack 或 CloudWatch Logs</li>
+                            <li><strong>關鍵事件：</strong>訂單建立、付款、推流啟動</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>📈 指標（Metrics）</h4>
+                        <ul>
+                            <li><strong>系統指標：</strong>CPU、記憶體、網路、磁碟</li>
+                            <li><strong>應用指標：</strong>Request Rate、Error Rate、Latency</li>
+                            <li><strong>業務指標：</strong>直播場次、訂單數、GMV</li>
+                            <li><strong>工具：</strong>Prometheus + Grafana 或 CloudWatch</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>🔗 追蹤（Traces）</h4>
+                        <ul>
+                            <li><strong>分散式追蹤：</strong>追蹤跨服務請求流程</li>
+                            <li><strong>Trace ID：</strong>每個請求唯一 ID</li>
+                            <li><strong>Span：</strong>記錄每個操作耗時</li>
+                            <li><strong>工具：</strong>Jaeger、AWS X-Ray</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>🚨 監控告警策略</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>告警項目</th>
+                            <th>觸發條件</th>
+                            <th>嚴重程度</th>
+                            <th>通知方式</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>服務無回應</strong></td>
+                            <td>Health Check 連續失敗 3 次</td>
+                            <td>🔴 Critical</td>
+                            <td>電話 + SMS + Email</td>
+                        </tr>
+                        <tr>
+                            <td><strong>錯誤率過高</strong></td>
+                            <td>Error Rate > 5% (持續 5 分鐘)</td>
+                            <td>🟠 High</td>
+                            <td>SMS + Email</td>
+                        </tr>
+                        <tr>
+                            <td><strong>回應時間過慢</strong></td>
+                            <td>P95 Latency > 2s (持續 10 分鐘)</td>
+                            <td>🟡 Medium</td>
+                            <td>Email + Slack</td>
+                        </tr>
+                        <tr>
+                            <td><strong>資料庫連線池滿</strong></td>
+                            <td>DB Connections > 90%</td>
+                            <td>🟠 High</td>
+                            <td>SMS + Email</td>
+                        </tr>
+                        <tr>
+                            <td><strong>磁碟空間不足</strong></td>
+                            <td>Disk Usage > 85%</td>
+                            <td>🟡 Medium</td>
+                            <td>Email + Slack</td>
+                        </tr>
+                        <tr>
+                            <td><strong>FFmpeg 啟動失敗</strong></td>
+                            <td>啟動失敗（影響直播）</td>
+                            <td>🔴 Critical</td>
+                            <td>電話 + SMS + Email</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="warning-box">
+                    <h4>⚠️ 告警疲勞（Alert Fatigue）防範</h4>
+                    <ul>
+                        <li><strong>合理閾值：</strong>避免過於敏感的告警條件</li>
+                        <li><strong>聚合告警：</strong>同類型告警在短時間內只發一次</li>
+                        <li><strong>告警分級：</strong>Critical/High/Medium，不同級別不同通知方式</li>
+                        <li><strong>定期檢討：</strong>每月檢視告警有效性，調整閾值</li>
+                    </ul>
+                </div>
+
+                <h3>🔧 技術實現工具選擇</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>面向</th>
+                            <th>自架方案</th>
+                            <th>AWS 雲端方案</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>日誌管理</strong></td>
+                            <td>ELK Stack (Elasticsearch + Logstash + Kibana)</td>
+                            <td>CloudWatch Logs + CloudWatch Insights</td>
+                        </tr>
+                        <tr>
+                            <td><strong>指標監控</strong></td>
+                            <td>Prometheus + Grafana</td>
+                            <td>CloudWatch Metrics + Grafana</td>
+                        </tr>
+                        <tr>
+                            <td><strong>分散式追蹤</strong></td>
+                            <td>Jaeger</td>
+                            <td>AWS X-Ray</td>
+                        </tr>
+                        <tr>
+                            <td><strong>告警通知</strong></td>
+                            <td>Alertmanager + PagerDuty</td>
+                            <td>CloudWatch Alarms + SNS</td>
+                        </tr>
+                        <tr>
+                            <td><strong>APM</strong></td>
+                            <td>自建（Prometheus + Jaeger）</td>
+                            <td>AWS X-Ray + CloudWatch Application Insights</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="success-box">
+                    <h4>✅ 系統層設計檢查清單</h4>
+                    <ul>
+                        <li>✅ <strong>即時性：</strong>API Polling 2-5 秒、WebSocket 推送 < 500ms、Event Bus < 100ms</li>
+                        <li>✅ <strong>可用性：</strong>Health Check、自動重啟、Circuit Breaker、資料備份</li>
+                        <li>✅ <strong>可擴展性：</strong>水平擴展、Auto Scaling、無狀態設計、讀寫分離</li>
+                        <li>✅ <strong>安全性：</strong>JWT 認證、RBAC 授權、HTTPS、資料加密、Rate Limiting</li>
+                        <li>✅ <strong>可觀測性：</strong>結構化日誌、指標監控、分散式追蹤、告警策略</li>
+                    </ul>
+                </div>
             </div>
         </div>
 

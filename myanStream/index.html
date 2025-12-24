@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>myanStream - 多平台直播帶貨系統</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .header .subtitle {
+            font-size: 1.4rem;
+            opacity: 0.95;
+            margin-bottom: 10px;
+        }
+
+        .header .description {
+            font-size: 1.1rem;
+            opacity: 0.85;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+        }
+
+        .card-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .card h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .card .card-subtitle {
+            color: #718096;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .card ul {
+            color: #4a5568;
+            line-height: 1.8;
+            margin-left: 20px;
+            margin-bottom: 25px;
+        }
+
+        .card ul li {
+            margin-bottom: 8px;
+        }
+
+        .card-button {
+            display: inline-block;
+            padding: 15px 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .card-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .features-preview {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .features-preview h4 {
+            color: #2d3748;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .feature-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        footer p {
+            margin: 8px 0;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 1024px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 30px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-button">← 返回專案列表</a>
+
+        <div class="header">
+            <h1>📡 myanStream</h1>
+            <p class="subtitle">多平台直播帶貨系統</p>
+            <p class="description">
+                一站式直播電商解決方案，整合多平台串流技術與完整的電商功能，
+                從直播推流、收單、訂單管理到物流出貨，提供全方位的直播帶貨體驗
+            </p>
+        </div>
+
+        <div class="cards-container">
+            <!-- 技術架構卡片 -->
+            <a href="architecture.html" class="card">
+                <span class="card-icon">🏗️</span>
+                <h2>技術架構</h2>
+                <p class="card-subtitle">Technical Architecture</p>
+                <p>深入了解 myanStream 的技術實現方案，包含完整的系統架構設計、部署方案與技術選型。</p>
+
+                <div class="features-preview">
+                    <h4>📋 包含內容：</h4>
+                    <ul>
+                        <li>多平台串流轉推技術（SRS + FFmpeg）</li>
+                        <li>Docker 自架方案 vs AWS ECS 雲端部署</li>
+                        <li>系統架構圖與資料流程</li>
+                        <li>資料庫設計與狀態管理</li>
+                        <li>效能最佳化與成本分析</li>
+                    </ul>
+                </div>
+
+                <div class="feature-tags">
+                    <span class="feature-tag">SRS</span>
+                    <span class="feature-tag">FFmpeg</span>
+                    <span class="feature-tag">Laravel Octane</span>
+                    <span class="feature-tag">Docker</span>
+                    <span class="feature-tag">AWS ECS</span>
+                    <span class="feature-tag">WebSocket</span>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    <span class="card-button">查看技術架構 →</span>
+                </div>
+            </a>
+
+            <!-- 功能規劃卡片 -->
+            <a href="features.html" class="card">
+                <span class="card-icon">⚡</span>
+                <h2>功能規劃</h2>
+                <p class="card-subtitle">Feature Planning</p>
+                <p>探索 myanStream 的完整功能模組，從直播場次管理、收單系統到會員管理，涵蓋所有直播帶貨所需功能。</p>
+
+                <div class="features-preview">
+                    <h4>📋 核心模組：</h4>
+                    <ul>
+                        <li>直播場次管理與多平台推流</li>
+                        <li>即時留言收單與訂單管理（OMS）</li>
+                        <li>商品、庫存與價格策略</li>
+                        <li>金流、物流整合</li>
+                        <li>會員 CRM 與行銷活動</li>
+                        <li>即時報表與數據分析</li>
+                    </ul>
+                </div>
+
+                <div class="feature-tags">
+                    <span class="feature-tag">直播管理</span>
+                    <span class="feature-tag">收單系統</span>
+                    <span class="feature-tag">訂單管理</span>
+                    <span class="feature-tag">金流物流</span>
+                    <span class="feature-tag">會員 CRM</span>
+                    <span class="feature-tag">數據分析</span>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    <span class="card-button">查看功能規劃 →</span>
+                </div>
+            </a>
+        </div>
+
+        <footer>
+            <p><strong>🎯 關於 myanStream</strong></p>
+            <p>整合多平台直播推流技術與完整電商功能的 SaaS 解決方案</p>
+            <p>📅 最後更新：<span id="lastUpdate"></span></p>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('zh-TW');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
