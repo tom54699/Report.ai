@@ -448,7 +448,8 @@
             <button class="nav-tab" onclick="showTab('marketing', this)">I. 行銷活動</button>
             <button class="nav-tab" onclick="showTab('analytics', this)">J. 報表分析</button>
             <button class="nav-tab" onclick="showTab('saas', this)">K. SaaS 計費</button>
-            <button class="nav-tab" onclick="showTab('streamer-journey', this)" style="background: #fef5e7; border-color: #f39c12;">🎬 主播流程</button>
+            <button class="nav-tab" onclick="showTab('streamer-journey', this)" style="background: #fef5e7; border-color: #f39c12;">🎬 直播收單流程</button>
+            <button class="nav-tab" onclick="showTab('non-live-order', this)" style="background: #e8f5e9; border-color: #4caf50;">🛒 非直播收單流程</button>
         </div>
 
         <!-- 總覽 Tab -->
@@ -697,7 +698,19 @@
                     </tbody>
                 </table>
 
-                <h3>3️⃣ 收單流程</h3>
+                <h3>3️⃣ 關鍵字識別（智能 +1 系統）</h3>
+                <div class="highlight-box">
+                    <h4>🤖 支援多種 +1 格式</h4>
+                    <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                        <li><strong>基本 +1：</strong>「+1」、「+ 1」、「＋1」（支援全形半形）</li>
+                        <li><strong>包裹 +1：</strong>「包+1」、「全+1」、「ALL+1」（一次購買全部商品）</li>
+                        <li><strong>規格 +1：</strong>「+1 紅色 M」、「我要藍色 L x2」</li>
+                        <li><strong>商品編號：</strong>「+1 A」、「編號 3 +1」</li>
+                        <li><strong>數量識別：</strong>自動識別「x2」、「2件」、「兩個」等數量詞</li>
+                    </ul>
+                </div>
+
+                <h3>4️⃣ 收單流程</h3>
                 <div class="highlight-box">
                     <h4>📝 從留言到訂單的完整流程</h4>
                     <ol style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
@@ -707,6 +720,51 @@
                         <li><strong>主播確認：</strong>檢查庫存、買家資訊，確認或修改</li>
                         <li><strong>生成訂單：</strong>轉為正式訂單，發送通知給買家</li>
                     </ol>
+                </div>
+
+                <h3>5️⃣ 加單池功能</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>功能</th>
+                            <th>說明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>多標商品同時收單</strong></td>
+                            <td>可同時開放多個商品收單，買家可對不同商品分別 +1</td>
+                        </tr>
+                        <tr>
+                            <td><strong>先搶先贏機制</strong></td>
+                            <td>庫存限量商品，先留言先取得訂購權，營造搶購氛圍</td>
+                        </tr>
+                        <tr>
+                            <td><strong>已喊標畫面</strong></td>
+                            <td>即時顯示各商品的 +1 統計數字，「數字一直跑，直播心情一直好」</td>
+                        </tr>
+                        <tr>
+                            <td><strong>暫存單管理</strong></td>
+                            <td>所有 +1 記錄暫存於加單池，主播可批量確認或個別處理</td>
+                        </tr>
+                        <tr>
+                            <td><strong>自動扣庫存</strong></td>
+                            <td>暫存單建立時即預留庫存，避免超賣（可設定保留時間）</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>6️⃣ 歷史/貼文加單</h3>
+                <div class="success-box">
+                    <h4>✅ 直播結束後仍可持續收單</h4>
+                    <p><strong>核心優勢：</strong>直播結束後，觀眾仍可透過以下方式下單：</p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>直播回放影片：</strong>在 Facebook 直播回放影片下方留言 +1</li>
+                        <li><strong>貼文加單：</strong>在商品貼文（Facebook/Instagram）留言區收單</li>
+                        <li><strong>Reels 短影音：</strong>Instagram Reels 影片下方留言收單</li>
+                        <li><strong>LINE 社群貼文：</strong>LINE 群組內的商品貼文留言收單</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>💡 效益：</strong>24 小時不間斷收單，直播結束後仍可持續銷售，最大化每場直播的價值。</p>
                 </div>
 
                 <div class="info-box">
@@ -771,24 +829,53 @@
                     </tbody>
                 </table>
 
-                <h3>3️⃣ 價格策略</h3>
-                <div class="overview-grid">
-                    <div class="overview-item">
-                        <h5>原價/售價</h5>
-                        <p>設定商品原價與銷售價格，自動計算折扣</p>
-                    </div>
-                    <div class="overview-item">
-                        <h5>階梯價格</h5>
-                        <p>買越多越便宜（例如：5 件 9 折、10 件 8 折）</p>
-                    </div>
-                    <div class="overview-item">
-                        <h5>會員價</h5>
-                        <p>不同會員等級享有不同價格</p>
-                    </div>
-                    <div class="overview-item">
-                        <h5>限時優惠</h5>
-                        <p>設定優惠時間區間，自動恢復原價</p>
-                    </div>
+                <h3>3️⃣ 價格策略（多層級定價）</h3>
+                <div class="highlight-box">
+                    <h4>💰 靈活的價格分類系統</h4>
+                    <p>同一商品可設定<strong>多種價格</strong>，系統自動根據購買場景與會員等級套用對應價格：</p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>價格類型</th>
+                            <th>說明</th>
+                            <th>使用場景</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>商城售價</strong></td>
+                            <td>一般商城展示價格</td>
+                            <td>買家在商城瀏覽時看到的價格</td>
+                        </tr>
+                        <tr>
+                            <td><strong>直播專屬價</strong></td>
+                            <td>直播時的優惠價格</td>
+                            <td>直播收單時自動套用，刺激即時下單</td>
+                        </tr>
+                        <tr>
+                            <td><strong>VIP 會員價</strong></td>
+                            <td>依會員等級差異定價</td>
+                            <td>銀卡 9 折、金卡 85 折、鑽石卡 8 折</td>
+                        </tr>
+                        <tr>
+                            <td><strong>批發價</strong></td>
+                            <td>大量購買優惠價</td>
+                            <td>購買 10 件以上自動套用批發價</td>
+                        </tr>
+                        <tr>
+                            <td><strong>限時優惠價</strong></td>
+                            <td>時間區間限定價格</td>
+                            <td>例如：週年慶期間特價</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="success-box" style="margin-top: 15px;">
+                    <h4>✅ 價格優先順序邏輯</h4>
+                    <p>當買家符合多種價格條件時，系統自動套用<strong>最優惠</strong>的價格：</p>
+                    <p style="margin-top: 10px;"><strong>限時優惠價 > VIP 會員價 > 直播專屬價 > 批發價 > 商城售價</strong></p>
                 </div>
 
                 <h3>4️⃣ 候補單（缺貨登記）</h3>
@@ -826,6 +913,59 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <h3>6️⃣ 商品樣式範本設定</h3>
+                <div class="success-box">
+                    <h4>🎨 快速建立商品的秘訣</h4>
+                    <p><strong>核心概念：</strong>將常用的商品樣式（規格組合、定價策略、圖片佈局等）<strong>設定為範本</strong>，之後新增商品時直接套用，大幅提升效率。</p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>範本項目</th>
+                            <th>說明</th>
+                            <th>範例</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>規格範本</strong></td>
+                            <td>預設規格組合（顏色/尺寸）</td>
+                            <td>服飾類：顏色（黑/白/紅）+ 尺寸（S/M/L/XL）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>價格範本</strong></td>
+                            <td>預設價格策略</td>
+                            <td>商城價 $500、直播價 $450、VIP 價 $400</td>
+                        </tr>
+                        <tr>
+                            <td><strong>圖片佈局範本</strong></td>
+                            <td>商品圖片排版樣式</td>
+                            <td>主圖 + 4 張細節圖 + 尺寸表</td>
+                        </tr>
+                        <tr>
+                            <td><strong>運費範本</strong></td>
+                            <td>預設運費設定</td>
+                            <td>滿 $1000 免運、單件 $80、2 件 $100</td>
+                        </tr>
+                        <tr>
+                            <td><strong>描述範本</strong></td>
+                            <td>商品描述模板</td>
+                            <td>材質說明、洗滌方式、退換貨政策等</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box" style="margin-top: 15px;">
+                    <h4>💡 使用情境</h4>
+                    <ul>
+                        <li><strong>服飾類商家：</strong>建立「服飾範本」，每次上架新衣服時套用，只需更換圖片與名稱</li>
+                        <li><strong>美妝類商家：</strong>建立「保養品範本」，預設容量規格（30ml/50ml/100ml）與價格階梯</li>
+                        <li><strong>食品類商家：</strong>建立「食品範本」，預設保存期限欄位與運送方式（冷藏/常溫）</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>🎯 效益：</strong>第一次設定後，之後新增商品速度提升 <strong>5 倍以上</strong>，減少重複輸入。</p>
+                </div>
             </div>
         </div>
 
@@ -960,6 +1100,160 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <h3>6️⃣ 買家身份快速識別</h3>
+                <div class="highlight-box">
+                    <h4>👤 一眼辨識新客戶 or VIP 會員</h4>
+                    <p><strong>核心功能：</strong>在訂單列表上直接顯示買家身分標籤，無需點開訂單詳情即可快速判斷客戶類型，調整服務優先度。</p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>標籤類型</th>
+                            <th>顯示樣式</th>
+                            <th>說明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>🆕 新客戶</strong></td>
+                            <td>藍色標籤「新客」</td>
+                            <td>首次購買的買家，需重點關注體驗</td>
+                        </tr>
+                        <tr>
+                            <td><strong>⭐ VIP 等級</strong></td>
+                            <td>金色標籤「VIP」+ 等級</td>
+                            <td>銀卡/金卡/鑽石卡，享有優先處理</td>
+                        </tr>
+                        <tr>
+                            <td><strong>🔥 回購客</strong></td>
+                            <td>橘色標籤「回購 X 次」</td>
+                            <td>顯示累積購買次數，忠誠客戶</td>
+                        </tr>
+                        <tr>
+                            <td><strong>⚠️ 風險客戶</strong></td>
+                            <td>紅色標籤「高棄單率」</td>
+                            <td>棄單率高的買家，需謹慎處理</td>
+                        </tr>
+                        <tr>
+                            <td><strong>💰 高價值客</strong></td>
+                            <td>紫色標籤「高消費」</td>
+                            <td>累積消費金額達標（如 >$10,000）</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="success-box" style="margin-top: 15px;">
+                    <h4>✅ 實際應用</h4>
+                    <ul>
+                        <li><strong>新客優先回覆：</strong>首次購買的客戶優先處理訊息，提升滿意度</li>
+                        <li><strong>VIP 專屬服務：</strong>VIP 訂單優先出貨、贈送小禮物</li>
+                        <li><strong>風險控管：</strong>高棄單率客戶可設定貨到付款限制或預付款</li>
+                    </ul>
+                </div>
+
+                <h3>7️⃣ 客戶轉單協助系統</h3>
+                <div class="info-box">
+                    <h4>💡 協助不會結單的客戶完成交易</h4>
+                    <p><strong>目標客群：</strong>中高齡客戶、不熟悉線上購物流程的買家</p>
+                    <p style="margin-top: 10px;"><strong>問題情境：</strong>客戶在直播中喊 +1，但不知道如何填寫收貨資訊、選擇付款方式，導致訂單卡關。</p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>功能</th>
+                            <th>說明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>一對一客服引導</strong></td>
+                            <td>客服人員透過系統私訊，逐步引導買家填寫資料</td>
+                        </tr>
+                        <tr>
+                            <td><strong>代客結單</strong></td>
+                            <td>客服人員取得買家同意後，直接在後台幫忙建立訂單</td>
+                        </tr>
+                        <tr>
+                            <td><strong>語音通話協助</strong></td>
+                            <td>系統提供電話聯繫功能，客服直接致電協助</td>
+                        </tr>
+                        <tr>
+                            <td><strong>簡化表單模式</strong></td>
+                            <td>提供超簡易版表單（只需姓名+電話+地址）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>結單狀態追蹤</strong></td>
+                            <td>標記「轉單中」狀態，追蹤協助進度</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="warning-box" style="margin-top: 15px;">
+                    <h4>⚠️ 注意事項</h4>
+                    <p>代客結單時需錄音或留存對話記錄，確保買家同意，避免爭議。</p>
+                </div>
+
+                <h3>8️⃣ 商品配貨系統</h3>
+                <div class="success-box">
+                    <h4>📦 手動 / 全自動配貨模式</h4>
+                    <p><strong>配貨目的：</strong>將訂單中的商品從倉庫分配到出貨區，確保正確揀貨、包裝、出貨。</p>
+                </div>
+
+                <div class="overview-grid">
+                    <div class="overview-item">
+                        <h5>手動配貨</h5>
+                        <p><strong>流程：</strong>訂單確認後 → 手動勾選「配貨完成」→ 安排出貨</p>
+                        <p style="margin-top: 10px; color: #666; font-size: 0.9rem;"><strong>適用：</strong>小型商家、少量訂單、客製化商品</p>
+                    </div>
+                    <div class="overview-item">
+                        <h5>全自動配貨</h5>
+                        <p><strong>流程：</strong>訂單確認後 → 系統自動分配倉位 → 列印揀貨單 → 配貨人員依單揀貨</p>
+                        <p style="margin-top: 10px; color: #666; font-size: 0.9rem;"><strong>適用：</strong>大量訂單、多SKU商品、倉儲管理</p>
+                    </div>
+                </div>
+
+                <table style="margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>配貨功能</th>
+                            <th>說明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>揀貨單生成</strong></td>
+                            <td>自動產生揀貨單，顯示商品位置、數量、規格</td>
+                        </tr>
+                        <tr>
+                            <td><strong>分批配貨</strong></td>
+                            <td>訂單數量大時，可分批次配貨（如每 50 單一批）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>掃碼確認</strong></td>
+                            <td>配貨時掃描商品條碼，確保不會拿錯商品</td>
+                        </tr>
+                        <tr>
+                            <td><strong>配貨進度追蹤</strong></td>
+                            <td>顯示「待配貨」、「配貨中」、「配貨完成」狀態</td>
+                        </tr>
+                        <tr>
+                            <td><strong>異常處理</strong></td>
+                            <td>缺貨、商品損壞等異常狀況標記與通知</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box" style="margin-top: 15px;">
+                    <h4>💡 效益分析</h4>
+                    <ul>
+                        <li><strong>減少出錯率：</strong>系統化揀貨流程，避免人工錯誤</li>
+                        <li><strong>提升效率：</strong>自動配貨可提升 <strong>3-5 倍</strong> 出貨速度</li>
+                        <li><strong>庫存準確：</strong>配貨時即時扣除庫存，數據精準</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -1089,6 +1383,98 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <h3>6️⃣ 自動對帳系統</h3>
+                <div class="success-box">
+                    <h4>🤖 第三方虛擬帳號自動對帳</h4>
+                    <p><strong>核心功能：</strong>當買家使用 ATM 虛擬帳號轉帳時，系統自動比對銀行入帳記錄與訂單金額，無需人工核對，大幅提升效率。</p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>功能</th>
+                            <th>說明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>虛擬帳號配對</strong></td>
+                            <td>每筆訂單產生唯一虛擬帳號，買家轉帳後自動識別是哪筆訂單</td>
+                        </tr>
+                        <tr>
+                            <td><strong>金額自動比對</strong></td>
+                            <td>系統比對入帳金額與訂單金額，完全符合才標記為已付款</td>
+                        </tr>
+                        <tr>
+                            <td><strong>多退少補處理</strong></td>
+                            <td>金額不符時自動標記異常，通知商家人工處理</td>
+                        </tr>
+                        <tr>
+                            <td><strong>對帳報表</strong></td>
+                            <td>每日自動產生對帳報表，與銀行流水核對</td>
+                        </tr>
+                        <tr>
+                            <td><strong>API 串接銀行</strong></td>
+                            <td>透過銀行 API 或金流商 API 取得即時入帳資訊</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box" style="margin-top: 15px;">
+                    <h4>💡 效益</h4>
+                    <ul>
+                        <li><strong>省時：</strong>每天節省 1-2 小時對帳時間</li>
+                        <li><strong>準確：</strong>避免人工對帳錯誤，降低糾紛</li>
+                        <li><strong>即時：</strong>買家轉帳後系統即時通知，加速出貨</li>
+                    </ul>
+                </div>
+
+                <h3>7️⃣ 電子發票整合</h3>
+                <div class="highlight-box">
+                    <h4>🧾 一鍵開立電子發票</h4>
+                    <p><strong>整合廠商：</strong>綠界、鯨躍、盟立等電子發票平台</p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>功能</th>
+                            <th>說明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>訂單完成自動開立</strong></td>
+                            <td>買家付款完成後，系統自動開立電子發票並寄送到 Email</td>
+                        </tr>
+                        <tr>
+                            <td><strong>手機載具</strong></td>
+                            <td>支援手機條碼、自然人憑證、會員載具</td>
+                        </tr>
+                        <tr>
+                            <td><strong>統一編號</strong></td>
+                            <td>買家可填寫公司統編，開立三聯式發票</td>
+                        </tr>
+                        <tr>
+                            <td><strong>發票作廢/折讓</strong></td>
+                            <td>訂單取消時自動作廢發票，部分退款時開立折讓單</td>
+                        </tr>
+                        <tr>
+                            <td><strong>發票管理</strong></td>
+                            <td>查詢所有發票記錄、匯出報表、上傳國稅局</td>
+                        </tr>
+                        <tr>
+                            <td><strong>中獎通知</strong></td>
+                            <td>發票中獎時自動通知買家領獎</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="success-box" style="margin-top: 15px;">
+                    <h4>✅ 符合法規</h4>
+                    <p>完全符合台灣財政部電子發票規範，自動申報、自動上傳、自動歸戶，商家無需額外處理稅務問題。</p>
+                </div>
 
                 <div class="warning-box">
                     <h4>⚠️ 金流方案選配</h4>
@@ -1239,6 +1625,95 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <h3>6️⃣ 多筆訂單合併</h3>
+                <div class="success-box">
+                    <h4>📦 節省運費的智能合併</h4>
+                    <p><strong>情境：</strong>同一買家在短時間內下了多筆訂單，系統可自動或手動合併成一筆出貨，節省運費成本。</p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>功能</th>
+                            <th>說明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>自動偵測</strong></td>
+                            <td>系統自動偵測同一買家、同一收件地址的多筆訂單</td>
+                        </tr>
+                        <tr>
+                            <td><strong>合併建議</strong></td>
+                            <td>後台顯示「可合併訂單」提示，商家可選擇是否合併</td>
+                        </tr>
+                        <tr>
+                            <td><strong>運費調整</strong></td>
+                            <td>合併後重新計算運費，退還多收的運費給買家</td>
+                        </tr>
+                        <tr>
+                            <td><strong>合併通知</strong></td>
+                            <td>自動通知買家「您的訂單已合併出貨，節省運費 $XX 元」</td>
+                        </tr>
+                        <tr>
+                            <td><strong>托運單整合</strong></td>
+                            <td>合併後只產生一張托運單，包含所有商品</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box" style="margin-top: 15px;">
+                    <h4>💡 應用範例</h4>
+                    <p><strong>情境：</strong>買家在直播中先買了商品 A（運費 $80），10 分鐘後又買了商品 B（運費 $80）</p>
+                    <p style="margin-top: 10px;"><strong>合併後：</strong>系統合併成一筆出貨（運費 $80），退還買家 $80，買家滿意度提升，商家節省包材成本。</p>
+                </div>
+
+                <h3>7️⃣ 訂單拆分設定</h3>
+                <div class="highlight-box">
+                    <h4>✂️ 單一商品取消無需整筆退回</h4>
+                    <p><strong>情境：</strong>買家訂購了 3 件商品，但其中 1 件缺貨或買家想取消，系統可拆分訂單，只處理部分商品。</p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>功能</th>
+                            <th>說明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>部分取消</strong></td>
+                            <td>從訂單中移除特定商品，其他商品繼續出貨</td>
+                        </tr>
+                        <tr>
+                            <td><strong>金額重算</strong></td>
+                            <td>拆分後自動重新計算訂單金額、運費、折扣</td>
+                        </tr>
+                        <tr>
+                            <td><strong>部分退款</strong></td>
+                            <td>只退還被取消商品的款項，無需全額退款</td>
+                        </tr>
+                        <tr>
+                            <td><strong>拆分記錄</strong></td>
+                            <td>完整記錄拆分原因、時間、操作人員</td>
+                        </tr>
+                        <tr>
+                            <td><strong>發票處理</strong></td>
+                            <td>拆分後自動開立折讓單，符合發票規範</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="warning-box" style="margin-top: 15px;">
+                    <h4>⚠️ 注意事項</h4>
+                    <ul>
+                        <li>拆分前需確認買家同意（建議透過訊息確認）</li>
+                        <li>若訂單享有「滿額免運」，拆分後金額不足可能需重新計算運費</li>
+                        <li>若使用優惠券（滿 $1000 折 $100），拆分後可能不符合使用條件</li>
+                    </ul>
+                </div>
 
                 <div class="warning-box">
                     <h4>⚠️ 物流方案選配</h4>
@@ -1507,6 +1982,245 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <h3>6️⃣ 下單率/棄單率分析</h3>
+                <div class="highlight-box">
+                    <h4>📊 買家行為追蹤</h4>
+                    <p>系統自動追蹤買家從「+1 喊標」到「完成付款」的完整流程，計算轉換率與棄單率。</p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>分析指標</th>
+                            <th>計算方式</th>
+                            <th>說明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>下單率</strong></td>
+                            <td>已付款訂單數 ÷ 總訂單數 × 100%</td>
+                            <td>衡量買家從下單到付款的轉換率</td>
+                        </tr>
+                        <tr>
+                            <td><strong>棄單率</strong></td>
+                            <td>未付款訂單數 ÷ 總訂單數 × 100%</td>
+                            <td>未完成付款的訂單比例</td>
+                        </tr>
+                        <tr>
+                            <td><strong>資訊填寫率</strong></td>
+                            <td>已填寫資訊訂單 ÷ 總訂單數 × 100%</td>
+                            <td>買家是否願意填寫收件資訊</td>
+                        </tr>
+                        <tr>
+                            <td><strong>回應率</strong></td>
+                            <td>有回覆訊息買家 ÷ 總買家數 × 100%</td>
+                            <td>私訊聯繫的回應程度</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box" style="margin-top: 15px;">
+                    <h4>💡 實際應用案例</h4>
+                    <p><strong>範例數據：</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>買家 A：下單 10 次，付款 10 次 → <span style="color: #27ae60; font-weight: bold;">下單率 100%（優質客戶）</span></li>
+                        <li>買家 B：下單 10 次，付款 3 次 → <span style="color: #e74c3c; font-weight: bold;">棄單率 70%（風險客戶）</span></li>
+                        <li>買家 C：下單 5 次，付款 4 次 → <span style="color: #f39c12; font-weight: bold;">下單率 80%（普通客戶）</span></li>
+                    </ul>
+                </div>
+
+                <div class="overview-grid" style="margin-top: 15px;">
+                    <div class="overview-item" style="background: #e8f5e9;">
+                        <h5 style="color: #27ae60;">✅ 下單率應用</h5>
+                        <p>• 優先服務高下單率客戶<br>
+                        • VIP 升級參考指標<br>
+                        • 行銷活動目標客群</p>
+                    </div>
+                    <div class="overview-item" style="background: #ffebee;">
+                        <h5 style="color: #e74c3c;">⚠️ 棄單率應用</h5>
+                        <p>• 高棄單率客戶加入黑名單<br>
+                        • 調整服務優先順序<br>
+                        • 優化催單策略</p>
+                    </div>
+                </div>
+
+                <h3>7️⃣ 黑名單管理</h3>
+                <div class="highlight-box">
+                    <h4>🚫 風險客戶控管</h4>
+                    <p>針對高棄單率、惡意下單、長期不回應的買家，系統提供黑名單機制，保護商家權益。</p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>黑名單類型</th>
+                            <th>觸發條件</th>
+                            <th>系統處理</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>🚨 高棄單率客戶</strong></td>
+                            <td>棄單率 > 70%，且訂單數 > 5 筆</td>
+                            <td>隱藏該買家留言、不顯示 +1</td>
+                        </tr>
+                        <tr>
+                            <td><strong>⛔ 惡意下單</strong></td>
+                            <td>短時間內大量下單後全部棄單</td>
+                            <td>自動加入黑名單、封鎖下單</td>
+                        </tr>
+                        <tr>
+                            <td><strong>📵 長期不回應</strong></td>
+                            <td>連續 5 次私訊不回應</td>
+                            <td>標記為「不回應客戶」、降低優先級</td>
+                        </tr>
+                        <tr>
+                            <td><strong>💬 惡意留言</strong></td>
+                            <td>手動標記攻擊性留言客戶</td>
+                            <td>隱藏留言、封鎖互動</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box" style="margin-top: 15px;">
+                    <h4>🔧 黑名單功能操作</h4>
+                    <table style="width: 100%; margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th>功能</th>
+                                <th>說明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>自動偵測</strong></td>
+                                <td>系統依據設定條件自動偵測風險客戶，提示商家</td>
+                            </tr>
+                            <tr>
+                                <td><strong>手動加入</strong></td>
+                                <td>商家可手動將特定買家加入黑名單</td>
+                            </tr>
+                            <tr>
+                                <td><strong>留言隱藏</strong></td>
+                                <td>黑名單客戶的「+1」留言不會被系統收錄</td>
+                            </tr>
+                            <tr>
+                                <td><strong>訂單攔截</strong></td>
+                                <td>防止黑名單客戶繼續下單佔用庫存</td>
+                            </tr>
+                            <tr>
+                                <td><strong>解除黑名單</strong></td>
+                                <td>商家可手動解除黑名單，給予買家第二次機會</td>
+                            </tr>
+                            <tr>
+                                <td><strong>黑名單記錄</strong></td>
+                                <td>完整記錄加入原因、時間、操作人員</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="background: #fff3cd; padding: 15px; border-radius: 5px; border-left: 4px solid #f39c12; margin-top: 15px;">
+                    <p><strong>⚠️ 重要提醒：</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>建議先使用「降低優先級」而非直接加入黑名單</li>
+                        <li>黑名單功能應謹慎使用，避免誤判優質客戶</li>
+                        <li>定期檢視黑名單，給予改善機會</li>
+                        <li>可設定「觀察名單」作為緩衝機制</li>
+                    </ul>
+                </div>
+
+                <h3>8️⃣ 紅利管理系統</h3>
+                <div class="highlight-box">
+                    <h4>🎁 樂透紅包刺激消費</h4>
+                    <p>透過「樂透紅包」機制，讓買家在訂單金額達標時獲得抽獎機會，增加購買意願與回購率。</p>
+                </div>
+
+                <div class="overview-grid">
+                    <div class="overview-item" style="background: #fff3e0;">
+                        <h5>🎰 樂透紅包</h5>
+                        <p><strong>機制：</strong>訂單滿額即可抽獎<br>
+                        <strong>範例：</strong>消費滿 $500 抽 $10-$100 紅包</p>
+                    </div>
+                    <div class="overview-item" style="background: #fce4ec;">
+                        <h5>🎲 中獎機率設定</h5>
+                        <p><strong>一等獎：</strong>$100（機率 1%）<br>
+                        <strong>二等獎：</strong>$50（機率 5%）<br>
+                        <strong>三等獎：</strong>$10（機率 20%）</p>
+                    </div>
+                    <div class="overview-item" style="background: #e8f5e9;">
+                        <h5>💰 紅利使用規則</h5>
+                        <p>• 下次購物可折抵<br>
+                        • 設定使用期限（如 30 天）<br>
+                        • 滿額才能使用</p>
+                    </div>
+                    <div class="overview-item" style="background: #e3f2fd;">
+                        <h5>📊 成效追蹤</h5>
+                        <p>• 紅利發放總額<br>
+                        • 紅利使用率<br>
+                        • 回購率提升統計</p>
+                    </div>
+                </div>
+
+                <table style="margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th>設定項目</th>
+                            <th>功能說明</th>
+                            <th>範例</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>門檻設定</strong></td>
+                            <td>設定訂單金額達多少才能抽獎</td>
+                            <td>消費滿 $500、$1000、$2000</td>
+                        </tr>
+                        <tr>
+                            <td><strong>紅包金額</strong></td>
+                            <td>設定紅包面額與中獎機率</td>
+                            <td>$10（50%）、$50（10%）、$100（1%）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>抽獎次數</strong></td>
+                            <td>訂單可獲得的抽獎次數</td>
+                            <td>滿 $500 抽 1 次、滿 $1000 抽 2 次</td>
+                        </tr>
+                        <tr>
+                            <td><strong>使用限制</strong></td>
+                            <td>紅利折抵的條件與期限</td>
+                            <td>30 天內有效、單筆訂單滿 $300 可用</td>
+                        </tr>
+                        <tr>
+                            <td><strong>活動期間</strong></td>
+                            <td>紅利活動的起訖時間</td>
+                            <td>2025/1/1 - 2025/1/31</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box" style="margin-top: 15px;">
+                    <h4>💡 實際案例：樂透紅包刺激回購</h4>
+                    <p><strong>情境：</strong>買家 A 購買 $600 商品，訂單完成後獲得 1 次抽獎機會</p>
+                    <div style="background: #f5f5f5; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <p><strong>抽獎結果：</strong>恭喜中獎 $50 紅包！</p>
+                        <p><strong>使用規則：</strong>30 天內消費滿 $300 可折抵</p>
+                        <p><strong>效果：</strong>買家為了使用紅包，在 15 天後再次購買 $400 商品</p>
+                        <p style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 成功刺激回購，客單價從 $600 → $1000（含第二次消費）</p>
+                    </div>
+                </div>
+
+                <div style="background: #e8f5e9; padding: 15px; border-radius: 5px; border-left: 4px solid #27ae60; margin-top: 15px;">
+                    <p><strong>📈 數據顯示：</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>使用樂透紅包機制後，<strong>回購率提升 35%</strong></li>
+                        <li>買家平均消費金額增加 <strong>$200-$500</strong>（為達抽獎門檻）</li>
+                        <li>紅利使用率約 <strong>60-70%</strong>，有效促進二次消費</li>
+                        <li>客戶黏著度提升，<strong>流失率降低 25%</strong></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -1671,6 +2385,392 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <h3>8️⃣ 優惠碼進階設定</h3>
+                <div class="highlight-box">
+                    <h4>🎟️ 優惠碼/優惠券詳細管理</h4>
+                    <p>提供完整的優惠碼設定功能，包含時間限制、使用次數、發放對象等細部控制。</p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>設定項目</th>
+                            <th>功能說明</th>
+                            <th>範例</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>優惠碼格式</strong></td>
+                            <td>自訂優惠碼名稱與格式</td>
+                            <td>VIP100、NEW50、SAVE2025</td>
+                        </tr>
+                        <tr>
+                            <td><strong>折扣類型</strong></td>
+                            <td>固定金額 / 百分比折扣</td>
+                            <td>折抵 $100、打 9 折（10% off）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>使用門檻</strong></td>
+                            <td>訂單需達到的最低金額</td>
+                            <td>消費滿 $500 可用、滿 $1000 可用</td>
+                        </tr>
+                        <tr>
+                            <td><strong>時間限制</strong></td>
+                            <td>優惠碼有效期間</td>
+                            <td>2025/1/1 - 2025/1/31、領取後 7 天內有效</td>
+                        </tr>
+                        <tr>
+                            <td><strong>使用次數限制</strong></td>
+                            <td>總使用次數 / 每人使用次數</td>
+                            <td>限量 100 組、每人限用 1 次</td>
+                        </tr>
+                        <tr>
+                            <td><strong>適用商品</strong></td>
+                            <td>指定商品/分類可使用</td>
+                            <td>全館適用、僅限「服飾」分類、指定商品 A, B, C</td>
+                        </tr>
+                        <tr>
+                            <td><strong>會員限定</strong></td>
+                            <td>僅特定會員可使用</td>
+                            <td>VIP 會員專用、新會員專用、生日當月可用</td>
+                        </tr>
+                        <tr>
+                            <td><strong>疊加規則</strong></td>
+                            <td>是否可與其他優惠併用</td>
+                            <td>不可與滿額優惠併用、可與紅利點數併用</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box" style="margin-top: 15px;">
+                    <h4>💡 優惠碼實際應用範例</h4>
+                    <table style="width: 100%; margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th>優惠碼</th>
+                                <th>設定內容</th>
+                                <th>使用情境</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>NEW100</strong></td>
+                                <td>新會員折 $100，滿 $500 可用，每人限用 1 次</td>
+                                <td>吸引新會員首次下單</td>
+                            </tr>
+                            <tr>
+                                <td><strong>VIP200</strong></td>
+                                <td>VIP 會員折 $200，滿 $1000 可用，無限次使用</td>
+                                <td>VIP 會員回購獎勵</td>
+                            </tr>
+                            <tr>
+                                <td><strong>FLASH50</strong></td>
+                                <td>限時 50 元折扣，活動當天有效，限量 100 組</td>
+                                <td>限時搶購活動</td>
+                            </tr>
+                            <tr>
+                                <td><strong>BDAY15</strong></td>
+                                <td>生日當月 85 折（15% off），全館適用</td>
+                                <td>生日禮遇提升滿意度</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>9️⃣ 滿額免運券</h3>
+                <div class="highlight-box">
+                    <h4>🚚 運費優惠策略</h4>
+                    <p>針對運費設計專屬優惠券，降低買家棄單率，提升下單意願。</p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>設定項目</th>
+                            <th>功能說明</th>
+                            <th>範例</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>免運門檻</strong></td>
+                            <td>訂單達到指定金額即免運</td>
+                            <td>滿 $800 免運、滿 $1200 免運</td>
+                        </tr>
+                        <tr>
+                            <td><strong>運費補貼</strong></td>
+                            <td>部分補貼運費</td>
+                            <td>運費折抵 $50、運費半價</td>
+                        </tr>
+                        <tr>
+                            <td><strong>指定配送方式</strong></td>
+                            <td>僅特定配送方式免運</td>
+                            <td>超商取貨免運、宅配滿 $1000 免運</td>
+                        </tr>
+                        <tr>
+                            <td><strong>地區限制</strong></td>
+                            <td>指定地區適用免運</td>
+                            <td>本島免運、外島需補運費差額</td>
+                        </tr>
+                        <tr>
+                            <td><strong>發放對象</strong></td>
+                            <td>針對特定客群發放</td>
+                            <td>新會員免運券、VIP 會員免運券</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box" style="margin-top: 15px;">
+                    <h4>💡 免運券效益分析</h4>
+                    <p><strong>案例情境：</strong>買家 A 購物車有 $750 商品，運費 $80</p>
+                    <div style="background: #f5f5f5; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <p><strong>❌ 未使用免運券：</strong>總金額 $830，買家覺得運費太貴，放棄結帳</p>
+                        <p><strong>✅ 提供「滿 $800 免運」：</strong>買家加購 $50 商品湊免運，最終消費 $800</p>
+                        <p style="color: #27ae60; font-weight: bold; margin-top: 10px;">成功促成訂單，客單價從 $750 → $800</p>
+                    </div>
+                    <p style="margin-top: 15px;"><strong>📈 數據效益：</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>棄單率降低 <strong>30-40%</strong></li>
+                        <li>平均客單價提升 <strong>$100-$200</strong>（為達免運門檻加購）</li>
+                        <li>訂單完成率提升 <strong>25%</strong></li>
+                    </ul>
+                </div>
+
+                <h3>🔟 樂透彩券（訂單抽獎）</h3>
+                <div class="highlight-box">
+                    <h4>🎫 訂單金額門檻抽獎</h4>
+                    <p>買家訂單達到指定金額門檻，即可獲得樂透彩券參加抽獎，中獎者可獲得紅包或商品。</p>
+                </div>
+
+                <div class="overview-grid">
+                    <div class="overview-item" style="background: #fff3e0;">
+                        <h5>🎰 彩券發放機制</h5>
+                        <p><strong>規則：</strong>訂單達門檻發放彩券<br>
+                        <strong>範例：</strong>消費滿 $500 獲得 1 張彩券<br>
+                        消費滿 $1000 獲得 3 張彩券</p>
+                    </div>
+                    <div class="overview-item" style="background: #fce4ec;">
+                        <h5>🏆 獎項設定</h5>
+                        <p><strong>獎項：</strong>多種獎項靈活設定<br>
+                        <strong>範例：</strong>頭獎 $1000 紅包、貳獎 $500、參獎商品一份、普獎 $50</p>
+                    </div>
+                    <div class="overview-item" style="background: #e8f5e9;">
+                        <h5>📅 開獎時間</h5>
+                        <p><strong>模式：</strong>定期開獎或即時開獎<br>
+                        <strong>範例：</strong>每週日晚上 8:00 開獎、每月 1 號開獎</p>
+                    </div>
+                    <div class="overview-item" style="background: #e3f2fd;">
+                        <h5>📢 中獎通知</h5>
+                        <p><strong>方式：</strong>多管道通知中獎者<br>
+                        <strong>範例：</strong>LINE 訊息、Email、簡訊通知</p>
+                    </div>
+                </div>
+
+                <table style="margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th>設定項目</th>
+                            <th>功能說明</th>
+                            <th>範例</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>活動期間</strong></td>
+                            <td>樂透活動的起訖時間</td>
+                            <td>2025/1/1 - 2025/1/31</td>
+                        </tr>
+                        <tr>
+                            <td><strong>彩券門檻</strong></td>
+                            <td>訂單需達到的金額才能獲得彩券</td>
+                            <td>$500 獲得 1 張、$1000 獲得 3 張、$2000 獲得 7 張</td>
+                        </tr>
+                        <tr>
+                            <td><strong>獎項內容</strong></td>
+                            <td>設定獎項名稱、獎品、數量</td>
+                            <td>頭獎（1 名）：$1000 紅包<br>貳獎（5 名）：$500 紅包<br>參獎（20 名）：$100 紅包<br>普獎（100 名）：$50 紅包</td>
+                        </tr>
+                        <tr>
+                            <td><strong>開獎方式</strong></td>
+                            <td>即時開獎 / 定期開獎</td>
+                            <td>即時開獎（下單後立即開獎）、每週日開獎、每月開獎</td>
+                        </tr>
+                        <tr>
+                            <td><strong>領獎方式</strong></td>
+                            <td>中獎者如何領取獎品</td>
+                            <td>紅包自動匯入帳戶、商品隨訂單出貨、指定地點領取</td>
+                        </tr>
+                        <tr>
+                            <td><strong>中獎公告</strong></td>
+                            <td>是否公開中獎名單</td>
+                            <td>公開中獎者姓名（部分遮蔽）、僅私下通知</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box" style="margin-top: 15px;">
+                    <h4>💡 樂透彩券實際案例</h4>
+                    <p><strong>活動設定：</strong>2025 新年樂透活動（1/1-1/31）</p>
+                    <div style="background: #f5f5f5; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <p><strong>彩券發放規則：</strong></p>
+                        <ul>
+                            <li>消費滿 $500 → 獲得 1 張彩券</li>
+                            <li>消費滿 $1000 → 獲得 3 張彩券</li>
+                            <li>消費滿 $2000 → 獲得 7 張彩券</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>獎項設定：</strong></p>
+                        <ul>
+                            <li>🥇 頭獎（1 名）：$5000 紅包</li>
+                            <li>🥈 貳獎（3 名）：$1000 紅包</li>
+                            <li>🥉 參獎（10 名）：$500 紅包</li>
+                            <li>🎁 普獎（100 名）：$100 紅包</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>開獎時間：</strong>2025/2/1 晚上 8:00（直播開獎）</p>
+                        <p style="color: #27ae60; font-weight: bold; margin-top: 10px;">📈 效益：活動期間訂單數增加 150%，平均客單價提升 $400（為獲得更多彩券）</p>
+                    </div>
+                </div>
+
+                <h3>1️⃣1️⃣ 抽獎小幫手</h3>
+                <div class="highlight-box">
+                    <h4>🎉 即時互動抽獎工具</h4>
+                    <p>直播中透過「關鍵字留言」或「分享直播」即可參加抽獎，即時公佈結果，刺激互動與分享。</p>
+                </div>
+
+                <div class="overview-grid">
+                    <div class="overview-item" style="background: #fff3e0;">
+                        <h5>💬 留言關鍵字抽獎</h5>
+                        <p><strong>機制：</strong>留言指定關鍵字即可參加<br>
+                        <strong>範例：</strong>留言「+1 抽獎」、「我要抽」</p>
+                    </div>
+                    <div class="overview-item" style="background: #fce4ec;">
+                        <h5>📲 分享直播抽獎</h5>
+                        <p><strong>機制：</strong>分享直播即可獲得抽獎資格<br>
+                        <strong>範例：</strong>分享到自己的動態、分享到社團</p>
+                    </div>
+                    <div class="overview-item" style="background: #e8f5e9;">
+                        <h5>🎯 即時抽獎</h5>
+                        <p><strong>模式：</strong>直播中即時抽出得獎者<br>
+                        <strong>效果：</strong>立即公佈結果，刺激互動</p>
+                    </div>
+                    <div class="overview-item" style="background: #e3f2fd;">
+                        <h5>🏆 獎品設定</h5>
+                        <p><strong>獎品：</strong>紅包、優惠券、實體商品<br>
+                        <strong>範例：</strong>$100 紅包、免運券、商品試用包</p>
+                    </div>
+                </div>
+
+                <table style="margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th>抽獎類型</th>
+                            <th>參加條件</th>
+                            <th>適用情境</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>關鍵字抽獎</strong></td>
+                            <td>留言指定關鍵字（如「+1 抽獎」）</td>
+                            <td>提升直播互動、增加留言數</td>
+                        </tr>
+                        <tr>
+                            <td><strong>分享抽獎</strong></td>
+                            <td>分享直播連結到個人動態或社團</td>
+                            <td>擴大直播曝光、吸引新觀眾</td>
+                        </tr>
+                        <tr>
+                            <td><strong>按讚抽獎</strong></td>
+                            <td>按讚粉絲專頁 + 留言指定關鍵字</td>
+                            <td>增加粉絲數、提升粉專互動</td>
+                        </tr>
+                        <tr>
+                            <td><strong>標記朋友抽獎</strong></td>
+                            <td>留言並標記 3 位朋友</td>
+                            <td>病毒式擴散、吸引新客群</td>
+                        </tr>
+                        <tr>
+                            <td><strong>下單抽獎</strong></td>
+                            <td>直播期間下單即可參加抽獎</td>
+                            <td>刺激下單意願、提升轉換率</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box" style="margin-top: 15px;">
+                    <h4>🔧 抽獎小幫手功能</h4>
+                    <table style="width: 100%; margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th>功能</th>
+                                <th>說明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>自動收集參加者</strong></td>
+                                <td>系統自動抓取符合條件的留言或分享者</td>
+                            </tr>
+                            <tr>
+                                <td><strong>去除重複</strong></td>
+                                <td>同一人多次留言只計算一次抽獎資格</td>
+                            </tr>
+                            <tr>
+                                <td><strong>黑名單過濾</strong></td>
+                                <td>自動排除黑名單客戶參加抽獎</td>
+                            </tr>
+                            <tr>
+                                <td><strong>即時抽獎</strong></td>
+                                <td>直播中點擊按鈕即時抽出得獎者</td>
+                            </tr>
+                            <tr>
+                                <td><strong>抽獎動畫</strong></td>
+                                <td>提供視覺化抽獎動畫，增加趣味性</td>
+                            </tr>
+                            <tr>
+                                <td><strong>得獎通知</strong></td>
+                                <td>自動發送私訊通知得獎者領獎方式</td>
+                            </tr>
+                            <tr>
+                                <td><strong>抽獎記錄</strong></td>
+                                <td>完整記錄抽獎活動、參加者、得獎名單</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="info-box" style="margin-top: 15px;">
+                    <h4>💡 抽獎小幫手實際應用</h4>
+                    <p><strong>情境：</strong>直播中段，觀看人數逐漸下滑，想要提升互動與留言數</p>
+                    <div style="background: #f5f5f5; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <p><strong>主播宣布：</strong>「現在開始抽獎！留言『+1 抽獎』就有機會抽中 $500 紅包！」</p>
+                        <p><strong>系統自動：</strong></p>
+                        <ul>
+                            <li>收集所有留言「+1 抽獎」的觀眾</li>
+                            <li>過濾重複留言與黑名單</li>
+                            <li>顯示參加人數：152 人</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>主播點擊「開始抽獎」：</strong></p>
+                        <ul>
+                            <li>螢幕出現抽獎動畫（滾動名單）</li>
+                            <li>3 秒後公佈得獎者：「恭喜 王○○ 獲得 $500 紅包！」</li>
+                            <li>系統自動發送私訊通知得獎者領獎方式</li>
+                        </ul>
+                        <p style="color: #27ae60; font-weight: bold; margin-top: 10px;">📈 效果：留言數瞬間增加 300%、觀看人數回升、直播互動熱度大增</p>
+                    </div>
+                </div>
+
+                <div style="background: #e8f5e9; padding: 15px; border-radius: 5px; border-left: 4px solid #27ae60; margin-top: 15px;">
+                    <p><strong>🎯 抽獎活動最佳實踐建議：</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>時機：</strong>直播開場、中段低潮、結束前衝刺時段</li>
+                        <li><strong>頻率：</strong>每場直播 2-3 次小抽獎 + 1 次大獎抽獎</li>
+                        <li><strong>獎品：</strong>小額紅包、優惠券、熱門商品試用包</li>
+                        <li><strong>宣傳：</strong>提前預告抽獎活動，吸引觀眾準時收看</li>
+                        <li><strong>公平性：</strong>使用系統抽獎工具，確保公平公正</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -1805,6 +2905,364 @@
                         <li><strong>自訂指標：</strong>選擇要呈現的數據指標</li>
                         <li><strong>排程報表：</strong>每日/每週自動產生報表並 Email</li>
                         <li><strong>匯出功能：</strong>匯出 Excel、PDF、CSV 格式</li>
+                    </ul>
+                </div>
+
+                <h3>7️⃣ 消費者行為分析</h3>
+                <div class="highlight-box">
+                    <h4>🛍️ 深度洞察買家購物行為</h4>
+                    <p>透過數據分析了解買家的購物習慣、偏好時段、消費模式，優化直播時間與商品策略。</p>
+                </div>
+
+                <div class="overview-grid">
+                    <div class="overview-item" style="background: #fff3e0;">
+                        <h5>⏰ 購物時段分析</h5>
+                        <p><strong>分析內容：</strong><br>
+                        • 每小時下單分布<br>
+                        • 尖峰時段識別<br>
+                        • 工作日 vs 週末差異</p>
+                    </div>
+                    <div class="overview-item" style="background: #fce4ec;">
+                        <h5>📅 購物週期分析</h5>
+                        <p><strong>分析內容：</strong><br>
+                        • 平均回購週期<br>
+                        • 月初/月中/月底購買力<br>
+                        • 季節性消費趨勢</p>
+                    </div>
+                    <div class="overview-item" style="background: #e8f5e9;">
+                        <h5>🎯 商品偏好分析</h5>
+                        <p><strong>分析內容：</strong><br>
+                        • 買家購買的商品類型<br>
+                        • 關聯商品分析<br>
+                        • 價格敏感度分析</p>
+                    </div>
+                    <div class="overview-item" style="background: #e3f2fd;">
+                        <h5>💳 消費模式分析</h5>
+                        <p><strong>分析內容：</strong><br>
+                        • 平均客單價<br>
+                        • 購買頻率<br>
+                        • 首次消費 vs 回購行為</p>
+                    </div>
+                </div>
+
+                <table style="margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th>分析項目</th>
+                            <th>數據指標</th>
+                            <th>應用價值</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>購物時段熱點</strong></td>
+                            <td>每小時下單數、成交金額分布圖</td>
+                            <td>找出最佳直播時段（如：晚上 8-10 點下單量最高）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>購物日偏好</strong></td>
+                            <td>星期一至日的訂單分布、轉換率</td>
+                            <td>排定直播場次（如：週三、週五、週日直播效果最好）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>月度消費力</strong></td>
+                            <td>月初/中/末的消費金額趨勢</td>
+                            <td>調整促銷策略（如：月底推小額商品，月初推高單價商品）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>關聯商品分析</strong></td>
+                            <td>經常一起購買的商品組合</td>
+                            <td>設計組合優惠、搭配銷售（如：買 A 商品的人 80% 會買 B 商品）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>客單價分布</strong></td>
+                            <td>$0-500、$500-1000、$1000+ 訂單占比</td>
+                            <td>設定滿額優惠門檻（如：80% 客單價在 $800 以下，設定滿 $800 免運）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>回購週期</strong></td>
+                            <td>首次購買 → 二次購買的平均天數</td>
+                            <td>設定再行銷時間點（如：首購後 14 天推送優惠券）</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box" style="margin-top: 15px;">
+                    <h4>💡 消費者行為分析實際應用</h4>
+                    <p><strong>案例：</strong>某主播透過消費者行為分析發現以下洞察</p>
+                    <div style="background: #f5f5f5; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <p><strong>📊 數據發現：</strong></p>
+                        <ul>
+                            <li>尖峰時段：晚上 8:00-10:00（訂單占比 65%）</li>
+                            <li>購物日偏好：週三、週五、週日（訂單量最高）</li>
+                            <li>客單價分布：75% 訂單在 $500-$1000 區間</li>
+                            <li>回購週期：平均首購後 18 天會二次消費</li>
+                            <li>關聯商品：買面膜的人有 85% 會購買精華液</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>🎯 優化策略：</strong></p>
+                        <ul>
+                            <li>調整直播時間為每週三、五、日晚上 8:00 開播</li>
+                            <li>設定「滿 $800 免運」門檻（符合多數客單價）</li>
+                            <li>首購後 15 天自動推送「$100 回購優惠券」</li>
+                            <li>面膜 + 精華液組合優惠（提升客單價）</li>
+                        </ul>
+                        <p style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 成效：GMV 提升 40%、回購率提升 35%、客單價提升 $200</p>
+                    </div>
+                </div>
+
+                <h3>8️⃣ FB 直播流量分析</h3>
+                <div class="highlight-box">
+                    <h4>📺 Facebook 直播數據深度分析</h4>
+                    <p>整合 Facebook API，完整分析直播流量、觀眾互動、轉換漏斗，優化直播策略。</p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>分析維度</th>
+                            <th>數據指標</th>
+                            <th>說明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>觸及分析</strong></td>
+                            <td>總觸及人數、自然觸及 vs 付費觸及</td>
+                            <td>有多少人看到直播通知或直播畫面</td>
+                        </tr>
+                        <tr>
+                            <td><strong>觀看數據</strong></td>
+                            <td>總觀看次數、獨立觀看人數、平均觀看時長</td>
+                            <td>實際進入直播的觀眾數量與停留時間</td>
+                        </tr>
+                        <tr>
+                            <td><strong>尖峰人數</strong></td>
+                            <td>同時在線最高人數、尖峰時段</td>
+                            <td>直播最熱絡的時段（適合主推商品）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>互動數據</strong></td>
+                            <td>留言數、按讚數、分享數、愛心數</td>
+                            <td>觀眾參與度與互動熱度</td>
+                        </tr>
+                        <tr>
+                            <td><strong>觀眾留存率</strong></td>
+                            <td>每 5 分鐘的觀眾留存曲線</td>
+                            <td>找出觀眾流失的時間點，優化內容節奏</td>
+                        </tr>
+                        <tr>
+                            <td><strong>觀眾來源</strong></td>
+                            <td>粉專、動態、分享、廣告、其他</td>
+                            <td>了解觀眾從哪裡進入直播</td>
+                        </tr>
+                        <tr>
+                            <td><strong>觀眾人口統計</strong></td>
+                            <td>年齡、性別、地區分布</td>
+                            <td>了解主要觀眾輪廓，調整商品與話術</td>
+                        </tr>
+                        <tr>
+                            <td><strong>轉換漏斗</strong></td>
+                            <td>觸及 → 觀看 → 留言 → +1 → 下單 → 付款</td>
+                            <td>完整轉換路徑分析，找出優化重點</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box" style="margin-top: 15px;">
+                    <h4>📊 轉換漏斗分析範例</h4>
+                    <table style="width: 100%; margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th>階段</th>
+                                <th>人數</th>
+                                <th>轉換率</th>
+                                <th>優化建議</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>1. 觸及</strong></td>
+                                <td>10,000 人</td>
+                                <td>-</td>
+                                <td>透過廣告、開播通知擴大觸及</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2. 觀看</strong></td>
+                                <td>2,000 人</td>
+                                <td>20%</td>
+                                <td>優化直播封面、標題吸引點擊</td>
+                            </tr>
+                            <tr>
+                                <td><strong>3. 互動（留言）</strong></td>
+                                <td>800 人</td>
+                                <td>40%</td>
+                                <td>直播中引導留言、提問、抽獎</td>
+                            </tr>
+                            <tr>
+                                <td><strong>4. +1 收單</strong></td>
+                                <td>300 人</td>
+                                <td>37.5%</td>
+                                <td>強化產品介紹、限時優惠刺激下單</td>
+                            </tr>
+                            <tr>
+                                <td><strong>5. 填寫資訊</strong></td>
+                                <td>240 人</td>
+                                <td>80%</td>
+                                <td>簡化表單、提供填寫誘因</td>
+                            </tr>
+                            <tr>
+                                <td><strong>6. 完成付款</strong></td>
+                                <td>180 人</td>
+                                <td>75%</td>
+                                <td>多元金流、催單提醒、付款優惠</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="margin-top: 10px;"><strong>💡 關鍵洞察：</strong></p>
+                    <ul>
+                        <li>觸及→觀看轉換率僅 20%，需優化開播通知與直播主題吸引力</li>
+                        <li>+1 後有 20% 未填寫資訊，可能表單太複雜或缺乏誘因</li>
+                        <li>填寫資訊後有 25% 未付款，需加強催單機制</li>
+                    </ul>
+                </div>
+
+                <div class="overview-grid" style="margin-top: 15px;">
+                    <div class="overview-item" style="background: #fff3e0;">
+                        <h5>📈 觀眾留存曲線</h5>
+                        <p><strong>分析價值：</strong>找出觀眾流失的時間點<br>
+                        <strong>範例：</strong>直播 15 分鐘後觀眾大量流失 → 優化開場節奏、提早介紹熱銷商品</p>
+                    </div>
+                    <div class="overview-item" style="background: #fce4ec;">
+                        <h5>🎯 互動熱點分析</h5>
+                        <p><strong>分析價值：</strong>哪些時段互動最熱烈<br>
+                        <strong>範例：</strong>介紹商品時留言數暴增 → 這類商品最受歡迎</p>
+                    </div>
+                    <div class="overview-item" style="background: #e8f5e9;">
+                        <h5>👥 觀眾人口輪廓</h5>
+                        <p><strong>分析價值：</strong>了解主要客群特徵<br>
+                        <strong>範例：</strong>75% 女性、25-35 歲 → 主推女性保養品、時尚服飾</p>
+                    </div>
+                    <div class="overview-item" style="background: #e3f2fd;">
+                        <h5>🔗 流量來源分析</h5>
+                        <p><strong>分析價值：</strong>觀眾從哪裡來<br>
+                        <strong>範例：</strong>60% 來自廣告 → 廣告投放有效，可加大預算</p>
+                    </div>
+                </div>
+
+                <h3>9️⃣ FB 粉專數據分析</h3>
+                <div class="highlight-box">
+                    <h4>📱 Facebook 粉絲專頁數據分析</h4>
+                    <p>整合 Facebook Insights API，分析粉專經營成效、粉絲成長、貼文互動，優化社群經營策略。</p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>分析維度</th>
+                            <th>數據指標</th>
+                            <th>說明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>粉絲成長分析</strong></td>
+                            <td>總粉絲數、新增粉絲、取消追蹤粉絲</td>
+                            <td>粉專經營成效、粉絲增長趨勢</td>
+                        </tr>
+                        <tr>
+                            <td><strong>粉絲活躍度</strong></td>
+                            <td>按讚數、留言數、分享數、點擊數</td>
+                            <td>粉絲與粉專的互動程度</td>
+                        </tr>
+                        <tr>
+                            <td><strong>粉絲人口統計</strong></td>
+                            <td>年齡、性別、地區、語言分布</td>
+                            <td>了解粉絲輪廓，調整內容策略</td>
+                        </tr>
+                        <tr>
+                            <td><strong>貼文成效分析</strong></td>
+                            <td>觸及人數、互動率、點擊率、分享率</td>
+                            <td>哪些類型貼文最受歡迎</td>
+                        </tr>
+                        <tr>
+                            <td><strong>最佳發文時段</strong></td>
+                            <td>每小時、每日的粉絲活躍度分布</td>
+                            <td>找出最佳發文時間，提升觸及率</td>
+                        </tr>
+                        <tr>
+                            <td><strong>內容類型分析</strong></td>
+                            <td>圖片、影片、連結、直播的互動表現</td>
+                            <td>了解粉絲偏好的內容形式</td>
+                        </tr>
+                        <tr>
+                            <td><strong>競品比較</strong></td>
+                            <td>與同業粉專的粉絲數、互動率比較</td>
+                            <td>了解市場定位與競爭力</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="overview-grid" style="margin-top: 15px;">
+                    <div class="overview-item" style="background: #fff3e0;">
+                        <h5>📊 粉絲成長趨勢</h5>
+                        <p><strong>指標：</strong><br>
+                        • 每日新增粉絲數<br>
+                        • 粉絲成長率<br>
+                        • 自然成長 vs 付費廣告</p>
+                    </div>
+                    <div class="overview-item" style="background: #fce4ec;">
+                        <h5>🔥 熱門貼文 TOP 10</h5>
+                        <p><strong>指標：</strong><br>
+                        • 最高觸及貼文<br>
+                        • 最多互動貼文<br>
+                        • 最多分享貼文</p>
+                    </div>
+                    <div class="overview-item" style="background: #e8f5e9;">
+                        <h5>⏰ 粉絲活躍時段</h5>
+                        <p><strong>指標：</strong><br>
+                        • 每小時線上人數<br>
+                        • 最佳發文時間<br>
+                        • 週間 vs 週末差異</p>
+                    </div>
+                    <div class="overview-item" style="background: #e3f2fd;">
+                        <h5>👥 粉絲輪廓分析</h5>
+                        <p><strong>指標：</strong><br>
+                        • 年齡層分布<br>
+                        • 性別比例<br>
+                        • 地區分布（縣市）</p>
+                    </div>
+                </div>
+
+                <div class="info-box" style="margin-top: 15px;">
+                    <h4>💡 FB 粉專數據分析實際應用</h4>
+                    <p><strong>案例：</strong>某主播透過粉專數據分析發現以下洞察</p>
+                    <div style="background: #f5f5f5; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <p><strong>📊 數據發現：</strong></p>
+                        <ul>
+                            <li>粉絲活躍時段：平日晚上 7-9 點、週末下午 2-4 點</li>
+                            <li>熱門內容類型：商品開箱影片（互動率 8.5%）> 直播預告圖片（3.2%）> 文字貼文（1.5%）</li>
+                            <li>粉絲輪廓：70% 女性、年齡 25-44 歲、主要來自台北、新北、台中</li>
+                            <li>最佳發文時間：平日晚上 7:30、週末下午 2:30</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>🎯 優化策略：</strong></p>
+                        <ul>
+                            <li>固定在晚上 7:30 發佈「今晚直播預告」貼文（影片形式）</li>
+                            <li>週末下午 2:30 發佈「本週熱銷商品」開箱影片</li>
+                            <li>針對 25-44 歲女性設計商品與話術</li>
+                            <li>加強台北、新北、台中地區的廣告投放</li>
+                        </ul>
+                        <p style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 成效：貼文觸及率提升 60%、粉絲互動率提升 45%、直播觀看人數增加 35%</p>
+                    </div>
+                </div>
+
+                <div style="background: #e3f2fd; padding: 15px; border-radius: 5px; border-left: 4px solid #2196f3; margin-top: 15px;">
+                    <p><strong>🔗 Facebook API 整合說明：</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Facebook Graph API：</strong>獲取粉專數據、貼文數據、粉絲洞察</li>
+                        <li><strong>Facebook Insights API：</strong>獲取詳細的互動數據、觸及數據</li>
+                        <li><strong>Facebook Live API：</strong>獲取直播流量、觀眾數據</li>
+                        <li><strong>資料同步：</strong>每日自動同步最新數據（API 限制：最多保留 90 天歷史數據）</li>
+                        <li><strong>授權設定：</strong>需授予「pages_read_engagement」、「pages_read_user_content」權限</li>
                     </ul>
                 </div>
             </div>
@@ -2007,10 +3465,144 @@
         <div id="streamer-journey" class="tab-content">
             <div class="module-section" style="background: #ffffff; padding: 0;">
                 <div style="text-align: center; padding: 40px; background: #f7fafc; border-radius: 12px 12px 0 0;">
-                    <h2 style="margin: 0;">🎬 主播使用流程</h2>
-                    <p style="color: #718096; font-size: 1.1rem; margin-top: 10px;">從建立直播到完成出貨的完整旅程</p>
+                    <h2 style="margin: 0;">🎬 主播直播收單流程</h2>
+                    <p style="color: #718096; font-size: 1.1rem; margin-top: 10px;">從建立直播到完成出貨的完整旅程（直播帶貨模式）</p>
                 </div>
 
+                <!-- ========== 簡易流程圖（置頂）========== -->
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 50px 30px; margin-bottom: 0;">
+                    <div style="text-align: center; margin-bottom: 40px;">
+                        <h3 style="color: white; font-size: 1.8rem; margin: 0;">📊 直播收單完整流程一覽</h3>
+                        <p style="color: rgba(255,255,255,0.9); margin-top: 10px; font-size: 1.05rem;">三大階段，16 個步驟，輕鬆完成直播帶貨</p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; max-width: 1200px; margin: 0 auto;">
+                        <!-- 階段 1 -->
+                        <div style="background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; overflow: hidden;">
+                            <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);"></div>
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <div style="display: inline-block; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 1.1rem;">階段 1️⃣</div>
+                                <h4 style="margin: 15px 0 10px 0; font-size: 1.4rem; color: #2d3748;">直播前準備</h4>
+                                <p style="color: #718096; font-size: 0.95rem; margin: 0;">步驟 1-5</p>
+                            </div>
+                            <div style="text-align: left; color: #4a5568; line-height: 1.9; font-size: 0.95rem;">
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #f7fafc; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">📱</span>
+                                    <span>建立直播場次</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #f7fafc; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">📦</span>
+                                    <span>上架直播商品</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #f7fafc; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">🔗</span>
+                                    <span>連接多平台</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #f7fafc; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">🎛️</span>
+                                    <span>設定推流參數</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #f7fafc; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">✅</span>
+                                    <span>預覽測試</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 階段 2 -->
+                        <div style="background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; overflow: hidden;">
+                            <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);"></div>
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <div style="display: inline-block; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 1.1rem;">階段 2️⃣</div>
+                                <h4 style="margin: 15px 0 10px 0; font-size: 1.4rem; color: #2d3748;">直播進行中</h4>
+                                <p style="color: #718096; font-size: 0.95rem; margin: 0;">步驟 6-7</p>
+                            </div>
+                            <div style="text-align: left; color: #4a5568; line-height: 1.9; font-size: 0.95rem;">
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #fff5f7; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">▶️</span>
+                                    <span>開始直播推流</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #fff5f7; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">💬</span>
+                                    <span>即時互動收單</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #fff5f7; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">🛒</span>
+                                    <span>自動解析 +1 留言</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #fff5f7; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">📊</span>
+                                    <span>即時數據儀表板</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #fff5f7; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">⏹️</span>
+                                    <span>結束直播</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 階段 3 -->
+                        <div style="background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; overflow: hidden;">
+                            <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);"></div>
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <div style="display: inline-block; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 1.1rem;">階段 3️⃣</div>
+                                <h4 style="margin: 15px 0 10px 0; font-size: 1.4rem; color: #2d3748;">直播結束後</h4>
+                                <p style="color: #718096; font-size: 0.95rem; margin: 0;">步驟 8-16</p>
+                            </div>
+                            <div style="text-align: left; color: #4a5568; line-height: 1.9; font-size: 0.95rem;">
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #f0fdf4; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">📋</span>
+                                    <span>檢視待處理訂單</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #f0fdf4; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">💬</span>
+                                    <span><strong>發送確認訊息</strong></span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #f0fdf4; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">📝</span>
+                                    <span><strong>買家填寫資訊</strong></span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #f0fdf4; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">⏰</span>
+                                    <span><strong>自動提醒機制</strong></span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #f0fdf4; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">✅</span>
+                                    <span>商家確認訂單</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #f0fdf4; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">💳</span>
+                                    <span>追蹤付款狀態</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #f0fdf4; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">📮</span>
+                                    <span>安排物流出貨</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #f0fdf4; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">📈</span>
+                                    <span>查看數據報表</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 流程箭頭指示 -->
+                    <div style="text-align: center; margin-top: 30px; color: white; font-size: 2.5rem; animation: bounce 2s infinite;">
+                        ↓
+                    </div>
+                    <div style="text-align: center; margin-top: 10px;">
+                        <p style="color: white; font-size: 1.1rem; margin: 0;">👇 下方查看詳細流程說明</p>
+                    </div>
+                </div>
+
+                <style>
+                    @keyframes bounce {
+                        0%, 100% { transform: translateY(0); }
+                        50% { transform: translateY(-10px); }
+                    }
+                </style>
+
+                <!-- ========== 詳細流程（原有內容）========== -->
                 <!-- 階段 1：準備階段 -->
                 <div class="phase">
                     <div class="phase-title">階段 1️⃣：直播前準備</div>
@@ -2131,10 +3723,23 @@
                             </div>
 
                             <div class="live-action">
-                                <h4>🛒 即時收單</h4>
-                                <p>系統自動解析留言（「+1 紅色 M」→ 商品+規格+數量），主播確認後生成暫存單</p>
+                                <h4>🛒 智能收單（關鍵字識別）</h4>
+                                <p>系統自動解析留言：「+1 紅色 M」、「包+1」、「ALL+1」、「編號 A +1」→ 自動識別商品+規格+數量，支援全形半形</p>
                                 <span class="step-module">B. 收單整合</span>
                                 <span class="step-module">D. 訂單系統</span>
+                            </div>
+
+                            <div class="live-action">
+                                <h4>🎯 加單池功能</h4>
+                                <p>多標商品同時收單、先搶先贏機制、已喊標畫面（即時顯示各商品 +1 統計人數）、暫存單管理</p>
+                                <span class="step-module">B. 收單整合</span>
+                                <span class="step-module">D. 訂單系統</span>
+                            </div>
+
+                            <div class="live-action">
+                                <h4>🎉 抽獎小幫手</h4>
+                                <p>直播中即時互動抽獎（關鍵字留言、分享直播），即時抽出得獎者，刺激互動與分享，提升觀看人數</p>
+                                <span class="step-module">I. 行銷活動</span>
                             </div>
 
                             <div class="live-action">
@@ -2171,11 +3776,15 @@
                         <div class="step-content">
                             <div class="step-icon">📋</div>
                             <div class="step-info">
-                                <div class="step-title">檢視訂單列表</div>
+                                <div class="step-title">檢視待處理訂單（含智能識別）</div>
                                 <div class="step-desc">
-                                    查看本場次所有收單記錄，依狀態篩選（待確認、已確認、已付款、已出貨）
+                                    查看本場次所有「+1 記錄」，此時僅有平台帳號資訊（Facebook/Instagram 帳號名稱），系統自動執行：<br>
+                                    👤 <strong>買家身份識別：</strong>自動標記 🆕 新客戶、⭐ VIP 等級、🔥 回購客、⚠️ 風險客戶（高棄單率）<br>
+                                    🚫 <strong>黑名單過濾：</strong>自動隱藏高棄單率客戶（>70%）的 +1 留言，保護商家權益<br>
+                                    📺 <strong>歷史/貼文加單：</strong>直播回放影片留言也會自動收單，24 小時不間斷
                                 </div>
                                 <span class="step-module">D. 訂單系統</span>
+                                <span class="step-module">H. 會員 CRM</span>
                             </div>
                         </div>
                     </div>
@@ -2185,11 +3794,62 @@
                     <div class="step">
                         <div class="step-number">9</div>
                         <div class="step-content">
+                            <div class="step-icon">💬</div>
+                            <div class="step-info">
+                                <div class="step-title">發送確認訊息（自動/手動）</div>
+                                <div class="step-desc">
+                                    透過多平台訊息系統批量或單筆發送私訊給買家，請買家確認購買並填寫完整收貨資訊（姓名、地址、電話、商品規格）。<br>
+                                    💡 <strong>優先順序：</strong>VIP 會員優先回覆、新客優先服務、風險客戶降低優先級
+                                </div>
+                                <span class="step-module">G. 訊息/客服</span>
+                                <span class="step-module">D. 訂單系統</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="arrow">↓</div>
+
+                    <div class="step">
+                        <div class="step-number">10</div>
+                        <div class="step-content">
+                            <div class="step-icon">📝</div>
+                            <div class="step-info">
+                                <div class="step-title">買家填寫資訊表單</div>
+                                <div class="step-desc">
+                                    買家點擊連結進入系統內建表單頁面，填寫真實姓名、收貨地址、聯絡電話、確認商品規格，提交後資訊自動匯入訂單系統
+                                </div>
+                                <span class="step-module">D. 訂單系統</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="arrow">↓</div>
+
+                    <div class="step">
+                        <div class="step-number">11</div>
+                        <div class="step-content">
+                            <div class="step-icon">⏰</div>
+                            <div class="step-info">
+                                <div class="step-title">自動提醒機制</div>
+                                <div class="step-desc">
+                                    針對未填寫資訊的買家，系統自動在 24/48 小時後發送提醒訊息，72 小時後自動取消訂單（時間可設定）
+                                </div>
+                                <span class="step-module">G. 訊息/客服</span>
+                                <span class="step-module">H. 自動化排程</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="arrow">↓</div>
+
+                    <div class="step">
+                        <div class="step-number">12</div>
+                        <div class="step-content">
                             <div class="step-icon">✅</div>
                             <div class="step-info">
-                                <div class="step-title">確認訂單</div>
+                                <div class="step-title">商家確認訂單</div>
                                 <div class="step-desc">
-                                    檢查買家資訊（姓名、地址、電話），確認商品規格，系統自動發送訂單通知與付款連結給買家
+                                    檢查買家已填寫的資訊（姓名、地址、電話），確認商品規格與庫存，計算金額（商品價格 + 運費），確認後系統自動發送訂單通知與付款連結給買家
                                 </div>
                                 <span class="step-module">D. 訂單系統</span>
                                 <span class="step-module">G. 訊息/客服</span>
@@ -2200,7 +3860,7 @@
                     <div class="arrow">↓</div>
 
                     <div class="step">
-                        <div class="step-number">10</div>
+                        <div class="step-number">13</div>
                         <div class="step-content">
                             <div class="step-icon">💳</div>
                             <div class="step-info">
@@ -2216,7 +3876,7 @@
                     <div class="arrow">↓</div>
 
                     <div class="step">
-                        <div class="step-number">11</div>
+                        <div class="step-number">14</div>
                         <div class="step-content">
                             <div class="step-icon">📮</div>
                             <div class="step-info">
@@ -2232,7 +3892,7 @@
                     <div class="arrow">↓</div>
 
                     <div class="step">
-                        <div class="step-number">12</div>
+                        <div class="step-number">15</div>
                         <div class="step-content">
                             <div class="step-icon">💬</div>
                             <div class="step-info">
@@ -2248,7 +3908,7 @@
                     <div class="arrow">↓</div>
 
                     <div class="step">
-                        <div class="step-number">13</div>
+                        <div class="step-number">16</div>
                         <div class="step-content">
                             <div class="step-icon">📈</div>
                             <div class="step-info">
@@ -2287,6 +3947,402 @@
                         <li><strong>批量操作：</strong>支援批量確認訂單、批量出貨，節省時間</li>
                         <li><strong>數據分析：</strong>每場直播結束後可立即查看成效報表</li>
                     </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 非直播收單流程 Tab -->
+        <div id="non-live-order" class="tab-content">
+            <div class="module-section" style="background: #ffffff; padding: 0;">
+                <div style="text-align: center; padding: 40px; background: #f0fdf4; border-radius: 12px 12px 0 0;">
+                    <h2 style="margin: 0;">🛒 非直播收單流程</h2>
+                    <p style="color: #15803d; font-size: 1.1rem; margin-top: 10px;">從選擇收單渠道到完成出貨的完整旅程（非直播帶貨模式）</p>
+                </div>
+
+                <!-- ========== 簡易流程圖（置頂）========== -->
+                <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 50px 30px; margin-bottom: 0;">
+                    <div style="text-align: center; margin-bottom: 40px;">
+                        <h3 style="color: white; font-size: 1.8rem; margin: 0;">📊 非直播收單完整流程一覽</h3>
+                        <p style="color: rgba(255,255,255,0.9); margin-top: 10px; font-size: 1.05rem;">三大階段，12 個步驟，24 小時不間斷接單</p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; max-width: 1200px; margin: 0 auto;">
+                        <!-- 階段 1 -->
+                        <div style="background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; overflow: hidden;">
+                            <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #10b981 0%, #059669 100%);"></div>
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <div style="display: inline-block; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 1.1rem;">階段 1️⃣</div>
+                                <h4 style="margin: 15px 0 10px 0; font-size: 1.4rem; color: #2d3748;">收單準備</h4>
+                                <p style="color: #718096; font-size: 0.95rem; margin: 0;">步驟 1-4</p>
+                            </div>
+                            <div style="text-align: left; color: #4a5568; line-height: 1.9; font-size: 0.95rem;">
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #f0fdf4; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">📦</span>
+                                    <span>上架商品</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #f0fdf4; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">🛒</span>
+                                    <span>選擇收單渠道</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #f0fdf4; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">⚙️</span>
+                                    <span>設定收單規則</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #f0fdf4; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">🚀</span>
+                                    <span>啟動收單</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 階段 2 -->
+                        <div style="background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; overflow: hidden;">
+                            <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #34d399 0%, #10b981 100%);"></div>
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <div style="display: inline-block; background: linear-gradient(135deg, #34d399 0%, #10b981 100%); color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 1.1rem;">階段 2️⃣</div>
+                                <h4 style="margin: 15px 0 10px 0; font-size: 1.4rem; color: #2d3748;">收單進行中</h4>
+                                <p style="color: #718096; font-size: 0.95rem; margin: 0;">步驟 5-7</p>
+                            </div>
+                            <div style="text-align: left; color: #4a5568; line-height: 1.9; font-size: 0.95rem;">
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #ecfdf5; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">🤖</span>
+                                    <span>自動收單（8 渠道）</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #ecfdf5; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">📥</span>
+                                    <span>訂單匯流整合</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #ecfdf5; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">📊</span>
+                                    <span>即時監控收單狀況</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 階段 3 -->
+                        <div style="background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; overflow: hidden;">
+                            <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #6ee7b7 0%, #34d399 100%);"></div>
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <div style="display: inline-block; background: linear-gradient(135deg, #6ee7b7 0%, #34d399 100%); color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 1.1rem;">階段 3️⃣</div>
+                                <h4 style="margin: 15px 0 10px 0; font-size: 1.4rem; color: #2d3748;">訂單處理</h4>
+                                <p style="color: #718096; font-size: 0.95rem; margin: 0;">步驟 8-12</p>
+                            </div>
+                            <div style="text-align: left; color: #4a5568; line-height: 1.9; font-size: 0.95rem;">
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #d1fae5; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">💬</span>
+                                    <span>發送確認訊息</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #d1fae5; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">📝</span>
+                                    <span>買家填寫資訊</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #d1fae5; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">✅</span>
+                                    <span>商家確認訂單</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #d1fae5; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">💳</span>
+                                    <span>追蹤付款狀態</span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin: 10px 0; padding: 8px; background: #d1fae5; border-radius: 8px;">
+                                    <span style="font-size: 1.3rem; margin-right: 10px;">📦</span>
+                                    <span>安排物流出貨</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 流程箭頭指示 -->
+                    <div style="text-align: center; margin-top: 30px; color: white; font-size: 2.5rem; animation: bounce 2s infinite;">
+                        ↓
+                    </div>
+                    <div style="text-align: center; margin-top: 10px;">
+                        <p style="color: white; font-size: 1.1rem; margin: 0;">👇 下方查看詳細流程說明</p>
+                    </div>
+                </div>
+
+                <!-- ========== 詳細流程 ========== -->
+                <!-- 階段 1：收單準備 -->
+                <div class="phase">
+                    <div class="phase-title">階段 1️⃣：收單準備</div>
+
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-icon">📦</div>
+                            <div class="step-info">
+                                <div class="step-title">上架商品</div>
+                                <div class="step-desc">
+                                    從商品庫選擇或新增商品，設定價格、庫存、規格，準備開始收單
+                                </div>
+                                <span class="step-module">C. 商品管理</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="arrow">↓</div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-icon">🛒</div>
+                            <div class="step-info">
+                                <div class="step-title">選擇收單渠道</div>
+                                <div class="step-desc">
+                                    <strong>8 種收單渠道可選：</strong><br>
+                                    💬 LINE 群組、👥 FB 社團、📨 Messenger、📺 直播回放/貼文<br>
+                                    🏪 基礎商城、📄 一頁式商城、🎨 主題式商城、🔗 多平台整合
+                                </div>
+                                <span class="step-module">B. 收單整合</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="arrow">↓</div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-icon">⚙️</div>
+                            <div class="step-info">
+                                <div class="step-title">設定收單規則</div>
+                                <div class="step-desc">
+                                    • 設定收單期限（如：收單至 1/31 23:59）<br>
+                                    • 設定關鍵字識別（+1、包+1、編號等）<br>
+                                    • 設定庫存上限與自動停售<br>
+                                    • 設定優惠活動與滿額優惠
+                                </div>
+                                <span class="step-module">B. 收單整合</span>
+                                <span class="step-module">C. 商品管理</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="arrow">↓</div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-icon">🚀</div>
+                            <div class="step-info">
+                                <div class="step-title">啟動收單</div>
+                                <div class="step-desc">
+                                    發佈商品資訊到各收單渠道，開始接受買家下單（LINE 群組發圖、FB 社團發文、商城上架等）
+                                </div>
+                                <span class="step-module">B. 收單整合</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 階段 2：收單進行中 -->
+                <div class="phase">
+                    <div class="phase-title">階段 2️⃣：收單進行中</div>
+
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <div class="step-icon">🤖</div>
+                            <div class="step-info">
+                                <div class="step-title">自動收單（8 種渠道）</div>
+                                <div class="step-desc">
+                                    系統自動從各渠道收集訂單，解析買家留言或商城訂單，生成待處理訂單
+                                </div>
+                                <span class="step-module">B. 收單整合</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="arrow">↓</div>
+
+                    <div class="live-box">
+                        <div class="live-title">⚡ 8 種非直播收單渠道</div>
+                        <div class="live-actions">
+                            <div class="live-action">
+                                <h4>💬 LINE 群組加單</h4>
+                                <p>在 LINE 群組發商品圖片，成員留言「+1 紅色 M」，系統自動收單</p>
+                                <span class="step-module">B. 收單整合</span>
+                            </div>
+
+                            <div class="live-action">
+                                <h4>👥 FB 社團加單</h4>
+                                <p>在社團發商品貼文，成員留言下單，系統自動抓取留言建立訂單</p>
+                                <span class="step-module">B. 收單整合</span>
+                            </div>
+
+                            <div class="live-action">
+                                <h4>📨 Messenger 私訊</h4>
+                                <p>買家私訊詢問商品，聊天機器人自動回應，對話式引導下單</p>
+                                <span class="step-module">G. 訊息/客服</span>
+                            </div>
+
+                            <div class="live-action">
+                                <h4>📺 直播回放/貼文加單</h4>
+                                <p>直播回放影片留言收單、FB/IG 貼文加單、Reels 短影音收單</p>
+                                <span class="step-module">B. 收單整合</span>
+                            </div>
+
+                            <div class="live-action">
+                                <h4>🏪 基礎商城</h4>
+                                <p>買家瀏覽商城頁面，選擇商品加入購物車，填寫資料結帳</p>
+                                <span class="step-module">B. 收單整合</span>
+                            </div>
+
+                            <div class="live-action">
+                                <h4>📄 一頁式商城</h4>
+                                <p>單一商品推廣頁面，一頁完成下單，快速結帳流程，提高轉換率</p>
+                                <span class="step-module">B. 收單整合</span>
+                            </div>
+
+                            <div class="live-action">
+                                <h4>🎨 主題式商城</h4>
+                                <p>品牌客製化主題商城，專屬視覺設計，完整購物體驗，提升品牌形象</p>
+                                <span class="step-module">B. 收單整合</span>
+                            </div>
+
+                            <div class="live-action">
+                                <h4>🔗 多平台整合</h4>
+                                <p>跨平台訂單匯流（LINE/FB/IG/商城），自動同步庫存，統一後台管理</p>
+                                <span class="step-module">B. 收單整合</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="arrow">↓</div>
+
+                    <div class="step">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <div class="step-icon">📥</div>
+                            <div class="step-info">
+                                <div class="step-title">訂單匯流整合</div>
+                                <div class="step-desc">
+                                    所有渠道訂單匯入統一後台，系統自動去重、庫存扣減、買家身份識別（VIP/新客/回購客）
+                                </div>
+                                <span class="step-module">D. 訂單系統</span>
+                                <span class="step-module">H. 會員 CRM</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="arrow">↓</div>
+
+                    <div class="step">
+                        <div class="step-number">7</div>
+                        <div class="step-content">
+                            <div class="step-icon">📊</div>
+                            <div class="step-info">
+                                <div class="step-title">即時監控收單狀況</div>
+                                <div class="step-desc">
+                                    查看各渠道收單統計、庫存狀況、熱銷商品排行，即時調整收單策略
+                                </div>
+                                <span class="step-module">J. 報表分析</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 階段 3：訂單處理 -->
+                <div class="phase">
+                    <div class="phase-title">階段 3️⃣：訂單處理（與直播收單相同）</div>
+
+                    <div class="step">
+                        <div class="step-number">8</div>
+                        <div class="step-content">
+                            <div class="step-icon">💬</div>
+                            <div class="step-info">
+                                <div class="step-title">發送確認訊息</div>
+                                <div class="step-desc">
+                                    透過對應平台訊息系統批量或單筆發送私訊，請買家確認購買並填寫完整收貨資訊
+                                </div>
+                                <span class="step-module">G. 訊息/客服</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="arrow">↓</div>
+
+                    <div class="step">
+                        <div class="step-number">9</div>
+                        <div class="step-content">
+                            <div class="step-icon">📝</div>
+                            <div class="step-info">
+                                <div class="step-title">買家填寫資訊表單</div>
+                                <div class="step-desc">
+                                    買家點擊連結進入系統內建表單，填寫姓名、地址、電話、確認商品規格，提交後自動匯入訂單
+                                </div>
+                                <span class="step-module">D. 訂單系統</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="arrow">↓</div>
+
+                    <div class="step">
+                        <div class="step-number">10</div>
+                        <div class="step-content">
+                            <div class="step-icon">✅</div>
+                            <div class="step-info">
+                                <div class="step-title">商家確認訂單</div>
+                                <div class="step-desc">
+                                    檢查買家資訊、確認商品庫存、計算金額（商品價格 + 運費），確認後自動發送付款連結
+                                </div>
+                                <span class="step-module">D. 訂單系統</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="arrow">↓</div>
+
+                    <div class="step">
+                        <div class="step-number">11</div>
+                        <div class="step-content">
+                            <div class="step-icon">💳</div>
+                            <div class="step-info">
+                                <div class="step-title">追蹤付款狀態</div>
+                                <div class="step-desc">
+                                    即時查看付款狀態，系統自動接收金流通知，未付款訂單可發送提醒或設定自動取消
+                                </div>
+                                <span class="step-module">E. 金流</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="arrow">↓</div>
+
+                    <div class="step">
+                        <div class="step-number">12</div>
+                        <div class="step-content">
+                            <div class="step-icon">📦</div>
+                            <div class="step-info">
+                                <div class="step-title">安排物流出貨</div>
+                                <div class="step-desc">
+                                    選擇物流商（黑貓、新竹、7-11），批量產生托運單，列印出貨單，買家自動收到出貨通知與追蹤連結
+                                </div>
+                                <span class="step-module">F. 物流出貨</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 關鍵差異說明 -->
+                <div style="background: white; padding: 50px 30px;">
+                    <div style="max-width: 1000px; margin: 0 auto;">
+                        <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 5px solid #f59e0b; padding: 25px; border-radius: 8px;">
+                            <h3 style="color: #92400e; margin: 0 0 15px 0; font-size: 1.3rem;">💡 非直播收單 vs 直播收單的差異</h3>
+                            <div style="color: #78350f; line-height: 2;">
+                                <p style="margin: 10px 0;"><strong>✅ 優點：</strong></p>
+                                <p style="margin: 10px 0; padding-left: 20px;">• 時間彈性：不需要開直播，24 小時都可以接單</p>
+                                <p style="margin: 10px 0; padding-left: 20px;">• 渠道多元：8 種收單渠道（LINE/FB/IG/商城等）</p>
+                                <p style="margin: 10px 0; padding-left: 20px;">• 自動化程度高：系統自動抓取留言/訂單，減少人工操作</p>
+                                <p style="margin: 10px 0; padding-left: 20px;">• 適合預購/團購：可設定收單期限，統一處理訂單</p>
+
+                                <p style="margin: 20px 0 10px 0;"><strong>⚠️ 限制：</strong></p>
+                                <p style="margin: 10px 0; padding-left: 20px;">• 互動性較低：沒有即時互動，需要透過私訊溝通</p>
+                                <p style="margin: 10px 0; padding-left: 20px;">• 需要主動宣傳：不像直播有即時曝光，需要主動推廣</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
