@@ -3602,335 +3602,813 @@
                     }
                 </style>
 
-                <!-- ========== 詳細流程（原有內容）========== -->
-                <!-- 階段 1：準備階段 -->
-                <div class="phase">
-                    <div class="phase-title">階段 1️⃣：直播前準備</div>
+                <!-- ========== 詳細流程時間軸 ========== -->
+                <style>
+                    .timeline-container {
+                        max-width: 1000px;
+                        margin: 0 auto;
+                        padding: 40px 30px;
+                        background: #f7fafc;
+                    }
 
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <div class="step-icon">📝</div>
-                            <div class="step-info">
-                                <div class="step-title">註冊/登入帳號</div>
-                                <div class="step-desc">使用 Email/手機號碼註冊，或透過 FB/Google OAuth 登入</div>
-                                <span class="step-module">H. 會員 CRM</span>
-                            </div>
-                        </div>
+                    .timeline-header {
+                        text-align: center;
+                        margin-bottom: 50px;
+                    }
+
+                    .timeline-header h3 {
+                        font-size: 2em;
+                        color: #2d3748;
+                        margin-bottom: 10px;
+                    }
+
+                    .timeline-header p {
+                        color: #718096;
+                        font-size: 1.1em;
+                    }
+
+                    .timeline {
+                        position: relative;
+                        padding-left: 0;
+                    }
+
+                    .timeline::before {
+                        content: '';
+                        position: absolute;
+                        left: 50px;
+                        top: 0;
+                        bottom: 0;
+                        width: 4px;
+                        background: linear-gradient(180deg, #10b981, #f59e0b, #3b82f6);
+                        opacity: 0.3;
+                    }
+
+                    .phase-section {
+                        margin-bottom: 40px;
+                    }
+
+                    .phase-header-timeline {
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 30px;
+                        margin-left: 20px;
+                    }
+
+                    .phase-number {
+                        width: 60px;
+                        height: 60px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.8em;
+                        font-weight: bold;
+                        color: white;
+                        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+                        z-index: 2;
+                    }
+
+                    .phase-section:nth-child(1) .phase-number {
+                        background: linear-gradient(135deg, #10b981, #059669);
+                    }
+
+                    .phase-section:nth-child(2) .phase-number {
+                        background: linear-gradient(135deg, #f59e0b, #d97706);
+                    }
+
+                    .phase-section:nth-child(3) .phase-number {
+                        background: linear-gradient(135deg, #3b82f6, #2563eb);
+                    }
+
+                    .phase-title-timeline {
+                        margin-left: 20px;
+                        color: #2d3748;
+                        font-size: 1.8em;
+                        font-weight: bold;
+                    }
+
+                    .step-item-timeline {
+                        display: flex;
+                        margin-bottom: 25px;
+                        position: relative;
+                        align-items: flex-start;
+                    }
+
+                    .step-dot-timeline {
+                        width: 100px;
+                        min-width: 100px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        position: relative;
+                        z-index: 1;
+                    }
+
+                    .dot-timeline {
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 50%;
+                        background: white;
+                        border: 4px solid rgba(255,255,255,0.5);
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    }
+
+                    .phase-section:nth-child(1) .dot-timeline {
+                        background: #10b981;
+                        border-color: #10b981;
+                    }
+
+                    .phase-section:nth-child(2) .dot-timeline {
+                        background: #f59e0b;
+                        border-color: #f59e0b;
+                    }
+
+                    .phase-section:nth-child(3) .dot-timeline {
+                        background: #3b82f6;
+                        border-color: #3b82f6;
+                    }
+
+                    .step-card-timeline {
+                        flex: 1;
+                        background: white;
+                        border-radius: 12px;
+                        padding: 20px 24px;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                        transition: all 0.3s ease;
+                        cursor: pointer;
+                    }
+
+                    .step-card-timeline:hover {
+                        transform: translateX(5px);
+                        box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+                    }
+
+                    .step-header-row {
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                        margin-bottom: 10px;
+                    }
+
+                    .step-icon-timeline {
+                        font-size: 2em;
+                    }
+
+                    .step-title-timeline {
+                        font-size: 1.3em;
+                        font-weight: 600;
+                        color: #1f2937;
+                        flex: 1;
+                    }
+
+                    .step-number-badge {
+                        width: 28px;
+                        height: 28px;
+                        border-radius: 50%;
+                        background: #f3f4f6;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: bold;
+                        color: #6b7280;
+                        font-size: 0.85em;
+                    }
+
+                    .step-description-timeline {
+                        color: #4b5563;
+                        line-height: 1.6;
+                        margin-bottom: 12px;
+                        font-size: 0.95em;
+                    }
+
+                    .step-modules {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 6px;
+                        margin-top: 10px;
+                    }
+
+                    .module-tag {
+                        padding: 4px 10px;
+                        border-radius: 12px;
+                        font-size: 0.75em;
+                        font-weight: 500;
+                        background: #e0e7ff;
+                        color: #4338ca;
+                    }
+
+                    .expand-indicator-timeline {
+                        text-align: center;
+                        margin-top: 10px;
+                        color: #9ca3af;
+                        font-size: 0.8em;
+                        font-weight: 500;
+                        padding-top: 10px;
+                        border-top: 1px dashed #e5e7eb;
+                    }
+
+                    .step-card-timeline.expanded .expand-indicator-timeline::before {
+                        content: '▲ 收合詳情';
+                    }
+
+                    .step-card-timeline:not(.expanded) .expand-indicator-timeline::before {
+                        content: '▼ 查看詳情';
+                    }
+
+                    .step-details-timeline {
+                        max-height: 0;
+                        overflow: hidden;
+                        transition: max-height 0.4s ease;
+                    }
+
+                    .step-card-timeline.expanded .step-details-timeline {
+                        max-height: 1000px;
+                        margin-top: 15px;
+                        padding-top: 15px;
+                        border-top: 2px dashed #e5e7eb;
+                    }
+
+                    .detail-content {
+                        background: #f9fafb;
+                        padding: 15px;
+                        border-radius: 8px;
+                        border-left: 3px solid #667eea;
+                    }
+
+                    .detail-content p {
+                        color: #4b5563;
+                        line-height: 1.7;
+                        margin-bottom: 10px;
+                    }
+
+                    .detail-content strong {
+                        color: #1f2937;
+                    }
+
+                    .detail-list {
+                        list-style: none;
+                        padding-left: 0;
+                    }
+
+                    .detail-list li {
+                        padding: 6px 0 6px 20px;
+                        position: relative;
+                        color: #4b5563;
+                        line-height: 1.6;
+                    }
+
+                    .detail-list li::before {
+                        content: '•';
+                        position: absolute;
+                        left: 5px;
+                        color: #667eea;
+                        font-weight: bold;
+                    }
+
+                    @media (max-width: 768px) {
+                        .timeline::before {
+                            left: 30px;
+                        }
+
+                        .step-dot-timeline {
+                            width: 60px;
+                            min-width: 60px;
+                        }
+
+                        .phase-header-timeline {
+                            margin-left: 0;
+                        }
+
+                        .phase-number {
+                            width: 50px;
+                            height: 50px;
+                            font-size: 1.5em;
+                        }
+
+                        .phase-title-timeline {
+                            font-size: 1.3em;
+                        }
+
+                        .step-card-timeline {
+                            padding: 15px 18px;
+                        }
+
+                        .step-icon-timeline {
+                            font-size: 1.6em;
+                        }
+
+                        .step-title-timeline {
+                            font-size: 1.1em;
+                        }
+                    }
+                </style>
+
+                <div class="timeline-container">
+                    <div class="timeline-header">
+                        <h3>📋 詳細流程說明</h3>
+                        <p>點擊任一步驟查看完整內容</p>
                     </div>
 
-                    <div class="arrow">↓</div>
+                    <div class="timeline">
+                        <!-- 階段一：直播前準備 -->
+                        <div class="phase-section">
+                            <div class="phase-header-timeline">
+                                <div class="phase-number">1</div>
+                                <div class="phase-title-timeline">📋 直播前準備</div>
+                            </div>
 
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <div class="step-icon">⚙️</div>
-                            <div class="step-info">
-                                <div class="step-title">完成基本設定</div>
-                                <div class="step-desc">
-                                    • 綁定 YouTube/Facebook/Instagram 帳號<br>
-                                    • 取得平台授權（OAuth 2.0）<br>
-                                    • 設定收款帳戶資訊
+                            <!-- 步驟 1 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">📝</div>
+                                        <div class="step-title-timeline">註冊/登入帳號</div>
+                                        <div class="step-number-badge">1</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        使用 Email/手機號碼註冊，或透過 FB/Google OAuth 登入
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">H. 會員 CRM</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <p><strong>快速註冊方式：</strong></p>
+                                            <ul class="detail-list">
+                                                <li>使用 Email 或手機號碼註冊新帳號</li>
+                                                <li>透過 Facebook / Google OAuth 快速登入</li>
+                                                <li>驗證手機號碼或 Email</li>
+                                                <li>設定安全密碼</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">A. 串流/直播</span>
-                                <span class="step-module">H. 會員 CRM</span>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="arrow">↓</div>
-
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <div class="step-icon">🎬</div>
-                            <div class="step-info">
-                                <div class="step-title">建立直播場次</div>
-                                <div class="step-desc">
-                                    • 選擇要推流的平台（YouTube/FB/IG）<br>
-                                    • 設定直播標題、描述、封面圖<br>
-                                    • 系統自動呼叫平台 API 建立直播間<br>
-                                    • 取得 RTMP 推流位址與 Stream Key
+                            <!-- 步驟 2 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">⚙️</div>
+                                        <div class="step-title-timeline">完成基本設定</div>
+                                        <div class="step-number-badge">2</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        綁定社群平台、取得授權、設定收款資訊
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">A. 串流/直播</span>
+                                        <span class="module-tag">H. 會員 CRM</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <p><strong>需要完成的設定：</strong></p>
+                                            <ul class="detail-list">
+                                                <li>綁定 YouTube/Facebook/Instagram 帳號</li>
+                                                <li>取得平台授權（OAuth 2.0）</li>
+                                                <li>設定收款帳戶資訊（銀行帳號、金流串接）</li>
+                                                <li>設定商店資訊（名稱、Logo、簡介）</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">A. 串流/直播</span>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="arrow">↓</div>
-
-                    <div class="step">
-                        <div class="step-number">4</div>
-                        <div class="step-content">
-                            <div class="step-icon">📦</div>
-                            <div class="step-info">
-                                <div class="step-title">上架商品</div>
-                                <div class="step-desc">
-                                    • 從商品庫選擇現有商品或快速新增<br>
-                                    • 設定價格、庫存、規格（顏色/尺寸）<br>
-                                    • 設定商品編號（用於留言收單識別）
+                            <!-- 步驟 3 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">🎬</div>
+                                        <div class="step-title-timeline">建立直播場次</div>
+                                        <div class="step-number-badge">3</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        設定直播資訊、選擇推流平台、取得推流位址
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">A. 串流/直播</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <p><strong>建立場次步驟：</strong></p>
+                                            <ul class="detail-list">
+                                                <li>選擇要推流的平台（YouTube/FB/IG）</li>
+                                                <li>設定直播標題、描述、封面圖</li>
+                                                <li>系統自動呼叫平台 API 建立直播間</li>
+                                                <li>取得 RTMP 推流位址與 Stream Key</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">C. 商品管理</span>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="arrow">↓</div>
-
-                    <div class="step">
-                        <div class="step-number">5</div>
-                        <div class="step-content">
-                            <div class="step-icon">🔧</div>
-                            <div class="step-info">
-                                <div class="step-title">設定推流參數</div>
-                                <div class="step-desc">
-                                    將 RTMP URL 與 Stream Key 設定到 OBS，或使用 myanStream App 內建推流功能
+                            <!-- 步驟 4 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">📦</div>
+                                        <div class="step-title-timeline">上架商品</div>
+                                        <div class="step-number-badge">4</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        新增商品、設定規格、配置收單關鍵字
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">C. 商品管理</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <p><strong>商品上架設定：</strong></p>
+                                            <ul class="detail-list">
+                                                <li>從商品庫選擇現有商品或快速新增</li>
+                                                <li>設定價格、庫存、規格（顏色/尺寸）</li>
+                                                <li>設定商品編號（用於留言收單識別，如「編號 A」）</li>
+                                                <li>上傳商品圖片、填寫商品說明</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">A. 串流/直播</span>
                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- 階段 2：直播進行中 -->
-                <div class="phase">
-                    <div class="phase-title">階段 2️⃣：直播進行中</div>
-
-                    <div class="step">
-                        <div class="step-number">6</div>
-                        <div class="step-content">
-                            <div class="step-icon">▶️</div>
-                            <div class="step-info">
-                                <div class="step-title">開始直播推流</div>
-                                <div class="step-desc">
-                                    主播開始推流，SRS 接收 RTMP 流，FFmpeg 自動轉推到各平台（YouTube/FB/IG）
+                            <!-- 步驟 5 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">🔧</div>
+                                        <div class="step-title-timeline">設定推流參數</div>
+                                        <div class="step-number-badge">5</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        配置 OBS 或使用內建推流功能
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">A. 串流/直播</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <p><strong>推流設定方式：</strong></p>
+                                            <ul class="detail-list">
+                                                <li>將 RTMP URL 與 Stream Key 設定到 OBS</li>
+                                                <li>或使用 myanStream App 內建推流功能</li>
+                                                <li>設定推流畫質、位元率</li>
+                                                <li>測試推流連線是否正常</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">A. 串流/直播</span>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="arrow">↓</div>
-
-                    <div class="live-box">
-                        <div class="live-title">⚡ 直播中持續進行的操作</div>
-                        <div class="live-actions">
-                            <div class="live-action">
-                                <h4>💬 與觀眾互動</h4>
-                                <p>多平台留言即時匯流顯示，可直接在 App 內回應，系統自動辨識收單留言</p>
-                                <span class="step-module">B. 收單整合</span>
-                                <span class="step-module">G. 訊息/客服</span>
+                        <!-- 階段二：直播進行中 -->
+                        <div class="phase-section">
+                            <div class="phase-header-timeline">
+                                <div class="phase-number">2</div>
+                                <div class="phase-title-timeline">🎯 直播進行中</div>
                             </div>
 
-                            <div class="live-action">
-                                <h4>🛒 智能收單（關鍵字識別）</h4>
-                                <p>系統自動解析留言：「+1 紅色 M」、「包+1」、「ALL+1」、「編號 A +1」→ 自動識別商品+規格+數量，支援全形半形</p>
-                                <span class="step-module">B. 收單整合</span>
-                                <span class="step-module">D. 訂單系統</span>
-                            </div>
-
-                            <div class="live-action">
-                                <h4>🎯 加單池功能</h4>
-                                <p>多標商品同時收單、先搶先贏機制、已喊標畫面（即時顯示各商品 +1 統計人數）、暫存單管理</p>
-                                <span class="step-module">B. 收單整合</span>
-                                <span class="step-module">D. 訂單系統</span>
-                            </div>
-
-                            <div class="live-action">
-                                <h4>🎉 抽獎小幫手</h4>
-                                <p>直播中即時互動抽獎（關鍵字留言、分享直播），即時抽出得獎者，刺激互動與分享，提升觀看人數</p>
-                                <span class="step-module">I. 行銷活動</span>
-                            </div>
-
-                            <div class="live-action">
-                                <h4>📊 調整庫存/價格</h4>
-                                <p>即時調整商品價格（限時優惠）、調整庫存數量、暫停/恢復商品販售</p>
-                                <span class="step-module">C. 商品管理</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="arrow">↓</div>
-
-                    <div class="step">
-                        <div class="step-number">7</div>
-                        <div class="step-content">
-                            <div class="step-icon">⏹️</div>
-                            <div class="step-info">
-                                <div class="step-title">結束直播</div>
-                                <div class="step-desc">
-                                    主播停止推流，系統自動停止 FFmpeg，顯示本場次統計數據
+                            <!-- 步驟 6 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">▶️</div>
+                                        <div class="step-title-timeline">開始直播推流</div>
+                                        <div class="step-number-badge">6</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        開始推流，自動轉推到各平台，即時監控數據
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">A. 串流/直播</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <p><strong>直播開始後：</strong></p>
+                                            <ul class="detail-list">
+                                                <li>主播開始推流，SRS 接收 RTMP 流</li>
+                                                <li>FFmpeg 自動轉推到各平台（YouTube/FB/IG）</li>
+                                                <li>即時監控觀看人數、留言數</li>
+                                                <li>多平台留言即時匯流顯示</li>
+                                            </ul>
+                                            <br>
+                                            <p><strong>⚡ 直播中持續進行的操作：</strong></p>
+                                            <ul class="detail-list">
+                                                <li><strong>💬 與觀眾互動：</strong>可直接在 App 內回應留言，系統自動辨識收單留言</li>
+                                                <li><strong>🛒 智能收單：</strong>自動解析「+1 紅色 M」、「包+1」、「編號 A +1」等留言</li>
+                                                <li><strong>🎯 加單池功能：</strong>多標商品同時收單、先搶先贏、已喊標畫面</li>
+                                                <li><strong>🎉 抽獎小幫手：</strong>即時互動抽獎，刺激互動與分享</li>
+                                                <li><strong>📊 調整庫存/價格：</strong>即時調整價格、庫存、暫停販售</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">A. 串流/直播</span>
                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- 階段 3：直播結束後 -->
-                <div class="phase">
-                    <div class="phase-title">階段 3️⃣：直播結束後</div>
-
-                    <div class="step">
-                        <div class="step-number">8</div>
-                        <div class="step-content">
-                            <div class="step-icon">📋</div>
-                            <div class="step-info">
-                                <div class="step-title">檢視待處理訂單（含智能識別）</div>
-                                <div class="step-desc">
-                                    查看本場次所有「+1 記錄」，此時僅有平台帳號資訊（Facebook/Instagram 帳號名稱），系統自動執行：<br>
-                                    👤 <strong>買家身份識別：</strong>自動標記 🆕 新客戶、⭐ VIP 等級、🔥 回購客、⚠️ 風險客戶（高棄單率）<br>
-                                    🚫 <strong>黑名單過濾：</strong>自動隱藏高棄單率客戶（>70%）的 +1 留言，保護商家權益<br>
-                                    📺 <strong>歷史/貼文加單：</strong>直播回放影片留言也會自動收單，24 小時不間斷
+                            <!-- 步驟 7 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">⏹️</div>
+                                        <div class="step-title-timeline">結束直播</div>
+                                        <div class="step-number-badge">7</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        停止推流，顯示本場次統計數據
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">A. 串流/直播</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <p><strong>結束直播後：</strong></p>
+                                            <ul class="detail-list">
+                                                <li>主播停止推流</li>
+                                                <li>系統自動停止 FFmpeg 轉推</li>
+                                                <li>顯示本場次統計數據（觀看人數、訂單數、總金額）</li>
+                                                <li>保存直播錄影（如有設定）</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">D. 訂單系統</span>
-                                <span class="step-module">H. 會員 CRM</span>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="arrow">↓</div>
+                        <!-- 階段三：直播結束後 -->
+                        <div class="phase-section">
+                            <div class="phase-header-timeline">
+                                <div class="phase-number">3</div>
+                                <div class="phase-title-timeline">📦 直播結束後</div>
+                            </div>
 
-                    <div class="step">
-                        <div class="step-number">9</div>
-                        <div class="step-content">
-                            <div class="step-icon">💬</div>
-                            <div class="step-info">
-                                <div class="step-title">發送確認訊息（自動/手動）</div>
-                                <div class="step-desc">
-                                    透過多平台訊息系統批量或單筆發送私訊給買家，請買家確認購買並填寫完整收貨資訊（姓名、地址、電話、商品規格）。<br>
-                                    💡 <strong>優先順序：</strong>VIP 會員優先回覆、新客優先服務、風險客戶降低優先級
+                            <!-- 步驟 8 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">📋</div>
+                                        <div class="step-title-timeline">檢視待處理訂單</div>
+                                        <div class="step-number-badge">8</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        查看所有 +1 記錄，系統自動智能識別買家身份
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">D. 訂單系統</span>
+                                        <span class="module-tag">H. 會員 CRM</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <p><strong>訂單檢視與智能識別：</strong></p>
+                                            <ul class="detail-list">
+                                                <li>查看本場次所有「+1 記錄」</li>
+                                                <li>此時僅有平台帳號資訊（Facebook/Instagram 帳號名稱）</li>
+                                                <li><strong>👤 買家身份識別：</strong>自動標記 🆕 新客戶、⭐ VIP 等級、🔥 回購客、⚠️ 風險客戶（高棄單率）</li>
+                                                <li><strong>🚫 黑名單過濾：</strong>自動隱藏高棄單率客戶（>70%）的 +1 留言，保護商家權益</li>
+                                                <li><strong>📺 歷史/貼文加單：</strong>直播回放影片留言也會自動收單，24 小時不間斷</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">G. 訊息/客服</span>
-                                <span class="step-module">D. 訂單系統</span>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="arrow">↓</div>
-
-                    <div class="step">
-                        <div class="step-number">10</div>
-                        <div class="step-content">
-                            <div class="step-icon">📝</div>
-                            <div class="step-info">
-                                <div class="step-title">買家填寫資訊表單</div>
-                                <div class="step-desc">
-                                    買家點擊連結進入系統內建表單頁面，填寫真實姓名、收貨地址、聯絡電話、確認商品規格，提交後資訊自動匯入訂單系統
+                            <!-- 步驟 9-16 類似結構，節省篇幅只展示部分 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">💬</div>
+                                        <div class="step-title-timeline">發送確認訊息</div>
+                                        <div class="step-number-badge">9</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        批量發送私訊給買家，請其填寫收貨資訊
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">G. 訊息/客服</span>
+                                        <span class="module-tag">D. 訂單系統</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <p><strong>訊息發送功能：</strong></p>
+                                            <ul class="detail-list">
+                                                <li>透過多平台訊息系統批量或單筆發送私訊</li>
+                                                <li>請買家確認購買並填寫完整收貨資訊（姓名、地址、電話、商品規格）</li>
+                                                <li><strong>💡 優先順序：</strong>VIP 會員優先回覆、新客優先服務、風險客戶降低優先級</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">D. 訂單系統</span>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="arrow">↓</div>
-
-                    <div class="step">
-                        <div class="step-number">11</div>
-                        <div class="step-content">
-                            <div class="step-icon">⏰</div>
-                            <div class="step-info">
-                                <div class="step-title">自動提醒機制</div>
-                                <div class="step-desc">
-                                    針對未填寫資訊的買家，系統自動在 24/48 小時後發送提醒訊息，72 小時後自動取消訂單（時間可設定）
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">📝</div>
+                                        <div class="step-title-timeline">買家填寫資訊表單</div>
+                                        <div class="step-number-badge">10</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        買家填寫收貨地址、確認商品規格
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">D. 訂單系統</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <ul class="detail-list">
+                                                <li>買家點擊連結進入系統內建表單頁面</li>
+                                                <li>填寫真實姓名、收貨地址、聯絡電話</li>
+                                                <li>確認商品規格（顏色、尺寸等）</li>
+                                                <li>提交後資訊自動匯入訂單系統</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">G. 訊息/客服</span>
-                                <span class="step-module">H. 自動化排程</span>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="arrow">↓</div>
-
-                    <div class="step">
-                        <div class="step-number">12</div>
-                        <div class="step-content">
-                            <div class="step-icon">✅</div>
-                            <div class="step-info">
-                                <div class="step-title">商家確認訂單</div>
-                                <div class="step-desc">
-                                    檢查買家已填寫的資訊（姓名、地址、電話），確認商品規格與庫存，計算金額（商品價格 + 運費），確認後系統自動發送訂單通知與付款連結給買家
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">⏰</div>
+                                        <div class="step-title-timeline">自動提醒機制</div>
+                                        <div class="step-number-badge">11</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        自動提醒未填寫資訊的買家
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">G. 訊息/客服</span>
+                                        <span class="module-tag">H. 自動化排程</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <ul class="detail-list">
+                                                <li>針對未填寫資訊的買家，系統自動發送提醒</li>
+                                                <li>24/48 小時後發送提醒訊息</li>
+                                                <li>72 小時後自動取消訂單（時間可設定）</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">D. 訂單系統</span>
-                                <span class="step-module">G. 訊息/客服</span>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="arrow">↓</div>
-
-                    <div class="step">
-                        <div class="step-number">13</div>
-                        <div class="step-content">
-                            <div class="step-icon">💳</div>
-                            <div class="step-info">
-                                <div class="step-title">追蹤付款狀態</div>
-                                <div class="step-desc">
-                                    即時查看付款狀態，系統自動接收金流通知（Webhook），未付款訂單可發送提醒
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">✅</div>
+                                        <div class="step-title-timeline">商家確認訂單</div>
+                                        <div class="step-number-badge">12</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        確認訂單資訊、計算金額、發送付款連結
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">D. 訂單系統</span>
+                                        <span class="module-tag">G. 訊息/客服</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <ul class="detail-list">
+                                                <li>檢查買家已填寫的資訊（姓名、地址、電話）</li>
+                                                <li>確認商品規格與庫存</li>
+                                                <li>計算金額（商品價格 + 運費）</li>
+                                                <li>確認後系統自動發送訂單通知與付款連結給買家</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">E. 金流</span>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="arrow">↓</div>
-
-                    <div class="step">
-                        <div class="step-number">14</div>
-                        <div class="step-content">
-                            <div class="step-icon">📮</div>
-                            <div class="step-info">
-                                <div class="step-title">安排物流出貨</div>
-                                <div class="step-desc">
-                                    選擇物流商（黑貓、新竹、7-11），批量產生托運單，列印出貨單，買家自動收到出貨通知與追蹤連結
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">💳</div>
+                                        <div class="step-title-timeline">追蹤付款狀態</div>
+                                        <div class="step-number-badge">13</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        即時查看付款狀態，自動接收金流通知
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">E. 金流</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <ul class="detail-list">
+                                                <li>即時查看付款狀態</li>
+                                                <li>系統自動接收金流通知（Webhook）</li>
+                                                <li>未付款訂單可發送提醒</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">F. 物流出貨</span>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="arrow">↓</div>
-
-                    <div class="step">
-                        <div class="step-number">15</div>
-                        <div class="step-content">
-                            <div class="step-icon">💬</div>
-                            <div class="step-info">
-                                <div class="step-title">處理客服訊息</div>
-                                <div class="step-desc">
-                                    回應買家詢問，處理訂單問題（修改地址、取消、退款），使用罐頭訊息快速回覆
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">📮</div>
+                                        <div class="step-title-timeline">安排物流出貨</div>
+                                        <div class="step-number-badge">14</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        選擇物流商、批量產生托運單、出貨通知
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">F. 物流出貨</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <ul class="detail-list">
+                                                <li>選擇物流商（黑貓、新竹、7-11）</li>
+                                                <li>批量產生托運單</li>
+                                                <li>列印出貨單</li>
+                                                <li>買家自動收到出貨通知與追蹤連結</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">G. 訊息/客服</span>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="arrow">↓</div>
-
-                    <div class="step">
-                        <div class="step-number">16</div>
-                        <div class="step-content">
-                            <div class="step-icon">📈</div>
-                            <div class="step-info">
-                                <div class="step-title">查看數據報表</div>
-                                <div class="step-desc">
-                                    分析本場次成效：觀看人數、互動數、訂單數、成交金額、客單價、熱賣商品排行、轉換率分析
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">💬</div>
+                                        <div class="step-title-timeline">處理客服訊息</div>
+                                        <div class="step-number-badge">15</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        回應買家詢問、處理訂單問題
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">G. 訊息/客服</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <ul class="detail-list">
+                                                <li>回應買家詢問</li>
+                                                <li>處理訂單問題（修改地址、取消、退款）</li>
+                                                <li>使用罐頭訊息快速回覆</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">J. 報表分析</span>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="arrow">✨</div>
-
-                    <div class="step" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-color: #2e7d32;">
-                        <div class="step-number" style="background: linear-gradient(135deg, #2e7d32 0%, #388e3c 100%);">✓</div>
-                        <div class="step-content">
-                            <div class="step-icon">🎉</div>
-                            <div class="step-info">
-                                <div class="step-title" style="color: #1b5e20;">完成本場次</div>
-                                <div class="step-desc" style="color: #2e7d32;">
-                                    本場直播帶貨流程完成！可以開始準備下一場直播
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">📈</div>
+                                        <div class="step-title-timeline">查看數據報表</div>
+                                        <div class="step-number-badge">16</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        分析本場次成效、觀看互動數據、銷售報表
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">J. 報表分析</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <p><strong>完整數據分析：</strong></p>
+                                            <ul class="detail-list">
+                                                <li>觀看人數統計</li>
+                                                <li>互動數（留言、按讚、分享）</li>
+                                                <li>訂單數、成交金額、客單價</li>
+                                                <li>熱賣商品排行</li>
+                                                <li>轉換率分析</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -4061,265 +4539,400 @@
                     </div>
                 </div>
 
-                <!-- ========== 詳細流程 ========== -->
-                <!-- 階段 1：收單準備 -->
-                <div class="phase">
-                    <div class="phase-title">階段 1️⃣：收單準備</div>
-
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <div class="step-icon">📦</div>
-                            <div class="step-info">
-                                <div class="step-title">上架商品</div>
-                                <div class="step-desc">
-                                    從商品庫選擇或新增商品，設定價格、庫存、規格，準備開始收單
-                                </div>
-                                <span class="step-module">C. 商品管理</span>
-                            </div>
-                        </div>
+                <!-- ========== 詳細流程時間軸 ========== -->
+                <div class="timeline-container">
+                    <div class="timeline-header">
+                        <h3>📋 詳細流程說明</h3>
+                        <p>點擊任一步驟查看完整內容</p>
                     </div>
 
-                    <div class="arrow">↓</div>
+                    <div class="timeline">
+                        <!-- 階段一：收單準備 -->
+                        <div class="phase-section">
+                            <div class="phase-header-timeline">
+                                <div class="phase-number">1</div>
+                                <div class="phase-title-timeline">📋 收單準備</div>
+                            </div>
 
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <div class="step-icon">🛒</div>
-                            <div class="step-info">
-                                <div class="step-title">選擇收單渠道</div>
-                                <div class="step-desc">
-                                    <strong>8 種收單渠道可選：</strong><br>
-                                    💬 LINE 群組、👥 FB 社團、📨 Messenger、📺 直播回放/貼文<br>
-                                    🏪 基礎商城、📄 一頁式商城、🎨 主題式商城、🔗 多平台整合
+                            <!-- 步驟 1 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">📦</div>
+                                        <div class="step-title-timeline">上架商品</div>
+                                        <div class="step-number-badge">1</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        從商品庫選擇或新增商品，設定價格、庫存、規格
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">C. 商品管理</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <p><strong>商品上架設定：</strong></p>
+                                            <ul class="detail-list">
+                                                <li>從商品庫選擇現有商品或快速新增</li>
+                                                <li>設定商品價格、庫存數量</li>
+                                                <li>設定規格（顏色、尺寸等）</li>
+                                                <li>上傳商品圖片與說明</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">B. 收單整合</span>
+                            </div>
+
+                            <!-- 步驟 2 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">🛒</div>
+                                        <div class="step-title-timeline">選擇收單渠道</div>
+                                        <div class="step-number-badge">2</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        8 種收單渠道可選：LINE、FB、IG、商城等
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">B. 收單整合</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <p><strong>8 種收單渠道：</strong></p>
+                                            <ul class="detail-list">
+                                                <li>💬 LINE 群組</li>
+                                                <li>👥 FB 社團</li>
+                                                <li>📨 Messenger 私訊</li>
+                                                <li>📺 直播回放/貼文</li>
+                                                <li>🏪 基礎商城</li>
+                                                <li>📄 一頁式商城</li>
+                                                <li>🎨 主題式商城</li>
+                                                <li>🔗 多平台整合</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 步驟 3 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">⚙️</div>
+                                        <div class="step-title-timeline">設定收單規則</div>
+                                        <div class="step-number-badge">3</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        設定收單期限、關鍵字、庫存上限、優惠活動
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">B. 收單整合</span>
+                                        <span class="module-tag">C. 商品管理</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <p><strong>收單規則設定：</strong></p>
+                                            <ul class="detail-list">
+                                                <li>設定收單期限（如：收單至 1/31 23:59）</li>
+                                                <li>設定關鍵字識別（+1、包+1、編號等）</li>
+                                                <li>設定庫存上限與自動停售</li>
+                                                <li>設定優惠活動與滿額優惠</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 步驟 4 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">🚀</div>
+                                        <div class="step-title-timeline">啟動收單</div>
+                                        <div class="step-number-badge">4</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        發佈商品資訊到各收單渠道，開始接受買家下單
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">B. 收單整合</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <p><strong>啟動收單方式：</strong></p>
+                                            <ul class="detail-list">
+                                                <li>LINE 群組：發送商品圖片與說明</li>
+                                                <li>FB 社團：發布商品貼文</li>
+                                                <li>商城：商品自動上架</li>
+                                                <li>開始接受買家下單</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="arrow">↓</div>
+                        <!-- 階段二：收單進行中 -->
+                        <div class="phase-section">
+                            <div class="phase-header-timeline">
+                                <div class="phase-number">2</div>
+                                <div class="phase-title-timeline">🎯 收單進行中</div>
+                            </div>
 
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <div class="step-icon">⚙️</div>
-                            <div class="step-info">
-                                <div class="step-title">設定收單規則</div>
-                                <div class="step-desc">
-                                    • 設定收單期限（如：收單至 1/31 23:59）<br>
-                                    • 設定關鍵字識別（+1、包+1、編號等）<br>
-                                    • 設定庫存上限與自動停售<br>
-                                    • 設定優惠活動與滿額優惠
+                            <!-- 步驟 5 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">🤖</div>
+                                        <div class="step-title-timeline">自動收單（8 種渠道）</div>
+                                        <div class="step-number-badge">5</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        系統自動從各渠道收集訂單，解析留言或商城訂單
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">B. 收單整合</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <p><strong>8 種非直播收單渠道詳情：</strong></p>
+                                            <ul class="detail-list">
+                                                <li><strong>💬 LINE 群組加單：</strong>在 LINE 群組發商品圖片，成員留言「+1 紅色 M」，系統自動收單</li>
+                                                <li><strong>👥 FB 社團加單：</strong>在社團發商品貼文，成員留言下單，系統自動抓取留言建立訂單</li>
+                                                <li><strong>📨 Messenger 私訊：</strong>買家私訊詢問商品，聊天機器人自動回應，對話式引導下單</li>
+                                                <li><strong>📺 直播回放/貼文加單：</strong>直播回放影片留言收單、FB/IG 貼文加單、Reels 短影音收單</li>
+                                                <li><strong>🏪 基礎商城：</strong>買家瀏覽商城頁面，選擇商品加入購物車，填寫資料結帳</li>
+                                                <li><strong>📄 一頁式商城：</strong>單一商品推廣頁面，一頁完成下單，快速結帳流程，提高轉換率</li>
+                                                <li><strong>🎨 主題式商城：</strong>品牌客製化主題商城，專屬視覺設計，完整購物體驗，提升品牌形象</li>
+                                                <li><strong>🔗 多平台整合：</strong>跨平台訂單匯流（LINE/FB/IG/商城），自動同步庫存，統一後台管理</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">B. 收單整合</span>
-                                <span class="step-module">C. 商品管理</span>
+                            </div>
+
+                            <!-- 步驟 6 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">📥</div>
+                                        <div class="step-title-timeline">訂單匯流整合</div>
+                                        <div class="step-number-badge">6</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        所有渠道訂單匯入統一後台，自動去重、扣庫存
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">D. 訂單系統</span>
+                                        <span class="module-tag">H. 會員 CRM</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <p><strong>訂單整合功能：</strong></p>
+                                            <ul class="detail-list">
+                                                <li>所有渠道訂單匯入統一後台</li>
+                                                <li>系統自動去重複訂單</li>
+                                                <li>自動扣減商品庫存</li>
+                                                <li>買家身份識別（VIP/新客/回購客）</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 步驟 7 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">📊</div>
+                                        <div class="step-title-timeline">即時監控收單狀況</div>
+                                        <div class="step-number-badge">7</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        查看各渠道收單統計、庫存狀況、熱銷商品排行
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">J. 報表分析</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <p><strong>監控數據：</strong></p>
+                                            <ul class="detail-list">
+                                                <li>各渠道收單統計</li>
+                                                <li>商品庫存即時狀況</li>
+                                                <li>熱銷商品排行</li>
+                                                <li>即時調整收單策略</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="arrow">↓</div>
+                        <!-- 階段三：訂單處理 -->
+                        <div class="phase-section">
+                            <div class="phase-header-timeline">
+                                <div class="phase-number">3</div>
+                                <div class="phase-title-timeline">📦 訂單處理</div>
+                            </div>
 
-                    <div class="step">
-                        <div class="step-number">4</div>
-                        <div class="step-content">
-                            <div class="step-icon">🚀</div>
-                            <div class="step-info">
-                                <div class="step-title">啟動收單</div>
-                                <div class="step-desc">
-                                    發佈商品資訊到各收單渠道，開始接受買家下單（LINE 群組發圖、FB 社團發文、商城上架等）
+                            <!-- 步驟 8 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">💬</div>
+                                        <div class="step-title-timeline">發送確認訊息</div>
+                                        <div class="step-number-badge">8</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        批量或單筆發送私訊，請買家確認購買並填寫收貨資訊
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">G. 訊息/客服</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <ul class="detail-list">
+                                                <li>透過對應平台訊息系統發送私訊</li>
+                                                <li>可批量或單筆發送</li>
+                                                <li>請買家確認購買</li>
+                                                <li>請買家填寫完整收貨資訊</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">B. 收單整合</span>
                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- 階段 2：收單進行中 -->
-                <div class="phase">
-                    <div class="phase-title">階段 2️⃣：收單進行中</div>
-
-                    <div class="step">
-                        <div class="step-number">5</div>
-                        <div class="step-content">
-                            <div class="step-icon">🤖</div>
-                            <div class="step-info">
-                                <div class="step-title">自動收單（8 種渠道）</div>
-                                <div class="step-desc">
-                                    系統自動從各渠道收集訂單，解析買家留言或商城訂單，生成待處理訂單
+                            <!-- 步驟 9 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">📝</div>
+                                        <div class="step-title-timeline">買家填寫資訊表單</div>
+                                        <div class="step-number-badge">9</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        買家填寫姓名、地址、電話、確認商品規格
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">D. 訂單系統</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <ul class="detail-list">
+                                                <li>買家點擊連結進入系統內建表單</li>
+                                                <li>填寫姓名、地址、電話</li>
+                                                <li>確認商品規格</li>
+                                                <li>提交後自動匯入訂單系統</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">B. 收單整合</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="arrow">↓</div>
-
-                    <div class="live-box">
-                        <div class="live-title">⚡ 8 種非直播收單渠道</div>
-                        <div class="live-actions">
-                            <div class="live-action">
-                                <h4>💬 LINE 群組加單</h4>
-                                <p>在 LINE 群組發商品圖片，成員留言「+1 紅色 M」，系統自動收單</p>
-                                <span class="step-module">B. 收單整合</span>
                             </div>
 
-                            <div class="live-action">
-                                <h4>👥 FB 社團加單</h4>
-                                <p>在社團發商品貼文，成員留言下單，系統自動抓取留言建立訂單</p>
-                                <span class="step-module">B. 收單整合</span>
-                            </div>
-
-                            <div class="live-action">
-                                <h4>📨 Messenger 私訊</h4>
-                                <p>買家私訊詢問商品，聊天機器人自動回應，對話式引導下單</p>
-                                <span class="step-module">G. 訊息/客服</span>
-                            </div>
-
-                            <div class="live-action">
-                                <h4>📺 直播回放/貼文加單</h4>
-                                <p>直播回放影片留言收單、FB/IG 貼文加單、Reels 短影音收單</p>
-                                <span class="step-module">B. 收單整合</span>
-                            </div>
-
-                            <div class="live-action">
-                                <h4>🏪 基礎商城</h4>
-                                <p>買家瀏覽商城頁面，選擇商品加入購物車，填寫資料結帳</p>
-                                <span class="step-module">B. 收單整合</span>
-                            </div>
-
-                            <div class="live-action">
-                                <h4>📄 一頁式商城</h4>
-                                <p>單一商品推廣頁面，一頁完成下單，快速結帳流程，提高轉換率</p>
-                                <span class="step-module">B. 收單整合</span>
-                            </div>
-
-                            <div class="live-action">
-                                <h4>🎨 主題式商城</h4>
-                                <p>品牌客製化主題商城，專屬視覺設計，完整購物體驗，提升品牌形象</p>
-                                <span class="step-module">B. 收單整合</span>
-                            </div>
-
-                            <div class="live-action">
-                                <h4>🔗 多平台整合</h4>
-                                <p>跨平台訂單匯流（LINE/FB/IG/商城），自動同步庫存，統一後台管理</p>
-                                <span class="step-module">B. 收單整合</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="arrow">↓</div>
-
-                    <div class="step">
-                        <div class="step-number">6</div>
-                        <div class="step-content">
-                            <div class="step-icon">📥</div>
-                            <div class="step-info">
-                                <div class="step-title">訂單匯流整合</div>
-                                <div class="step-desc">
-                                    所有渠道訂單匯入統一後台，系統自動去重、庫存扣減、買家身份識別（VIP/新客/回購客）
+                            <!-- 步驟 10 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">✅</div>
+                                        <div class="step-title-timeline">商家確認訂單</div>
+                                        <div class="step-number-badge">10</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        檢查買家資訊、確認庫存、計算金額、發送付款連結
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">D. 訂單系統</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <ul class="detail-list">
+                                                <li>檢查買家填寫的資訊</li>
+                                                <li>確認商品庫存</li>
+                                                <li>計算金額（商品價格 + 運費）</li>
+                                                <li>確認後自動發送付款連結</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">D. 訂單系統</span>
-                                <span class="step-module">H. 會員 CRM</span>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="arrow">↓</div>
-
-                    <div class="step">
-                        <div class="step-number">7</div>
-                        <div class="step-content">
-                            <div class="step-icon">📊</div>
-                            <div class="step-info">
-                                <div class="step-title">即時監控收單狀況</div>
-                                <div class="step-desc">
-                                    查看各渠道收單統計、庫存狀況、熱銷商品排行，即時調整收單策略
+                            <!-- 步驟 11 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">💳</div>
+                                        <div class="step-title-timeline">追蹤付款狀態</div>
+                                        <div class="step-number-badge">11</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        即時查看付款狀態，自動接收金流通知
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">E. 金流</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <ul class="detail-list">
+                                                <li>即時查看付款狀態</li>
+                                                <li>系統自動接收金流通知</li>
+                                                <li>未付款訂單可發送提醒</li>
+                                                <li>可設定自動取消未付款訂單</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">J. 報表分析</span>
                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- 階段 3：訂單處理 -->
-                <div class="phase">
-                    <div class="phase-title">階段 3️⃣：訂單處理（與直播收單相同）</div>
-
-                    <div class="step">
-                        <div class="step-number">8</div>
-                        <div class="step-content">
-                            <div class="step-icon">💬</div>
-                            <div class="step-info">
-                                <div class="step-title">發送確認訊息</div>
-                                <div class="step-desc">
-                                    透過對應平台訊息系統批量或單筆發送私訊，請買家確認購買並填寫完整收貨資訊
+                            <!-- 步驟 12 -->
+                            <div class="step-item-timeline">
+                                <div class="step-dot-timeline"><div class="dot-timeline"></div></div>
+                                <div class="step-card-timeline" onclick="this.classList.toggle('expanded')">
+                                    <div class="step-header-row">
+                                        <div class="step-icon-timeline">📦</div>
+                                        <div class="step-title-timeline">安排物流出貨</div>
+                                        <div class="step-number-badge">12</div>
+                                    </div>
+                                    <div class="step-description-timeline">
+                                        選擇物流商、批量產生托運單、出貨通知
+                                    </div>
+                                    <div class="step-modules">
+                                        <span class="module-tag">F. 物流出貨</span>
+                                    </div>
+                                    <div class="expand-indicator-timeline"></div>
+                                    <div class="step-details-timeline">
+                                        <div class="detail-content">
+                                            <ul class="detail-list">
+                                                <li>選擇物流商（黑貓、新竹、7-11）</li>
+                                                <li>批量產生托運單</li>
+                                                <li>列印出貨單</li>
+                                                <li>買家自動收到出貨通知與追蹤連結</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="step-module">G. 訊息/客服</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="arrow">↓</div>
-
-                    <div class="step">
-                        <div class="step-number">9</div>
-                        <div class="step-content">
-                            <div class="step-icon">📝</div>
-                            <div class="step-info">
-                                <div class="step-title">買家填寫資訊表單</div>
-                                <div class="step-desc">
-                                    買家點擊連結進入系統內建表單，填寫姓名、地址、電話、確認商品規格，提交後自動匯入訂單
-                                </div>
-                                <span class="step-module">D. 訂單系統</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="arrow">↓</div>
-
-                    <div class="step">
-                        <div class="step-number">10</div>
-                        <div class="step-content">
-                            <div class="step-icon">✅</div>
-                            <div class="step-info">
-                                <div class="step-title">商家確認訂單</div>
-                                <div class="step-desc">
-                                    檢查買家資訊、確認商品庫存、計算金額（商品價格 + 運費），確認後自動發送付款連結
-                                </div>
-                                <span class="step-module">D. 訂單系統</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="arrow">↓</div>
-
-                    <div class="step">
-                        <div class="step-number">11</div>
-                        <div class="step-content">
-                            <div class="step-icon">💳</div>
-                            <div class="step-info">
-                                <div class="step-title">追蹤付款狀態</div>
-                                <div class="step-desc">
-                                    即時查看付款狀態，系統自動接收金流通知，未付款訂單可發送提醒或設定自動取消
-                                </div>
-                                <span class="step-module">E. 金流</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="arrow">↓</div>
-
-                    <div class="step">
-                        <div class="step-number">12</div>
-                        <div class="step-content">
-                            <div class="step-icon">📦</div>
-                            <div class="step-info">
-                                <div class="step-title">安排物流出貨</div>
-                                <div class="step-desc">
-                                    選擇物流商（黑貓、新竹、7-11），批量產生托運單，列印出貨單，買家自動收到出貨通知與追蹤連結
-                                </div>
-                                <span class="step-module">F. 物流出貨</span>
                             </div>
                         </div>
                     </div>
